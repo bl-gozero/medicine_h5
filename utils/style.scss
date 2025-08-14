@@ -1,0 +1,124 @@
+/* common.scss（可追加在末尾） */
+
+/* ========== 颜色变量 ========== */
+$color-primary: #007aff;
+$color-success: #4cd964;
+$color-warning: #f0ad4e;
+$color-danger:  #FF441F;
+$color-info:    #9F9F9F;
+$color-white:   #ffffff;
+$color-black:   #3d3d3d;
+$color-light:   #f5f5f5;
+// $color-base:	#1A7E84;
+
+/* ========== 字体颜色类 ========== */
+.text-primary { color: $color-primary; }
+.text-success { color: $color-success; }
+.text-warning { color: $color-warning; }
+.text-danger  { color: $color-danger; }
+.text-info    { color: $color-info !important; }
+.text-black   { color: $color-black; }
+.text-white   { color: $color-white !important; }
+.text-base    { color: $color-base !important; }
+
+/* ========== 背景颜色类 ========== */
+.bg-primary { background-color: $color-primary; }
+.bg-success { background-color: $color-success; }
+.bg-warning { background-color: $color-warning; }
+.bg-danger  { background-color: $color-danger; }
+.bg-info    { background-color: $color-info; }
+.bg-white   { background-color: $color-white; }
+.bg-light   { background-color: $color-light; }
+.bg-base    { background: $color-base !important; }
+.bg-page	{ background: #F8F8F8; }
+.bg-black 	{ background: #262D2A !important; }
+.bg-base-change  { background: linear-gradient(270deg, #1A7E84 0%, #72ADB0 100%); }
+/* ========== 文本对齐 ========== */
+.text-left   { text-align: left; }
+.text-center { text-align: center; }
+.text-right  { text-align: right; }
+.text-italic { font-style: italic; }
+.auto-x 	 { left: 0;right: 0;margin-left: auto;margin-right: auto; }
+/* ========== 布局 ========== */
+.flex, .flex-col, .flex-start, .flex-end, .flex-center, .flex-between, .flex-around, .flex-evenly, .flex-stretch      { display: flex; }
+.items-center, .flex-start, .flex-end, .flex-center, .flex-between, .flex-around    { align-items: center; }
+.item-stretch, .flex-stretch	{ align-items: stretch; }
+.justify-center, .flex-center  	{ justify-content: center; }
+.justify-between, .flex-between { justify-content: space-between; }
+.justify-around, .flex-around   { justify-content: space-around; }
+.justify-evenly, .flex-evenly   { justify-content: space-evenly; }
+.justify-end, .flex-end  { justify-content: flex-end; }
+.flex-row     { flex-direction: row; }
+.flex-col     { flex-direction: column; }
+.flex-wrap    { flex-wrap: wrap; }
+.self-start   { align-self: self-start; }
+.self-center  { align-self: center; }
+.flex-1       { flex: 1; }
+.block		  { display: block; }
+
+.relative	  { position: relative; }
+.absolute	  { position: absolute; }
+.fixed		  { position: fixed; }
+/* ========== 其他 ========== */
+.ellipsis { overflow: hidden;white-space: nowrap;text-overflow: ellipsis; }
+.full { position: absolute;top: 0;left: 0;width: 100%;height: 100%;box-sizing: border-box; }
+.sroller-y { overflow-y: scroll; }
+.border-box { box-sizing: border-box; }
+.circle { border: 1px solid #DBDBDB;width: 18px;height: 18px;border-radius: 50%;box-sizing: border-box; }
+.border-0 { border: 0 !important; }
+.border-1 { border: 1px solid $color-base; }
+.border-bottom { border-bottom: 1px solid #F5F5F5; }
+.list_box>*:not(:last-child) { border-bottom: 1px solid #F5F5F5; }
+/* ========== 字体类  ========== */
+@for $i from 8 through 50 {
+  .fs-#{$i} { font-size: $i * 1px !important; }
+}
+@for $i from 1 through 10 {
+  $val: $i * 100;
+  .fw-#{$i} { font-weight: $val; } 
+}
+@for $i from 5 through 20 {
+  $val: $i * 0.1;
+  .lh-#{$i} { line-height: $val; } 
+}
+.font-bold   { font-weight: bold; }
+.line-through { text-decoration: line-through; }
+/* ========== 宽高类 ========== */
+@for $i from 0 through 1000 {
+  $val: $i * 1px;
+  .w-#{$i} { width: $val !important; }
+  .h-#{$i} { height: $val !important; }
+  .top-#{$i} { top: $val !important; }
+  .left-#{$i} { left: $val !important; }
+  .right-#{$i} { right: $val !important; }
+  .bottom-#{$i} { bottom: $val !important; }
+}
+@for $i from 0 through 100 {
+  .pw-#{$i} { width: $i * 1%; }
+  .ph-#{$i} { height: $i * 1%; }
+}
+@for $i from 2 through 200 {
+  $val: $i * 1px;
+  .i-#{$i} { width: $val; height: $val; }
+}
+// ======= 间距类自动生成工具 =======
+@for $i from 0 through 100 {
+  $val: $i * 1px;
+  .mt-#{$i}, .mtb-#{$i}, .m-#{$i}   { margin-top: $val !important; }
+  .mb-#{$i}, .mtb-#{$i}, .m-#{$i}   { margin-bottom: $val !important; }
+  .ml-#{$i}, .mlr-#{$i}, .m-#{$i}   { margin-left: $val !important; }
+  .mr-#{$i}, .mlr-#{$i}, .m-#{$i}   { margin-right: $val !important; }
+
+  .pt-#{$i}, .ptb-#{$i}, .p-#{$i}   { padding-top: $val !important; }
+  .pb-#{$i}, .ptb-#{$i}, .p-#{$i}   { padding-bottom: $val !important; }
+  .pl-#{$i}, .plr-#{$i}, .p-#{$i}   { padding-left: $val !important; }
+  .pr-#{$i}, .plr-#{$i}, .p-#{$i}   { padding-right: $val !important; }
+}
+/* ========== 圆角类 ========== */
+.rounded     	{ border-radius: 50%; }
+.rounded-x		{ border-radius: 999px; }
+@for $i from 1 through 50 {
+  $val: $i * 1px;
+  .rounded-#{$i} { border-radius: $val; } 
+  .roundedTop-#{$i} { border-radius: $val $val 0 0; }
+}
