@@ -69,7 +69,7 @@
 					</view>
 				</view>
 				<view class="fw-5 mt-34">加入北辰代购</view>
-				<image src="/static/user/join.png" class="pw-100 mt-10" mode="widthFix"></image>
+				<image src="/static/user/join.png" class="pw-100 mt-10" mode="widthFix" @click="$c.goto('/pages/user/join')"></image>
 				<view class="fw-5 mt-23">其他</view>
 				<view class="">
 					<view class="border-bottom ptb-20 flex-between relative">
