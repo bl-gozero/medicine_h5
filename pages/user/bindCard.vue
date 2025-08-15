@@ -152,11 +152,7 @@
 				showCate: false,
 				showPassword: false,
 				cate: {},
-				cateList: [
-					{ id: 1, value: '支付宝' },
-					{ id: 2, value: '微信' },
-					{ id: 3, value: '银行卡' },
-				],
+				cateList: [],
 				form: { name: '', card_number: '', full_name: '', category: 0 },
 				delForm: { id: 0, password: '' }
 			}

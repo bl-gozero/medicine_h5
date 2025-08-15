@@ -4,7 +4,7 @@ const BASE_URL = env.BASE_URL
 
 function request({
 	url,
-	method = 'GET',
+	method = 'POST',
 	data = {},
 	header = {},
 	loading = false,

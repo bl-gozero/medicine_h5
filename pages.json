@@ -103,6 +103,12 @@
 			}
 		},
 		{
+			"path": "pages/finance/withdrawList",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationStyle": "custom"

@@ -26,7 +26,7 @@ export default {
 		return request.post('/user/edit_payment_password', data, { loading: true })
 	},
 	cardList(data) {
-		return request.post('/card_holder/list', data, { loading: true })
+		return request.post('/card_holder/list', data)
 	},
 	cardBind(data) {
 		return request.post('/card_holder/add', data, { loading: true })
@@ -34,7 +34,16 @@ export default {
 	cardDelete(data) {
 		return request.post('/card_holder/delete', data, { loading: true })
 	},
-	balanceList(data) {
-		return request.post('/balance_logs/list', data, { loading: true })
-	}
+	addressList() {
+		return request.post('/user_address/list', {})
+	},
+	addressAdd(data) {
+		return request.post('/user_address/add', data, { loading: true })
+	},
+	addressEdit(data) {
+		return request.post('/user_address/edit', data, { loading: true })
+	},
+	addressDelete(data) {
+		return request.post('/user_address/delete', data, { loading: true })
+	},
 }

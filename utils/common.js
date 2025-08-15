@@ -138,9 +138,9 @@ const common = {
 	async fetch(apiFunc, ...params) {
 		try {
 			const res = await apiFunc(...params)
-			return res || true
+			return res || {}
 		} catch (e) {
-			// console.error('请求错误:', e)
+			console.error('请求错误:', e)
 			return null
 		}
 	},
