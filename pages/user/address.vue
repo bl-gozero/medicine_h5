@@ -5,7 +5,7 @@
 			<view v-if="load" class="plr-20" :class="`pt-${height}`" style="color: #343434;">
 				<view class="bg-white plr-14 rounded-8 mt-15" v-for="item in list" :key="item.id">
 					<view class="ptb-15 border-bottom flex-between">
-						<view class="mr-20">
+						<view class="mr-20" @click="onChooseAddress(item)">
 							<view class="fs-16 fw-7 u-line-1">{{ item.district }}</view>
 							<view class="mtb-10 fw-7">{{ item.address }}</view>
 							<view class="text-info">
@@ -131,12 +131,14 @@ import form from '../../uni_modules/uview-ui/libs/config/props/form';
 				doDelete: null,
 				load: false,
 				form: { id: 0, name: '', phone: '', district: '', address: '', is_default: 0 },
+				from: ''
 			}
 		},
-		onLoad() {
+		onLoad(p) {
 			this.getList()
 			this.doAdd = this.$c.onceRequest(this.onBind)
 			this.doDelete = this.$c.onceRequest(this.onDelete)
+			if(p.from) this.from = p.from
 		},
 		onReady() {
 			setTimeout(() => {
@@ -194,6 +196,10 @@ import form from '../../uni_modules/uview-ui/libs/config/props/form';
 					this.$c.toast('删除成功')
 					this.getList()
 				}
+			},
+			onChooseAddress(item) {
+				this.$c.setStorage('address', item)
+				this.$c.goBack()
 			}
 		}
 	}

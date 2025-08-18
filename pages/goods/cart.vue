@@ -148,36 +148,6 @@
 	.title_bg {
 		background: linear-gradient(180deg, #95C6C8 0%, #F7FAFF 99%);
 	}
-	::v-deep .u-number-box {
-		border: .5px solid #E1E1E1;
-		border-radius: 4px;
-	}
-	::v-deep .u-number-box__minus {
-		border-right: .5px solid #E1E1E1;
-		width: 16px;
-		height: 20px !important;
-	}
-	::v-deep .u-number-box__plus {
-		border-left: .5px solid #E1E1E1;
-		width: 16px;
-		height: 20px !important;
-	}
-	::v-deep .uni-input-input {
-		font-size: 12px;
-		color: #3d3d3d;
-		font-weight: 400;
-	}
-	::v-deep .u-number-box__input {
-		height: 20px !important;
-	}
-	::v-deep .uni-input-input {
-		font-size: 12px;
-		color: #3d3d3d;
-		font-weight: 400;
-	}
-	::v-deep .u-modal__content__text {
-		text-align: center;
-	}
 	.tabbar {
 		box-shadow: none;
 	}

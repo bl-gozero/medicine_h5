@@ -44,7 +44,7 @@
 									<UQrcode :text="profile.referral_code" :size="59" :qrId="'code2'" />
 								</view>
 								<view class="mt-6 flex-center">我的邀请码</view>
-								<view class="flex-center" @click="copy(profile.referral_code)">
+								<view class="flex-center" @click="$c.copy(profile.referral_code)">
 									<text class="fs-10">{{ profile.referral_code }}</text>
 									<view class="w-10 ml-3">
 										<image src="/static/icon/copy.png" class="w-10 h-9"></image>
@@ -146,23 +146,6 @@
 			async getProfile() {
 				const res = await this.$c.fetch(this.$api.user.getProfile)
 				return res
-			},
-			copy(text) {
-				uni.setClipboardData({
-					data: text,
-					success: () => {
-						uni.showToast({
-							title: '复制成功',
-							icon: 'none'
-						});
-					},
-					fail: () => {
-						uni.showToast({
-							title: '复制失败',
-							icon: 'none'
-						});
-					}
-				});
 			},
 			onShare() {
 				this.showBtn = false

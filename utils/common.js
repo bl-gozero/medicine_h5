@@ -177,8 +177,37 @@ const common = {
 	
 	baseColor() {
 		return '#1A7E84'
-	}
-
+	},
+	
+	formatStatus(e, p = '') {
+		switch(e) {
+			case 1: return { color: '#FF8F1F', text: '待付款', hint: p && '订单会在' + p +  '后自动取消订单，请您及时付款' }
+			case 2: return { color: '#FF8F1F', text: '待发货', hint: '商家正在打包请耐心等待' }
+			case 3: return { color: '#FF8F1F', text: '待收货', hint: '签收后7天后会自动确认收货' }
+			case 5: return { color: '#3D3D3D', text: '交易成功', hint: '感谢您的支持，期待您的评价' }
+			case 5: return { color: '#3D3D3D', text: '已评价', hint: '' }
+			case 6: return { color: '#9F9F9F', text: '已取消', hint: '您的订单已取消' }
+			default: return { color: '#9F9F9F', text: '' }
+		}
+	},
+	
+	copy(text) {
+		uni.setClipboardData({
+			data: text,
+			success: () => {
+				uni.showToast({
+					title: '复制成功',
+					icon: 'none'
+				});
+			},
+			fail: () => {
+				uni.showToast({
+					title: '复制失败',
+					icon: 'none'
+				});
+			}
+		});
+	},
 }
 
 export default common

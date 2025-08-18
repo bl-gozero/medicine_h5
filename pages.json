@@ -1,6 +1,12 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/index/login",
 			"style": {
 				"navigationStyle": "custom"
@@ -8,6 +14,24 @@
 		},
 		{
 			"path": "pages/index/register",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/index/vip",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/index/vipRule",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/index/web",
 			"style": {
 				"navigationStyle": "custom"
 			}
@@ -38,6 +62,24 @@
 		},
 		{
 			"path": "pages/goods/detail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/order/list",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/order/pay",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/order/detail",
 			"style": {
 				"navigationStyle": "custom"
 			}
@@ -91,18 +133,6 @@
 			}
 		},
 		{
-			"path": "pages/index/vip",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/vipRule",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
 			"path": "pages/user/team",
 			"style": {
 				"navigationStyle": "custom"
@@ -128,12 +158,6 @@
 		},
 		{
 			"path": "pages/finance/withdrawList",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/index",
 			"style": {
 				"navigationStyle": "custom"
 			}

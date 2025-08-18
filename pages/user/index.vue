@@ -55,7 +55,12 @@
 			<view class="bg-white roundedTop-20 pt-24 plr-20 border-box">
 				<view class="fw-5">我的订单</view>
 				<view class="flex-between mt-33 plr-16 border-box">
-					<view class="text-center relative" v-for="(item, index) in orders" :key="index">
+					<view 
+						class="text-center relative"
+						v-for="(item, index) in orders"
+						:key="index"
+						@click="$c.goto(`/pages/order/list?status=${item.value}`)"
+					>
 						<image :src="'/static/user/order-' +  (index + 1) + '.png'" class="i-26"></image>
 						<view class="mt-10 fs-12">{{ item.name }}</view>
 						<u-badge
@@ -72,13 +77,12 @@
 				<image src="/static/user/join.png" class="pw-100 mt-10" mode="widthFix" @click="$c.goto('/pages/user/join')"></image>
 				<view class="fw-5 mt-23">其他</view>
 				<view class="">
-					<view class="border-bottom ptb-20 flex-between relative">
+					<view class="border-bottom ptb-20 flex-between" @click="$c.goto('/pages/index/web')">
 						<view class="flex-start">
 							<image src="/static/icon/cs.png" class="i-16"></image>
 							<text class="fs-12 lh-8 ml-9">在线客服</text>
 						</view>
 						<u-icon name="arrow-right" size="12" color="#7D7D7D"></u-icon>
-						<u-link :href="$c.cs()" class="full"></u-link>
 					</view>
 					<view class="border-bottom ptb-20 flex-between" @click="$c.goto('/pages/user/address')">
 						<view class="flex-start">

@@ -146,14 +146,5 @@
 </script>
 
 <style lang="less" scoped>
-	.u-code-input {
-		width: 100%;
-		justify-content: space-between;
-	}
-	::v-deep .u-code-input__item {
-		width: 43px !important;
-		height: 56px !important;
-		border-radius: 8px;
-		background: #EAEAEA;
-	}
+	
 </style>

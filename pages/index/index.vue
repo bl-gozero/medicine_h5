@@ -26,7 +26,7 @@
 				</view>
 			</view>
 			<view class="flex-between flex-wrap">
-				<view class="w-158 mt-10 bg-white rounded-12" v-for="(item,index) in list" :key="item.id">
+				<view class="w-158 mt-10 bg-white rounded-12" v-for="(item,index) in list" :key="item.id" @click="$c.goto('/pages/goods/detail?id=' + item.id)">
 					<image :src="item.picture" class="i-158 roundedTop-12 block" lazy-load mode="aspectFill"></image>
 					<view class="p-10 border-box">
 						<text class="u-line-1 fs-14 fw-5 border-bo">{{ item.name }}</text>
@@ -50,8 +50,7 @@
 			<view class="h-70"></view>
 		</view>
 		<view class="fixed right-0 bottom-75 w-56 h-69">
-			<image src="/static/index/cs.png" class="w-56 h-69"></image>
-			<u-link :href="$c.cs()" class="full"></u-link>
+			<image src="/static/index/cs.png" class="w-56 h-69" @click="$c.goto('/pages/index/web')"></image>
 		</view>
 		<TabBar />
 	</view>

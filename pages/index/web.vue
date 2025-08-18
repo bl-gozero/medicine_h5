@@ -1,33 +1,48 @@
 <template>
-	<view class="">
-		<Title title="APP用户协议" :fixed="true" />
-		<image :src="img" class="pw-100" mode="widthFix"></image>
+	<view>
+		<Title :title="web.title" fixed></Title>
+		<view :class="`top-${top}`" class="relative" :style="{ minHeight: `calc(100vh - ${top}px)` }">
+			<web-view :webview-styles="webviewStyles" :src="web.src"></web-view>
+		</view>
 	</view>
 </template>
 
 <script>
-	import Title from '../../components/Title.vue';
+	import Title from '../../components/Title.vue'
 	export default {
-		components: {
-			Title
-		},
+		components: { Title },
 		data() {
 			return {
-				img: ''
+				webviewStyles: {
+					progress: {
+						color: this.$c.baseColor()
+					}
+				},
+				top: 0,
+				web: { title: '', src: '' }
 			}
 		},
-		onLoad() {
-			this.getImages()
+		onLoad(p) {
+			if(p.type == 'pay') {
+				const web = this.$c.getStorage('web')
+				if(web) {
+					this.web = web
+				}
+			} else {
+				this.web = { title: '在线客服', src: this.$c.cs() }
+			}
+		},
+		onReady() {
+			this.$uGetRect('.title-bar').then(res => {
+				console.log(res)
+				this.top = res.height
+			})
 		},
 		methods: {
-			async getImages() {
-				const res = await this.$c.fetch(this.$api.config.images, { location: 1 })
-				if(res) this.img = res[0].src
-			}
 		}
 	}
 </script>
 
 <style>
-	
+
 </style>
