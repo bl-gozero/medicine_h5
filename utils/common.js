@@ -220,6 +220,15 @@ const common = {
 		const date = new Date(dateTimeStr.replace(/-/g, '/'))
 		const newDate = new Date(date.getTime() + s * 1000)
 		return this.formatDateTime(newDate)
+	},
+	
+	checkeLogin() {
+		const jwt = this.getStorage('jwt')
+		const profile = this.getStorage('profile')
+		if(!jwt || !profile || Object.keys(profile).length === 0) {
+			this.toast('请先登录')
+			this.goto('/pages/index/login')
+		}
 	}
 }
 

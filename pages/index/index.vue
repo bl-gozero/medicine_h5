@@ -90,6 +90,9 @@
 				})
 			}, 100)
 		},
+		onReachBottom() {
+			this.getGoods()
+		},
 		methods: {
 			async getProfile() {
 				const res = await this.$c.fetch(this.$api.user.getProfile)

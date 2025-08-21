@@ -95,6 +95,7 @@
 			}
 		},
 		onLoad() {
+			this.$c.checkeLogin()
 			this.getProfile()
 			this.addressList()
 			this.doEdit = this.$c.onceRequest(this.onEdit)

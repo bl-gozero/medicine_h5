@@ -70,7 +70,7 @@ function request({
 			fail(err) {
 				if (loading) uni.hideLoading()
 				uni.showToast({
-					title: '网络异常',
+					title: '请求失败，请检查您的网络情况或稍后再试',
 					icon: 'none'
 				})
 				reject(err)

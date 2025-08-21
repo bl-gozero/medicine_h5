@@ -156,6 +156,7 @@
 			}
 		},
 		onLoad() {
+			this.$c.checkeLogin()
 			this.getSignStatus()
 			this.doSign = this.$c.onceRequest(this.onSign)
 		},
