@@ -62,13 +62,9 @@
 				</view>
 				<view v-if="form.category == 3" class="mt-13">
 					<view class="mt-10">银行</view>
-					<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
-						<LineInput
-							v-model="form.full_name"
-							type="text"
-							placeholder="请选择开户行"
-							placeholderClass="text-info fs-14"
-						/>
+					<view class="mt-7 bg-white rounded-8 ptb-13 plr-16 flex-between" @click="showPicker = true">
+						<text :class="form.full_name? 'fs-12 lh-18' : 'text-info fs-14'">{{ form.full_name? form.full_name : '请选择开户行'}}</text>
+						<u-icon name="arrow-right" color="#7D7D7D" size="12"></u-icon>
 					</view>
 				</view>
 				<view class="mt-13">
@@ -97,8 +93,8 @@
 		<u-popup :show="showCate" mode="bottom" round="20" closeable @close="showCate = false">
 			<view class="p-20">
 				<view class="text-center fs-18">选择账户</view>
-				<view class="mt-50">
-					<view class="ptb-20 flex-center border-bottom" v-for="item in cateList" :key="item.id" @click="onCate(item)">
+				<view class="list_box mt-50">
+					<view class="ptb-20 flex-center" v-for="item in cateList" :key="item.id" @click="onCate(item)">
 						<image :src="`/static/pay/icon/${item.id}.png`" class="i-18 mr-10"></image>
 						<text>{{ item.value }}</text>
 					</view>
@@ -128,6 +124,14 @@
 				<view class="h-30"></view>
 			</view>
 		</u-popup>
+		
+		<u-picker 
+			:show="showPicker" 
+			:columns="banks"
+			:confirmColor="$c.baseColor()"
+			@confirm="onConfirm"
+			@cancel="showPicker = false"
+		></u-picker>
 	</view>
 </template>
 
@@ -151,10 +155,12 @@
 				load: false,
 				showCate: false,
 				showPassword: false,
+				showPicker: false,
 				cate: {},
 				cateList: [],
 				form: { name: '', card_number: '', full_name: '', category: 0 },
-				delForm: { id: 0, password: '' }
+				delForm: { id: 0, password: '' },
+				banks: [['建设银行', '民生银行', '农业银行', '中国银行', '招商银行', '交通银行', '邮政银行']]
 			}
 		},
 		onLoad() {
@@ -171,6 +177,10 @@
 			}, 100)
 		},
 		methods: {
+			onConfirm(e) {
+				this.form.full_name = e.value[0]
+				this.showPicker = false
+			}, 
 			onShowCateList() {
 				this.form = { name: '', card_number: '', full_name: '', category: 0, value: '' }
 			},
@@ -185,7 +195,7 @@
 				if(res) { this.list = res;this.load = true; }
 			},
 			async getCateList () {
-				const res = await this.$c.fetch(this.$api.config.payCategoryList)
+				const res = await this.$c.fetch(this.$api.config.cardCategoryList)
 				if(res) this.cateList = res
 			},
 			async onBind() {

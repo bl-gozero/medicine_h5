@@ -104,6 +104,8 @@
 			}
 		},
 		onLoad() {
+			this.$c.removeStorage('jwt')
+			this.$c.removeStorage('profile')
 			this.getCode()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},

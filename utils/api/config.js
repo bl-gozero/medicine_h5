@@ -9,5 +9,11 @@ export default {
 	},
 	payCategoryList() {
 		return request.post('/cashier_counter/list')
+	},
+	cardCategoryList() {
+		return request.post('/card_holder/allow')
+	},
+	levelList() {
+		return request.post('/level/list')
 	}
 }

@@ -3,7 +3,7 @@
 		<view class="user_box plr-20" :class="`pt-${$c.barHeight()}`">
 			<view class="flex-between">
 				<view class="relative">
-					<image :src="profile.avatar?  profile.avatar:'/static/user/avatar.png'" class="i-55 rounded" mode="aspectFill"></image>
+					<u-avatar :src="profile.avatar" size="55" default-url="/static/user/avatar.png"></u-avatar>
 					<image 
 						v-if="profile.level && profile.level.id == 3" 
 						src="/static/user/vip.png" 
@@ -44,19 +44,23 @@
 					>充值</button>
 					<button
 						class="bg-base-change fw-7 fs-10 text-white w-46 h-23 rounded-x ml-7 plr-0"
-						@click="$c.goto('/pages/finance/withdraw')"
+						@click="$c.toast('功能正在开发中')"
 					>提现</button>
 				</view>
 			</view>
 			<view class="h-120"></view>
 		</view>
 		<view class="flex-1 relative" style="margin-top: -89px;z-index: 10;">
-			<view class="h-48 roundedTop-16 mlr-20" style="background: #46311F;"></view>
+			<view class="plr-20" @click="$c.goto('/pages/user/vip')">
+				<image v-if="profile.level.id < 3" src="/static/user/check_1.png" class="pw-100 block" mode="widthFix"></image>
+				<image v-else-if="profile.level.id <= 4" src="/static/user/check_1.png" class="pw-100 block" mode="widthFix"></image>
+			</view>
 			<view class="bg-white roundedTop-20 pt-24 plr-20 border-box">
 				<view class="fw-5">我的订单</view>
-				<view class="flex-between mt-33 plr-16 border-box">
-					<view 
-						class="text-center relative"
+				<view class="flex-between mt-33 border-box">
+					<view
+						v-if="index < 3"
+						class="text-center relative flex-1"
 						v-for="(item, index) in orders"
 						:key="index"
 						@click="$c.goto(`/pages/order/list?status=${item.value}`)"
@@ -69,8 +73,19 @@
 							bgColor="#FF2A40"
 							color="#fff"
 							max="99"
-							:offset="[-5, 0]"
+							:offset="[-5, 15]"
 						></u-badge>
+					</view>
+					<view class="line"></view>
+					<view
+						v-if="index == 3"
+						class="text-center relative flex-1"
+						v-for="(item, index) in orders"
+						:key="index"
+						@click="$c.goto(`/pages/order/list?status=${item.value}`)"
+					>
+						<image :src="'/static/user/order-' +  (index + 1) + '.png'" class="i-26"></image>
+						<view class="mt-10 fs-12">{{ item.name }}</view>
 					</view>
 				</view>
 				<view class="fw-5 mt-34">加入北辰代购</view>
@@ -127,7 +142,7 @@
 		},
 		data() {
 			return {
-				profile: this.$c.getStorage('profile') || {},
+				profile: {...{ level: {id: 1} }, ...this.$c.getStorage('profile') },
 				orders: [
 					{ id: 1, name: '待付款', value: 1, count: 0 },
 					{ id: 2, name: '待发货', value: 2, count: 0 },
@@ -142,9 +157,11 @@
 		},
 		onLoad() {
 			this.getSignStatus()
+			this.doSign = this.$c.onceRequest(this.onSign)
+		},
+		onShow() {
 			this.getProfile()
 			this.getOrderNum()
-			this.doSign = this.$c.onceRequest(this.onSign)
 		},
 		methods: {
 			async getProfile() {
@@ -204,5 +221,11 @@
 	}
 	.fw-5 { 
 		font-weight: 600;
+	}
+	.line {
+		border-top: 1px solid #D8D8D8;
+		transform: rotate(90deg);
+		width: 34px;
+		height: 0px;
 	}
 </style>

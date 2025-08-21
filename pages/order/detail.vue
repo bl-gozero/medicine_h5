@@ -6,7 +6,7 @@
 		<view class="pt-10 plr-20 relative" style="z-index: 2;">
 			<view class="text-center" style="color: #064144;">
 				<view class="fs-18 fw-7">{{ $c.formatStatus(order.status).text }}</view>
-				<view class="fs-12 mt-14">{{ $c.formatStatus(order.status).hint }}</view>
+				<view class="fs-12 mt-14 lh-15 border-box" style="padding: 0 10%;">{{ $c.formatStatus(order.status, $c.calcTime(order.created_at, 30 * 60)).hint }}</view>
 			</view>
 			<view class="mt-20 bg-white rounded-12 plr-16 ptb-20 border-box">
 				<view class="flex-between">
@@ -14,10 +14,10 @@
 					<view class="ml-11 flex-1">
 						<view>物流信息</view>
 						<view v-if="order.waybill_number" class="mt-10 flex-between ">
-							<text>{{ order.waybill_number }}</text>
-							<image src="/static/order/copy.png" class="i-12"></image>
+							<text class="fs-12 text-info">{{ order.waybill_number }}</text>
+							<image src="/static/order/copy.png" class="i-12" @click="$c.copy(order.waybill_number)"></image>
 						</view>
-						<view v-if="order.waybill_number" class="mt-10">暂无信息</view>
+						<view v-else class="mt-10 fs-12 text-info">暂无信息</view>
 					</view>
 				</view>
 				<view class="flex-between mt-23">
@@ -93,7 +93,7 @@
 			</view>
 		</view>
 		<view class="h-100"></view>
-		<view class="fixed bottom-0 left-0 pw-100 flex-between ptb-15 plr-20 bg-white border-box">
+		<view class="fixed bottom-0 left-0 pw-100 flex-between ptb-15 plr-20 bg-white border-box" style="z-index: 100;">
 			<view class="relative w-40 h-20">
 				<text class="fs-12 text-info" @click="showMore = !showMore">更多</text>
 				<view v-if="showMore" class="absolute left-0 top-0 more_box flex-center"
@@ -102,14 +102,14 @@
 				</view>
 			</view>
 			<view class="flex-start">
-				<u-button v-if="order.status == 1 || order.status == 2" class="btn btn-black" shape="circle" plain
+				<u-button v-if="order.status == 1" class="btn btn-black" shape="circle" plain
 					text="取消订单" @click="showCancel = true"></u-button>
-				<u-button v-if="order.status > 3" class="btn btn-black" shape="circle" plain text="再来一单"
-					@click="onAgain()"></u-button>
+				<!-- <u-button v-if="order.status > 3" class="btn btn-black" shape="circle" plain text="再来一单"
+					@click="onAgain()"></u-button> -->
 				<u-button v-if="order.status == 3" class="btn bg-base text-white" shape="circle" plain text="确认收货"
 					@click="showReceive = true"></u-button>
 				<u-button v-if="order.status == 1" class="btn bg-base text-white" shape="circle" plain text="去付款"
-					@click="$c.goto(`/pages/goods/pay?id=${item.id}`)"></u-button>
+					@click="$c.goto(`/pages/order/pay?id=${order.id}`)"></u-button>
 			</view>
 		</view>
 
@@ -117,7 +117,7 @@
 			showCancelButton @cancel="showCancel = false" @confirm="doCancel"></u-modal>
 		<u-modal :show="showDelete" title="提示" content='确定要删除该订单？' confirmColor="#3D3D3D" cancelColor="#9F9F9F"
 			showCancelButton @cancel="showDelete = false" @confirm="doDelete"></u-modal>
-		<u-modal :show="showReceive" title="提示" content='确定要该订单已收货？' confirmColor="#3D3D3D" cancelColor="#9F9F9F"
+		<u-modal :show="showReceive" title="提示" content='确定该订单已收货？' confirmColor="#3D3D3D" cancelColor="#9F9F9F"
 			showCancelButton @cancel="showReceive = false" @confirm="doReceive"></u-modal>
 	</view>
 </template>

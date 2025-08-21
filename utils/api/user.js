@@ -46,4 +46,10 @@ export default {
 	addressDelete(data) {
 		return request.post('/user_address/delete', data, { loading: true })
 	},
+	upgradeVip(data) {
+		return request.post('/user/upgrade_vip', data, { loading: true })
+	},
+	friend(data) {
+		return request.post('/user/friend', data, { loading: true })
+	},
 }

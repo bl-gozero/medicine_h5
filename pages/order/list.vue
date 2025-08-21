@@ -1,7 +1,7 @@
 <template>
 	<view class="page bg-page">
 		<view class="title_box fixed top-0 left-0 pw-100 bg-page" style="z-index: 300;">
-			<Title title="我的订单"></Title>
+			<Title title="我的订单" url="/pages/user/index"></Title>
 			<view class="pt-10 pb-20 plr-20 fs-12 flex-between">
 				<view class="relative" :class="search.status == item.id ? 'active' : 'text-info'"
 					v-for="item in navList" :key="item.id" @click="onNav(item.id)">{{ item.value }}</view>
@@ -29,7 +29,11 @@
 					</view>
 				</view>
 				<view class="flex-between">
-					<text class="fs-10 self-end lh-18" style="color: #FF8F1F;">{{ item.created_at }}后将自动取消订单</text>
+					<text 
+						v-if="item.status == 1"
+						class="fs-10 self-end lh-18" style="color: #FF8F1F;"
+					>{{ $c.calcTime(item.created_at, 30 * 60)}}后将自动取消订单</text>
+					<text v-else></text>
 					<view class="">
 						<text class="fs-12">实付</text>
 						<text class="fs-16 fw-7">￥{{ item.price }}</text>
@@ -44,7 +48,7 @@
 						</view>
 					</view>
 					<view class="flex-start">
-						<u-button v-if="item.status == 1 || item.status == 2" class="btn btn-black" shape="circle" plain
+						<u-button v-if="item.status == 1" class="btn btn-black" shape="circle" plain
 							text="取消订单" @click="id = item.id; showCancel = true"></u-button>
 						<!-- <u-button
 							v-if="item.status > 3"
@@ -57,7 +61,7 @@
 						<u-button v-if="item.status == 3" class="btn border-1 text-base" shape="circle" plain
 							text="确认收货" @click="id = item.id; showReceive = true"></u-button>
 						<u-button v-if="item.status == 1" class="btn border-1 text-base" shape="circle" plain text="去付款"
-							@click="$c.goto(`/pages/goods/pay?id=${item.id}`)"></u-button>
+							@click="$c.goto(`/pages/order/pay?id=${item.id}`)"></u-button>
 					</view>
 				</view>
 			</view>
@@ -67,7 +71,7 @@
 			showCancelButton @cancel="showCancel = false" @confirm="doCancel"></u-modal>
 		<u-modal :show="showDelete" title="提示" content='确定要删除该订单？' confirmColor="#3D3D3D" cancelColor="#9F9F9F"
 			showCancelButton @cancel="showDelete = false" @confirm="doDelete"></u-modal>
-		<u-modal :show="showReceive" title="提示" content='确定要该订单已收货？' confirmColor="#3D3D3D" cancelColor="#9F9F9F"
+		<u-modal :show="showReceive" title="提示" content='确定该订单已收货？' confirmColor="#3D3D3D" cancelColor="#9F9F9F"
 			showCancelButton @cancel="showReceive = false" @confirm="doReceive"></u-modal>
 	</view>
 </template>
@@ -210,6 +214,7 @@
 				})
 				if (res) {
 					this.$c.toast('操作成功')
+					this.int()
 				}
 			},
 			async onAgain(item) {

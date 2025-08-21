@@ -1,58 +1,60 @@
 <template>
-	<view class="page bg-page flex-col">
-		<Title title="账单明细" />
-		<view class="mt-20 plr-20 mt-10 flex-start">
-			<view 
-				class="w-58 h-25 flex-center bg-white mr-10 rounded-x" 
-				:class="form.mode == item.id && 'text-base fw-7'" 
-				v-for="item in navBar" 
-				:key="item.id"
-				@click="onNav(item.id)"
-			>{{ item.name }}</view>
-		</view>
-		<view class="plr-20 mt-20">
-			<view class="ptb-16 plr-16 roundedTop-14 time relative">
-				<view class="flex-start" @click="showTimePicker = true">
-					<text class="fs-16 fw-7 mr-4">{{ form.month }}</text>
-					<u-icon name="arrow-down-fill" color="#3D3D3D" size="14"></u-icon>
+	<view class="page bg-page">
+		<view class="top_box fixed top-0 left-0 pw-100 bg-page" style="z-index: 10;">
+			<Title title="账单明细" />
+			<view class="mt-20 plr-20 mt-10 flex-start">
+				<view 
+					class="w-58 h-25 flex-center bg-white mr-10 rounded-x" 
+					:class="form.mode == item.id && 'text-base fw-7'" 
+					v-for="item in navBar" 
+					:key="item.id"
+					@click="onNav(item.id)"
+				>{{ item.name }}</view>
+			</view>
+			<view class="plr-20 mt-20">
+				<view class="ptb-16 plr-16 roundedTop-14 time relative">
+					<view class="flex-start" @click="showTimePicker = true">
+						<text class="fs-16 fw-7 mr-4">{{ form.month }}</text>
+						<u-icon name="arrow-down-fill" color="#3D3D3D" size="14"></u-icon>
+					</view>
+					<view class="mt-10 fs-12">
+						<text v-if="form.mode != 2">收入：</text>
+						<text v-if="form.mode != 2" class="fw-7 mr-32">{{ income }}</text>
+						<text>支出：</text>
+						<text v-if="form.mode != 1" class="fw-7">{{ expense }}</text>
+					</view>
+					<image src="/static/finance/balance_log.png" class="absolute right-11 bottom-0 w-93 h-84"></image>
 				</view>
-				<view class="mt-10 fs-12">
-					<text v-if="form.mode != 2">收入：</text>
-					<text v-if="form.mode != 2" class="fw-7 mr-32">{{ income }}</text>
-					<text>支出：</text>
-					<text v-if="form.mode != 1" class="fw-7">{{ expense }}</text>
-				</view>
-				<image src="/static/finance/balance_log.png" class="absolute right-11 bottom-0 w-93 h-84"></image>
 			</view>
 		</view>
-		<view class="flex-1 relative">
-			<view class="absolute top-0 bottom-0 left-20 right-20 ph-100 bg-white">
-				<u-list @scrolltolower="getList()">
-					<u-list-item v-for="(item, index) in list" :key="index">
-						<view class="plr-11">
-							<view class="border-bottom ptb-15">
-								<view class="flex-between">
-									<text>{{ item.type }}</text>
-									<text class="fw-7">{{ item.amount }}</text>
-								</view>
-								<view class="text-info mt-6 fs-10">{{ item.created_at }}</view>
-								<view class="text-info mt-6 fs-10">{{ item.remark }}</view>
+		<view :class="`h-${height}`"></view>
+		<view class="plr-20">
+			<view class="bg-white">
+				<view class="" v-for="(item, index) in list" :key="index">
+					<view class="plr-11">
+						<view class="border-bottom ptb-15">
+							<view class="flex-between">
+								<text>{{ item.type }}</text>
+								<text class="fw-7">{{ item.amount }}</text>
 							</view>
+							<view class="text-info mt-6 fs-10">{{ item.created_at }}</view>
+							<view class="text-info mt-6 fs-10">{{ item.remark }}</view>
 						</view>
-					</u-list-item>
-				</u-list>
+					</view>
+				</view>
 			</view>
 		</view>
-		<view class="h-60"></view>
 		
-		<u-datetime-picker
-			:show="showTimePicker"
-			:minDate="1735689600000"
-			:confirmColor="$c.baseColor()"
-			mode="year-month"
-			@confirm="onConfirm"
-			@cancel="showTimePicker = false">
-		></u-datetime-picker>
+		<view class="">
+			<u-datetime-picker
+				:show="showTimePicker"
+				:minDate="1735689600000"
+				:confirmColor="$c.baseColor()"
+				mode="year-month"
+				@confirm="onConfirm"
+				@cancel="showTimePicker = false">
+			></u-datetime-picker>
+		</view>
 	</view>
 </template>
 
@@ -70,27 +72,39 @@
 				list: [],
 				income: 0,
 				expense: 0,
-				showTimePicker: false
+				showTimePicker: false,
+				height: 0
 			}
 		},
 		onLoad() {
 			this.getList()
 			this.doAvatar = this.$c.onceRequest(this.onAvatarEdit)
 		},
+		onReady() {
+			setTimeout(() => {
+				this.$uGetRect('.top_box').then(res => {
+					this.height = res.height
+				})
+			}, 100)
+		},
+		onReachBottom() {
+			this.getList()
+		},
 		methods: {
 			async getList() {
-				if(this.form.status != 'more')
+				if(this.form.status != 'more') return
 				this.form.status = 'loading'
-				const res = await this.$c.fetch(this.$api.user.balanceList, this.form)
+				const res = await this.$c.fetch(this.$api.finance.balanceList, this.form)
 				if (res) {
 					this.income = res.income
 					this.expense = res.expenses
+					this.form.status = res.month_data.length >= this.form.limit ? 'more' : 'end'
 					if(res.month_data) {
 						this.list = [...this.list, ...(res.month_data || [])]
-						this.form.status = res.month_data.length > this.form.limit ? 'more' : 'end'
 						this.form.page++
-					}	
+					}
 				}
+				console.log(this.form)
 				if(this.form.status != 'end') this.form.status = 'more'
 			},
 			onNav(i) {

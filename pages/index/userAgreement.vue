@@ -1,7 +1,15 @@
 <template>
 	<view class="">
 		<Title title="APP用户协议" :fixed="true" />
-		<image :src="img" :class="`block pw-100 pt-${height}`" mode="widthFix"></image>
+		<view :class="`pt-${height}`">
+			<u--image :src="img" width="100%" height="auto" bgColor="transparent" mode="widthFix">
+			  <template v-slot:loading>
+			    <view class="pt-100">
+					<u-loading-icon color="#9F9F9F" class="mt-200"></u-loading-icon>
+				</view>
+			  </template>
+			</u--image>
+		</view>
 	</view>
 </template>
 

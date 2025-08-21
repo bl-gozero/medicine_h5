@@ -34,7 +34,6 @@
 		},
 		onReady() {
 			this.$uGetRect('.title-bar').then(res => {
-				console.log(res)
 				this.top = res.height
 			})
 		},

@@ -82,7 +82,7 @@
 				if (this.$listeners.back) {
 					this.$emit('back')
 				} else if (this.url) {
-					this.$c.goTo(this.url)
+					this.$c.goto(this.url)
 				} else {
 					this.$c.goBack()
 				}

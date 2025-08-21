@@ -1,7 +1,7 @@
 <template>
 	<view class="page flex-col" style="background: #519296;">
 		<view class="title_box fixed flex-between pb-15 plr-20 pw-100 border-box" :class="`pt-${$c.barHeight()}`" style="z-index: 10;background: #519296;">
-			<image src="/static/common/logo.png" class="w-73 h-25 mr-11"></image>
+			<image src="/static/common/logo.gif" class="w-73 h-32 mr-11"></image>
 			<view class="flex-end" @click="$c.goto('/pages/goods/search')">
 				<view class="w-192 h-35 bg-white rounded-x plr-11 flex-start ptb-12 border-box">
 					<u-icon name="search" color="#1A7E84" size="15"></u-icon>
@@ -38,8 +38,9 @@
 									<text class="ml-4 text-base fs-10 fw-4 line-through">￥{{ item.price }}</text>
 								</view>
 								<view v-else class="pw-100">
-									<text class="text-danger fs-10 fw-7">￥</text>
-									<text class="text-danger fw-7">{{ item.price }}</text>
+									<text class="text-base fs-10 fw-7">￥</text>
+									<text class="text-base fw-7">{{ item.price }}</text>
+									<text class="ml-4 text-danger fs-10 fw-4 line-through">￥{{ item.vip_price }}</text>
 								</view>
 							</view>
 							<image src="/static/index/cart.png" class="w-35 h-25"></image>
@@ -69,12 +70,16 @@
 				good: ['海外代购', '快捷发货', '全天服务', '优质精选'],
 				place: '',
 				search: { page: 1, limit: 10, name: '', load: 'more' },
-				level: this.$c.getStorage('profile')? this.$c.getStorage('profile').level.id : 0,
+				level: 0,
 				height: 0
 			}
 		},
 		onLoad() {
-			this.getProfile()
+			const obj = this.$c.getStorage('profile')
+			if (obj && Object.keys(obj).length > 0) {
+				this.level = obj.level.id
+				this.getProfile()
+			}
 			this.getBanner()
 			this.getGoods()
 		},

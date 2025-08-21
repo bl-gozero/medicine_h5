@@ -10,7 +10,7 @@
 			<view class="mt-16 fw-7">充值金额</view>
 			<view class="mt-20 rounded-8 bg-white flex-start h-56 plr-13">
 				<text class="fw-7 fs-20 mr-10">￥</text>
-				<u-input v-model="form.amount" placeholder="请输入想要充值的金额" placeholderClass="fs-14" type="number"
+				<u-input v-model.number="form.amount" placeholder="请输入想要充值的金额" placeholderClass="fs-14" type="number"
 					border="none" :formatter="priceFormatter" clearable></u-input>
 			</view>
 			<view class="mt-20 fw-7">选择支付方式</view>
@@ -78,9 +78,10 @@
 					return
 				}
 				const res = await this.$c.fetch(this.$api.finance.recharge, this.form)
-				if(res) {
-					this.$c.toast('充值成功')
+				if(res.jump_url) {
 					this.form = { amount: '', pay_mode: '' }
+					this.$c.setStorage('web', { title: '支付', src: res.jump_url })
+					this.$c.goto('/pages/index/web?type=pay')
 				}
 			},
 		}

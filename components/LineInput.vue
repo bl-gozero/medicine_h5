@@ -3,7 +3,7 @@
 		<u-input class="underline-input" v-model="innerValue"
 			:type="isPassword ? (showPwd ? 'text' : 'password') : type" :placeholder="placeholder"
 			:placeholderClass="placeholderClass" :maxlength="maxlength" :formatter="safeFormatter" :border="border"
-			:clearable="clearable" @focus="isFocused = true" @blur="isFocused = false">
+			:clearable="clearable" :disabled="disabled" :disabledColor="disabledColor" @focus="isFocused = true" @blur="isFocused = false">
 			<template slot="suffix">
 				<image v-if="isPassword" :src="showPwd ? hide : see" class="i-24" @click="togglePwd" />
 				<template v-else>
@@ -55,7 +55,19 @@
 			formatter: {
 				type: [Function, String],
 				default: null
-			}
+			},
+			disabled: {
+				type: Boolean,
+				default: false
+			},
+			disabled: {
+				type: Boolean,
+				default: false
+			},
+			disabledColor: {
+				type: String,
+				default: ""
+			},
 		},
 		data() {
 			return {

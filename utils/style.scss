@@ -43,6 +43,7 @@ $color-light:   #f5f5f5;
 .flex, .flex-col, .flex-start, .flex-end, .flex-center, .flex-between, .flex-around, .flex-evenly, .flex-stretch      { display: flex; }
 .items-center, .flex-start, .flex-end, .flex-center, .flex-between, .flex-around    { align-items: center; }
 .item-stretch, .flex-stretch	{ align-items: stretch; }
+.item-end { align-items: flex-end; }
 .justify-center, .flex-center  	{ justify-content: center; }
 .justify-between, .flex-between { justify-content: space-between; }
 .justify-around, .flex-around   { justify-content: space-around; }
@@ -70,6 +71,7 @@ $color-light:   #f5f5f5;
 .border-1 { border: 1px solid $color-base !important; }
 .border-bottom { border-bottom: 1px solid #F5F5F5; }
 .list_box>*:not(:last-child) { border-bottom: 1px solid #F5F5F5; }
+.underline { text-decoration: underline; text-underline-offset: 3px; }
 /* ========== 字体类  ========== */
 @for $i from 8 through 50 {
   .fs-#{$i} { font-size: $i * 1px !important; }

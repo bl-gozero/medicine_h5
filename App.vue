@@ -24,6 +24,21 @@
 		color: #3D3D3D !important;
 	}
 	
+	.nav_active {
+		&::after {
+			content: '';
+			display: block;
+			width: 10px;
+			height: 2px;
+			background: #1A7E84;
+			position: absolute;
+			bottom: -4px;
+			left: 0;
+			right: 0;
+			margin: auto;
+		}
+	}
+	
 	.more_box {
 		width: 99px;
 		height: 64px;

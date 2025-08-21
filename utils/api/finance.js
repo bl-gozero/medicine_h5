@@ -1,6 +1,9 @@
 import request from '../request'
 
 export default {
+	balanceList(data) {
+		return request.post('/balance_logs/list', data, { loading: true })
+	},
 	recharge(data) {
 		return request.post('/user/recharge', data, { loading: true })
 	},
@@ -12,5 +15,8 @@ export default {
 	},
 	withdrawCheck(data) {
 		return request.post('/withdrawals/check', data, { loading: true })
+	},
+	performance(data) {
+		return request.post('/team_performance/list', data, { loading: true })
 	}
 }

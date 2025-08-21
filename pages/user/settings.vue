@@ -7,9 +7,7 @@
 					<text class="">{{ i.name }}</text>
 					<text v-if="i.type == 'account'" class="text-info">{{ profile.account }}</text>
 					<u-icon v-else-if="i.type == 'link'" name="arrow-right" size="12" color="#7D7D7D"></u-icon>
-					<image v-else-if="i.type == 'avatar'"
-						:src="profile.avatar?  profile.avatar:'/static/user/avatar.png'" class="i-55 rounded mr-10"
-						mode="aspectFill"></image>
+					<u-avatar v-else-if="i.type == 'avatar'" :src="profile.avatar" size="55" default-url="/static/user/avatar.png" class="mr-10"></u-avatar>
 				</view>
 			</view>
 		</view>

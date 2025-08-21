@@ -42,11 +42,15 @@
 			return {
 				search: { page: 1, limit: 10, name: '', load: 'more' },
 				list: [],
-				level: this.$c.getStorage('profile')? this.$c.getStorage('profile').level.id : 0,
+				level: 0,
 				height: 0
 			}
 		},
 		onLoad(p) {
+			const obj = this.$c.getStorage('profile')
+			if (obj && Object.keys(obj).length > 0) {
+				this.level = obj.level.id
+			}
 			if(p.name) {
 				this.search.name = p.name
 				this.getProfile()

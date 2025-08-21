@@ -30,7 +30,7 @@
 						<view class="text-center mt-20">
 							<image src="/static/join/share.png" class="w-242 h-56" @click="onShare()"></image>
 						</view>
-						<view class="line_text mt-10"  @click="$c.goto('/pages/user/team')">查看已邀请成功的好友</view>
+						<view class="line_text mt-10" @click="$c.goto('/pages/user/team')">查看已邀请成功的好友</view>
 						<!-- #ifdef H5 -->
 						<view class="flex-evenly mt-25 fw-4 fs-12" style="text-wrap: nowrap;">
 							<view class="text-center self-start w-80">
@@ -81,34 +81,32 @@
 							<text class="money">更高佣金比例、折扣购买、分销佣金、产品优惠、永久月度绩效分红</text>
 						</view>
 						<view class="mt-20 flex-between">
-							<image src="/static/join/btn_vip.png" class="w-146 h-56" @click="$c.goto('/pages/index/vip')"></image>
+							<image src="/static/join/btn_vip.png" class="w-146 h-56"
+								@click="$c.goto('/pages/user/vip')"></image>
 							<image src="/static/join/btn_share.png" class="w-146 h-56" @click="onShare()"></image>
 						</view>
 					</view>
 				</view>
 			</view>
-			<view class="line_text mt-10" style="color: #6A3B1D;"  @click="$c.goto('/pages/index/vipRule')">点击了解详细规则</view>
+			<view class="line_text mt-10" style="color: #6A3B1D;" @click="$c.goto('/pages/index/vipRule')">点击了解详细规则
+			</view>
 			<image src="/static/join/bottom.png" class="pw-100 block" mode="widthFix"></image>
 		</view>
-		
+
 		<u-popup :show="showQr" mode="center" bgColor="transparent" @close="showQr = false">
 			<view class="w-200">
 				<view class="text-center">
-					<u--image :src="qrcode" width="200px" height="auto" bgColor="transparent" mode="widthFix" @load="showBtn = true">
-					  <template v-slot:loading>
-					    <view class="pt-100">
-							<u-loading-icon color="#9F9F9F"></u-loading-icon>
-						</view>
-					  </template>
+					<u--image :src="qrcode" width="200px" height="auto" bgColor="transparent" mode="widthFix"
+						@load="showBtn = true">
+						<template v-slot:loading>
+							<view class="pt-100">
+								<u-loading-icon color="#9F9F9F"></u-loading-icon>
+							</view>
+						</template>
 					</u--image>
 				</view>
-				<u-button
-					v-if="showBtn"
-					class="bg-base fw-7 fs-14 text-white w-169 h-47 mt-20 border-0"
-					shape="circle"
-					text="保存"
-					@click="onSave()"
-				></u-button>
+				<u-button v-if="showBtn" class="bg-base fw-7 fs-14 text-white w-169 h-47 mt-20 border-0" shape="circle"
+					text="保存" @click="onSave()"></u-button>
 			</view>
 		</u-popup>
 	</view>
@@ -125,7 +123,7 @@
 		data() {
 			return {
 				profile: this.$c.getStorage('profile') || {},
-				downloadUrl: 'http://baidu.com',
+				downloadUrl: this.$c.url('dl'),
 				height: 0,
 				qrcode: '',
 				showQr: false,
@@ -133,7 +131,7 @@
 			}
 		},
 		onLoad() {
-			this.qrcode = this.$baseUrl + '/user/qrcode?referral_code=' +  this.profile.referral_code
+			this.qrcode = this.$baseUrl + '/user/qrcode?referral_code=' + this.profile.referral_code
 		},
 		onReady() {
 			setTimeout(() => {
@@ -151,8 +149,23 @@
 				this.showBtn = false
 				this.showQr = true
 			},
-			onSave() {
-				
+			async onSave() {
+				try {
+					const url = this.qrcode
+					const res = await fetch(url, {
+						method: "GET"
+					});
+					const blob = await res.blob()
+					const a = document.createElement("a")
+					a.href = URL.createObjectURL(blob)
+					a.download = "share.png"
+					document.body.appendChild(a)
+					a.click()
+					document.body.removeChild(a)
+					URL.revokeObjectURL(a.href)
+				} catch (err) {
+					console.error("下载失败", err)
+				}
 			}
 		}
 	}

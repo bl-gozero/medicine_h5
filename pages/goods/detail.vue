@@ -12,28 +12,31 @@
 				<image src="/static/goods/price_bg.png" class="w-152 h-65"></image>
 				<view class="full flex-center">
 					<image v-if="profile.level.id > 2" src="/static/goods/price_info_2.png" class="w-114 h-34"></image>
-					<view v-else class="flex-center" @click="$c.goto('/pages/index/vip')">
+					<view v-else class="flex-center" @click="$c.goto('/pages/user/vip')">
 						<image src="/static/goods/vip.png" class="w-35 h-27"></image>
 						<image src="/static/goods/price_info_1.png" class="w-48 h-32 mlr-7"></image>
 						<image src="/static/goods/right.png" class="w-6 h-11"></image>
 					</view>
 				</view>
 			</view>
-			<view v-if="profile.level.id > 2" class="fs-12">
-				<text class="">VIP价</text>
-				<text class="fs-10 fw-7 ml-3">￥</text>
-				<text class="fs-24 fw-7">{{ sku.vip_price }}</text>
-				<text class="mlr-16 line-through">原价 ￥{{ sku.price }}</text>
-			</view>
-			<view v-else class="">
-				<text class="">原价</text>
-				<text class="fs-10 fw-7 ml-3">￥</text>
-				<text class="fs-24 fw-7">{{ sku.price }}</text>
-				<text class="mlr-16 line-through">VIP价 ￥{{ sku.vip_price }}</text>
+			<view class="">
+				<view v-if="profile.level.id > 2" class="fs-12">
+					<text class="">VIP价</text>
+					<text class="fs-10 fw-7 ml-3">￥</text>
+					<text class="fs-24 fw-7">{{ sku.vip_price }}</text>
+					<text class="mlr-16 line-through">原价 ￥{{ sku.price }}</text>
+				</view>
+				<view v-else class="">
+					<text class="">原价</text>
+					<text class="fs-10 fw-7 ml-3">￥</text>
+					<text class="fs-24 fw-7">{{ sku.price }}</text>
+					<text class="mlr-16 line-through">VIP价 ￥{{ sku.vip_price }}</text>
+				</view>
+				<text class="fs-12 fw-6 bg-white plr-3 ptb-2 rounded-4" style="color: #362826;">会员最高专享99折</text>
 			</view>
 		</view>
 		<view class="p-20 bg-white">
-			<view class="fs-16 fw-5">{{ goods.name }}</view>
+			<view class="fs-16 fw-6">{{ goods.name }}</view>
 			<view class="mtb-10">{{ sku.name }}</view>
 			<view class="text-info fs-12">
 				<text>已售{{ sku.sales }}</text>
@@ -50,10 +53,9 @@
 		</view>
 		<view class="h-100"></view>
 		<view class="fixed left-0 bottom-0 pw-100 flex-between p-20 bg-white border-box">
-			<view class="text-center relative">
+			<view class="text-center relative" @click="$c.goto('/pages/index/web')">
 				<image src="/static/goods/cs.png" class="i-24 auto"></image>
 				<view class="fs-10 text-base mt-1">客服</view>
-				<u-link :href="$c.cs()" class="full"></u-link>
 			</view>
 			<view class="flex-start">
 				<u-button
@@ -86,22 +88,28 @@
 				</view>
 				<view class="plr-20 flex-start mt-30 mb-20">
 					<image v-if="sku.picture" :src="sku.picture[0]" class="i-76 rounded-12" mode="aspectFill"></image>
-					<view class="ml-9">
+					<view class="ml-9 flex-1">
 						<view class="fw-7 text-danger">
 							<text class="">￥</text>
-							<text class="fs-18">{{ level > 2?  sku.vip_prive : sku.price }}</text>
+							<text class="fs-18">{{ profile.level.id > 2?  sku.vip_price : sku.price }}</text>
 						</view>
-						<u-number-box
-							class="mt-20"
-							v-model="quantity" 
-							name="quantity"
-							bgColor="#fff" 
-							iconStyle="font-size: 10px;" 
-							inputWidth="29"
-							:integer="true"
-							:asyncChange="true"
-							@change="onNumChange"
-						></u-number-box>
+						<view class="flex-between mt-20">
+							<u-number-box
+								v-model="quantity" 
+								name="quantity"
+								bgColor="#fff" 
+								iconStyle="font-size: 10px;" 
+								inputWidth="29"
+								:integer="true"
+								:asyncChange="true"
+								@change="onNumChange"
+							></u-number-box>
+							<view class="text-info fs-12">
+								<text>已售{{ sku.sales }}</text>
+								<text class="ml-10">库存{{ sku.stock }}</text>
+								<text class="ml-10">{{ sku.limit_quantity ? `限购${sku.limit_quantity}` : '不限购' }}</text>
+							</view>
+						</view>
 					</view>
 				</view>
 				<view class="h-6 bg-page"></view>
@@ -182,7 +190,6 @@
 		data() {
 			return {
 				profile: this.$c.getStorage('profile') || {},
-				level: 0,
 				id: null,
 				goods: {},
 				top: this.$c.barHeight(),
@@ -200,7 +207,6 @@
 			}
 		},
 		onLoad(p) {
-			console.log('load')
 			this.$c.removeStorage('address')
 			if(p.id && parseInt(p.id)) {
 				this.id = parseInt(p.id)
@@ -213,7 +219,6 @@
 			this.doBuy = this.$c.onceRequest(this.onBuy)
 		},
 		onShow() {
-			console.log('show')
 			const address = this.$c.getStorage('address')
 			if(address) this.address = address
 		},
@@ -247,7 +252,7 @@
 					goods_sku_id: this.sku.id,
 					quantity: this.quantity
 				})
-				if(res) this.$c.toast('添加成功')
+				if(res) { this.$c.toast('添加成功');this.showInfo = false }
 			},
 			async onBuy() {
 				const res = await this.$c.fetch(this.$api.goods.orderAdd, { 
@@ -257,6 +262,7 @@
 				if(res) this.onPay(res.id)
 			},
 			async onPay(id) {
+				this.showPassword = false
 				const res = await this.$c.fetch(this.$api.goods.orderPay, {
 					id: id,
 					paying_mode: this.paying_mode,
@@ -267,24 +273,27 @@
 						this.$c.setStorage('web', { title: '支付', src: res.jump_url })
 						this.$c.goto('/pages/index/web?type=pay')
 					} else {
-						
+						this.$c.goto('/pages/order/list')
 					}
 				}
-				this.showPassword = false
 			},
 			onNumChange(e) {
-				if(this.sku.limit_quantity < e.value) {
+				if(this.sku.limit_quantity && this.sku.limit_quantity < e.value) {
 					this.$c.toast('当前商品限购' + this.sku.limit_quantity + '件')
-				} else {
-					this.quantity = e.value
+					return
 				}
+				if(this.sku.stock - this.sku.sales < e.value) {
+					this.$c.toast('库存不足')
+					this.quantity = this.sku.stock - this.sku.sales
+					return
+				}
+				this.quantity = e.value
 			},
 			onShowPasswrod() {
 				if(!this.paying_mode) {
 					this.$c.toast('请选择支付方式')
 					return
 				}
-				// this.showInfo = false
 				this.password = ''
 				this.showPassword = true
 			}

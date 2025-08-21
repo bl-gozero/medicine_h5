@@ -29,7 +29,7 @@
 						<LineInput
 							v-model="form.password"
 							type="password"
-							placeholder="请输入密码(6-2位)"
+							placeholder="请输入密码(6-20位)"
 							placeholderClass="text-info fs-14 fw-5"
 							:showLine="true"
 							:maxlength="20"
@@ -117,6 +117,8 @@
 			}
 		},
 		onLoad() {
+			this.$c.removeStorage('jwt')
+			this.$c.removeStorage('profile')
 			this.getCode()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},

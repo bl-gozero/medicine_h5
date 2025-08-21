@@ -1,8 +1,8 @@
 <template>
-	<view class="page bg-page">
-		<Title title="我的二维码" :fixed="true" />
+	<view class="">
+		<Title title="会员服务介绍" :fixed="true" />
 		<view :class="`pt-${height}`">
-			<u--image :src="qrcode" width="100%" height="auto" bgColor="transparent" mode="widthFix">
+			<u--image :src="img" width="100%" height="auto" bgColor="transparent" mode="widthFix">
 			  <template v-slot:loading>
 			    <view class="pt-100">
 					<u-loading-icon color="#9F9F9F" class="mt-200"></u-loading-icon>
@@ -21,13 +21,12 @@
 		},
 		data() {
 			return {
-				qrcode: '',
+				img: '',
 				height: 0
 			}
 		},
 		onLoad() {
-			const profile = this.$c.getStorage('profile') || this.getProfile()
-			if(profile) this.qrcode = this.$baseUrl + '/user/qrcode?referral_code=' +  profile.referral_code
+			this.getImages()
 		},
 		onReady() {
 			setTimeout(() => {
@@ -37,14 +36,14 @@
 			}, 100)
 		},
 		methods: {
-			async getProfile() {
-				const res = await this.$c.fetch(this.$api.user.getProfile)
-				return res
+			async getImages() {
+				const res = await this.$c.fetch(this.$api.config.images, { location: 4 })
+				if(res) this.img = res[0].src
 			}
 		}
 	}
 </script>
 
 <style>
-
+	
 </style>

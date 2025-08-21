@@ -198,8 +198,10 @@ import form from '../../uni_modules/uview-ui/libs/config/props/form';
 				}
 			},
 			onChooseAddress(item) {
-				this.$c.setStorage('address', item)
-				this.$c.goBack()
+				if(this.from && ['goodsDetail', 'pay'].indexOf(this.from) > -1) {
+					this.$c.setStorage('address', item)
+					this.$c.goBack()
+				}
 			}
 		}
 	}
