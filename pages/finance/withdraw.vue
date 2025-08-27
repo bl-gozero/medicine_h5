@@ -14,7 +14,7 @@
 			<view class="mt-16 fw-7">充值金额</view>
 			<view class="mt-20 rounded-8 bg-white flex-start h-56 plr-13">
 				<text class="fw-7 fs-20 mr-10">￥</text>
-				<u-input v-model="form.amount" placeholder="请输入想要提现的金额" placeholderClass="fs-14" type="number"
+				<u-input v-model.number="form.amount" placeholder="请输入想要提现的金额" placeholderClass="fs-14" type="number"
 					border="none" :formatter="priceFormatter" clearable></u-input>
 				<text class="text-base ml-10" @click="form.amount = profile.balance">全部提现</text>
 			</view>
@@ -68,7 +68,8 @@
 						:color="$c.baseColor()"
 						borderColor="#EAEAEA"
 						dot 
-						@finish="doSubmit"></u-code-input>
+						@finish="doSubmit"
+					></u-code-input>
 				</view>
 			</view>
 		</u-popup>
