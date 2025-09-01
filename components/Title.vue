@@ -1,30 +1,33 @@
 <template>
-	<view v-if="isBlank" style="height: calc(var(--status-bar-height, 0px) + 20px);"></view>
-	<view v-else class="title-bar" :class="{ fixed }" :style="mergedBarStyle">
-		<!-- 左侧返回 -->
-		<image src="/static/icon/back.png" class="icon-24" @click="goUrl()" />
+	<view class="">
+		<view v-if="isBlank" style="height: calc(var(--status-bar-height, 0px) + 20px);"></view>
+		<view v-else ref="bar" class="title-bar" :class="{ fixed }" :style="mergedBarStyle">
+			<!-- 左侧返回 -->
+			<image src="/static/icon/back.png" class="icon-24" @click="goUrl()" />
 
-		<!-- 中间标题区域 -->
-		<view class="center-title">
-			<text class="title-text" :style="titleStyle">{{ title }}</text>
-			<text v-if="subtitle" class="subtitle-text" :style="subtitleStyle">{{ subtitle }}</text>
+			<!-- 中间标题区域 -->
+			<view class="center-title">
+				<text class="title-text" :style="titleStyle">{{ title }}</text>
+				<text v-if="subtitle" class="subtitle-text" :style="subtitleStyle">{{ subtitle }}</text>
+			</view>
+
+			<!-- 右侧插槽 -->
+			<view class="right-slot" @click="handleRightClick">
+				<slot name="right"></slot>
+			</view>
 		</view>
-
-		<!-- 右侧插槽 -->
-		<view class="right-slot" @click="handleRightClick">
-			<slot name="right"></slot>
-		</view>
-
-		<!-- 插槽设置例子 -->
-		<!-- <title-bar
-		  title="订单列表"
-		  @rightClick="handleRightClick"
-		>
-		  <template v-slot:right>
-		    <image src="/static/icon/filter.png" class="icon-24" />
-		  </template>
-		</title-bar> -->
+		<view v-if="fixed && ph" :style="{ height: barHeight }"></view>
 	</view>
+
+	<!-- 插槽设置例子 -->
+	<!-- <title-bar
+	  title="订单列表"
+	  @rightClick="handleRightClick"
+	>
+	  <template v-slot:right>
+	    <image src="/static/icon/filter.png" class="icon-24" />
+	  </template>
+	</title-bar> -->
 </template>
 
 <script>
@@ -65,7 +68,20 @@
 			},
 			bgColor: {
 				type: String,
-				default: '' // 比如传入 '#f5f5f5'、'linear-gradient(...)' 等
+				default: ''
+			},
+			showBack: {
+				type: Boolean,
+				default: true,
+			},
+			ph: {
+				type: Boolean,
+				default: true,
+			}
+		},
+		data() {
+			return {
+				barHeight: '0px'
 			}
 		},
 		computed: {
@@ -76,6 +92,15 @@
 					...this.barStyle // 外部传 style 可覆盖全部
 				}
 			}
+		},
+		mounted() {
+			this.$nextTick(() => {
+				if (this.$refs.bar) {
+					this.$uGetRect('.title-bar').then(res => {
+						this.barHeight = res.height
+					})
+				}
+			})
 		},
 		methods: {
 			goUrl() {

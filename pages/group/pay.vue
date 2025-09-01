@@ -12,11 +12,8 @@
 			</view>
 		</view>
 		<view class="mt-10 list_box plr-20">
-			<view class="" v-for="item in list" :key="item.id">
-				
-			</view>
+			
 		</view>
-		<view class="h-70"></view>
 		<TabBar />
 		
 		<!-- 群操作 -->
@@ -33,21 +30,6 @@
 					shape="circle"
 					text="取消"
 					@click="showOperation = false"
-				></u-button>
-			</view>
-		</u-popup>
-		
-		<u-popup :show="showLv" mode="center" round="20" @close="showLv = false">
-			<view class="lv_box pt-75 border-box">
-				<view class="lh-15 text-center">
-					<view class="">需要成为合伙人</view>	
-					<view class="">才可以创建群聊哦~</view>
-				</view>
-				<u-button
-					class="bg-black fw-7 fs-14 w-234 h-51 mt-80 text-white"
-					shape="circle"
-					text="知道了"
-					@click="showLv = false"
 				></u-button>
 			</view>
 		</u-popup>
@@ -89,56 +71,20 @@
 					{ id: 4, name: '群的申请', icon: '/static/group/apply.png', url: '' },
 				],
 				showOperation: false,
-				showCreate: false,
-				showLv: false,
-				profile: this.$c.getStorage('profile') || {},
-				search: { page: 1, limit: 10, name: '', load: 'more', search: {
-						join_state: 2,
-						name: '',
-						is_preferred: 2
-					}
-				},
-				list: []
+				showCreate: false
 			}
 		},
 		onLoad() {
-			this.getProfile()
-			this.getList()
 		},
 		onShow() {
-		},
-		onReachBottom() {
-			this.getList()
 		},
 		methods: {
 			onNav(e) {
 				if(e.id == 2) {
-					if(this.profile.level.id >= 4) {
-						this.showCreate = true
-					} else {
-						this.showLv = true
-					}
+					this.showCreate = true
 				} else {
 					this.$c.goto(item.url)
 				}
-			},
-			async getProfile() {
-				const res = await this.$c.fetch(this.$api.user.getProfile)
-				if(res) {
-					this.profile = res
-					this.$c.setStorage('profile', res)
-				}
-			},
-			async getList() {
-				if(this.search.load != 'more') return
-				this.search.load = 'loading'
-				const res = await this.$c.fetch(this.$api.group.groupList, this.search)
-				if(res) {
-					if(res.length > 0) this.list = [...this.list, ...res]
-					this.search.load = res.length >= this.search.limit ? 'more' : 'end'
-					this.search.page++
-				}
-				if(this.search.load != 'end') this.search.load = 'more'
 			}
 		}
 	}
@@ -157,12 +103,5 @@
 		.list_box {
 			background: linear-gradient(180deg, #FFF2C9 4%, rgba(255, 242, 201, 0.34) 46%, rgba(255, 246, 216, 0) 98%);
 		}
-	}
-	
-	.lv_box {
-		width: 308px;
-		height: 280px;
-		border-radius: 20px;		
-		background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);
 	}
 </style>

@@ -1,6 +1,6 @@
 <template>
 	<view class="tabbar flex-evenly">
-		<view v-for="(item, index) in tabs" class="flex-center pw-33" :key="index" @click="switchTab(item)">
+		<view v-for="(item, index) in tabs" class="flex-center flex-1" :key="index" @click="switchTab(item)">
 			<view class="text-center">
 				<image class="i-24 block auto-x" :src="current === item.pagePath ? item.selectedIconPath : item.iconPath" mode="aspectFit" />
 				<view class="tab-text" :class="current === item.pagePath && 'text-base'">{{ item.text }}</view>
