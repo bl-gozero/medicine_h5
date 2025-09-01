@@ -26,6 +26,12 @@
 						selectedIconPath: '/static/tabbar/cart_active.png',
 					},
 					{
+						text: '群聊',
+						pagePath: '/pages/group/index',
+						iconPath: '/static/tabbar/group.png',
+						selectedIconPath: '/static/tabbar/group_active.png',
+					},
+					{
 						text: '我的',
 						pagePath: '/pages/user/index',
 						iconPath: '/static/tabbar/user.png',

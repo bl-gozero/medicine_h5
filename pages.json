@@ -197,6 +197,12 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/group/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
 		
 	],
