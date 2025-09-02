@@ -97,7 +97,7 @@
 			this.$nextTick(() => {
 				if (this.$refs.bar) {
 					this.$uGetRect('.title-bar').then(res => {
-						this.barHeight = res.height
+						this.barHeight = res.height + 'px'
 					})
 				}
 			})

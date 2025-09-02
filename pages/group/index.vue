@@ -11,9 +11,24 @@
 				<view class="fs-12 mt-8">{{ item.name }}</view>
 			</view>
 		</view>
-		<view class="mt-10 list_box plr-20">
-			<view class="" v-for="item in list" :key="item.id">
-				
+		<view class="mt-10 list_box plr-20 ptb-10 bg-white">
+			<view class="flex-between item-stretch ptb-6" v-for="item in list" :key="item.id">
+				<view class="relative ">
+					<image :src="item.icon" class="i-42 rounded" mode="aspectFill"></image>
+					<view 
+						v-if="item.role && item.role.id < 3" 
+						class="absolute left-0 right-0 auto-x bottom-0 text-base fs-8 lh-8 w-28 h-13 flex-center rounded-4"
+						style="background: #B3E5E8;"
+					>{{ item.role.value }}</view>
+				</view>
+				<view class="flex-between ml-8 flex-1">
+					<view class="u-line-1 flex-1">{{ item.name }}</view>
+					<view 
+						v-if="item.is_verify && item.is_verify == 2"
+						class="text-white fs-12 lh-10 w-36 h-14 rounded-x flex-center ml-8"
+						style="background: #9DC7CA;"
+					>审核中</view>
+				</view>
 			</view>
 		</view>
 		<view class="h-70"></view>
@@ -37,6 +52,7 @@
 			</view>
 		</u-popup>
 		
+		<!-- 等级 -->
 		<u-popup :show="showLv" mode="center" round="20" @close="showLv = false">
 			<view class="lv_box pt-75 border-box">
 				<view class="lh-15 text-center">
@@ -52,6 +68,7 @@
 			</view>
 		</u-popup>
 		
+		<!-- 创建 -->
 		<u-popup :show="showCreate" mode="bottom" round="20" closeable @close="showCreate = false">
 			<view class="pt-25 plr-30 pb-35">
 				<view class="fs-18 text-center">创建群聊</view>
@@ -85,7 +102,7 @@
 				navList: [
 					{ id: 1, name: '发现群聊', icon: '/static/group/find.png', url: '' },
 					{ id: 2, name: '创建群聊', icon: '/static/group/create.png', url: '' },
-					{ id: 3, name: '我的群聊', icon: '/static/group/my_group.png', url: '' },
+					{ id: 3, name: '我的群聊', icon: '/static/group/my_group.png', url: '/pages/group/myGroup' },
 					{ id: 4, name: '群的申请', icon: '/static/group/apply.png', url: '' },
 				],
 				showOperation: false,
@@ -119,7 +136,7 @@
 						this.showLv = true
 					}
 				} else {
-					this.$c.goto(item.url)
+					this.$c.goto(e.url)
 				}
 			},
 			async getProfile() {
