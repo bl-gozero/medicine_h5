@@ -221,6 +221,12 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/group/find",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"easycom": {

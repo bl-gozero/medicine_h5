@@ -11,12 +11,13 @@
 				<view class="fs-12 mt-8">{{ item.name }}</view>
 			</view>
 		</view>
-		<view class="mt-10 list_box plr-20 ptb-10 bg-white">
-			<view class="flex-between item-stretch ptb-6" v-for="item in list" :key="item.id">
+		<view v-if="list.length > 0" class="mt-10 list_box plr-20 ptb-10 bg-white">
+			<view class="flex-between item-stretch ptb-6" v-for="item in list" :key="item.id" @longpress="showOperation = true">
 				<view class="relative ">
-					<image :src="item.icon" class="i-42 rounded" mode="aspectFill"></image>
+					<!-- <image :src="item.icon" class="i-42 rounded" mode="aspectFill"></image> -->
+					<u-avatar :src="item.icon" size="42" default-url="/static/group/default.png" mode="aspectFill"></u-avatar>
 					<view 
-						v-if="item.role && item.role.id < 3" 
+						v-if="item.role && (item.role.id == 1 || item.role.id == 2)" 
 						class="absolute left-0 right-0 auto-x bottom-0 text-base fs-8 lh-8 w-28 h-13 flex-center rounded-4"
 						style="background: #B3E5E8;"
 					>{{ item.role.value }}</view>
@@ -84,7 +85,7 @@
 					class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white"
 					shape="circle"
 					text="支付99元并创建"
-					@click="showCreate = false;$c.goto('/pages/group/pay')"
+					@click="toCreate()"
 				></u-button>
 			</view>
 		</u-popup>
@@ -100,8 +101,8 @@
 		data() {
 			return {
 				navList: [
-					{ id: 1, name: '发现群聊', icon: '/static/group/find.png', url: '' },
-					{ id: 2, name: '创建群聊', icon: '/static/group/create.png', url: '' },
+					{ id: 1, name: '发现群聊', icon: '/static/group/find.png', url: '/pages/group/find' },
+					{ id: 2, name: '创建群聊', icon: '/static/group/create.png', url: '/pages/group/create' },
 					{ id: 3, name: '我的群聊', icon: '/static/group/my_group.png', url: '/pages/group/myGroup' },
 					{ id: 4, name: '群的申请', icon: '/static/group/apply.png', url: '' },
 				],
@@ -109,10 +110,10 @@
 				showCreate: false,
 				showLv: false,
 				profile: this.$c.getStorage('profile') || {},
-				search: { page: 1, limit: 10, name: '', load: 'more', search: {
-						join_state: 2,
+				search: { page: 1, limit: 10, load: 'more', search: {
+						join_state: 0,
 						name: '',
-						is_preferred: 2
+						is_preferred: 1
 					}
 				},
 				list: []
@@ -129,15 +130,16 @@
 		},
 		methods: {
 			onNav(e) {
-				if(e.id == 2) {
-					if(this.profile.level.id >= 4) {
-						this.showCreate = true
-					} else {
-						this.showLv = true
-					}
-				} else {
-					this.$c.goto(e.url)
-				}
+				this.$c.goto(e.url)
+				// if(e.id == 2) {
+				// 	if(this.profile.level.id >= 4) {
+				// 		this.showCreate = true
+				// 	} else {
+				// 		this.showLv = true
+				// 	}
+				// } else {
+				// 	this.$c.goto(e.url)
+				// }
 			},
 			async getProfile() {
 				const res = await this.$c.fetch(this.$api.user.getProfile)
@@ -156,6 +158,10 @@
 					this.search.page++
 				}
 				if(this.search.load != 'end') this.search.load = 'more'
+			},
+			toCreate() {
+				this.showCreate = false
+				this.$c.goto('/pages/group/pay')
 			}
 		}
 	}

@@ -4,7 +4,7 @@
 		<view class="">
 			<view class="flex-between item-stretch" v-for="item in list" :key="item.team_id">
 				<view class="relative ptb-6">
-					<image :src="item.icon" class="i-42 rounded" mode="aspectFill"></image>
+					<u-avatar :src="item.icon" size="42" default-url="/static/group/default.png" mode="aspectFill"></u-avatar>
 					<view 
 						v-if="item.role && item.role.id < 3" 
 						class="absolute left-0 right-0 auto-x bottom-0 text-base fs-8 lh-8 w-28 h-13 flex-center rounded-4"

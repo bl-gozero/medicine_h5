@@ -6,5 +6,11 @@ export default {
 	},
 	myList() {
 		return request.post('/im/teams/my_list', {})
-	}
+	},
+	create(data) {
+		return request.post('/im/teams/create', data, { loading: true })
+	},
+	join(data) {
+		return request.post('/im/teams/join', data, { loading: true })
+	},
 }

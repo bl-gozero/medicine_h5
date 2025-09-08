@@ -44,6 +44,7 @@
 		data() {
 			return {
 				cateList: [{ id: 4, value: '余额' }],
+				paying_mode: 0
 			}
 		},
 		onLoad() {
