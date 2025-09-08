@@ -116,11 +116,13 @@
 						is_preferred: 1
 					}
 				},
-				list: []
+				list: [],
+				config: {}
 			}
 		},
 		onLoad() {
 			this.getProfile()
+			this.getImConfig()
 			this.getList()
 		},
 		onShow() {
@@ -130,6 +132,10 @@
 		},
 		methods: {
 			onNav(e) {
+				if(e.id == 2 && this.profile.level.id < 4) {
+					this.showLv = true
+					return
+				}
 				this.$c.goto(e.url)
 				// if(e.id == 2) {
 				// 	if(this.profile.level.id >= 4) {
@@ -147,6 +153,10 @@
 					this.profile = res
 					this.$c.setStorage('profile', res)
 				}
+			},
+			async getImConfig() {
+				const res = await this.$c.fetch(this.$api.group.config)
+				if(res) this.config = res
 			},
 			async getList() {
 				if(this.search.load != 'more') return

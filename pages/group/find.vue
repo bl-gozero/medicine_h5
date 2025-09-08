@@ -216,6 +216,10 @@
 				}
 			},
 			onGroupCreate() {
+				if(this.profile.level.id < 4) {
+					this.showLv = true
+					return
+				}
 				this.$c.goto('/pages/group/create')
 				// if(this.profile.level.id >= 4) {
 				// 	this.showCreate = true

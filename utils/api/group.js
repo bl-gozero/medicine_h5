@@ -13,4 +13,7 @@ export default {
 	join(data) {
 		return request.post('/im/teams/join', data, { loading: true })
 	},
+	config() {
+		return request.post('/im/config/info', {})
+	}
 }
