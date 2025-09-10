@@ -1,4 +1,7 @@
 // utils/common.js
+import env from './env'
+
+const BASE_URL = env.BASE_URL
 
 const common = {
 	/**
@@ -116,11 +119,17 @@ const common = {
 	/**
 	 * 跳转封装（防止重复点击）
 	 */
-	goto(url) {
+	goto(url, type = 1) {
 		if (!url) return
-		uni.navigateTo({
-			url
-		})
+		if(type == 2) {
+			uni.redirectTo({
+				url
+			})
+		} else {
+			uni.navigateTo({
+				url
+			})
+		}
 	},
 
 	/**
@@ -229,6 +238,12 @@ const common = {
 			this.toast('请先登录')
 			this.goto('/pages/index/login')
 		}
+	},
+	
+	formatUrl(url) {
+	    if (!url) return '/static/group/default.png' // 默认头像
+	    if (url.startsWith('http')) return url      // 已经是完整 URL
+	    return BASE_URL + url      // 拼接域名
 	}
 }
 

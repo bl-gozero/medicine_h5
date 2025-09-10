@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "lrz": "^4.9.41"
+    "lrz": "^4.9.41",
+    "nim-web-sdk-ng": "^10.9.41"
   }
 }

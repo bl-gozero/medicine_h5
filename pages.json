@@ -227,6 +227,12 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/group/chat",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"easycom": {

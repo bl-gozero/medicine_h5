@@ -5,19 +5,21 @@
 			<view class="bg-white list_box rounded-8">
 				<view class="plr-16" v-for="(item, index) in list" :key="item.id">
 					<view class="flex-between ptb-16">
-						<image :src="`/static/pay/icon/${item.category.id}.png`" clss="i-18 mr-6"></image>
+						<image :src="`/static/pay/icon/${item.category.id}.png`" class="i-18 mr-6 self-start"></image>
 						<view class="flex-1">
 							<view class="flex-between">
 								<text class="">到{{ item.category.value }}({{ item.card_number }})</text>
 								<text class="fw-7">{{ item.amount }}</text>
 							</view>
 							<view class="flex-between text-info fs-10 mt-7">
-								<text class="">{{ item.category.created_at }}</text>
-								<view class="">
-									<button
-										class="bg-base-change fw-7 fs-8 text-white w-41 h-16 rounded-x plr-0 mr-13"
-										@click="doSubmit(index, item)"
-									>更新状态</button>
+								<text class="">{{ item.created_at }}</text>
+								<view class="flex-start">
+									<u-button
+										v-if="item.status.id == 2"
+										class="bg-base-change fw-7 fs-8 text-white w-41 h-16 plr-0 mr-13"
+										shape="circle"
+										@click="doSubmit(item.id)"
+									>更新状态</u-button>
 									<text class="fw-7" :style="{color: getColor(item.status.id)}">{{ item.status.value }}</text>
 								</view>
 							</view>
@@ -62,7 +64,7 @@
 				this.form.status = 'loading'
 				const res = await this.$c.fetch(this.$api.finance.withdrawList, this.form)
 				if (res) {
-					this.list = [...this.list, ...(res.month_data || [])]
+					this.list = [...this.list, ...(res || [])]
 					this.form.status = res.length > this.form.limit ? 'more' : 'end'
 					this.form.page++
 				}
@@ -72,7 +74,8 @@
 				const res = await this.$c.fetch(this.$api.finance.withdrawCheck, { id: id })
 				if(res) {
 					this.$c.toast('更新成功')
-					this.form = { amount: '', pay_mode: '' }
+					const item = this.list.filter(item => item.id === id)
+					if(item) item.status = res.status
 				}
 				this.showPassword = false
 			},

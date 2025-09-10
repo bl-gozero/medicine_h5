@@ -10,28 +10,11 @@
 				<image :src="item.icon" class="i-39"></image>
 				<view class="fs-12 mt-8">{{ item.name }}</view>
 			</view>
+		</view>		
+		<view class="mt-10 bg-white">
+			<ConversationList />
 		</view>
-		<view v-if="list.length > 0" class="mt-10 list_box plr-20 ptb-10 bg-white">
-			<view class="flex-between item-stretch ptb-6" v-for="item in list" :key="item.id" @longpress="showOperation = true">
-				<view class="relative ">
-					<!-- <image :src="item.icon" class="i-42 rounded" mode="aspectFill"></image> -->
-					<u-avatar :src="item.icon" size="42" default-url="/static/group/default.png" mode="aspectFill"></u-avatar>
-					<view 
-						v-if="item.role && (item.role.id == 1 || item.role.id == 2)" 
-						class="absolute left-0 right-0 auto-x bottom-0 text-base fs-8 lh-8 w-28 h-13 flex-center rounded-4"
-						style="background: #B3E5E8;"
-					>{{ item.role.value }}</view>
-				</view>
-				<view class="flex-between ml-8 flex-1">
-					<view class="u-line-1 flex-1">{{ item.name }}</view>
-					<view 
-						v-if="item.is_verify && item.is_verify == 2"
-						class="text-white fs-12 lh-10 w-36 h-14 rounded-x flex-center ml-8"
-						style="background: #9DC7CA;"
-					>审核中</view>
-				</view>
-			</view>
-		</view>
+
 		<view class="h-70"></view>
 		<TabBar />
 		
@@ -94,9 +77,12 @@
 
 <script>
 	import TabBar from '../../components/TabBar.vue'
+	import ConversationList from './components/conversation-list.vue'
+	
 	export default {
 		components: {
-			TabBar
+			TabBar,
+			ConversationList
 		},
 		data() {
 			return {
@@ -117,18 +103,15 @@
 					}
 				},
 				list: [],
-				config: {}
+				groupList: []
 			}
 		},
 		onLoad() {
+			this.$c.checkeLogin()
 			this.getProfile()
-			this.getImConfig()
-			this.getList()
+			this.intIm()
 		},
 		onShow() {
-		},
-		onReachBottom() {
-			this.getList()
 		},
 		methods: {
 			onNav(e) {
@@ -137,15 +120,6 @@
 					return
 				}
 				this.$c.goto(e.url)
-				// if(e.id == 2) {
-				// 	if(this.profile.level.id >= 4) {
-				// 		this.showCreate = true
-				// 	} else {
-				// 		this.showLv = true
-				// 	}
-				// } else {
-				// 	this.$c.goto(e.url)
-				// }
 			},
 			async getProfile() {
 				const res = await this.$c.fetch(this.$api.user.getProfile)
@@ -154,20 +128,16 @@
 					this.$c.setStorage('profile', res)
 				}
 			},
-			async getImConfig() {
-				const res = await this.$c.fetch(this.$api.group.config)
-				if(res) this.config = res
-			},
-			async getList() {
-				if(this.search.load != 'more') return
-				this.search.load = 'loading'
-				const res = await this.$c.fetch(this.$api.group.groupList, this.search)
-				if(res) {
-					if(res.length > 0) this.list = [...this.list, ...res]
-					this.search.load = res.length >= this.search.limit ? 'more' : 'end'
-					this.search.page++
+			async intIm() {
+				const res1 = await this.$c.fetch(this.$api.group.config)
+				const res2 = await this.$c.fetch(this.$api.group.login)
+				if(res1 && res2) {
+					this.$c.setStorage('nim', {
+						appkey: res1.app_key,
+						account: res2.account_id,
+						token: res2.token,
+					})
 				}
-				if(this.search.load != 'end') this.search.load = 'more'
 			},
 			toCreate() {
 				this.showCreate = false

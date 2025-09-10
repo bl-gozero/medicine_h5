@@ -1,8 +1,8 @@
 <template>
 	<view class="page plr-20 bg">
-		<view class="flex-between" :class="`pt-${$c.barHeight()}`">
+		<view class="search_box flex-between" :class="`pt-${$c.barHeight()}`">
 			<image src="/static/icon/back.png" class="i-24 mr-10" @click="$c.goto('/pages/group/index')"></image>
-			<u-search v-model="search.search.name" placeholder="搜索你想找的群聊" bgColor="#fff" :showAction="false" class="flex-1"></u-search>
+			<u-search v-model="search.search.name" placeholder="搜索你想找的群聊" bgColor="#fff" :showAction="false" class="flex-1" @change="onSearch"></u-search>
 			<view class="flex-end ml-15" @click="onGroupCreate()">
 				<image src="/static/goods/create.png" class="i-25 mr-7"></image>
 				<text>创建</text>
@@ -10,20 +10,18 @@
 		</view>
 		<view class="mt-15 fs-18 lh-15">Hi欢迎来到群聊广场</view>
 		<view class="mt-6 fs-12 text-info">寻找你感兴趣的群聊：</view>
-		<view class="mt-27 flex-between">
-			<view class="p-15 border-box flex-1 top_group">
-				<view class="fw-6">我们是官方群聊</view>
-				<view class=""></view>
-				<view class="mt-20 fs-10 lh-12 text-info">这里可以教大家怎么做团队，怎样提升业绩</view>
-			</view>
-			<view class="p-15 border-box ml-13 flex-1 top_group">
-				<view class="fw-6">提高团队业绩</view>
-				<view class=""></view>
-				<view class="mt-20 fs-10 lh-12 text-info">这里可以教大家怎么做团队，怎样提升业绩</view>
+		<view class="mt-27 flex-between gap-13">
+			<view class="p-15 border-box flex-1 top_group" v-for="(item, index) in top" :key="item.id" @click="group = item;showJoin = true">
+				<view class="fw-6">{{ item.name }}</view>
+				<view class="flex-start mt-8">
+					<image :src="index == 0? '/static/group/left.png' : '/static/group/right.png'" class="w-46 h-15"></image>
+					<text class="fs-10 lh-10 ml-4">{{ item.member_count }}人</text>
+				</view>
+				<view class="mt-20 fs-10 lh-12 text-info u-line-1 h-12">{{ item.intro }}</view>
 			</view>
 		</view>
 		<u-tabs
-			class="mt-40"
+			class="mt-30"
 			:list="tabs"
 			keyName="name"
 			:lineColor="$c.baseColor()"
@@ -35,7 +33,7 @@
 			@click="onSwitch"
 		></u-tabs>
 		<view class="list_box">
-			<view class="flex-between ptb-20" v-for="item in list" :key="item.team_id">
+			<view class="flex-between ptb-20" v-for="item in list" :key="item.team_id" @click="group = item;showJoin = true">
 				<view class="relative ">
 					<u-avatar :src="item.icon" size="42" default-url="/static/group/default.png" mode="aspectFill"></u-avatar>
 					<view 
@@ -61,7 +59,6 @@
 				<view
 					v-else
 					class="text-white bg-base fs-12 lh-10 w-53 h-21 rounded-x flex-center"
-					@click="group = item;showJoin = true"
 				>加入</view>
 			</view>
 		</view>
@@ -76,10 +73,26 @@
 				<view class="fs-12 text-info mtb-15">群介绍</view>
 				<view class="">{{ group.intro }}</view>
 				<u-button
+					v-if="group.join_state && group.join_state.id == 2"
+					class="fw-7 fs-14 w-224 h-43 mt-20 text-danger mt-70 border-0"
+					style="background: #f8f8f8;"
+					shape="circle"
+					text="退出该群聊"
+					@click="doQuit"
+				></u-button>
+				<u-button
+					v-else-if="group.join_state && group.join_state.id == 1"
+					class="fw-7 fs-14 w-224 h-43 mt-20 text-white mt-70"
+					style="background: #9DC7CA;"
+					shape="circle"
+					:text="group.join_state.value"
+				></u-button>
+				<u-button
+					v-else
 					class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white mt-70"
 					shape="circle"
 					text="申请加入"
-					@click="onJoin()"
+					@click="doJoin"
 				></u-button>
 				<view class="text-center fs-10 mt-10">
 					<text class="text-info">维护群内生态健康，请遵守</text>
@@ -138,7 +151,7 @@
 				search: { page: 1, limit: 10, load: 'more', search: {
 						join_state: 0,
 						name: '',
-						is_preferred: 1
+						is_preferred: 0
 					}
 				},
 				switcher: 1,
@@ -147,15 +160,25 @@
 				showJoin: false,
 				group: {},
 				doJoin: null,
+				doQuit: null,
 				showCreate: false,
 				showLv: false,
 				profile: this.$c.getStorage('profile') || {},
+				top: [],
+				height: 0
 			}
 		},
 		onLoad() {
+			this.topList()
 			this.getList()
 			this.getProfile()
 			this.doJoin = this.$c.onceRequest(this.onJoin)
+			this.doQuit = this.$c.onceRequest(this.onQuit)
+		},
+		onReady() {
+			this.$uGetRect('.search_box').then(res => {
+				this.height = 70 + res.height
+			})
 		},
 		onShow() {
 		},
@@ -171,23 +194,20 @@
 				}
 			},
 			onSwitch(item) {
+				if(this.search.load == 'loading') return
 				if(this.switcher == item.id) return
 				this.switcher = item.id
-				if(item.id == 1) {
-					this.search = { page: 1, limit: 10, load: 'more', search: {
-							join_state: 0,
-							name: '',
-							is_preferred: 1
-						}
-					}
-				} else if(item.id == 2) {
-					this.search = { page: 1, limit: 10, load: 'more', search: {
-							join_state: 1,
-							name: '',
-							is_preferred: 1
-						}
-					}
-				}
+				this.search.page = 1
+				this.search.load = 'more'
+				this.search.search.join_state = item.id == 1 ? 0 : 1
+				this.list = []
+				this.getList()
+			},
+			onSearch(e) {
+				if(this.search.load == 'loading') return
+				this.search.page = 1
+				this.search.load = 'more'
+				this.search.search.name = e
 				this.list = []
 				this.getList()
 			},
@@ -202,14 +222,36 @@
 				}
 				if(this.search.load != 'end') this.search.load = 'more'
 			},
+			async topList() {
+				const res = await this.$c.fetch(this.$api.group.groupList, { page: 1, limit: 10, search: {
+						join_state: 0,
+						name: '',
+						is_preferred: 1
+					}
+				})
+				if(res) this.top = res.slice(0, 2)
+			},
 			async onJoin() {
 				this.showJoin = false
 				const res = await this.$c.fetch(this.$api.group.join, { team_id: this.group.team_id })
 				if(res) {
-					this.$c.toast('已提交申请，请等待审核')
+					this.updateInfo()
+				}
+			},
+			async onQuit() {
+				this.showJoin = false
+				const res = await this.$c.fetch(this.$api.group.quit, { team_id: this.group.team_id })
+				if(res) {
+					this.$c.toast('退出成功')
+					this.updateInfo()
+				}
+			},
+			async updateInfo() {
+				const res = await this.$c.fetch(this.$api.group.join_info, { team_id: this.group.team_id })
+				if(res) {
 					this.list = this.list.map(item => {
 						if (item.team_id === this.group.team_id) {
-							return { ...item, join_state: { id: 1, value: '审核中' } } // 举例更新状态
+							return { ...item, ...res } // 举例更新状态
 						}
 						return item
 					})

@@ -44,7 +44,7 @@
 					>充值</button>
 					<button
 						class="bg-base-change fw-7 fs-10 text-white w-46 h-23 rounded-x ml-7 plr-0"
-						@click="$c.toast('功能正在开发中')"
+						@click="onWithdraw()"
 					>提现</button>
 				</view>
 			</view>
@@ -165,6 +165,10 @@
 			this.getOrderNum()
 		},
 		methods: {
+			onWithdraw() {
+				// this.$c.toast('功能正在开发中')
+				this.$c.goto('/pages/finance/withdraw')
+			},
 			async getProfile() {
 				const res = await this.$c.fetch(this.$api.user.getProfile)
 				if(res) {

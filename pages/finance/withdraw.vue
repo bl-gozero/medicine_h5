@@ -89,12 +89,14 @@
 				doSubmit: null,
 				cardList: [],
 				form: { amount: '', password: '', card_holder_id: '', full_name: '',  card_number: '' },
-				showPassword: false
+				showPassword: false,
+				cateList: [],
+				pay: {}
 			}
 		},
 		onLoad() {
 			this.getProfile()
-			this.getCardList()
+			this.cardCategoryList()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},
 		methods: {
@@ -105,9 +107,20 @@
 					this.$c.setStorage('profile', res)
 				}
 			},
+			async cardCategoryList() {
+				const res = await this.$c.fetch(this.$api.config.cardCategoryList)
+				if(res) {
+					this.cateList = res
+					this.getCardList()
+				}
+			},
 			async getCardList() {
 				const res = await this.$c.fetch(this.$api.user.cardList, { category: 0 })
-				if(res) this.cardList = res;
+				if(res) {
+					this.cardList = res.filter(item => 
+						this.cateList.some(cate => cate.id === item.category.id)
+					)
+				}
 			},
 			priceFormatter(value) {
 				if (!value) return '';
@@ -123,6 +136,19 @@
 					this.$c.toast('请选择到账账户')
 					return
 				}
+				const result = this.cateList.find(cate =>
+					cate.id === (this.cardList.find(card => card.id === this.form.card_holder_id)?.category.id)
+				)
+				if(result) {
+					if(this.form.amount < result.min_amount) {
+						this.$c.toast(result.value + '最小提现金额' + result.min_amount)
+						return
+					}
+					if(this.form.amount > result.max_amount) {
+						this.$c.toast(result.value + '最大提现金额' + result.max_amount)
+						return
+					}
+				}
 				this.form.password = ''
 				this.showPassword = true
 			},
@@ -135,10 +161,23 @@
 					this.$c.toast('请选择到账账户')
 					return
 				}
+				const result = this.cateList.find(cate => 
+					cate.id === (this.cardList.find(card => card.id === this.form.card_holder_id)?.category.id)
+				)
+				if(result) {
+					if(this.form.amount < result.min_amount) {
+						this.$c.toast(result.value + '最小提现金额' + result.min_amount)
+						return
+					}
+					if(this.form.amount > result.max_amount) {
+						this.$c.toast(result.value + '最大提现金额' + result.max_amount)
+						return
+					}
+				}
 				const res = await this.$c.fetch(this.$api.finance.withdraw, this.form)
 				if(res) {
 					this.$c.toast('提交成功，请等待审核')
-					this.form = { amount: '', pay_mode: '' }
+					this.form = { amount: '', card_holder_id: '' }
 				}
 				this.showPassword = false
 			},
