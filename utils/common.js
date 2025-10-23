@@ -137,9 +137,15 @@ const common = {
 	 * 返回上一页
 	 */
 	goBack(delta = 1) {
-		uni.navigateBack({
-			delta
-		})
+		if (getCurrentPages().length > 1) {
+			uni.navigateBack({
+				delta
+			})
+		} else {
+			uni.reLaunch({
+				url: '/pages/index/index'
+			}) // 或跳首页
+		}
 	},
 	
 	/**
@@ -298,7 +304,12 @@ const common = {
 		const arr = ['/pages/index/launch', '/pages/index/login', '/pages/index/index', '/pages/index/index', '/pages/index/register']
 		const aotuLogin = arr.indexOf(current) > -1? false : true
 		initNIM(aotuLogin)
-	}
+	},
+	
+	checkIcon(res) {
+		return res ? '/static/icon/check_1.webp' :
+			'/static/icon/check_0.webp'
+	},
 }
 
 export default common

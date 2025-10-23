@@ -128,7 +128,7 @@
 					</view>
 					<view class="h-6 bg-page"></view>
 					<view v-if="mode == 2" class="plr-20">
-						<view class="mt-20 fs-14 fw-7">选择支付方式</view>
+						<!-- <view class="mt-20 fs-14 fw-7">选择支付方式</view>
 						<view class="mt-15">
 							<view class="flex-between ptb-13" v-for="item in cateList" :key="item.id" @click="paying_mode = item.id">
 								<view class="flex-start">
@@ -138,7 +138,8 @@
 								<u-icon v-if="paying_mode == item.id" name="checkmark-circle-fill" :color="$c.baseColor()" size="20"></u-icon>
 								<view v-else class="circle"></view>
 							</view>
-						</view>
+						</view> -->
+						<Payment v-model="paying_mode"></Payment>
 					</view>
 					<u-button
 						v-if="mode == 1"
@@ -186,8 +187,10 @@
 
 <script>
 	import Title from '../../components/Title.vue'
+	import Payment from '../../components/Payment.vue'
+	
 	export default {
-		components: { Title },
+		components: { Title,Payment },
 		data() {
 			return {
 				profile: this.$c.getStorage('profile') || {},

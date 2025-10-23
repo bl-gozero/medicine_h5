@@ -12,7 +12,7 @@
 		</view>
 		<view class="h-10 bg-page"></view>
 		<view class="plr-20">
-			<view class="mt-20 fs-14 fw-7">支付方式</view>
+			<!-- <view class="mt-20 fs-14 fw-7">支付方式</view>
 			<view class="mt-15">
 				<view class="flex-between ptb-13" v-for="item in cateList" :key="item.id" @click="form.pay_mode = item.id">
 					<view class="flex-start">
@@ -22,7 +22,8 @@
 					<u-icon v-if="form.pay_mode == item.id" name="checkmark-circle-fill" :color="$c.baseColor()" size="20"></u-icon>
 					<view v-else class="circle"></view>
 				</view>
-			</view>
+			</view> -->
+			<Payment v-model="form.pay_mode"></Payment>
 		</view>
 		<view class="absolute left-0 bottom-25 pw-100">
 			<u-button
@@ -59,9 +60,12 @@
 
 <script>
 	import Title from '../../components/Title.vue'
+	import Payment from '../../components/Payment.vue'
+	
 	export default {
 		components: {
-			Title
+			Title,
+			Payment
 		},
 		data() {
 			return {

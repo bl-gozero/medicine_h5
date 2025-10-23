@@ -52,14 +52,15 @@
 				</view>
 			</view>
 			<view class="mt-12 plr-13 ptb-20 bg-white rounded-12">
-				<view class="flex-between ptb-13" v-for="item in cateList" :key="item.id" @click="paying_mode = item.id">
+				<!-- <view class="flex-between ptb-13" v-for="item in cateList" :key="item.id" @click="paying_mode = item.id">
 					<view class="flex-start">
 						<image :src="`/static/pay/icon/${item.id}.png`" class="i-18 mr-10"></image>
 						<text>{{ item.value }}</text>
 					</view>
 					<u-icon v-if="paying_mode == item.id" name="checkmark-circle-fill" :color="$c.baseColor()" size="20"></u-icon>
 					<view v-else class="circle"></view>
-				</view>
+				</view> -->
+				<Payment v-model="paying_mode"></Payment>
 			</view>
 		</view>
 		<u-button class="w-279 h-41 bg-base-change fw-7 text-white mt-10" shape="circle"
@@ -91,9 +92,12 @@
 
 <script>
 	import Title from '../../components/Title.vue'
+	import Payment from '../../components/Payment.vue'
+	
 	export default {
 		components: {
-			Title
+			Title,
+			Payment
 		},
 		data() {
 			return {
