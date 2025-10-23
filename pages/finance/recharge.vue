@@ -48,7 +48,7 @@
 		},
 		onLoad() {
 			this.getProfile()
-			this.getCateList()
+			// this.getCateList()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},
 		methods: {

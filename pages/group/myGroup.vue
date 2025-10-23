@@ -8,8 +8,7 @@
 						<u-avatar :src="item.icon" size="42" default-url="/static/group/default.png" mode="aspectFill"></u-avatar>
 						<view 
 							v-if="item.role && item.role.id < 3" 
-							class="absolute left-0 right-0 auto-x bottom-0 text-base fs-8 lh-8 w-28 h-13 flex-center rounded-4"
-							style="background: #B3E5E8;"
+							:class="item.role.id == 1? 'group-owner' : 'group-admin'"
 						>{{ item.role.value }}</view>
 					</view>
 				</view>
@@ -36,8 +35,7 @@
 						<u-avatar :src="item.icon" size="42" default-url="/static/group/default.png" mode="aspectFill"></u-avatar>
 						<view 
 							v-if="item.role && item.role.id < 3" 
-							class="absolute left-0 right-0 auto-x bottom-0 text-base fs-8 lh-8 w-28 h-13 flex-center rounded-4"
-							style="background: #B3E5E8;"
+							:class="item.role.id == 1? 'group-owner' : 'group-admin'"
 						>{{ item.role.value }}</view>
 					</view>
 				</view>
@@ -76,6 +74,7 @@
 
 <script>
 	import Title from '../../components/Title.vue'
+	
 	export default {
 		components: {
 			Title
@@ -90,6 +89,7 @@
 			}
 		},
 		onLoad() {
+			this.$c.checkeLogin()
 			this.doDelete = this.$c.onceRequest(this.onDelete)
 		},
 		onShow() {
@@ -115,7 +115,7 @@
 			},
 			onGroup(item) {
 				if(item.is_payment.id == 1 && item.is_verify.id == 2) {
-					this.$c.goto('/pages/group/chat')
+					this.$c.goChat(item)
 				}
 			}
 		}

@@ -19,6 +19,7 @@
 
 <script>
 	import Title from '../../components/Title.vue'
+	import { logoutNIM } from '@/utils/nim.js'
 	// #ifdef H5
 	// import lrz from 'lrz'
 	// #endif
@@ -85,9 +86,7 @@
 				}
 			},
 			onLogOut() {
-				this.$c.setStorage('jwt', '')
-				this.$c.setStorage('profile', {})
-				this.$c.goto('/pages/index/login')
+				logoutNIM()
 			},
 			onMenu(i) {
 				if (i.type == 'link') {

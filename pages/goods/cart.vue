@@ -56,7 +56,7 @@
 			</view>
 		</view>
 		<u-modal :show="show" title="提示" content='确定要删除？' confirmColor="#3D3D3D" cancelColor="#9F9F9F" showCancelButton
-			@click="onDelete()"></u-modal>
+			@cancel="show = false" @confirm="onDelete()"></u-modal>
 		<TabBar />
 	</view>
 </template>
@@ -78,7 +78,8 @@
 				all: false,
 				show: false,
 				doBuy: null,
-				address: {}
+				address: {},
+				doDelete: null
 			}
 		},
 		computed: {
@@ -100,6 +101,7 @@
 			this.addressList()
 			this.doEdit = this.$c.onceRequest(this.onEdit)
 			this.doBuy = this.$c.onceRequest(this.onBuy)
+			this.doDelete = this.$c.onceRequest(this.onDelete)
 		},
 		onShow() {
 			this.getList()
@@ -168,6 +170,7 @@
 				this.show = true
 			},
 			async onDelete() {
+				this.show = false
 				const ids = this.list.filter(item => item.status === true).map(item => item.id);
 				if (ids.length == 0) {
 					this.$c.toast('请选择要删除的商品')
@@ -176,7 +179,10 @@
 				const res = await this.$c.fetch(this.$api.goods.cartDelete, {
 					id: ids
 				})
-				if (res) this.getList()
+				if (res) {
+					this.$c.toast('删除成功')
+					this.getList()
+				}
 			},
 			async onBuy() {
 				const goods_sku = this.list

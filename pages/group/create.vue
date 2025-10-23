@@ -149,6 +149,7 @@
 			}
 		},
 		onLoad() {
+			this.$c.checkeLogin()
 			this.getInfo()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},
@@ -229,8 +230,8 @@
 			},
 			async onSubmit() {
 				this.showCreate = false
-				if(!this.form.name) {
-					this.$c.toast('请输入群名称')
+				if(!this.form.icon) {
+					this.$c.toast('请选择群头像')
 					return
 				}
 				if(!this.form.name) {

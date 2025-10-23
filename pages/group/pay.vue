@@ -74,9 +74,10 @@
 			}
 		},
 		onLoad(p) {
+			this.$c.checkeLogin()
 			if (p.id) this.form.id = parseInt(p.id)
 			this.getInfo()
-			this.getCateList()
+			// this.getCateList()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},
 		onShow() {

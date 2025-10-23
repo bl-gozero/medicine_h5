@@ -158,7 +158,10 @@
 				if(res) {
 					this.$c.toast('注册成功')
 					this.$c.setStorage('jwt', res.jwt)
-					this.getProfile()
+					setTimeout(() => {
+						this.$c.goto('/pages/user/login')
+					}, 1500)
+					// this.getProfile()
 				} else {
 					this.getCode()
 				}

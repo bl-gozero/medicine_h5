@@ -112,7 +112,7 @@
 			if (p.id) {
 				this.id = parseInt(p.id)
 				this.getDetail()
-				this.getCateList()
+				// this.getCateList()
 			}
 			this.doPay = this.$c.onceRequest(this.onPay)
 		},

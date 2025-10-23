@@ -165,7 +165,7 @@
 		},
 		onLoad() {
 			this.getCardList()
-			this.getCateList()
+			// this.getCateList()
 			this.doAdd = this.$c.onceRequest(this.onBind)
 			this.doDelete = this.$c.onceRequest(this.onDelete)
 		},

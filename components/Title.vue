@@ -114,6 +114,7 @@
 			},
 			handleRightClick() {
 				this.$emit('rightClick')
+				this.$emit('right')
 			}
 		}
 	}
@@ -124,7 +125,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 28px 20rpx 11px;
+		padding: 28px 20px 11px 20rpx;
 		position: relative;
 		z-index: 10;
 	}
@@ -162,10 +163,11 @@
 	}
 
 	.right-slot {
-		min-width: 24px;
+		/* width: 24px; */
 		height: 24px;
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: flex-end;
+		text-wrap: nowrap;
 	}
 </style>

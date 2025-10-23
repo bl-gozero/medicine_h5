@@ -1,5 +1,6 @@
 // utils/common.js
 import env from './env'
+import { teamBaseInfo, getMemberInfo, getMessageList, initNIM } from './nim'
 
 const BASE_URL = env.BASE_URL
 
@@ -244,6 +245,59 @@ const common = {
 	    if (!url) return '/static/group/default.png' // 默认头像
 	    if (url.startsWith('http')) return url      // 已经是完整 URL
 	    return BASE_URL + url      // 拼接域名
+	},
+	
+	userAvatar() {
+		return '/static/user/avatar.png'
+	},
+	
+	groupAvatar() {
+		return '/static/group/default.png'
+	},
+	
+	async goChat(item) {
+		if(!item.team_id && item.conversationId) {
+			const parts = item.conversationId.split('|')
+			if (parts.length == 3) {
+				item.team_id = parseInt(parts[2])
+			}
+		}
+		const chatInfo = this.getStorage('chatInfo')
+		this.setStorage('chatInfo', item)
+		if(item.team_id != chatInfo.team_id) {
+			const res1 = await teamBaseInfo()
+			if(!res1) {
+				this.removeStorage('chatInfo')
+				return
+			}
+			const res2 = await getMemberInfo()
+			if(!res2) {
+				this.removeStorage('chatInfo')
+				return
+			}
+			await getMessageList()
+		}
+		this.goto('/pages/group/chat')
+	},
+	
+	formatMessage(reply) {
+		switch(reply.messageType) {
+			case 0: return reply.text || ''
+			case 1: return '[图片消息]'
+			case 2: return '[语音消息]'
+			case 3: return '[视频消息]'
+			case 6: return '[文件消息]'
+			default: return '消息'
+		}
+	},
+	
+	checkNim() {
+		const pages = getCurrentPages()
+		const currentPage = pages[pages.length - 1]
+		const current = '/' + currentPage.route
+		const arr = ['/pages/index/launch', '/pages/index/login', '/pages/index/index', '/pages/index/index', '/pages/index/register']
+		const aotuLogin = arr.indexOf(current) > -1? false : true
+		initNIM(aotuLogin)
 	}
 }
 

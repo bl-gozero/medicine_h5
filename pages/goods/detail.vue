@@ -176,7 +176,8 @@
 						:color="$c.baseColor()"
 						borderColor="#EAEAEA"
 						dot 
-						@finish="doBuy"></u-code-input>
+						@finish="doBuy"
+					></u-code-input>
 				</view>
 			</view>
 		</u-popup>
@@ -213,7 +214,7 @@
 				this.getProfile()
 				this.goodsDetail()
 				this.addressList()
-				this.getCateList()
+				// this.getCateList()
 			}
 			this.doCartAdd = this.$c.onceRequest(this.onCartAdd)
 			this.doBuy = this.$c.onceRequest(this.onBuy)

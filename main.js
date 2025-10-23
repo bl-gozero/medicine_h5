@@ -14,6 +14,8 @@ Vue.prototype.$c = common
 Vue.prototype.$api = api
 Vue.prototype.$baseUrl = env.BASE_URL
 
+Vue.prototype.$nim = null
+
 Vue.use(uView)
 uni.$u.setConfig({
 	// 修改$u.config对象的属性

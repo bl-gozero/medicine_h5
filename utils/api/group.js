@@ -17,7 +17,7 @@ export default {
 		return request.post('/im/teams/join', data, { loading: true })
 	},
 	join_info(data)	{
-		return request.post('/im/teams/join_info', data)
+		return request.post('/im/teams/join_info', data, { loading: true })
 	},
 	config() {
 		return request.post('/im/config/info', {})
@@ -36,5 +36,41 @@ export default {
 	},
 	payDelete(data = {}) {
 		return request.post('/im/teams/delete_group', data, { loading: true })
+	},
+	memberList(data = {}) {
+		return request.post('/im/teams_members/list', data)
+	},
+	groupInfo(data = {}) {
+		return request.post('/im/teams/info', data)
+	},
+	baseInfo(data = {}) {
+		return request.post('/im/teams/base_info', data, { loading: true })
+	},
+	teamDelete(data = {}) {
+		return request.post('/im/teams/delete', data, { loading: true })
+	},
+	announcement(data = {}) {
+		return request.post('/im/teams/announcement', data, { loading: true })
+	},
+	category(data = {}) {
+		return request.post('/im/teams/category', data)
+	},
+	joinMode(data = {}) {
+		return request.post('/im/teams/join_mode', data)
+	},
+	role(data = {}) {
+		return request.post('/im/teams/role', data, { loading: true })
+	},
+	remove(data = {}) {
+		return request.post('/im/teams/remove', data, { loading: true })
+	},
+	banned(data = {}) {
+		return request.post('/im/teams/chat_banned', data, { loading: true })
+	},
+	pass(data = {}) {
+		return request.post('/im/teams/pass', data, { loading: true })
+	},
+	reject(data = {}) {
+		return request.post('/im/teams/reject', data, { loading: true })
 	},
 }

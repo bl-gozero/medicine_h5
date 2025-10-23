@@ -1,10 +1,30 @@
 <script>
+	import { initNIM } from '@/utils/nim.js'
+	
 	export default {
 		onLaunch: function() {
+			
 		},
 		onShow: function() {
+			if(!this.$nim) this.onInitNIM()
 		},
 		onHide: function() {
+		},
+		methods: {
+			async onInitNIM() {
+				console.log('初始化')
+				const res = await this.$c.fetch(this.$api.group.config)
+				if(res) {
+					let nim = this.$c.getStorage('nimInfo') || {}
+					this.$c.setStorage('nimInfo',  {...nim, appkey: res.app_key })
+					const pages = getCurrentPages()
+					const currentPage = pages[pages.length - 1]
+					const current = '/' + currentPage.route
+					const arr = ['/pages/index/launch', '/pages/index/login', '/pages/index/index', '/pages/index/index', '/pages/index/register']
+					const aotuLogin = arr.indexOf(current) > -1? false : true
+					initNIM(aotuLogin)
+				}
+			}
 		}
 	}
 </script>
@@ -61,7 +81,49 @@
 			// filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15)); 
 		}
 	}
+		
+	.group-owner { 
+		background: #B3E5E8 ; 
+		color: $color-base;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: -3px;
+		margin-left: auto;
+		margin-right: auto;
+		font-size: 8px;
+		line-height: .8;
+		width: 28px;
+		height: 13px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 4px;
+	}
 	
+	.group-admin {
+		background: #FFF3D3 ; 
+		color: #844A1A;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: -3px;
+		margin-left: auto;
+		margin-right: auto;
+		font-size: 8px;
+		line-height: .8;
+		width: 28px;
+		height: 13px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 4px;
+	}
+	
+	.u-text__value {
+		line-height: 1;
+		align-items: center;
+	}
 	// 密码
 	.u-code-input {
 		width: 100%;

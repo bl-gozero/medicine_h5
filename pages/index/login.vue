@@ -91,6 +91,7 @@
 
 <script>
 	import LineInput from '@/components/LineInput.vue'
+	import { initNIM, loginNIM } from '@/utils/nim.js'
 	
 	export default {
 		components: { LineInput },
@@ -141,10 +142,27 @@
 				if(res) {
 					this.$c.toast('登录成功')
 					this.$c.setStorage('jwt', res.jwt)
-					this.getProfile()
+					this.intIm()
 				} else {
 					this.getCode()
 				}
+			},
+			async intIm() {
+				this.$c.removeStorage('chatInfo')
+				let nimInfo = this.$c.getStorage('nimInfo') || {}
+				if(!nimInfo.appkey) {
+					const res1 = await this.$c.fetch(this.$api.group.config)
+					if(res1) nimInfo.appkey = res1.app_key
+				}
+				const res2 = await this.$c.fetch(this.$api.group.login)
+				if(res2) {
+					this.$c.setStorage('nimInfo', { ...nimInfo,
+						account: res2.account_id,
+						token: res2.token,
+					})
+					initNIM()
+				}
+				this.getProfile()
 			},
 			async getProfile() {
 				const res = await this.$c.fetch(this.$api.user.getProfile)

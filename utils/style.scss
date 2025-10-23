@@ -9,7 +9,7 @@ $color-info:    #9F9F9F;
 $color-white:   #ffffff;
 $color-black:   #3d3d3d;
 $color-light:   #f5f5f5;
-// $color-base:	#1A7E84;
+$color-base:	#1A7E84;
 
 /* ========== 字体颜色类 ========== */
 .text-primary { color: $color-primary; }
@@ -32,6 +32,8 @@ $color-light:   #f5f5f5;
 .bg-base    { background: $color-base !important; }
 .bg-page	{ background: #F8F8F8; }
 .bg-black 	{ background: #262D2A !important; }
+.bg-owner 	{ background: #B3E5E8 ; }
+.bg-admin 	{ background: #FFF3D3 ; }
 .bg-base-change  { background: linear-gradient(270deg, #1A7E84 0%, #72ADB0 100%); }
 /* ========== 文本对齐 ========== */
 .text-left   { text-align: left; }
@@ -76,6 +78,7 @@ $color-light:   #f5f5f5;
 .circle { border: 1px solid #DBDBDB;width: 18px;height: 18px;border-radius: 50%;box-sizing: border-box; }
 .border-0 { border: 0 !important; }
 .border-1 { border: 1px solid $color-base !important; }
+.border-danger { border: 1px solid $color-danger !important; }
 .border-bottom { border-bottom: 1px solid #F5F5F5; }
 .list_box>*:not(:last-child) { border-bottom: 1px solid #F5F5F5; }
 .underline { text-decoration: underline; text-underline-offset: 3px; }
@@ -107,7 +110,7 @@ $color-light:   #f5f5f5;
   .pw-#{$i} { width: $i * 1%; }
   .ph-#{$i} { height: $i * 1%; }
 }
-@for $i from 2 through 200 {
+@for $i from 2 through 250 {
   $val: $i * 1px;
   .i-#{$i} { width: $val; height: $val; }
 }

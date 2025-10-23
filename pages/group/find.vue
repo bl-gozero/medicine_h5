@@ -36,10 +36,9 @@
 			<view class="flex-between ptb-20" v-for="item in list" :key="item.team_id" @click="group = item;showJoin = true">
 				<view class="relative ">
 					<u-avatar :src="item.icon" size="42" default-url="/static/group/default.png" mode="aspectFill"></u-avatar>
-					<view 
+					<view
 						v-if="item.role && (item.role.id == 1 || item.role.id == 2)" 
-						class="absolute left-0 right-0 auto-x bottom-0 text-base fs-8 lh-8 w-28 h-13 flex-center rounded-4"
-						style="background: #B3E5E8;"
+						:class="item.role.id == 1? 'group-owner' : 'group-admin'"
 					>{{ item.role.value }}</view>
 				</view>
 				<view class="flex-1 ml-10 mr-30">
@@ -142,6 +141,8 @@
 
 <script>
 	import Title from '../../components/Title.vue'
+	import { joinTeam } from '@/utils/nim.js' 
+	
 	export default {
 		components: {
 			Title
@@ -169,6 +170,7 @@
 			}
 		},
 		onLoad() {
+			this.$c.checkeLogin()
 			this.topList()
 			this.getList()
 			this.getProfile()
@@ -233,17 +235,23 @@
 			},
 			async onJoin() {
 				this.showJoin = false
-				const res = await this.$c.fetch(this.$api.group.join, { team_id: this.group.team_id })
-				if(res) {
-					this.updateInfo()
+				const res1 = await joinTeam(this.group.team_id, 1)
+				if(res1) {
+					const res = await this.$c.fetch(this.$api.group.join, { team_id: this.group.team_id })
+					if(res) {
+						this.updateInfo()
+					}
 				}
 			},
 			async onQuit() {
 				this.showJoin = false
-				const res = await this.$c.fetch(this.$api.group.quit, { team_id: this.group.team_id })
-				if(res) {
-					this.$c.toast('退出成功')
-					this.updateInfo()
+				const res1 = await leaveTeam(this.group.team_id, 1)
+				if(res1) {
+					const res = await this.$c.fetch(this.$api.group.quit, { team_id: this.group.team_id })
+					if(res) {
+						this.$c.toast('退出成功')
+						this.updateInfo()
+					}
 				}
 			},
 			async updateInfo() {

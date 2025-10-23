@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<Title :title="web.title" fixed></Title>
-		<view :class="`top-${top}`" class="relative" :style="{ minHeight: `calc(100vh - ${top}px)` }">
+		<view class="relative" :style="{ minHeight: `calc(100vh - ${top}px)` }">
 			<web-view :webview-styles="webviewStyles" :src="web.src"></web-view>
 		</view>
 	</view>

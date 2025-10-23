@@ -6,35 +6,25 @@
 			</view>
 		</view>
 		<view class="ptb-16 plr-30 flex-between bg-white">
-			<view class="text-center" v-for="(item, index) in navList" :key="index" @click="onNav(item)">
+			<view class="text-center relative" v-for="(item, index) in navList" :key="index" @click="onNav(item)">
 				<image :src="item.icon" class="i-39"></image>
 				<view class="fs-12 mt-8">{{ item.name }}</view>
+				<u-badge
+					v-if="item.id === 4"
+					:value="teamJoinCount.value"
+					:absolute="true"
+					bgColor="#FF2A40"
+					color="#fff"
+					max="99"
+					:offset="[-5, 5]"
+				></u-badge>
 			</view>
-		</view>		
-		<view class="mt-10 bg-white">
-			<ConversationList />
-		</view>
+		</view>	
+			
+		<ConversationList />
 
 		<view class="h-70"></view>
 		<TabBar />
-		
-		<!-- 群操作 -->
-		<u-popup :show="showOperation" mode="bottom" round="20" @close="showOperation = false">
-			<view class="plr-20 pt-5 pb-50">
-				<view class="text-center">
-					<view class="ptb-20 border-bottom">标为已读/未读</view>
-					<view class="ptb-20 border-bottom">置顶聊天</view>
-					<view class="ptb-20 text-danger border-bottom">删除并退出该群聊</view>
-				</view>
-				<u-button
-					class="fw-7 fs-14 w-224 h-43 mt-20 border-0"
-					style="background-color: #f8f8f8;"
-					shape="circle"
-					text="取消"
-					@click="showOperation = false"
-				></u-button>
-			</view>
-		</u-popup>
 		
 		<!-- 等级 -->
 		<u-popup :show="showLv" mode="center" round="20" @close="showLv = false">
@@ -78,6 +68,7 @@
 <script>
 	import TabBar from '../../components/TabBar.vue'
 	import ConversationList from './components/conversation-list.vue'
+	import { teamJoinCount } from '@/utils/nim.js'
 	
 	export default {
 		components: {
@@ -86,11 +77,12 @@
 		},
 		data() {
 			return {
+				teamJoinCount,
 				navList: [
 					{ id: 1, name: '发现群聊', icon: '/static/group/find.png', url: '/pages/group/find' },
 					{ id: 2, name: '创建群聊', icon: '/static/group/create.png', url: '/pages/group/create' },
 					{ id: 3, name: '我的群聊', icon: '/static/group/my_group.png', url: '/pages/group/myGroup' },
-					{ id: 4, name: '群的申请', icon: '/static/group/apply.png', url: '' },
+					{ id: 4, name: '群的申请', icon: '/static/group/apply.png', url: '/pages/group/apply' },
 				],
 				showOperation: false,
 				showCreate: false,
@@ -103,17 +95,21 @@
 					}
 				},
 				list: [],
-				groupList: []
+				groupList: [],
 			}
 		},
 		onLoad() {
 			this.$c.checkeLogin()
+			this.$c.checkNim()
 			this.getProfile()
-			this.intIm()
 		},
 		onShow() {
+			// this.updateUnreadCount()
 		},
 		methods: {
+			// async updateUnreadCount() {
+			// 	this.unreadCount = await teamUnreadCount(this.$nim)
+			// },
 			onNav(e) {
 				if(e.id == 2 && this.profile.level.id < 4) {
 					this.showLv = true
@@ -126,17 +122,6 @@
 				if(res) {
 					this.profile = res
 					this.$c.setStorage('profile', res)
-				}
-			},
-			async intIm() {
-				const res1 = await this.$c.fetch(this.$api.group.config)
-				const res2 = await this.$c.fetch(this.$api.group.login)
-				if(res1 && res2) {
-					this.$c.setStorage('nim', {
-						appkey: res1.app_key,
-						account: res2.account_id,
-						token: res2.token,
-					})
 				}
 			},
 			toCreate() {

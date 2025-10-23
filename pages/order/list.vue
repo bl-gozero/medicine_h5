@@ -3,7 +3,7 @@
 		<view class="title_box fixed top-0 left-0 pw-100 bg-page" style="z-index: 300;">
 			<Title title="我的订单" url="/pages/user/index"></Title>
 			<view class="pt-10 pb-20 plr-20 fs-12 flex-between">
-				<view class="relative" :class="search.status == item.id ? 'active' : 'text-info'"
+				<view class="relative" :class="search.status == item.id ? 'nav_active' : 'text-info'"
 					v-for="item in navList" :key="item.id" @click="onNav(item.id)">{{ item.value }}</view>
 			</view>
 		</view>
@@ -231,21 +231,6 @@
 </script>
 
 <style lang="scss" scoped>
-	.active {
-		&::after {
-			content: '';
-			display: block;
-			width: 10px;
-			height: 2px;
-			background: #1A7E84;
-			position: absolute;
-			bottom: -4px;
-			left: 0;
-			right: 0;
-			margin: auto;
-		}
-	}
-
 	.btn {
 		width: 65px;
 		height: 26px;

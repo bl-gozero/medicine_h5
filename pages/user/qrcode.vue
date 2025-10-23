@@ -1,7 +1,7 @@
 <template>
 	<view class="page bg-page">
 		<Title title="我的二维码" :fixed="true" />
-		<view :class="`pt-${height}`">
+		<view>
 			<u--image :src="qrcode" width="100%" height="auto" bgColor="transparent" mode="widthFix">
 			  <template v-slot:loading>
 			    <view class="pt-100">
