@@ -175,4 +175,8 @@
 	::v-deep .u-modal__content__text {
 		color: #3D3D3D !important;
 	}
+	
+	::v-deep .u-count-down__text {
+		color: #9f9f9f;
+	}
 </style>

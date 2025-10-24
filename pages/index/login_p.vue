@@ -14,13 +14,13 @@
 						<view>账号</view>
 						<LineInput 
 							v-model="form.account"
-							placeholder="请输入手机号"
+							placeholder="请输入账号"
 							placeholderClass="text-info fs-14 fw-5"
 							:showLine="true"
 						/>
 					</view>
 				</view>
-				<!-- <view class="flex-start mt-52">
+				<view class="flex-start mt-52">
 					<view class="i-18 mr-7 self-start">
 						<image src="/static/icon/password.png" class="i-18"></image>
 					</view>
@@ -35,7 +35,7 @@
 							:maxlength="20"
 						/>
 					</view>
-				</view> -->
+				</view>
 				<view class="flex-start mt-52">
 					<view class="i-18 mr-7 self-start">
 						<image src="/static/icon/code.png" class="i-18"></image>
@@ -50,23 +50,14 @@
 							:maxlength="6"
 						>
 							<template #suffix>
-							    <!-- <image v-if="!showCodeBtn && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix" @click="getCode()"></image> -->
+							    <image v-if="!showCodeBtn && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix" @click="getCode()"></image>
 								<u-button
 									v-if="showCodeBtn"
 									class="bg-base-change fw-7 fs-12 text-white plr-20 h-40"
 									shape="circle"
 									text="点击获取"
-									@click="getMobileCode()"
+									@click="getCode()"
 								></u-button>
-								<div v-else class="text-info flex-start h-40">
-									<u-count-down 
-										ref="countDown" 
-										:time="60 * 1000" 
-										format="ss"
-										@finish="showCodeBtn = true"
-									></u-count-down>
-									<text>s</text>
-								</div>
 							</template>
 						</LineInput>
 					</view>
@@ -90,7 +81,7 @@
 					></u-button>
 				</view>
 				<view class="text-center mt-23">
-					<text class="text-base fw-4" @click="$c.goto('/pages/index/login_p')">密码登录</text>
+					<text class="text-base fw-4" @click="$c.goto('/pages/index/login')">验证码登录</text>
 				</view>
 				<view class="text-center mt-23">
 					<text class="text-base fw-4" @click="$c.goto('/pages/index/register')">没有账号？去注册</text>
@@ -109,50 +100,37 @@
 		components: { LineInput },
 		data() {
 			return {
-				form: { account: '', captcha: '' },
+				form: { account: '', password: '', captcha_id: '', captcha_code: '' },
 				agreed: [],
 				captcha: '',
-				showCodeBtn: true,
+				showCodeBtn: false,
 				doSubmit: null
 			}
 		},
 		onLoad() {
 			this.$c.removeStorage('jwt')
 			this.$c.removeStorage('profile')
-			// this.getCode()
+			this.getCode()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},
 		methods: {
-			// async getCode() {
-			// 	const res = await this.$c.fetch(this.$api.config.captcha)
-			// 	if(res) {
-			// 		this.showCodeBtn = false
-			// 		this.form.captcha_id = res.id
-			// 		this.captcha = res.base64_image
-			// 	} else {
-			// 		this.showCodeBtn = true
-			// 	}
-			// },
-			async getMobileCode() {
-				if(!this.form.account) {
-					this.$c.toast('请输入手机号')
-					return
-				} 
-				const res = await this.$c.fetch(this.$api.config.mobile_captcha, {
-					phone: this.form.account,
-					mode: 'register'
-				})
+			async getCode() {
+				const res = await this.$c.fetch(this.$api.config.captcha)
 				if(res) {
 					this.showCodeBtn = false
-					// this.form.captcha_id = res.id
-					// this.captcha = res.base64_image
-					this.$refs.countDown.reset();
-					this.$refs.countDown.start();
+					this.form.captcha_id = res.id
+					this.captcha = res.base64_image
+				} else {
+					this.showCodeBtn = true
 				}
 			},
 			async onSubmit() {
 				if(!this.form.account) {
 					this.$c.toast('请输入账号')
+					return
+				}
+				if(!this.form.password) {
+					this.$c.toast('请输入密码')
 					return
 				}
 				if(!this.form.captcha_code) {
@@ -168,6 +146,8 @@
 					this.$c.toast('登录成功')
 					this.$c.setStorage('jwt', res.jwt)
 					this.intIm()
+				} else {
+					this.getCode()
 				}
 			},
 			async intIm() {

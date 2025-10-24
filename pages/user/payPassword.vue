@@ -1,20 +1,22 @@
 <template>
 	<view class="page bg-page">
-		<Title title="更改交易密码" />
+		<Title :title="type == 1? '设置交易交易' : '更改交易密码'" />
 		<view class="mt-20 plr-20">
-			<view class="title">原交易密码</view>
-			<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
-				<LineInput
-					v-model="form.old_password"
-					type="password"
-					placeholder="请输入交易现密码"
-					placeholderClass="text-info fs-14 fw-7"
-					:maxlength="20"
-				/>
+			<view v-if="type == 1" class="">
+				<view class="title">原交易密码</view>
+				<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
+					<LineInput
+						v-model="form.old_password"
+						type="password"
+						placeholder="请输入交易现密码"
+						placeholderClass="text-info fs-14 fw-7"
+						:maxlength="20"
+					/>
+				</view>
+				<view class="mt-10 fs-12 text-info">若为首次修改原交易密码可不填</view>
 			</view>
-			<view class="mt-10 fs-12 text-info">若为首次修改原交易密码可不填</view>
 			
-			<view class="title mt-40">新密码</view>
+			<view class="title mt-40"></view>
 			<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
 				<LineInput
 					v-model="form.password"
@@ -26,7 +28,7 @@
 				/>
 			</view>
 			
-			<view class="title mt-40">确认新密码</view>
+			<view class="title mt-40">{{ type == 1? '确认交易密码' : '确认新密码' }}</view>
 			<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
 				<LineInput
 					v-model="form.confirm_password"
@@ -65,10 +67,12 @@
 					password: '',
 					confirm_password: ''
 				},
-				doSubmit: null
+				doSubmit: null,
+				type: 0
 			}
 		},
-		onLoad() {
+		onLoad(p) {
+			if(p.id == 1) this.type = 1
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},
 		methods: {
@@ -83,10 +87,8 @@
 				}
 				const res = await this.$c.fetch(this.$api.user.payPassword, this.form)
 				if(res) {
-					this.$c.toast('修改成功')
-					setTimeout(() => {
-						this.$c.goBack()
-					}, 1000)
+					await this.$c.toast('操作成功')
+					this.type == 1? this.$c.goto('/pages/user/index') : this.$c.goBack()
 				}
 			}
 		}

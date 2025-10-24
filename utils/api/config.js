@@ -1,19 +1,22 @@
 import request from '../request'
 
 export default {
-	captcha() {
-		return request.post('/captcha/add', {}, { auth: false })
+	captcha(data = {}, config = {}) {
+		return request.post('/captcha/add', {}, { auth: false, ...config })
 	},
-	images(data) {
-		return request.post('/looping_pictures/list', data, { auth: false })
+	mobile_captcha(data = {}, config = {}) {
+		return request.post('/user/mobile_captcha', {}, { auth: false, ...config })
 	},
-	payCategoryList() {
-		return request.post('/cashier_counter/list')
+	images(data = {}, config = {}) {
+		return request.post('/looping_pictures/list', data, { auth: false, ...config })
 	},
-	cardCategoryList() {
-		return request.post('/card_holder/allow')
+	payCategoryList(data = {}, config = {}) {
+		return request.post('/cashier_counter/list', data, { ...config })
 	},
-	levelList() {
-		return request.post('/level/list')
+	cardCategoryList(data = {}, config = {}) {
+		return request.post('/card_holder/allow', data, { ...config })
+	},
+	levelList(data = {}, config = {}) {
+		return request.post('/level/list', data, { ...config })
 	}
 }

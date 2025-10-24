@@ -19,6 +19,12 @@
 			}
 		},
 		{
+			"path": "pages/index/login_p",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/index/register",
 			"style": {
 				"navigationStyle": "custom"
