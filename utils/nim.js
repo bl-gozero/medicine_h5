@@ -624,9 +624,13 @@ export async function sendMessage(options) {
 			messageBeforeSend,
 			conversationId
 		)
-		if(res) messageList.list.push(res.message)
+		if(res) {
+			messageList.list.push(res.message)
+			return true
+		}
 	} catch (err) {
-		console.error('发送失败', err)
+		return false
+		// console.error('发送失败', err)
 	}
 }
 
@@ -662,9 +666,30 @@ export async function replyMessage(options, repliedMessage) {
 		
 		if (!message) return
 		const res = await await nim.V2NIMMessageService.replyMessage(message, repliedMessage)
-		if(res) messageList.list.push(res.message)
+		if(res) {
+			messageList.list.push(res.message)
+			return true
+		}
 	} catch (err) {
+		return false
 		console.error('回复失败', err)
+	}
+}
+
+// 搜索用户
+export async function searchUser(account) {
+	if (!nim || !account) return
+	try {
+	    const users = await nim.V2NIMUserService.searchUserByOption({
+	        keyword: account,
+	        searchName: true,
+	        searchAccountId: false,
+	        searchMobile: true
+	    })
+		return users || []
+	} catch(err) {
+		return false
+	    console.error('searchUserByOption Error:', err)
 	}
 }
 

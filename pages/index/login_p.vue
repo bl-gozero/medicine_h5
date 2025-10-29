@@ -20,7 +20,7 @@
 						/>
 					</view>
 				</view>
-				<view class="flex-start mt-52">
+				<view class="flex-start mt-30">
 					<view class="i-18 mr-7 self-start">
 						<image src="/static/icon/password.png" class="i-18"></image>
 					</view>
@@ -36,7 +36,10 @@
 						/>
 					</view>
 				</view>
-				<view class="flex-start mt-52">
+				<view class="text-right mt-13">
+					<!-- <text class="text-base fw-4" @click="$c.goto('/pages/user/forgotPassword')">忘记密码</text> -->
+				</view>
+				<view class="flex-start mt-20">
 					<view class="i-18 mr-7 self-start">
 						<image src="/static/icon/code.png" class="i-18"></image>
 					</view>

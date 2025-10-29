@@ -1,7 +1,7 @@
 <template>
 	<view class="page" style="background: #E9EAEA;">
 		<Title title="加入北辰代购" :fixed="true" />
-		<view :class="`pt-${height}`">
+		<view>
 			<image src="/static/join/top.jpg" class="pw-100 block" mode="widthFix"></image>
 			<view class="plr-8">
 				<view class="box text-center">
@@ -23,7 +23,7 @@
 							<text class="title">现金红包奖励</text>
 						</view>
 						<view class="mt-11">
-							成功邀请 3 人并下单成功后， 获得三级分销佣金权限，可永久返佣金
+							购买1单指定商品成功后， 获得三级分销佣金权限，可永久返佣金
 							<text class="money">返佣金</text>
 						</view>
 						<image src="/static/join/step_2.png" class="pw-100 mt-21" mode="widthFix"></image>
@@ -65,24 +65,20 @@
 							<text class="title">成为VIP</text>
 						</view>
 						<view class="mt-11">
-							VIP身份用户每邀请1位好友成为VIP后，可获得
-							<text class="money">30元</text>
-							，VIP身份可获得
-							<text class="money">更高佣金比例、折扣购买、分销佣金、产品优惠元</text>
+							购买指定1单商品后再邀请3人，每人消费1单指定商品后，您可升级VIP，VIP身份可获得
+							<text class="money">高团队佣金、折扣购买、分销佣金、产品优惠</text>
 						</view>
 						<view class="flex-start mt-27">
 							<view class="dot"></view>
 							<text class="title">成为合伙人</text>
 						</view>
 						<view class="mt-11">
-							合伙人身份用户每邀请1位好友成为VIP后可获得
-							<text class="money">50元</text>
-							，合伙人身份可获得
-							<text class="money">更高佣金比例、折扣购买、分销佣金、产品优惠、永久月度绩效分红</text>
+							成为VIP后再邀请5位好友成为VIP后，您可升级为合伙人，合伙人身份可获得
+							<text class="money">更高团队佣金、折扣购买、分销佣金、产品优惠、永久月度绩效分红</text>
 						</view>
 						<view class="mt-20 flex-between">
-							<image src="/static/join/btn_vip.png" class="w-146 h-56"
-								@click="$c.goto('/pages/user/vip')"></image>
+							<image src="/static/join/gobuy.webp" class="w-146 h-56"
+								@click="$c.goto('/pages/index/index')"></image>
 							<image src="/static/join/btn_share.png" class="w-146 h-56" @click="onShare()"></image>
 						</view>
 					</view>

@@ -1,8 +1,8 @@
 <template>
 	<view class="page bg-page lh-10">
 		<Title title="提交订单" fixed></Title>
-		<view class="plr-20 relative" :class="`pt-${top}`">
-			<view class="mt-10 bg-white rounded-12 plr-13 ptb-18 border-box">
+		<view class="plr-20 relative">
+			<!-- <view class="mt-10 bg-white rounded-12 plr-13 ptb-18 border-box">
 				<view class="flex-between">
 					<image src="/static/goods/place.png" class="w-12 h-14 self-start mt-2"></image>
 					<view class="mlr-11 flex-1">
@@ -12,9 +12,8 @@
 							<text class="ml-15">{{ order.phone }}</text>
 						</view>
 					</view>
-					<!-- <u-icon class="self-start mt-2" name="arrow-right" size="14" :color="$c.arrowColor()"></u-icon> -->
 				</view>
-			</view>
+			</view> -->
 			<view class="mt-20 bg-white rounded-14 plr-16">
 				<view class="pb-20">
 					<view class="flex-between pt-20" v-for="(i, index) in order.details" :key="i.index">

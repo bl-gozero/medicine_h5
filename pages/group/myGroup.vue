@@ -1,6 +1,6 @@
 <template>
 	<view class="page bg-white plr-20">
-		<Title title="我的群聊" bgColor="#fff" fixed ph></Title>
+		<Title title="通讯录" bgColor="#fff" fixed ph></Title>
 		<view v-if="payList.length > 0" class="">
 			<view class="flex-between item-stretch" v-for="item in payList" :key="item.id" @click="group = item;showOperation = true">
 				<view class="ptb-10">

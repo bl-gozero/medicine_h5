@@ -9,10 +9,7 @@
 		</view>
 		<view class="pt-11 plr-8">
 			<view class="ptb-14 plr-12 rounded-12 flex-start bg-white mt-12" v-for="item in list" :key="item.id">
-				<view class="" @click="item.status = !item.status">
-					<u-icon v-if="item.status" name="checkmark-circle-fill" :color="$c.baseColor()" size="20"></u-icon>
-					<view v-else class="circle"></view>
-				</view>
+				<image :src="$c.checkIcon(item.status)" class="i-18" @click="item.status = !item.status"></image>
 				<image :src="item.picture" class="i-76 rounded-12 plr-9" mode="aspectFill"></image>
 				<view class="flex-1">
 					<view class="u-line-1 fw-5">{{ item.goods_name }}</view>
@@ -124,7 +121,7 @@
 					res.map(item => {
 						item.status = false
 						if(item.quantity > item.limit_quantity) {
-							item.quantity = item.limit_quantity
+							item.quantity = item.limit_quantity || 1
 							this.onLimit(item)
 						}
 					});
@@ -134,7 +131,7 @@
 			async onLimit(item) {
 				const res = await this.$c.fetch(this.$api.goods.cartEdit, {
 					id: item.id,
-					quantity: item.limit_quantity
+					quantity: item.limit_quantity || 1
 				})
 			},
 			async getProfile() {

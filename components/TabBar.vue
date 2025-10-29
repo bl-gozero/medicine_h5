@@ -26,7 +26,7 @@
 						selectedIconPath: '/static/tabbar/cart_active.png',
 					},
 					{
-						text: '群聊',
+						text: '聊天',
 						pagePath: '/pages/group/index',
 						iconPath: '/static/tabbar/group.png',
 						selectedIconPath: '/static/tabbar/group_active.png',

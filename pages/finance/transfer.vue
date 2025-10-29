@@ -1,0 +1,139 @@
+<template>
+	<view class="page bg-page flex-col">
+		<Title :title="title[page]" />
+		<view v-if="page === 0" class="plr-20">
+			<view class="text-center pb-70 border-bottom">
+				<view class="fs-16 fw-7 mt-85">填写对方北辰余额账号</view>
+				<view class="text-info mt-20">请确认对方账户信息，资金将实时到账</view>
+			</view>
+			<view class="ptb-20 flex-between border-bottom">
+				<view class="">对方账户</view>
+				<u-input v-model.number="form.to_account" placeholder="手机号/账号" placeholderClass="fs-14 text-info"
+					border="none" class="flex-1 mlr-24"></u-input>
+				<image src="/static/finance/account.webp" class="i-23"></image>
+			</view>
+			<u-button
+				class="bg-base text-white fw-7 w-247 h-47 mt-70"
+				shape="circle"
+				text="确认"
+				@click="onCheck()"
+			></u-button>
+		</view>
+		<view v-if="page === 1" class="flex-1 flex-col">
+			<view class="plr-20">
+				<view class="">对方账户</view>
+				<view class="flex-start mt-20">
+					<u-avatar :src="$c.userAvatar()" size="38"></u-avatar>
+					<view class="ml-13 fs-16 fw-7">{{ form.to_account }}</view>
+				</view>
+			</view>
+			<view class="mt-60 bg-white roundedTop-20 flex-1 plr-20 pt-27 amount">
+				<view class="">转账金额</view>
+				<view class="border-bottom flex-between ptb-15 mt-10">
+					<text class="fs-20 fw-7">￥</text>
+					<u-input v-model.number="form.amount" placeholder="请输入金额" placeholderClass="fs-14 text-info" type="number"
+						border="none" :formatter="priceFormatter" class="flex-1 ml-10" customStyle="font-size: 28px;font-weight: 700;" clearable></u-input>
+				</view>
+				<view class="mt-15 text-info">当前账户余额{{ profile.balance }}元</view>
+				<u-button
+					class="bg-base text-white fw-7 w-247 h-47 mt-70"
+					shape="circle"
+					text="确认"
+					@click="onCheck2()"
+				></u-button>
+				<payPassword v-model="form.password" :show.sync="showPassword" :amount="form.amount" @finish="doSubmit"></payPassword>
+			</view>
+		</view>
+		<view v-if="page === 2" class="">
+			<view class="mt-10 rounded-14 h-125 text-center pt-50">
+				<view class="fs-28 fw-7">-{{ form.amount }}</view>
+				<view class="text-info fs-12 mt-15">交易成功</view>
+			</view>
+			<view class="mt-12 rounded-14 plr-16 ptb-20">
+				<view class="flex-between">
+					<text>对方账户</text>
+					<text class="text-info">{{ form.to_account }}</text>
+				</view>
+				<view class="flex-between mtb-20">
+					<text>交易方式</text>
+					<text class="text-info">余额</text>
+				</view>
+				<view class="flex-between mtb-20">
+					<text>时间</text>
+					<text class="text-info">{{ this.$c.formatDateTime(new Date()) }}</text>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import Title from '../../components/Title.vue'
+	import payPassword from '../../components/payPassword.vue'
+	export default {
+		components: {
+			Title,
+			payPassword
+		},
+		data() {
+			return {
+				profile: this.$c.profile(),
+				form: { to_account: '', password: '', amount: null },
+				title: ['填写账号', '余额转账', '账单详情'],
+				page: 0,
+				showPassword: false,
+				doSubmit: null
+			}
+		},
+		async onLoad(p) {
+			this.profile = await this.$c.checkeLogin(1)
+			if (p.to_account) {
+				this.form.to_account = p.to_account
+				this.page = 1
+			}
+			this.doSubmit = this.$c.onceRequest(this.onSubmit)
+		},
+		methods: {
+			priceFormatter(value) {
+				if (!value) return '';
+				let match = value.toString().match(/^\d*(\.?\d{0,2})?/);
+				return match ? match[0] : '';
+			},
+			onCheck2() {
+				if (!this.form.amount) {
+					this.$c.toast('请输入转账金额')
+					return
+				}
+				this.password = ''
+				this.showPassword = true
+			},
+			onCheck() {
+				if (!this.form.to_account) {
+					this.$c.toast('请输入手机号/账号')
+					return
+				}
+				this.page++
+			},
+			async onSubmit() {
+				const res = await this.$c.fetch(this.$api.finance.transfer, this.form)
+				if (res) {
+					this.form.amount = null
+					await this.$c.toast('转账成功')
+					this.$c.goBack()
+				}
+			}
+		}
+	}
+</script>
+
+<style>
+	.border-bottom {
+		border-bottom: 1px solid #F0F0F0;
+	}
+	.amount {
+		.uni-input-input {
+			font-size: 28px !important;
+			font-weight: 700 !important;
+		}
+	}
+</style>

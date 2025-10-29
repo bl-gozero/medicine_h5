@@ -2,94 +2,59 @@
 	<view class="page">
 		<view class="user_box plr-20" :class="`pt-${$c.barHeight()}`">
 			<view class="flex-between">
-				<view class="relative">
-					<u-avatar :src="profile.avatar" size="55" default-url="/static/user/avatar.png"></u-avatar>
-					<image 
-						v-if="profile.level && profile.level.id == 3" 
-						src="/static/user/vip.png" 
-						class="w-49 h-18 absolute top-50 left-0 right-0 auto-x"
-					></image>
-					<image 
-						v-else-if="profile.level && profile.level.id == 4" 
-						src="/static/user/partner.png" 
-						class="w-49 h-18 absolute top-50 left-0 right-0 auto-x"
-					></image>
-				</view>
-				<view class="flex-1 mlr-15">
+				<u-avatar :src="profile.avatar" size="55" :default-url="$c.userAvatar()"></u-avatar>
+				<view class="flex-1 mlr-13">
 					<view class="fs-16 fw-7 u-line-1">{{ profile.account }}</view>
-					<view class="mt-13 flex-start">
-						<image src="/static/user/scan.png" class="i-11"></image>
-						<view class="flex-start ml-3" @click="$c.goto('/pages/user/qrcode')">
-							<text class="fs-12 lh-8">我的二维码</text>
-							<u-icon name="arrow-right" size="12" color="#7D7D7D"></u-icon>
-						</view>
-					</view>
+					<image
+						v-if="profile.level && profile.level.id > 2" 
+						:src="$c.levelIcon(profile.level.id)" 
+						class="w-45 h-18 mt-8"
+					></image>
+					<view v-else class="">{{ profile.level.value }}</view>
 				</view>
-				<view v-if="is_sign === false" class="sign_box" @click="doSign">签到领现金</view>
-				<view v-if="is_sign === true" class="sign_box" style="color: #AD8246;">今日已签到</view>
+				<image src="/static/icon/qr.webp" class="i-20" @click="$c.goto('/pages/user/qrcode')"></image>
 			</view>
-			<view class="flex-between fs-12 mt-26" style="color: #71989B;">
-				<view class="">钱包余额</view>
-				<view class="flex-start ml-3" @click="$c.goto('/pages/finance/list')">
-					<text class="fs-12 lh-8">查看明细</text>
-					<u-icon name="arrow-right" size="12" color="#7D7D7D"></u-icon>
+			<view class="flex-between lh-10 mt-47" style="color: #064144;">
+				<view class="" @click="$c.goto('/pages/finance/balance')">
+					<view class="fw-7 fs-22 h-30 flex-start">{{ profile.balance }}</view>
+					<view class="mt-12 text-name">余额</view>
 				</view>
-			</view>
-			<view class="flex-between">
-				<text class="fw-7 fs-32" style="color: #064144;">{{ profile.balance }}</text>
-				<view class="flex-end">
-					<button 
-						class="bg-base-change fw-7 fs-10 text-white w-46 h-23 rounded-x plr-0"
-						@click="$c.goto('/pages/finance/recharge')"
-					>充值</button>
-					<button
-						class="bg-base-change fw-7 fs-10 text-white w-46 h-23 rounded-x ml-7 plr-0"
-						@click="onWithdraw()"
-					>提现</button>
+				<view class="" @click="$c.goto('/pages/point/index')">
+					<view class="fw-7 fs-22 h-30 flex-start">{{ profile.integral }}</view>
+					<view class="mt-12 text-name">积分</view>
+				</view>
+				<view class="w-98" @click="$c.goto('/pages/index/task')">
+					<view v-if="is_sign === false" class="sign_box">签到领现金</view>
+					<view v-if="is_sign === true" class="sign_box" style="color: #AD8246;">今日已签到</view>
+					<view class="mt-12 text-name">任务中心</view>
 				</view>
 			</view>
 			<view class="h-120"></view>
 		</view>
 		<view class="flex-1 relative" style="margin-top: -89px;z-index: 10;">
 			<view class="plr-20" @click="$c.goto('/pages/user/vip')">
-				<image v-if="profile.level.id < 3" src="/static/user/check_1.png" class="pw-100 block" mode="widthFix"></image>
-				<image v-else-if="profile.level.id <= 4" src="/static/user/check_1.png" class="pw-100 block" mode="widthFix"></image>
+				<image v-if="profile.level.id < 3" src="/static/user/check_1.png" class="pw-100 block maxh-55 block" mode="widthFix"></image>
+				<image v-else-if="profile.level.id <= 4" src="/static/user/check_1.png" class="pw-100 maxh-55 block" mode="widthFix"></image>
 			</view>
-			<view class="bg-white roundedTop-20 pt-24 plr-20 border-box">
-				<view class="fw-5">我的订单</view>
-				<view class="flex-between mt-33 border-box">
-					<view
-						v-if="index < 3"
-						class="text-center relative flex-1"
-						v-for="(item, index) in orders"
-						:key="index"
-						@click="$c.goto(`/pages/order/list?status=${item.value}`)"
-					>
-						<image :src="'/static/user/order-' +  (index + 1) + '.png'" class="i-26"></image>
-						<view class="mt-10 fs-12">{{ item.name }}</view>
-						<u-badge
-							:value="item.count"
-							:absolute="true"
-							bgColor="#FF2A40"
-							color="#fff"
-							max="99"
-							:offset="[-5, 15]"
-						></u-badge>
+			<view class="bg-white roundedTop-20 pt-30 plr-20 border-box">
+				<view class="flex-between" style="gap: 10px;">
+					<view class="order_box flex-between pl-16" @click="$c.goto('/pages/order/list')">
+						<view class="flex-1">
+							<view class="fs-16 fw-7">我的订单</view>
+							<view class="mt-6 text-info fs-12">查看全部</view>
+						</view>
+						<image src="/static/user/order.webp" class="w-37 h-41 self-start m-7 "></image>
 					</view>
-					<view class="line"></view>
-					<view
-						v-if="index == 3"
-						class="text-center relative flex-1"
-						v-for="(item, index) in orders"
-						:key="index"
-						@click="$c.goto(`/pages/order/list?status=${item.value}`)"
-					>
-						<image :src="'/static/user/order-' +  (index + 1) + '.png'" class="i-26"></image>
-						<view class="mt-10 fs-12">{{ item.name }}</view>
+					<view class="store_box flex-between pl-16" @click="$c.goto('/pages/store/index')">
+						<view class="flex-1">
+							<view class="fs-16 fw-7">我的仓库</view>
+							<view class="mt-6 text-info fs-12">查看全部</view>
+						</view>
+						<image src="/static/user/store.webp" class="w-37 h-41 self-start m-7"></image>
 					</view>
 				</view>
 				<view class="fw-5 mt-34">加入北辰代购</view>
-				<image src="/static/user/join.png" class="pw-100 mt-10" mode="widthFix" @click="$c.goto('/pages/user/join')"></image>
+				<image src="/static/user/join.png" class="pw-100 mt-10 maxh-110" mode="widthFix" @click="$c.goto('/pages/user/join')"></image>
 				<view class="fw-5 mt-23">其他</view>
 				<view class="">
 					<view class="border-bottom ptb-20 flex-between" @click="$c.goto('/pages/index/web')">
@@ -163,6 +128,7 @@
 		onShow() {
 			this.getProfile()
 			this.getOrderNum()
+			if(this.is_sign !== true) this.getSignStatus()
 		},
 		methods: {
 			onWithdraw() {
@@ -212,14 +178,15 @@
 		background-size: 100% 100%;
 	}
 	.sign_box {
-		width: 119px;
-		height: 36px;
+		width: 98px;
+		height: 30px;
 		background-image: url('/static/user/sign.png');
 		background-size: 100% 100%;
 		font-size: 12px;
-		line-height: 36px;
+		line-height: 30px;
 		text-align: right;
 		padding-right: 12px;
+		font-weight: 500;
 	}
 	.reward_box {
 		background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);
@@ -232,5 +199,20 @@
 		transform: rotate(90deg);
 		width: 34px;
 		height: 0px;
+	}
+	.text-name {
+		color: #586B6C;
+	}
+	.order_box {
+		flex: 1;
+		height: 75px;
+		border-radius: 12px;
+		background: linear-gradient(180deg, #E0EEE6 2%, rgba(240, 253, 253, 0.89) 100%);
+	}
+	.store_box {
+		flex: 1;
+		height: 75px;
+		border-radius: 12px;
+		background: linear-gradient(180deg, #E0E2EE 0%, rgba(240, 253, 253, 0.89) 100%);
 	}
 </style>

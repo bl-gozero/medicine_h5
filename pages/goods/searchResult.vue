@@ -40,7 +40,7 @@
 		components: { Title },
 		data() {
 			return {
-				search: { page: 1, limit: 10, name: '', load: 'more' },
+				search: { page: 1, limit: 10, name: '', is_level_valid: 0, is_integral: 2, load: 'more' },
 				list: [],
 				level: 0,
 				height: 0
@@ -51,8 +51,9 @@
 			if (obj && Object.keys(obj).length > 0) {
 				this.level = obj.level.id
 			}
-			if(p.name) {
-				this.search.name = p.name
+			if(p.name || p.is_level_valid == 1) {
+				if(p.name) this.search.name = p.name
+				if(p.is_level_valid == 1) this.search.is_level_valid = 1
 				this.getProfile()
 				this.getGoods()
 			}

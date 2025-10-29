@@ -69,6 +69,23 @@
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},
 		methods: {
+			async getMobileCode() {
+				if(!this.form.account) {
+					this.$c.toast('请输入手机号')
+					return
+				} 
+				const res = await this.$c.fetch(this.$api.config.mobile_captcha, {
+					phone: this.form.account,
+					mode: 'register'
+				})
+				if(res) {
+					this.showCodeBtn = false
+					// this.form.captcha_id = res.id
+					// this.captcha = res.base64_image
+					this.$refs.countDown.reset();
+					this.$refs.countDown.start();
+				}
+			},
 			async onSubmit() {
 				if(!this.form.old_password) {
 					this.$c.toast('请输入原登录密码')

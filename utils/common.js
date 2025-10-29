@@ -1,5 +1,6 @@
 // utils/common.js
 import env from './env'
+import api from '@/utils/api/index.js'
 import { teamBaseInfo, getMemberInfo, getMessageList, initNIM } from './nim'
 
 const BASE_URL = env.BASE_URL
@@ -210,14 +211,31 @@ const common = {
 	formatStatus(e, p = '') {
 		switch(e) {
 			case 1: return { color: '#FF8F1F', text: '待付款', hint: p && '订单会在' + p +  '后自动取消订单，请您及时付款' }
-			case 2: return { color: '#FF8F1F', text: '待发货', hint: '商家正在打包请耐心等待' }
+			case 2: return { color: '#FF8F1F', text: '已付款', hint: '请您选择申请发货或者寄存仓库' }
 			case 3: return { color: '#FF8F1F', text: '待收货', hint: '签收后7天后会自动确认收货' }
 			case 4: return { color: '#3D3D3D', text: '交易成功', hint: '感谢您的支持，期待您下次再来购买' }
 			case 5: return { color: '#3D3D3D', text: '已评价', hint: '' }
 			case 6: return { color: '#9F9F9F', text: '已取消', hint: '您的订单已取消' }
+			case 8: return { color: '#FF8F1F', text: '待发货', hint: '商家正在打包请耐心等待' }
+			case 9: return { color: '#3d3d3d', text: '已寄存', hint: '您的商品已寄存，可去我的仓库内查看' }
 			default: return { color: '#9F9F9F', text: '' }
 		}
 	},
+	
+	formatPointStatus(e, p = '') {
+		switch(e) {
+			case 1: return { color: '#FF8F1F', text: '待付款', hint: p && '订单会在' + p +  '后自动取消订单，请您及时付款' }
+			case 2: return { color: '#FF8F1F', text: '已付款', hint: '已付款，可申请发货' }
+			case 3: return { color: '#FF8F1F', text: '待收货', hint: '签收后7天后会自动确认收货' }
+			case 4: return { color: '#3D3D3D', text: '交易成功', hint: '感谢您的支持，期待您下次再来购买' }
+			case 5: return { color: '#3D3D3D', text: '已评价', hint: '' }
+			case 6: return { color: '#9F9F9F', text: '已取消', hint: '您的订单已取消' }
+			case 8: return { color: '#FF8F1F', text: '待发货', hint: '商家正在打包请耐心等待' }
+			case 9: return { color: '#3d3d3d', text: '已寄存', hint: '您的商品已寄存，可去我的仓库内查看' }
+			default: return { color: '#9F9F9F', text: '' }
+		}
+	},
+	
 	
 	copy(text) {
 		uni.setClipboardData({
@@ -238,12 +256,41 @@ const common = {
 		return this.formatDateTime(newDate)
 	},
 	
-	checkeLogin() {
+	async checkeLogin(type = 0) {
 		const jwt = this.getStorage('jwt')
 		const profile = this.getStorage('profile')
-		if(!jwt || !profile || Object.keys(profile).length === 0) {
+		if (!jwt || !profile || Object.keys(profile).length === 0) {
 			this.toast('请先登录')
 			this.goto('/pages/index/login')
+		}
+		if(type) {
+			await this.getProfile()
+			return this.profile()
+		}
+	},
+	
+	async getProfile() {
+		const res = await this.fetch(api.user.profile)
+		if (res) {
+			this.setStorage('profile', res)
+		}
+		return res
+	},
+	
+	profile() {
+		return this.getStorage('profile') || {
+			account: "heiseeyong",
+			level: {
+				id: 1,
+				value: "普通用户"
+			},
+			upgrade_at: "",
+			balance: 0,
+			referral_code: "",
+			direct: 0,
+			direct_vip: 0,
+			spread_count: 0,
+			share_url: ''
 		}
 	},
 	
@@ -309,6 +356,19 @@ const common = {
 	checkIcon(res) {
 		return res ? '/static/icon/check_1.webp' :
 			'/static/icon/check_0.webp'
+	},
+	
+	codeLimitTime () {
+		return 150 * 1000
+	},
+	
+	levelIcon(level) {
+		if(!level) return ''
+		switch (level) {
+			case 3: return '/static/user/vip.png'
+			case 4: return '/static/user/partner.png'
+			default: return ''
+		}
 	},
 }
 

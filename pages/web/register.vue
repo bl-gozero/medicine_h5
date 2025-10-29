@@ -12,7 +12,7 @@
 				<LineInput
 					class="flex-1 ml-7"
 					v-model="form.account"
-					placeholder="请输入账号"
+					placeholder="请输入手机号"
 					placeholderClass="text-info fs-14 fw-5"
 				/>
 			</view>
@@ -28,23 +28,43 @@
 				/>
 			</view>
 			<view class="flex-between input_box mt-14">
+				<image src="/static/icon/password.png" class="i-18"></image>
+				<LineInput
+					class="flex-1 ml-7"
+					v-model="form.re_password"
+					type="password"
+					placeholder="确认密码"
+					placeholderClass="text-info fs-14 fw-5"
+					:maxlength="20"
+				/>
+			</view>
+			<view class="flex-between input_box mt-14">
 				<image src="/static/icon/code.png" class="i-18"></image>
 				<LineInput
 					class="flex-1 ml-7"
-					v-model="form.captcha_code"
+					v-model="form.captcha"
 					placeholder="请输入验证码"
 					placeholderClass="text-info fs-14 fw-5"
 					:maxlength="6"
 				>
 					<template #suffix>
-					    <image v-if="!showCodeBtn && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix" @click="getCode()"></image>
+					    <!-- <image v-if="!showCodeBtn && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix" @click="getCode()"></image> -->
 					    <u-button
 					    	v-if="showCodeBtn"
-					    	class="bg-base-change fw-7 fs-12 text-white plr-20 h-40"
+					    	class="bg-base-change fw-7 text-white w-95 h-30"
 					    	shape="circle"
-					    	text="点击获取"
-					    	@click="getCode()"
+					    	text="发送"
+					    	@click="getMobileCode()"
 					    ></u-button>
+					    <div v-else class="text-info flex-start h-30">
+					    	<u-count-down 
+					    		ref="countDown" 
+					    		:time="$c.codeLimitTime()" 
+					    		format="ss"
+					    		@finish="showCodeBtn = true"
+					    	></u-count-down>
+					    	<text>s</text>
+					    </div>
 					</template>
 				</LineInput>
 			</view>
@@ -94,15 +114,16 @@
 
 <script>
 	import LineInput from '@/components/LineInput.vue'
+	import { initNIM, loginNIM } from '@/utils/nim.js'
 	
 	export default {
 		components: { LineInput },
 		data() {
 			return {
-				form: { account: '', password: '', captcha_id: '', captcha_code: '', referral_code: '' },
+				form: { account: '', password: '', captcha: '', referral_code: '', re_password: '' },
 				agreed: [],
 				captcha: '',
-				showCodeBtn: false,
+				showCodeBtn: true,
 				doSubmit: null
 			}
 		},
@@ -110,30 +131,55 @@
 			this.$c.removeStorage('jwt')
 			this.$c.removeStorage('profile')
 			if(p.invite) this.form.referral_code = p.invite
-			this.getCode()
+			// this.getCode()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},
 		methods: {
-			async getCode() {
-				const res = await this.$c.fetch(this.$api.config.captcha)
+			// async getCode() {
+			// 	const res = await this.$c.fetch(this.$api.config.captcha)
+			// 	if(res) {
+			// 		this.showCodeBtn = false
+			// 		this.form.captcha_id = res.id
+			// 		this.captcha = res.base64_image
+			// 	} else {
+			// 		this.showCodeBtn = true
+			// 	}
+			// },
+			async getMobileCode() {
+				if(!this.form.account) {
+					this.$c.toast('请输入手机号')
+					return
+				} 
+				const res = await this.$c.fetch(this.$api.config.mobile_captcha, {
+					phone: this.form.account,
+					mode: 'register'
+				})
 				if(res) {
 					this.showCodeBtn = false
-					this.form.captcha_id = res.id
-					this.captcha = res.base64_image
-				} else {
-					this.showCodeBtn = true
+					// this.form.captcha_id = res.id
+					// this.captcha = res.base64_image
+					this.$refs.countDown.reset();
+					this.$refs.countDown.start();
 				}
 			},
 			async onSubmit() {
 				if(!this.form.account) {
-					this.$c.toast('请输入账号')
+					this.$c.toast('请输入手机号')
 					return
 				}
 				if(!this.form.password) {
 					this.$c.toast('请输入密码')
 					return
 				}
-				if(!this.form.captcha_code) {
+				if(!this.form.re_password) {
+					this.$c.toast('请输入确认密码')
+					return
+				}
+				if(this.form.re_password != this.form.password) {
+					this.$c.toast('两次密码不一致')
+					return
+				}
+				if(!this.form.captcha) {
 					this.$c.toast('请输入验证码')
 					return
 				}
@@ -149,10 +195,28 @@
 				if(res) {
 					this.$c.toast('注册成功')
 					this.$c.setStorage('jwt', res.jwt)
-					this.getProfile()
+					this.$c.goto('/pages/user/payPassword?type=1')
+					// this.getProfile()
 				} else {
-					this.getCode()
+					// this.getCode()
 				}
+			},
+			async intIm() {
+				this.$c.removeStorage('chatInfo')
+				let nimInfo = this.$c.getStorage('nimInfo') || {}
+				if(!nimInfo.appkey) {
+					const res1 = await this.$c.fetch(this.$api.group.config)
+					if(res1) nimInfo.appkey = res1.app_key
+				}
+				const res2 = await this.$c.fetch(this.$api.group.login)
+				if(res2) {
+					this.$c.setStorage('nimInfo', { ...nimInfo,
+						account: res2.account_id,
+						token: res2.token,
+					})
+					initNIM()
+				}
+				this.getProfile()
 			},
 			async getProfile() {
 				const res = await this.$c.fetch(this.$api.user.getProfile)

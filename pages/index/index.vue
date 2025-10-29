@@ -1,19 +1,50 @@
 <template>
-	<view class="page flex-col" style="background: #519296;">
+	<view class="page flex-col" style="background: linear-gradient(to bottom,  #519296 0,  #519296 50%, #E7F1FF 50%, #E7F1FF 100%)">
 		<view class="title_box fixed flex-between pb-15 plr-20 pw-100 border-box" :class="`pt-${$c.barHeight()}`" style="z-index: 10;background: #519296;">
 			<image src="/static/common/logo.gif" class="w-73 h-32 mr-11"></image>
-			<view class="flex-end" @click="$c.goto('/pages/goods/search')">
-				<view class="w-192 h-35 bg-white rounded-x plr-11 flex-start ptb-12 border-box">
+			<view class="flex-end">
+				<!-- <view class="w-192 h-35 bg-white rounded-x plr-11 flex-start ptb-12 border-box">
 					<u-icon name="search" color="#1A7E84" size="15"></u-icon>
 					<text class="text-base fs-12 lh-14 fw-4 ml-7">输入药品名称</text>
+				</view> -->
+				<view class="w-192">
+					<u-search v-model="name" placeholder="输入药品名称" :searchIconColor="$c.baseColor()" :placeholderColor="$c.baseColor()" bgColor="#fff" :showAction="false"></u-search>
 				</view>
-				<text class="fs-14 lh-14 fw-7 text-white ml-8">搜索</text>
+				<text class="fs-14 lh-14 fw-7 text-white ml-8" @click="onSearch()">搜索</text>
 			</view>
 		</view>
-		<view class="plr-20" :class="`pt-${height}`">
+		<view :class="`h-${height}`"></view>
+		<view class="plr-20 h-105">
 			<u-swiper :list="banner" keyName="src" :height="105"></u-swiper>
 		</view>
-		<view class="flex-1 mt-14 rounded-20 pt-15 plr-20" style="background: #E7F1FF;">
+		<view class="flex-1 mt-14 roundedTop-20 pt-15 plr-20 pb-60 border-box" style="background: #E7F1FF;">
+			<view class="relative mb-30">
+				<image src="/static/index/point_box.webp" class="pw-100" mode="widthFix"></image>
+				<view class="absolute ph-19 pw-50" style="top: 3%;right: 2%" @click="$c.goto('/pages/index/task')"></view>
+				<view class="absolute left-0 right-0 bottom-0 flex-between plr-14 border-box" style="top: 22%">
+					<view class="" v-for="(item, index) in pointList" :key="item.id" @click="$c.goto(`/pages/point/goodsDetail?id=${item.id}`)">
+						<view v-if="index < 3" class="w-70">
+							<view class="bg-white rounded-8 i-70">
+								<image :src="item.picture" class="i-70 rounded-8" mode="aspectFill"></image>
+							</view>
+							<view class="fs-10 text-center mt-7 mb-5 u-line-1">{{ item.name }}</view>
+							<view class="flex-center">
+								<view class="flex-start">
+									<image src="/static/icon/point.webp" class="i-9 mr-2"></image>
+									<text class="text-base fs-10">{{ item.price }}积分</text>
+								</view>
+							</view>
+						</view>
+					</view>
+					<view class="" @click="$c.goto('/pages/point/index')">
+						<view class="bg-white rounded-8 i-70 text-center">
+							<image src="/static/index/poin_more.webp" class="w-46 h-49"></image>
+							<view class="text-base fs-12 lh-10">更多好礼</view>
+						</view>
+						<view class="bg-white ptb-9 plr-5 rounded-8 mt-6 fs-10" style="color: #173F41;">进入积分商城</view>
+					</view>
+				</view>
+			</view>
 			<view v-if="place" class="flex-start mb-25">
 				<image src="/static/index/location.png" class="w-15 h-17"></image>
 				<view class="ml-9 mr-4 fw-5">收货:{{ place }}</view>
@@ -48,12 +79,47 @@
 					</view>
 				</view>
 			</view>
-			<view class="h-70"></view>
 		</view>
 		<view class="fixed right-0 bottom-75 w-56 h-69">
 			<image src="/static/index/cs.png" class="w-56 h-69" @click="$c.goto('/pages/index/web')"></image>
 		</view>
 		<TabBar />
+		
+		<!-- new -->
+		<u-popup 
+			:show="showNew"
+			mode="center"
+			bgColor="transparent"
+			overlayStyle="background: 'rgba(0, 0, 0, 0.6)'"
+			:closeOnClickOverlay="false"
+			@close="showNew == false"
+		>
+			<view class="text-center">
+				<view class="relative">
+					<image src="/static/index/reward_new.webp" class="vw-100" mode="widthFix"></image>
+					<view class="absolute left-0 right-0 auto-x pw-36 ph-30" style="bottom: 1%;" @click="$c.goto('/pages/activity/newExclusive')"></view>
+				</view>
+				<image src="/static/icon/close.webp" class="i-52 mt-17" @click="onCloseNew()"></image>
+			</view>
+		</u-popup>
+		
+		<!-- egg -->
+		<u-popup 
+			:show="!showNew && showEgg"
+			mode="center"
+			bgColor="transparent"
+			overlayStyle="background: 'rgba(0, 0, 0, 0.6)'"
+			:closeOnClickOverlay="false"
+			@close="showEgg == false"
+		>
+			<view class="text-center">
+				<view class="relative">
+					<image src="/static/index/rewardegg.webp" class="w-308 h-370"></image>
+					<view class="absolute left-0 right-0 auto-x pw-85 ph-20" style="bottom: 9%;" @click="$c.goto('/pages/activity/egg')"></view>
+				</view>
+				<image src="/static/icon/close.webp" class="i-52 mt-17" @click="showEgg = false"></image>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -71,7 +137,12 @@
 				place: '',
 				search: { page: 1, limit: 10, name: '', load: 'more' },
 				level: 0,
-				height: 0
+				height: 0,
+				name: '',
+				searchHistory: [],
+				pointList: [],
+				showNew: false,
+				showEgg: false
 			}
 		},
 		onLoad() {
@@ -79,9 +150,12 @@
 			if (obj && Object.keys(obj).length > 0) {
 				this.level = obj.level.id
 				this.getProfile()
+				this.getActivity()
 			}
+			this.searchHistory = this.$c.getStorage('searchHistory') || []
 			this.getBanner()
 			this.getGoods()
+			this.getPointList()
 		},
 		onReady() {
 			setTimeout(() => {
@@ -94,6 +168,28 @@
 			this.getGoods()
 		},
 		methods: {
+			onCloseNew() {
+				this.showNew = false
+			},
+			async getActivity() {
+				const res = await this.$c.fetch(this.$api.user.activityStatus)
+				if (res) {
+					this.showNew = res.is_ginseng
+					this.showEgg = res.is_egg
+				}
+			},
+			onSearch() {
+				this.name = uni.$u.trim(this.name)
+				if(!this.name) {
+					this.$c.goto('/pages/goods/search')
+				} else {
+					if(this.searchHistory.indexOf(this.name) == -1) {
+						this.searchHistory.push(this.name)
+						this.$c.setStorage('searchHistory', this.searchHistory)
+					}
+					this.$c.goto('/pages/goods/searchResult?name=' + this.name)
+				}
+			},
 			async getProfile() {
 				const res = await this.$c.fetch(this.$api.user.getProfile)
 				if(res) {
@@ -115,6 +211,16 @@
 					this.search.page++
 				}
 				if(this.search.load != 'end') this.search.load = 'more'
+			},
+			async getPointList() {
+				const res = await this.$c.fetch(this.$api.goods.goodsList, {
+					page: 1,
+					limit: 10,
+					name: '',
+					is_level_valid: 0,
+					is_integral: 1
+				})
+				if(res) this.pointList = res
 			}
 		}
 	}

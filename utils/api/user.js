@@ -7,8 +7,11 @@ export default {
 	register(data) {
 		return request.post('/user/register', data, { loading: true, auth: false })
 	},
-	getProfile() {
-		return request.post('/user/profile')
+	getProfile(data = {}, config = {}) {
+		return request.post('/user/profile', data, { ...config })
+	},
+	profile(data = {}, config = {}) {
+		return request.post('/user/profile', data, { ...config })
 	},
 	signStatus() {
 		return request.post('/user_sign_logs/check')
@@ -51,5 +54,20 @@ export default {
 	},
 	friend(data) {
 		return request.post('/user/friend', data, { loading: true })
+	},
+	activity(data = {}, config = {}) {
+		return request.post('/event/info', data, { ...config })
+	},
+	activity(data = {}, config = {}) {
+		return request.post('/event/info', data, { ...config })
+	},
+	activityAddress(data = {}, config = {}) {
+		return request.post('/event/add', data, { loading: true, ...config })
+	},
+	activityDetail(data = {}, config = {}) {
+		return request.post('/event/details', data, { ...config })
+	},
+	activityStatus(data = {}, config = {}) {
+		return request.post('/event/pop_up', data, { ...config })
 	},
 }

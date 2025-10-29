@@ -2,7 +2,7 @@
 	<view class="page bg-page lh-10">
 		<view v-if="page == 1" class="">
 			<Title title="地址列表" :fixed="true" />
-			<view v-if="load" class="plr-20" :class="`pt-${height}`" style="color: #343434;">
+			<view v-if="load" class="plr-20" style="color: #343434;">
 				<view class="bg-white plr-14 rounded-8 mt-15" v-for="item in list" :key="item.id">
 					<view class="ptb-15 border-bottom flex-between">
 						<view class="mr-20" @click="onChooseAddress(item)">
@@ -26,7 +26,7 @@
 						</view>
 						<view class="flex-start">
 							<u-icon name="trash" size="18" color="#797979"></u-icon>
-							<text class="ml-5 text-info" @click="doDelete(id)">删除</text>
+							<text class="ml-5 text-info" @click="doDelete(item.id)">删除</text>
 						</view>
 					</view>
 				</view>
@@ -45,7 +45,7 @@
 		</view>
 		<view v-else>
 			<Title title="添加地址" :fixed="true" @back="page = 1" />
-			<view class="plr-20" :class="`pt-${height}`">
+			<view class="plr-20">
 				<view class="bg-white rounded-8 plr-14">
 					<view class="ptb-18 border-bottom flex-between">
 						<text class="mr-20">联系人</text>
@@ -198,7 +198,7 @@ import form from '../../uni_modules/uview-ui/libs/config/props/form';
 				}
 			},
 			onChooseAddress(item) {
-				if(this.from && ['goodsDetail', 'pay'].indexOf(this.from) > -1) {
+				if(this.from && ['goodsDetail', 'pay', 'address'].indexOf(this.from) > -1) {
 					this.$c.setStorage('address', item)
 					this.$c.goBack()
 				}

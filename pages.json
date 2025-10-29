@@ -61,6 +61,12 @@
 			}
 		},
 		{
+			"path": "pages/index/task",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/goods/search",
 			"style": {
 				"navigationStyle": "custom"
@@ -133,6 +139,12 @@
 			}
 		},
 		{
+			"path": "pages/user/forgotPassword",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/user/payPassword",
 			"style": {
 				"navigationStyle": "custom"
@@ -158,6 +170,18 @@
 		},
 		{
 			"path": "pages/user/vip",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/finance/transfer",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/finance/balance",
 			"style": {
 				"navigationStyle": "custom"
 			}
@@ -290,6 +314,78 @@
 		},
 		{
 			"path": "pages/group/info/qrcode",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/point/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/point/goodsDetail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/point/list",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/point/order",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/point/orderDetail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/point/pay",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/activity/egg",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/activity/detail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/activity/newExclusive",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/store/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/group/addFriend",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/group/blackList",
 			"style": {
 				"navigationStyle": "custom"
 			}

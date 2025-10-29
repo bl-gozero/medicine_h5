@@ -18,5 +18,14 @@ export default {
 	},
 	levelList(data = {}, config = {}) {
 		return request.post('/level/list', data, { ...config })
+	},
+	task(data = {}, config = {}) {
+		return request.post('/task/list', data, { ...config })
+	},
+	taskFinish(data = {}, config = {}) {
+		return request.post('/task/finish', data, { ...config })
+	},
+	config(data = {}, config = {}) {
+		return request.post('/config/list', data, { ...config })
 	}
 }

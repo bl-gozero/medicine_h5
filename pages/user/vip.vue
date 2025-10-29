@@ -7,7 +7,7 @@
 					<u-avatar :src="profile.avatar" size="55" default-url="/static/user/avatar.png"></u-avatar>
 					<view class="ml-10 flex-1">
 						<view class="u-line-1">{{ profile.account }}</view>
-						<view class="fw-7 mt-6">{{ profile.level.value }}</view>
+						<view class="fw-7">{{ profile.level.value }}</view>
 					</view>
 					<view class="self-start">
 						<u-text
@@ -31,62 +31,48 @@
 					</view>
 				</view>
 				<view  class="bg-white ptb-26" style="border-radius: 0 0 20px 20px;">
-					<view v-if="profile.level.id < switcher" class="">
-						<view class="flex-center">
-							<view class="relative left-0 right-0 auto-x">
-								<image :src="`/static/vip/open_${switcher}.png`" class="w-202 h-99"></image>
-								<view :class="`open_${switcher}`">{{ switcher == 3? '开通即得' : '开通VIP并邀请' + list[switcher - 2].upgrade_count + '位好友成为' + list[switcher - 2].name }}</view>
-								<view class="full flex-center">
-									<view class="text-center" :class="`price_${switcher}`">
-										<view class="fw-5 fs-16">{{ list[switcher - 1].name + (switcher == 3? '会员卡' : '') }}</view>
-										<view class="fw-7 flex-center">
-											<view class="">
-												<text class="fs-12">￥</text>
-												<text class="fs-26">{{ list[2].price }}</text>
-											</view>
-											<image v-if="switcher == 4" src="/static/vip/plus.png" class="i-8 mlr-20"></image>
-											<image v-if="switcher == 4" src="/static/vip/invite.png" class="i-20"></image>
-										</view>
-									</view>
-								</view>
-								<image v-if="switcher == 4" src="/static/vip/good.png" class="w-85 h-56 absolute" style="top: -29px;right: -32px;"></image>
+					<view v-if="profile.level.id < switcher" class="plr-30">
+						<view class="step_box flex-between">
+							<view class="i-35">
+								<image src="/static/vip/step-1.webp" class="i-35"></image>
 							</view>
+							<view class="mlr-9 flex-1">
+								<view class="">成为推广员</view>
+								<view class="text-info">购买1件指定商品即可</view>
+							</view>
+							<u-button 
+								v-if="profile.level.id < 2"
+								class="btn bg-0 text-0"
+								shape="circle"
+								text="去完成"
+								@click="$c.goto('/pages/goods/searchResult?is_level_valid=1')"
+							></u-button>
+							<u-button v-else class="btn bg-1 text-1" text="已完成"></u-button>
 						</view>
-						<u-button v-if="switcher == 3" class="btn_3 mt-25" shape="circle" text="立即开通" @click="onShowPassword()"></u-button>
-						<u-button 
-							v-else-if="profile.level.id < 3 && list[switcher - 2].upgrade_count - profile.direct_vip > 0"
-							class="btn_4 mt-25"
-							shape="circle"
-							:text="'开通' + list[switcher - 2].name + '，' + '需再邀请' + (list[switcher - 2].upgrade_count - profile.direct_vip) + '人'"
-							@click="onShowPassword()"
-						></u-button>
-						<u-button
-							v-else-if="profile.level.id == 3"
-							class="btn_4 mt-25"
-							shape="circle"
-							:text="'需再邀请' + (list[switcher - 2].upgrade_count - profile.direct_vip) + '人'"
-							@click="$c.goto('/pages/user/qrcode')"
-						></u-button>
-						<u-button
-							v-else
-							class="btn_4 mt-25"
-							shape="circle"
-							:text="'开通' + list[switcher - 2].name"
-							@click="onShowPassword()"
-						></u-button>
-						<view v-if="profile.level.id < 3" class="mt-20 flex-center">			
-							<u-checkbox-group v-model="agreed">
-								<u-checkbox name="agreed" size="16" activeColor="#1A7E84" inactiveColor="#1A7E84" />
-							</u-checkbox-group>
-							<text class="fs-10">
-								<text>开通前阅读并同意</text>
-								<text v-if="switcher == 3" class="text-base" @click="$c.goto('/pages/index/protocols?type=2')">《VIP服务介绍》</text>
-								<text v-if="switcher == 4" class="text-base" @click="$c.goto('/pages/index/protocols?type=3')">《合伙人服务介绍》</text>
-							</text>
+						<view class="step_box flex-between">
+							<view class="i-35 relative">
+								<image src="/static/vip/step-2.webp" class="i-35"></image>
+								<view class="line-1"></view>
+							</view>
+							<view class="mlr-9 flex-1">
+								<view class="">升级为VIP</view>
+								<view class="text-info">邀请3位好友成为推广员</view>
+							</view>
+							<u-button v-if="profile.level.id < 3" class="btn bg-0 text-0" shape="circle" text="去完成" @click="$c.goto('/pages/user/qrcode')"></u-button>
+							<u-button v-else class="btn bg-1 text-1" text="已完成"></u-button>
 						</view>
-						<view v-else class="mt-20 flex-center fs-10">
-							<text>查看</text>
-							<text v-if="switcher == 4" class="text-base" @click="$c.goto('/pages/index/protocols?type=3')">《合伙人服务介绍》</text>
+						<view v-if="switcher == 4" class="step_box flex-between step_3">
+							<view class="i-35 relative">
+								<image src="/static/vip/step-3.webp" class="i-35"></image>
+								<view class="line-2"></view>
+								<image src="/static/vip/good-1.webp" class="w-109 h-31 absolute bottom-30 left-20"></image>
+							</view>
+							<view class="mlr-9 flex-1">
+								<view class="">升级为合伙人</view>
+								<view class="text-info">邀请5位好友成为VIP会员</view>
+							</view>
+							<u-button v-if="profile.direct_vip < 5" class="btn bg-0 text-0" shape="circle" text="去完成" @click="$c.goto('/pages/user/qrcode')"></u-button>
+							<u-button v-else class="btn bg-1 text-1" text="已完成"></u-button>
 						</view>
 					</view>
 					<view v-else class="flex-center">
@@ -313,5 +299,56 @@
 	}
 	.data_bg {
 		background: #F3F4FB;
+	}
+	.step_box {
+		background: linear-gradient(270deg, #F9E6CD 0%, #FEF7EA 100%);
+		height: 66px;
+		border-radius: 10px;
+		margin-bottom: 5px;
+		padding: 0 11px;
+		
+		.text-info {
+			color: #968970;
+			margin-top: 5px;
+			font-size: 12px;
+		}
+		.btn {
+			width: 87px;
+			height: 35px;
+		}
+		.text-0 {
+			color: #E7D0BF;
+		}
+		.text-1 {
+			color: #696969;
+		}
+		.bg-0 {
+			background-color: #2A1601 !important;
+		}
+		.bg-1 {
+			background-color: #B6B6B6 !important;
+		}
+		.line-1 {
+			position: absolute;
+			left: 0;
+			top: -18px;
+			width: 37px;
+			height: 0px;
+			transform: rotate(90deg);
+			border-top: 1.5px dashed #CAA154;
+		}
+		.line-2 {
+			position: absolute;
+			left: 0;
+			top: -18px;
+			width: 37px;
+			height: 0px;
+			transform: rotate(90deg);
+			border-top: 1.5px dashed #77788F;
+		}
+	}
+	
+	.step_3 {
+		background: linear-gradient(270deg, #C0C5D4 5%, #F2F6FD 100%) !important;
 	}
 </style>

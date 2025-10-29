@@ -45,7 +45,7 @@
 		</view>
 		<view class="mt-14 bg-white">
 			<view class="text-center fw-5 ptb-18">商品详情</view>
-			<u--image :src="item" v-for="(item, index) in sku.picture" :key="index" width="100%" height="auto" bgColor="transparent" mode="widthFix">
+			<u--image :src="item" v-for="(item, index) in goods.details" :key="index" width="100%" height="auto" bgColor="transparent" mode="widthFix">
 			  <template v-slot:loading>
 			    <u-loading-icon color="#9F9F9F" class="mtb-100"></u-loading-icon>
 			  </template>
@@ -75,7 +75,7 @@
 		<u-popup :show="showInfo" mode="bottom" round="8" closeable @close="showInfo = false">
 			<view class="ptb-20 fs-12 info_box lh-10">
 				<view class="text-center fs-18 fw-5">{{ mode == 1? '添加到购物车' : '提交订单'}}</view>
-				<view class="plr-20 flex justify-between mt-37" style="align-items: flex-start;" @click="$c.goto('/pages/user/address?from=goodsDetail')">
+				<!-- <view class="plr-20 flex justify-between mt-37" style="align-items: flex-start;" @click="$c.goto('/pages/user/address?from=goodsDetail')">
 					<image src="/static/goods/place.png" class="w-12 h-14"></image>
 					<view class="flex-1 ml-8 mr-20">
 						<view class="">{{ address.district + address.address }}</view>
@@ -85,7 +85,7 @@
 						</view>
 					</view>
 					<u-icon name="arrow-right" size="14" color="#7D7D7D"></u-icon>
-				</view>
+				</view> -->
 				<view class="plr-20 flex-start mt-30 mb-20">
 					<image v-if="sku.picture" :src="sku.picture[0]" class="i-76 rounded-12" mode="aspectFill"></image>
 					<view class="ml-9 flex-1">
@@ -116,9 +116,9 @@
 				<view class="h-300 sroller-y">
 					<view class="ptb-20 plr-20">
 						<view class="fs-14 fw-7">规格</view>
-						<view class="flex-start mt-20">
+						<view class="flex-start mt-10 flex-wrap">
 							<view
-								class="sku_name mr-10"
+								class="sku_name mr-10 mt-10"
 								:class="sku.id == item.id && 'sku_name_1'"
 								v-for="(item, index) in goods.goods_sku"
 								:key="item.id"
@@ -221,12 +221,16 @@
 			}
 			this.doCartAdd = this.$c.onceRequest(this.onCartAdd)
 			this.doBuy = this.$c.onceRequest(this.onBuy)
+			this.onTask()
 		},
 		onShow() {
 			const address = this.$c.getStorage('address')
 			if(address) this.address = address
 		},
 		methods: {
+			onTask() {
+				this.$c.fetch(this.$api.config.taskFinish, { id: 2 })
+			},
 			async getProfile() {
 				const res = await this.$c.fetch(this.$api.user.getProfile)
 				if(res) {
@@ -279,6 +283,8 @@
 					} else {
 						this.$c.goto('/pages/order/list')
 					}
+				} else {
+					this.$c.goto(`/pages/order/pay?id=${id}`)
 				}
 			},
 			onNumChange(e) {

@@ -1,8 +1,11 @@
 import request from '../request'
 
 export default {
-	balanceList(data) {
-		return request.post('/balance_logs/list', data, { loading: true })
+	list(data = {}, config = {}) {
+		return request.post('/user/integral_list', data, { loading: true, ...config })
+	},
+	balanceList(data = {}, config = {}) {
+		return request.post('/balance_logs/list', data, { loading: true, ...config })
 	},
 	recharge(data) {
 		return request.post('/user/recharge', data, { loading: true })
@@ -18,5 +21,8 @@ export default {
 	},
 	performance(data) {
 		return request.post('/team_performance/list', data, { loading: true })
+	},
+	transfer(data = {}, config = {}) {
+		return request.post('/user/transfer', data, { loading: true, ...config  })
 	}
 }

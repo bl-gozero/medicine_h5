@@ -44,6 +44,17 @@
 		color: #3D3D3D !important;
 	}
 	
+	.btn-submit {
+		width: 247px !important;
+		height: 47px !important;
+		font-weight: 700 !important;
+		color: #fff !important;
+	}
+	
+	.bg-address {
+		background: linear-gradient(180deg, #CDEAEB 2%, #FFFFFF 32px);
+	}
+	
 	.nav_active {
 		&::after {
 			content: '';
@@ -56,6 +67,7 @@
 			left: 0;
 			right: 0;
 			margin: auto;
+			border-radius: 2px;
 		}
 	}
 	

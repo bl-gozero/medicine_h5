@@ -61,7 +61,7 @@
 								<div v-else class="text-info flex-start h-40">
 									<u-count-down 
 										ref="countDown" 
-										:time="60 * 1000" 
+										:time="$c.codeLimitTime()" 
 										format="ss"
 										@finish="showCodeBtn = true"
 									></u-count-down>

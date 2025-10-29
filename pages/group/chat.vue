@@ -56,7 +56,11 @@
 			async handleSendMsg(e) {
 				const reply = { ...this.reply }
 				this.reply = null
-			    reply.messageClientId? await replyMessage(e, reply) : await sendMessage(e)
+			    const res = reply.messageClientId? await replyMessage(e, reply) : await sendMessage(e)
+				if(res) this.onTask()
+			},
+			onTask() {
+				this.$c.fetch(this.$api.config.taskFinish, { id: 3 })
 			},
 		}
 	}

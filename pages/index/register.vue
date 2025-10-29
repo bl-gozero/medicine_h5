@@ -79,7 +79,7 @@
 								<div v-else class="text-info flex-start h-40">
 									<u-count-down 
 										ref="countDown" 
-										:time="60 * 1000" 
+										:time="$c.codeLimitTime()" 
 										format="ss"
 										@finish="showCodeBtn = true"
 									></u-count-down>
@@ -131,12 +131,13 @@
 
 <script>
 	import LineInput from '@/components/LineInput.vue'
+	import { initNIM, loginNIM } from '@/utils/nim.js'
 	
 	export default {
 		components: { LineInput },
 		data() {
 			return {
-				form: { account: '', password: '', captcha_id: '', captcha: '', referral_code: '', re_password: '' },
+				form: { account: '', password: '', captcha: '', referral_code: '', re_password: '' },
 				agreed: [],
 				captcha: '',
 				showCodeBtn: true,
@@ -194,7 +195,7 @@
 					this.$c.toast('两次密码不一致')
 					return
 				}
-				if(!this.form.captcha_code) {
+				if(!this.form.captcha) {
 					this.$c.toast('请输入验证码')
 					return
 				}
@@ -208,19 +209,34 @@
 				}
 				const res = await this.$c.fetch(this.$api.user.register, this.form)
 				if(res) {
-					this.$c.toast('注册成功')
 					this.$c.setStorage('jwt', res.jwt)
-					setTimeout(() => {
-						this.$c.goto('/pages/user/payPassword?type=1')
-					}, 1500)
+					await this.$c.toast('注册成功')
+					this.intIm()
 					// this.getProfile()
 				}
+			},
+			async intIm() {
+				this.$c.removeStorage('chatInfo')
+				let nimInfo = this.$c.getStorage('nimInfo') || {}
+				if(!nimInfo.appkey) {
+					const res1 = await this.$c.fetch(this.$api.group.config)
+					if(res1) nimInfo.appkey = res1.app_key
+				}
+				const res2 = await this.$c.fetch(this.$api.group.login)
+				if(res2) {
+					this.$c.setStorage('nimInfo', { ...nimInfo,
+						account: res2.account_id,
+						token: res2.token,
+					})
+					initNIM()
+				}
+				this.getProfile()
 			},
 			async getProfile() {
 				const res = await this.$c.fetch(this.$api.user.getProfile)
 				if(res) {
 					this.$c.setStorage('profile', res)
-					this.$c.goto('/pages/user/index')
+					this.$c.goto('/pages/user/payPassword?type=1')
 				}
 			}
 		}

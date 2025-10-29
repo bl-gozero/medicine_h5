@@ -1,8 +1,8 @@
 import request from '../request'
 
 export default {
-	goodsList(data) {
-		return request.post('/goods/list', data, { auth: false })
+	goodsList(data = {}, config = {}) {
+		return request.post('/goods/list', { is_integral: 2, ...data }, { auth: false, ...config })
 	},
 	goodsDetail(data) {
 		return request.post('/goods/details', data)
@@ -23,7 +23,7 @@ export default {
 		return request.post('/order_form/count', data)
 	},
 	orderList(data) {
-		return request.post('/order_form/list', data)
+		return request.post('/order_form/list', { is_integral: 2, ...data })
 	},
 	orderAdd(data) {
 		return request.post('/order_form/create', data, { loading: true })
@@ -45,5 +45,14 @@ export default {
 	},
 	orderDetail(data) {
 		return request.post('/order_form/details', data)
+	},
+	orderShip(data = {}, config = {}) {
+		return request.post('/order_form/traffic', data, { loading: true, ...config })
+	},
+	orderStore(data = {}, config = {}) {
+		return request.post('/order_form/save', data, { loading: true, ...config })
+	},
+	storeList(data = {}, config = {}) {
+		return request.post('/warehouse/list', data, { loading: true, ...config })
 	}
 }

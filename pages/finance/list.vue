@@ -20,7 +20,7 @@
 					<view class="mt-10 fs-12">
 						<text v-if="form.mode != 2">收入：</text>
 						<text v-if="form.mode != 2" class="fw-7 mr-32">{{ income }}</text>
-						<text>支出：</text>
+						<text v-if="form.mode != 1">支出：</text>
 						<text v-if="form.mode != 1" class="fw-7">{{ expense }}</text>
 					</view>
 					<image src="/static/finance/balance_log.png" class="absolute right-11 bottom-0 w-93 h-84"></image>
@@ -104,7 +104,6 @@
 						this.form.page++
 					}
 				}
-				console.log(this.form)
 				if(this.form.status != 'end') this.form.status = 'more'
 			},
 			onNav(i) {

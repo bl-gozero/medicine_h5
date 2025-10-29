@@ -10,6 +10,7 @@ $color-white:   #ffffff;
 $color-black:   #3d3d3d;
 $color-light:   #f5f5f5;
 $color-base:	#1A7E84;
+$color-orange:  #EE6F2E;
 
 /* ========== 字体颜色类 ========== */
 .text-primary { color: $color-primary; }
@@ -20,6 +21,7 @@ $color-base:	#1A7E84;
 .text-black   { color: $color-black; }
 .text-white   { color: $color-white !important; }
 .text-base    { color: $color-base !important; }
+.text-orange  { color: $color-orange !important; }
 
 /* ========== 背景颜色类 ========== */
 .bg-primary { background-color: $color-primary; }
@@ -34,6 +36,7 @@ $color-base:	#1A7E84;
 .bg-black 	{ background: #262D2A !important; }
 .bg-owner 	{ background: #B3E5E8 ; }
 .bg-admin 	{ background: #FFF3D3 ; }
+.bg-test 	{ background: rgba(0, 0, 0, .3) ; }
 .bg-base-change  { background: linear-gradient(270deg, #1A7E84 0%, #72ADB0 100%); }
 /* ========== 文本对齐 ========== */
 .text-left   { text-align: left; }
@@ -46,6 +49,7 @@ $color-base:	#1A7E84;
 .items-center, .flex-start, .flex-end, .flex-center, .flex-between, .flex-around    { align-items: center; }
 .item-stretch, .flex-stretch	{ align-items: stretch; }
 .item-end { align-items: flex-end; }
+.item-start { align-items: item-start; }
 .justify-center, .flex-center  	{ justify-content: center; }
 .justify-between, .flex-between { justify-content: space-between; }
 .justify-around, .flex-around   { justify-content: space-around; }
@@ -80,8 +84,11 @@ $color-base:	#1A7E84;
 .border-1 { border: 1px solid $color-base !important; }
 .border-danger { border: 1px solid $color-danger !important; }
 .border-bottom { border-bottom: 1px solid #F5F5F5; }
+.border-top { border-top: 1px solid #F5F5F5; }
 .list_box>*:not(:last-child) { border-bottom: 1px solid #F5F5F5; }
 .underline { text-decoration: underline; text-underline-offset: 3px; }
+
+.vw-100 { width: 100vw; }
 /* ========== 字体类  ========== */
 @for $i from 8 through 50 {
   .fs-#{$i} { font-size: $i * 1px !important; }
@@ -101,6 +108,7 @@ $color-base:	#1A7E84;
   $val: $i * 1px;
   .w-#{$i} { width: $val !important; }
   .h-#{$i} { height: $val !important; }
+  .maxh-#{$i} { max-height: $val !important; }
   .top-#{$i} { top: $val !important; }
   .left-#{$i} { left: $val !important; }
   .right-#{$i} { right: $val !important; }
@@ -132,6 +140,6 @@ $color-base:	#1A7E84;
 .rounded-x		{ border-radius: 999px; }
 @for $i from 1 through 50 {
   $val: $i * 1px;
-  .rounded-#{$i} { border-radius: $val; } 
+  .rounded-#{$i} { border-radius: $val !important; } 
   .roundedTop-#{$i} { border-radius: $val $val 0 0; }
 }
