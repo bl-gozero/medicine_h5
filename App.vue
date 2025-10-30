@@ -20,7 +20,7 @@
 					const pages = getCurrentPages()
 					const currentPage = pages[pages.length - 1]
 					const current = '/' + currentPage.route
-					const arr = ['/pages/index/launch', '/pages/index/login', '/pages/index/index', '/pages/index/index', '/pages/index/register']
+					const arr = ['/pages/index/launch', '/pages/index/login', '/pages/index/index', '/pages/index/index', '/pages/index/register', '/pages/web/register']
 					const aotuLogin = arr.indexOf(current) > -1? false : true
 					initNIM(aotuLogin)
 				}
@@ -53,6 +53,12 @@
 	
 	.bg-address {
 		background: linear-gradient(180deg, #CDEAEB 2%, #FFFFFF 32px);
+	}
+	
+	.img-box {
+		width: 100%;
+		aspect-ratio: 1 / 1;
+		overflow: hidden;
 	}
 	
 	.nav_active {

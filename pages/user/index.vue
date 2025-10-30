@@ -14,18 +14,54 @@
 				</view>
 				<image src="/static/icon/qr.webp" class="i-20" @click="$c.goto('/pages/user/qrcode')"></image>
 			</view>
-			<view class="flex-between lh-10 mt-47" style="color: #064144;">
-				<view class="" @click="$c.goto('/pages/finance/balance')">
-					<view class="fw-7 fs-22 h-30 flex-start">{{ profile.balance }}</view>
+			<view class="flex-between lh-10 mt-47 pl-20 pr-20 border-box text-center" style="color: #064144;gap: 15px;">
+				<view class="pw-30" @click="$c.goto('/pages/finance/balance')">
+					<view class="fw-7 fs-22 flex-start u-line-1" style="line-height: 30px;">{{ profile.balance }}</view>
 					<view class="mt-12 text-name">余额</view>
 				</view>
-				<view class="" @click="$c.goto('/pages/point/index')">
-					<view class="fw-7 fs-22 h-30 flex-start">{{ profile.integral }}</view>
+				<view class="pw-30" @click="$c.goto('/pages/point/index')">
+					<view class="fw-7 fs-22 flex-start u-line-1" style="line-height: 30px;">{{ profile.integral }}</view>
 					<view class="mt-12 text-name">积分</view>
 				</view>
 				<view class="w-98" @click="$c.goto('/pages/index/task')">
-					<view v-if="is_sign === false" class="sign_box">签到领现金</view>
-					<view v-if="is_sign === true" class="sign_box" style="color: #AD8246;">今日已签到</view>
+					<view class="w-98 h-30">
+						<image v-if="is_sign === true" :src="`/static/user/signed_0.webp`" class="w-98 h-30"></image>
+						<image v-if="is_sign === false" :src="`/static/user/signed_1.webp`" class="w-98 h-30"></image>
+					</view>
+					<!-- <image v-if="is_sign === true" :src="`/static/user/signed_0.webp`" class="w-98 h-30"></image>
+					<view v-else-if="is_sign === false" class="relative h-30">
+						<PlayImg
+							canvas-id="sign"
+							path="sign/1_"
+							:count="15"
+							:fps="18"
+							:width="76"
+							:height="29"
+							style="transform: scale(1.4) translate(10%, -1px);"
+						/>
+						<PlayImg
+							:paths="['sign/1']"
+							:counts="[15]"
+							:loopModes="['loop']"
+							:fpsModes="[15]"
+							:overallLoop="true"
+							:width="76"
+							:height="29"
+							style="transform: scale(1.4) translate(10%, -1px);"
+						/>
+						<view class="w-76 h-29" style="transform: scale(1.4) translate(10%, -1px);">
+							<PlayImgs
+								path="sign/1"
+								:interval="70"
+								:length="15"
+								:width="76"
+							></PlayImgs>
+						</view>
+						<view class="sign_box full">签到领现金</view>
+					</view>
+					<view v-else class="w-98 h-30"></view> -->
+					<!-- <view v-if="is_sign === false" class="sign_box">签到领现金</view>
+					<view v-if="is_sign === true" class="sign_box" style="color: #AD8246;">今日已签到</view> -->
 					<view class="mt-12 text-name">任务中心</view>
 				</view>
 			</view>
@@ -54,7 +90,17 @@
 					</view>
 				</view>
 				<view class="fw-5 mt-34">加入北辰代购</view>
-				<image src="/static/user/join.png" class="pw-100 mt-10 maxh-110" mode="widthFix" @click="$c.goto('/pages/user/join')"></image>
+				<!-- <image src="/static/user/join.png" class="pw-100 mt-10 maxh-110" mode="widthFix" @click="$c.goto('/pages/user/join')"></image> -->
+				<view class="relative" @click="$c.goto('/pages/user/join')">
+					<image src="/static/user/join.png" class="pw-100 mt-10 maxh-110" mode="widthFix"></image>
+					<view class="absolute pw-100 left-0" style="top: 8%">
+						<PlayImgs
+							path="user/index_join/2"
+							:interval="50"
+							:length="40"
+						></PlayImgs>
+					</view>
+				</view>
 				<view class="fw-5 mt-23">其他</view>
 				<view class="">
 					<view class="border-bottom ptb-20 flex-between" @click="$c.goto('/pages/index/web')">
@@ -100,10 +146,15 @@
 </template>
 
 <script>
-	import TabBar from '../../components/TabBar.vue';
+	import TabBar from '../../components/TabBar.vue'
+	import PlayImg from '../../components/PlayImg.vue'
+	import PlayImgs from '../../components/PlayImgs.vue'
+	
 	export default {
 		components: {
-			TabBar
+			TabBar,
+			PlayImg,
+			PlayImgs
 		},
 		data() {
 			return {
@@ -180,12 +231,12 @@
 	.sign_box {
 		width: 98px;
 		height: 30px;
-		background-image: url('/static/user/sign.png');
-		background-size: 100% 100%;
+		/* background-image: url('/static/user/sign.png');
+		background-size: 100% 100%; */
 		font-size: 12px;
 		line-height: 30px;
 		text-align: right;
-		padding-right: 12px;
+		padding-right: 8px;
 		font-weight: 500;
 	}
 	.reward_box {

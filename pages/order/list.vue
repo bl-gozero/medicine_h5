@@ -7,7 +7,7 @@
 					v-for="item in navList" :key="item.id" @click="onNav(item.id)">{{ item.value }}</view>
 			</view>
 		</view>
-		<view class="plr-20" :class="`pt-${top}`">
+		<view class="plr-20 pt-110">
 			<view class="p-13 bg-white rounded-18 mt-10" v-for="item in list" :key="item.id">
 				<view class="flex-between mb-15" v-for="(i, index) in item.details" :key="i.index"
 					@click="$c.goto(`/pages/order/detail?id=${item.id}`)">
@@ -90,7 +90,7 @@
 							<text class="text-info ml-20">{{ address.phone }}</text>
 						</view>
 					</view>
-					<view v-else class="flex-1 ml-8 mr-20 text-info">去添加地址</view>
+					<view v-else class="flex-1 ml-8 mr-20 text-info">请添加收货地址</view>
 					<u-icon name="arrow-right" size="14" color="#7D7D7D" class="self-start"></u-icon>
 				</view>
 				<view class="h-10 bg-page"></view>
@@ -186,13 +186,6 @@
 			const address = this.$c.getStorage('address')
 			if(address) this.address = address
 			if(!this.showShip) this.int()
-		},
-		onReady() {
-			setTimeout(() => {
-				this.$uGetRect('.title_box').then(res => {
-					this.top = res.height
-				})
-			}, 100)
 		},
 		onReachBottom() {
 			this.getList()

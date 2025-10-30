@@ -2,7 +2,7 @@
 	<view class="page bg-page">
 		<Title :title="type == 1? '设置交易交易' : '更改交易密码'" />
 		<view class="mt-20 plr-20">
-			<view v-if="type == 1" class="">
+			<view v-if="type != 1" class="">
 				<view class="title">原交易密码</view>
 				<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
 					<LineInput
@@ -16,7 +16,7 @@
 				<view class="mt-10 fs-12 text-info">若为首次修改原交易密码可不填</view>
 			</view>
 			
-			<view class="title mt-40"></view>
+			<view class="title mt-40">{{ type == 1? '设置密码' : '新密码' }}</view>
 			<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
 				<LineInput
 					v-model="form.password"
@@ -72,7 +72,7 @@
 			}
 		},
 		onLoad(p) {
-			if(p.id == 1) this.type = 1
+			if(p.type == 1) this.type = 1
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},
 		methods: {
@@ -88,7 +88,7 @@
 				const res = await this.$c.fetch(this.$api.user.payPassword, this.form)
 				if(res) {
 					await this.$c.toast('操作成功')
-					this.type == 1? this.$c.goto('/pages/user/index') : this.$c.goBack()
+					this.type == 1? this.$c.goto('/pages/web/download') : this.$c.goBack()
 				}
 			}
 		}

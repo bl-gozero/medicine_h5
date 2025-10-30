@@ -43,7 +43,7 @@
 					<view class="flex-1">
 						<view>验证码</view>
 						<LineInput 
-							v-model="form.captcha_code"
+							v-model="form.captcha"
 							placeholder="请输入验证码"
 							placeholderClass="text-info fs-14 fw-5"
 							:showLine="true"
@@ -140,14 +140,14 @@
 				} 
 				const res = await this.$c.fetch(this.$api.config.mobile_captcha, {
 					phone: this.form.account,
-					mode: 'register'
+					mode: 'login'
 				})
 				if(res) {
-					this.showCodeBtn = false
-					// this.form.captcha_id = res.id
-					// this.captcha = res.base64_image
-					this.$refs.countDown.reset();
-					this.$refs.countDown.start();
+					// this.showCodeBtn = false
+					// this.$refs.countDown.reset();
+					// this.$refs.countDown.start();
+					this.$c.toast('发送成功')
+					if(res.captcha) this.form.captcha = res.captcha
 				}
 			},
 			async onSubmit() {
@@ -155,7 +155,7 @@
 					this.$c.toast('请输入账号')
 					return
 				}
-				if(!this.form.captcha_code) {
+				if(!this.form.captcha) {
 					this.$c.toast('请输入验证码')
 					return
 				}
@@ -163,7 +163,7 @@
 					this.$c.toast('阅读并同意《APP用户协议》')
 					return
 				}
-				const res = await this.$c.fetch(this.$api.user.login, this.form)
+				const res = await this.$c.fetch(this.$api.user.mobile_login, this.form)
 				if(res) {
 					this.$c.toast('登录成功')
 					this.$c.setStorage('jwt', res.jwt)

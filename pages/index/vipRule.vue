@@ -1,7 +1,7 @@
 <template>
 	<view class="page bg-page">
 		<Title title="详细规则" :fixed="true" />
-		<view :class="`pt-${height}`">
+		<view>
 			<view class="relative">
 				<image :src="navImg[value - 2]" class="pw-100" mode="widthFix"></image>
 				<view class="full flex-between">

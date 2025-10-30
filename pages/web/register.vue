@@ -155,11 +155,11 @@
 					mode: 'register'
 				})
 				if(res) {
-					this.showCodeBtn = false
-					// this.form.captcha_id = res.id
-					// this.captcha = res.base64_image
-					this.$refs.countDown.reset();
-					this.$refs.countDown.start();
+					// this.showCodeBtn = false
+					// this.$refs.countDown.reset();
+					// this.$refs.countDown.start();
+					this.$c.toast('发送成功')
+					if(res.captcha) this.form.captcha = res.captcha
 				}
 			},
 			async onSubmit() {
@@ -195,8 +195,9 @@
 				if(res) {
 					this.$c.toast('注册成功')
 					this.$c.setStorage('jwt', res.jwt)
-					this.$c.goto('/pages/user/payPassword?type=1')
+					// this.$c.goto('/pages/user/payPassword?type=1')
 					// this.getProfile()
+					this.intIm()
 				} else {
 					// this.getCode()
 				}
@@ -222,7 +223,8 @@
 				const res = await this.$c.fetch(this.$api.user.getProfile)
 				if(res) {
 					this.$c.setStorage('profile', res)
-					this.$c.goto('/pages/web/download')
+					// this.$c.goto('/pages/web/download')
+					this.$c.goto('/pages/user/payPassword?type=1')
 				}
 			}
 		}

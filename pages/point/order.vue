@@ -75,7 +75,7 @@
 							<text class="text-info ml-20">{{ address.phone }}</text>
 						</view>
 					</view>
-					<view v-else class="flex-1 ml-8 mr-20 text-info">去添加地址</view>
+					<view v-else class="flex-1 ml-8 mr-20 text-info">请添加收货地址</view>
 					<u-icon name="arrow-right" size="14" color="#7D7D7D" class="self-start"></u-icon>
 				</view>
 				<view class="h-10 bg-page"></view>

@@ -4,8 +4,11 @@ export default {
 	login(data) {
 		return request.post('/user/login', data, { loading: true, auth: false })
 	},
-	register(data) {
-		return request.post('/user/register', data, { loading: true, auth: false })
+	mobile_login(data = {}, config = {}) {
+		return request.post('/user/mobile_login', data, { loading: true, auth: false, ... config  })
+	},
+	register(data = {}, config = {}) {
+		return request.post('/user/mobile_register', data, { loading: true, auth: false, ... config })
 	},
 	getProfile(data = {}, config = {}) {
 		return request.post('/user/profile', data, { ...config })

@@ -4,7 +4,7 @@
 			<Title title="会员" bgColor="transparent" />
 			<view class="plr-20">
 				<view class="flex-between">
-					<u-avatar :src="profile.avatar" size="55" default-url="/static/user/avatar.png"></u-avatar>
+					<u-avatar :src="profile.avatar" size="55" :default-url="$c.userAvatar()"></u-avatar>
 					<view class="ml-10 flex-1">
 						<view class="u-line-1">{{ profile.account }}</view>
 						<view class="fw-7">{{ profile.level.value }}</view>
@@ -30,7 +30,7 @@
 						<view class="pw-50 ph-100" @click="onSwitch(4)"></view>
 					</view>
 				</view>
-				<view  class="bg-white ptb-26" style="border-radius: 0 0 20px 20px;">
+				<view  class="bg-white ptb-26 h-280 relative border-box" style="border-radius: 0 0 20px 20px;">
 					<view v-if="profile.level.id < switcher" class="plr-30">
 						<view class="step_box flex-between">
 							<view class="i-35">
@@ -74,16 +74,39 @@
 							<u-button v-if="profile.direct_vip < 5" class="btn bg-0 text-0" shape="circle" text="去完成" @click="$c.goto('/pages/user/qrcode')"></u-button>
 							<u-button v-else class="btn bg-1 text-1" text="已完成"></u-button>
 						</view>
+						<view class="absolute text-center pw-100 left-0 bottom-12 fs-10">
+							<view>
+								<text>了解详情请阅读</text>
+								<text class="text-base" @click="$c.goto('/pages/index/protocols?type=' + (switcher - 1))">
+									{{ switcher == 3? '《VIP服务介绍》' : '《合伙人服务介绍》'}}
+								</text>
+							</view>
+						</view>
 					</view>
 					<view v-else class="flex-center">
 						<view class="relative">
 							<image :src="`/static/vip/right_${switcher}.png`" class="w-312 h-223"></image>
-							<image 
+							<!-- <image 
 								:src="`/static/vip/tag_${switcher}.png`" 
 								class="absolute right-0"
 								:class="switcher == 3? 'w-121 h-110' : 'w-131 h-102'"
 								style="top: -21px;"
-							></image>
+							></image> -->
+							
+							<view v-if="switcher == 3" class="absolute right-0 pw-57" style="top: -10%;">
+								<PlayImg
+									path="user/vip/tag_3/1"
+									:interval="50"
+									:length="40"
+								/>
+							</view>
+							<view v-if="switcher == 4" class="absolute right-0 pw-55" style="top: -8%;">
+								<PlayImg
+									path="user/vip/tag_4/2"
+									:interval="50"
+									:length="40"
+								/>
+							</view>
 							<view class="absolute text-center pw-100 left-0 bottom-12 fs-10">
 								<view class="" :style="{ color: switcher == 3 ? '#7B351B' : '#30304C' }">
 									<text>更多详细权益查看</text>
@@ -173,9 +196,12 @@
 
 <script>
 	import Title from '../../components/Title.vue';
+	import PlayImg from '../../components/PlayImgs.vue';
+	
 	export default {
 		components: {
-			Title
+			Title,
+			PlayImg
 		},
 		data() {
 			return {

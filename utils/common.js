@@ -1,7 +1,12 @@
 // utils/common.js
 import env from './env'
 import api from '@/utils/api/index.js'
-import { teamBaseInfo, getMemberInfo, getMessageList, initNIM } from './nim'
+import {
+	teamBaseInfo,
+	getMemberInfo,
+	getMessageList,
+	initNIM
+} from './nim'
 
 const BASE_URL = env.BASE_URL
 
@@ -110,11 +115,18 @@ const common = {
 	/**
 	 * 气泡
 	 */
-	toast(title) {
-		if (!title) return
-		uni.showToast({
-			title: title,
-			icon: 'none'
+	toast(title, duration = 1500) {
+		if (!title) return Promise.resolve()
+		return new Promise(resolve => {
+			uni.showToast({
+				title,
+				icon: 'none',
+				duration,
+				success() {
+					// 等待 duration 时间再 resolve
+					setTimeout(resolve, duration)
+				}
+			})
 		})
 	},
 
@@ -123,7 +135,7 @@ const common = {
 	 */
 	goto(url, type = 1) {
 		if (!url) return
-		if(type == 2) {
+		if (type == 2) {
 			uni.redirectTo({
 				url
 			})
@@ -148,7 +160,7 @@ const common = {
 			}) // 或跳首页
 		}
 	},
-	
+
 	/**
 	 * 请求接口
 	 */
@@ -161,101 +173,164 @@ const common = {
 			return null
 		}
 	},
-	
+
 	/**
 	 * 防止连续请求接口，在data里定义变量，在onload调用方法
 	 */
 	onceRequest(fn, delay = 500) {
-	  let locked = false  // 这里定义在 onceRequest 的闭包作用域中，保持状态
-	  return async function(...args) {
-	    if (locked) {
-	      console.warn('请求被拦截：重复请求')
-	      return
-	    }
-	    locked = true
-	    try {
-	      const result = await fn.apply(this, args)
-	      return result
-	    } finally {
-	      setTimeout(() => {
-	        locked = false
-	      }, delay)
-	    }
-	  }
+		let locked = false // 这里定义在 onceRequest 的闭包作用域中，保持状态
+		return async function(...args) {
+			if (locked) {
+				console.warn('请求被拦截：重复请求')
+				return
+			}
+			locked = true
+			try {
+				const result = await fn.apply(this, args)
+				return result
+			} finally {
+				setTimeout(() => {
+					locked = false
+				}, delay)
+			}
+		}
 	},
-	
+
 	cs() {
 		return 'https://dbqyhksh.kk.afastchat.online'
 	},
-	
+
 	url(type) {
-		switch(type) {
-			case 'cs': return this.cs()
-			case 'dl': return 'https://resource.kkanyng.vip/medicine/download/app-release.new.apk'
-			default: return ''
+		switch (type) {
+			case 'cs':
+				return this.cs()
+			case 'dl':
+				return 'https://resource.kkanyng.vip/medicine/download/app-release.new.apk'
+			default:
+				return ''
 		}
 	},
-	
+
 	barHeight() {
 		return uni.$u.sys().statusBarHeight + 20
 	},
-	
+
 	baseColor() {
 		return '#1A7E84'
 	},
-	
+
 	arrowColor() {
 		return '#7D7D7D'
 	},
-	
+
 	formatStatus(e, p = '') {
-		switch(e) {
-			case 1: return { color: '#FF8F1F', text: '待付款', hint: p && '订单会在' + p +  '后自动取消订单，请您及时付款' }
-			case 2: return { color: '#FF8F1F', text: '已付款', hint: '请您选择申请发货或者寄存仓库' }
-			case 3: return { color: '#FF8F1F', text: '待收货', hint: '签收后7天后会自动确认收货' }
-			case 4: return { color: '#3D3D3D', text: '交易成功', hint: '感谢您的支持，期待您下次再来购买' }
-			case 5: return { color: '#3D3D3D', text: '已评价', hint: '' }
-			case 6: return { color: '#9F9F9F', text: '已取消', hint: '您的订单已取消' }
-			case 8: return { color: '#FF8F1F', text: '待发货', hint: '商家正在打包请耐心等待' }
-			case 9: return { color: '#3d3d3d', text: '已寄存', hint: '您的商品已寄存，可去我的仓库内查看' }
-			default: return { color: '#9F9F9F', text: '' }
+		switch (e) {
+			case 1:
+				return {
+					color: '#FF8F1F', text: '待付款', hint: p && '订单会在' + p + '后自动取消订单，请您及时付款'
+				}
+			case 2:
+				return {
+					color: '#FF8F1F', text: '已付款', hint: '请您选择申请发货或者寄存仓库'
+				}
+			case 3:
+				return {
+					color: '#FF8F1F', text: '待收货', hint: '签收后7天后会自动确认收货'
+				}
+			case 4:
+				return {
+					color: '#3D3D3D', text: '交易成功', hint: '感谢您的支持，期待您下次再来购买'
+				}
+			case 5:
+				return {
+					color: '#3D3D3D', text: '已评价', hint: ''
+				}
+			case 6:
+				return {
+					color: '#9F9F9F', text: '已取消', hint: '您的订单已取消'
+				}
+			case 8:
+				return {
+					color: '#FF8F1F', text: '待发货', hint: '商家正在打包请耐心等待'
+				}
+			case 9:
+				return {
+					color: '#3d3d3d', text: '已寄存', hint: '您的商品已寄存，可去我的仓库内查看'
+				}
+			default:
+				return {
+					color: '#9F9F9F', text: ''
+				}
 		}
 	},
-	
+
 	formatPointStatus(e, p = '') {
-		switch(e) {
-			case 1: return { color: '#FF8F1F', text: '待付款', hint: p && '订单会在' + p +  '后自动取消订单，请您及时付款' }
-			case 2: return { color: '#FF8F1F', text: '已付款', hint: '已付款，可申请发货' }
-			case 3: return { color: '#FF8F1F', text: '待收货', hint: '签收后7天后会自动确认收货' }
-			case 4: return { color: '#3D3D3D', text: '交易成功', hint: '感谢您的支持，期待您下次再来购买' }
-			case 5: return { color: '#3D3D3D', text: '已评价', hint: '' }
-			case 6: return { color: '#9F9F9F', text: '已取消', hint: '您的订单已取消' }
-			case 8: return { color: '#FF8F1F', text: '待发货', hint: '商家正在打包请耐心等待' }
-			case 9: return { color: '#3d3d3d', text: '已寄存', hint: '您的商品已寄存，可去我的仓库内查看' }
-			default: return { color: '#9F9F9F', text: '' }
+		switch (e) {
+			case 1:
+				return {
+					color: '#FF8F1F', text: '待付款', hint: p && '订单会在' + p + '后自动取消订单，请您及时付款'
+				}
+			case 2:
+				return {
+					color: '#FF8F1F', text: '已付款', hint: '已付款，可申请发货'
+				}
+			case 3:
+				return {
+					color: '#FF8F1F', text: '待收货', hint: '签收后7天后会自动确认收货'
+				}
+			case 4:
+				return {
+					color: '#3D3D3D', text: '交易成功', hint: '感谢您的支持，期待您下次再来购买'
+				}
+			case 5:
+				return {
+					color: '#3D3D3D', text: '已评价', hint: ''
+				}
+			case 6:
+				return {
+					color: '#9F9F9F', text: '已取消', hint: '您的订单已取消'
+				}
+			case 8:
+				return {
+					color: '#FF8F1F', text: '待发货', hint: '商家正在打包请耐心等待'
+				}
+			case 9:
+				return {
+					color: '#3d3d3d', text: '已寄存', hint: '您的商品已寄存，可去我的仓库内查看'
+				}
+			default:
+				return {
+					color: '#9F9F9F', text: ''
+				}
 		}
 	},
-	
-	
+
+
 	copy(text) {
 		uni.setClipboardData({
 			data: text,
 			success: () => {
-				uni.showToast({ title: '复制成功', icon: 'none' });
+				uni.showToast({
+					title: '复制成功',
+					icon: 'none'
+				});
 			},
 			fail: () => {
-				uni.showToast({ title: '复制失败', icon: 'none' });
+				uni.showToast({
+					title: '复制失败',
+					icon: 'none'
+				});
 			}
 		});
 	},
-	
+
 	calcTime(dateTimeStr, s) {
-		if(!dateTimeStr) return
+		if (!dateTimeStr) return
 		const date = new Date(dateTimeStr.replace(/-/g, '/'))
 		const newDate = new Date(date.getTime() + s * 1000)
 		return this.formatDateTime(newDate)
 	},
-	
+
 	async checkeLogin(type = 0) {
 		const jwt = this.getStorage('jwt')
 		const profile = this.getStorage('profile')
@@ -263,12 +338,12 @@ const common = {
 			this.toast('请先登录')
 			this.goto('/pages/index/login')
 		}
-		if(type) {
+		if (type) {
 			await this.getProfile()
 			return this.profile()
 		}
 	},
-	
+
 	async getProfile() {
 		const res = await this.fetch(api.user.profile)
 		if (res) {
@@ -276,7 +351,7 @@ const common = {
 		}
 		return res
 	},
-	
+
 	profile() {
 		return this.getStorage('profile') || {
 			account: "heiseeyong",
@@ -293,23 +368,23 @@ const common = {
 			share_url: ''
 		}
 	},
-	
+
 	formatUrl(url) {
-	    if (!url) return '/static/group/default.png' // 默认头像
-	    if (url.startsWith('http')) return url      // 已经是完整 URL
-	    return BASE_URL + url      // 拼接域名
+		if (!url) return '/static/group/default.png' // 默认头像
+		if (url.startsWith('http')) return url // 已经是完整 URL
+		return BASE_URL + url // 拼接域名
 	},
-	
+
 	userAvatar() {
-		return '/static/user/avatar.png'
+		return '/static/common/logo_white.png'
 	},
-	
+
 	groupAvatar() {
 		return '/static/group/default.png'
 	},
-	
+
 	async goChat(item) {
-		if(!item.team_id && item.conversationId) {
+		if (!item.team_id && item.conversationId) {
 			const parts = item.conversationId.split('|')
 			if (parts.length == 3) {
 				item.team_id = parseInt(parts[2])
@@ -317,14 +392,14 @@ const common = {
 		}
 		const chatInfo = this.getStorage('chatInfo')
 		this.setStorage('chatInfo', item)
-		if(item.team_id != chatInfo.team_id) {
+		if (item.team_id != chatInfo.team_id) {
 			const res1 = await teamBaseInfo()
-			if(!res1) {
+			if (!res1) {
 				this.removeStorage('chatInfo')
 				return
 			}
 			const res2 = await getMemberInfo()
-			if(!res2) {
+			if (!res2) {
 				this.removeStorage('chatInfo')
 				return
 			}
@@ -332,42 +407,53 @@ const common = {
 		}
 		this.goto('/pages/group/chat')
 	},
-	
+
 	formatMessage(reply) {
-		switch(reply.messageType) {
-			case 0: return reply.text || ''
-			case 1: return '[图片消息]'
-			case 2: return '[语音消息]'
-			case 3: return '[视频消息]'
-			case 6: return '[文件消息]'
-			default: return '消息'
+		switch (reply.messageType) {
+			case 0:
+				return reply.text || ''
+			case 1:
+				return '[图片消息]'
+			case 2:
+				return '[语音消息]'
+			case 3:
+				return '[视频消息]'
+			case 6:
+				return '[文件消息]'
+			default:
+				return '消息'
 		}
 	},
-	
+
 	checkNim() {
 		const pages = getCurrentPages()
 		const currentPage = pages[pages.length - 1]
 		const current = '/' + currentPage.route
-		const arr = ['/pages/index/launch', '/pages/index/login', '/pages/index/index', '/pages/index/index', '/pages/index/register']
-		const aotuLogin = arr.indexOf(current) > -1? false : true
+		const arr = ['/pages/index/launch', '/pages/index/login', '/pages/index/index', '/pages/index/index',
+			'/pages/index/register'
+		]
+		const aotuLogin = arr.indexOf(current) > -1 ? false : true
 		initNIM(aotuLogin)
 	},
-	
+
 	checkIcon(res) {
 		return res ? '/static/icon/check_1.webp' :
 			'/static/icon/check_0.webp'
 	},
-	
-	codeLimitTime () {
+
+	codeLimitTime() {
 		return 150 * 1000
 	},
-	
+
 	levelIcon(level) {
-		if(!level) return ''
+		if (!level) return ''
 		switch (level) {
-			case 3: return '/static/user/vip.png'
-			case 4: return '/static/user/partner.png'
-			default: return ''
+			case 3:
+				return '/static/user/vip.png'
+			case 4:
+				return '/static/user/partner.png'
+			default:
+				return ''
 		}
 	},
 }

@@ -63,13 +63,14 @@
 				<view class="fs-18 fw-5 text-center">仓库发货</view>
 				<view class="flex-between ptb-30 fs-12" @click="$c.goto('/pages/user/address?from=address')">
 					<image src="/static/goods/place.png" class="w-12 h-14 self-start"></image>
-					<view class="flex-1 ml-8 mr-20">
+					<view v-if="address.district" class="flex-1 ml-8 mr-20">
 						<view class="">{{ address.district + address.address }}</view>
 						<view class="mt-15 ">
 							<text class="text-info">{{ address.name }}</text>
 							<text class="text-info ml-20">{{ address.phone }}</text>
 						</view>
 					</view>
+					<view v-else class="flex-1 ml-8 mr-20 text-info">请添加收货地址</view>
 					<u-icon name="arrow-right" size="14" color="#7D7D7D" class="self-start"></u-icon>
 				</view>
 				<view class="h-10 bg-page"></view>
@@ -168,7 +169,7 @@
 				this.showShipItem = false
 			},
 			onShowShip() {
-				this.$c.toast('功能开发中')
+				this.$c.toast('未到开放时间')
 				// if(!this.num) {
 				// 	this.$c.toast('请选择商品')
 				// 	return
@@ -195,7 +196,7 @@
 				if(res) { this.address = res.length > 0? res[0] : {} }
 			},
 			async onSubmit(mode) {
-				this.$c.toast('功能开发中')
+				this.$c.toast('未到开放时间')
 			}
 		}
 	}

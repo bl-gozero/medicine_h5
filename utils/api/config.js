@@ -2,10 +2,10 @@ import request from '../request'
 
 export default {
 	captcha(data = {}, config = {}) {
-		return request.post('/captcha/add', {}, { auth: false, ...config })
+		return request.post('/captcha/add', data, { auth: false, ...config })
 	},
 	mobile_captcha(data = {}, config = {}) {
-		return request.post('/user/mobile_captcha', {}, { auth: false, ...config })
+		return request.post('/user/mobile_captcha', data, { loading: true, auth: false, ...config })
 	},
 	images(data = {}, config = {}) {
 		return request.post('/looping_pictures/list', data, { auth: false, ...config })

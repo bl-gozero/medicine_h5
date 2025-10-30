@@ -77,13 +77,14 @@
 				<view class="text-center fs-18 fw-5">{{ mode == 1? '添加到购物车' : '提交订单'}}</view>
 				<!-- <view class="plr-20 flex justify-between mt-37" style="align-items: flex-start;" @click="$c.goto('/pages/user/address?from=goodsDetail')">
 					<image src="/static/goods/place.png" class="w-12 h-14"></image>
-					<view class="flex-1 ml-8 mr-20">
+					<view v-if="address.district" class="">
 						<view class="">{{ address.district + address.address }}</view>
-						<view class="mt-10">
+						<view class="mt-15 fs-12">
 							<text class="text-info">{{ address.name }}</text>
 							<text class="text-info ml-20">{{ address.phone }}</text>
 						</view>
 					</view>
+					<view class="flex-1 ml-8 mr-20 text-info">请添加收货地址</view>
 					<u-icon name="arrow-right" size="14" color="#7D7D7D"></u-icon>
 				</view> -->
 				<view class="plr-20 flex-start mt-30 mb-20">

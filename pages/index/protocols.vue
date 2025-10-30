@@ -1,7 +1,7 @@
 <template>
 	<view class="">
 		<Title :title="title" :fixed="true" />
-		<view :class="`pt-${height}`">
+		<view>
 			<u--image :src="img" width="100%" height="auto" bgColor="transparent" mode="widthFix">
 			  <template v-slot:loading>
 			    <view class="pt-100">

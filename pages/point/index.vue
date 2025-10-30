@@ -152,10 +152,4 @@
 		background: #CBCBCB;
 		box-shadow: none;
 	}
-	
-	.img-box {
-		width: 100%;
-		aspect-ratio: 1 / 1;
-		overflow: hidden;
-	}
 </style>

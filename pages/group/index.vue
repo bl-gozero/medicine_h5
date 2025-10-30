@@ -43,8 +43,8 @@
 					indicator-dots
 					autoplay
 				>
-					<swiper-item v-if="showNew">
-						<view class="swiper-item flex-between fs-12 relative mt-20" @click="$c.goto('/pages/activity/newExclusive')">
+					<swiper-item v-if="1 || showNew">
+						<!-- <view class="swiper-item flex-between fs-12 relative mt-20" @click="$c.goto('/pages/activity/newExclusive')">
 							<image src="/static/avtivity/new/goods.webp" class="i-25 rounded-8"></image>
 							<text>价值135元朝鲜山参</text>
 							<text class="text-orange">免费领取</text>
@@ -53,10 +53,27 @@
 							<text class="fw-5">倒计时</text>
 							<view class="text-orange plr-4 ptb-6 rounded-6 fw-7" style="background: #FBE4DC;">去领取</view>
 							<view class="new">新用户专享</view>
+						</view> -->
+						<view class="" @click="$c.goto('/pages/activity/newExclusive')">
+							<!-- <PlayImg
+								canvasId="new"
+								:paths="['group_activity/new/1']"
+								:counts="[20]"
+								:loopModes="['loop']"
+								:fpsModes="[20]"
+								:overallLoop="true"
+								:designWidth="336"
+								:designHeight="60"
+							/> -->
+							<PlayImg
+								path="group_activity/new/1"
+								:interval="50"
+								:length="20"
+							/>
 						</view>
 					</swiper-item>
-					<swiper-item v-if="showEgg">
-						<view class="swiper-item flex-between fs-12 relative mt-20" @click="$c.goto('/pages/activity/egg')">
+					<swiper-item v-if="1 || showEgg">
+						<!-- <view class="swiper-item flex-between fs-12 relative mt-20" @click="$c.goto('/pages/activity/egg')">
 							<image src="/static/avtivity/egg/egg.webp" class="w-24 h-13"></image>
 							<text>购买一次商品</text>
 							<text class="text-orange">免费领取鸡蛋</text>
@@ -65,16 +82,50 @@
 							<text class="fw-5">已领取</text>
 							<view class="text-orange plr-4 ptb-6 rounded-6 fw-7" style="background: #FBE4DC;">去领取</view>
 							<view class="new">月月领百冠山初生蛋</view>
+						</view> -->
+						<view class="flex-center" @click="$c.goto('/pages/activity/egg')">
+							<!-- <PlayImg
+								canvasId="egg"
+								:paths="['group_activity/egg/2']"
+								:counts="[20]"
+								:loopModes="['loop']"
+								:fpsModes="[20]"
+								:overallLoop="true"
+								:width="336"
+								:height="60"
+							/> -->
+							<PlayImg
+								path="group_activity/egg/2"
+								:interval="50"
+								:length="20"
+							/>
 						</view>
 					</swiper-item>
 					<swiper-item>
-						<view class="swiper-item flex-between fs-12 relative mt-20" @click="$c.goto('/pages/index/task')">
+						<!-- <view class="swiper-item flex-between fs-12 relative mt-20" @click="$c.goto('/pages/index/task')">
 							<image src="/static/task/1.webp" class="i-24 rounded-8"></image>
 							<text>完成每日任务获取积分</text>
 							<text class="text-orange fs-20 fw-7">换好礼</text>
 							<view class="line"></view>
 							<view class="text-orange plr-4 ptb-6 rounded-6 fw-5" style="background: #FBE4DC;">去任务中心</view>
 							<view class="new">每日任务</view>
+						</view> -->
+						<view class="flex-center" @click="$c.goto('/pages/index/task')">
+							<!-- <PlayImg
+								canvasId="daily"
+								:paths="['group_activity/daily/3']"
+								:counts="[20]"
+								:loopModes="['loop']"
+								:fpsModes="[20]"
+								:overallLoop="true"
+								:width="336"
+								:height="60"
+							/> -->
+							<PlayImg
+								path="group_activity/daily/3"
+								:interval="50"
+								:length="20"
+							/>
 						</view>
 					</swiper-item>
 				</swiper>
@@ -127,12 +178,14 @@
 
 <script>
 	import TabBar from '../../components/TabBar.vue'
+	import PlayImg from '../../components/PlayImgs.vue'
 	import ConversationList from './components/conversation-list.vue'
 	import { teamJoinCount } from '@/utils/nim.js'
 	
 	export default {
 		components: {
 			TabBar,
+			PlayImg,
 			ConversationList
 		},
 		data() {

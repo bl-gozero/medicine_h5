@@ -3,7 +3,7 @@
 		<view class="user_box plr-20" :class="`pt-${$c.barHeight()}`">
 			<view class="flex-between">
 				<view class="relative">
-					<u-avatar :src="profile.avatar" size="55" default-url="/static/user/avatar.png"></u-avatar>
+					<u-avatar :src="profile.avatar" size="55" :default-url="$c.userAvatar()"></u-avatar>
 					<image 
 						v-if="profile.level && profile.level.id > 2" 
 						:src="$c.levelIcon(profile.level.id)" 

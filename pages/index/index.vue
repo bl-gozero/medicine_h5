@@ -20,6 +20,13 @@
 		<view class="flex-1 mt-14 roundedTop-20 pt-15 plr-20 pb-60 border-box" style="background: #E7F1FF;">
 			<view class="relative mb-30">
 				<image src="/static/index/point_box.webp" class="pw-100" mode="widthFix"></image>
+				<view class="absolute pw-100 top-0 left-0">
+					<PlayImg
+						path="index_point/1"
+						:interval="40"
+						:length="50"
+					/>
+				</view>
 				<view class="absolute ph-19 pw-50" style="top: 3%;right: 2%" @click="$c.goto('/pages/index/task')"></view>
 				<view class="absolute left-0 right-0 bottom-0 flex-between plr-14 border-box" style="top: 22%">
 					<view class="" v-for="(item, index) in pointList" :key="item.id" @click="$c.goto(`/pages/point/goodsDetail?id=${item.id}`)">
@@ -29,7 +36,7 @@
 							</view>
 							<view class="fs-10 text-center mt-7 mb-5 u-line-1">{{ item.name }}</view>
 							<view class="flex-center">
-								<view class="flex-start">
+								<view class="flex-start u-line-1">
 									<image src="/static/icon/point.webp" class="i-9 mr-2"></image>
 									<text class="text-base fs-10">{{ item.price }}积分</text>
 								</view>
@@ -56,9 +63,17 @@
 					<text class="ml-3 fs-12 lh-12" style="color: #387175;">{{ item }}</text>
 				</view>
 			</view>
-			<view class="flex-between flex-wrap">
-				<view class="w-158 mt-10 bg-white rounded-12" v-for="(item,index) in list" :key="item.id" @click="$c.goto('/pages/goods/detail?id=' + item.id)">
-					<image :src="item.picture" class="i-158 roundedTop-12 block" lazy-load mode="aspectFill"></image>
+			<view class="flex-between flex-wrap" style="gap: 10px;">
+				<view 
+					class="mt-10 bg-white rounded-12"
+					style="width: calc((100% - 10px) / 2);"
+					v-for="(item,index) in list" 
+					:key="item.id" 
+					@click="$c.goto('/pages/goods/detail?id=' + item.id)"
+				>
+					<view class="img-box flex-center">
+						<image :src="item.picture" class="pw-100 ph-100 roundedTop-12 block" lazy-load mode="aspectFill"></image>
+					</view>
 					<view class="p-10 border-box">
 						<text class="u-line-1 fs-14 fw-5 border-bo">{{ item.name }}</text>
 						<view class="flex-between mt-18">
@@ -109,15 +124,25 @@
 			mode="center"
 			bgColor="transparent"
 			overlayStyle="background: 'rgba(0, 0, 0, 0.6)'"
-			:closeOnClickOverlay="false"
 			@close="showEgg == false"
 		>
-			<view class="text-center">
-				<view class="relative">
+			<view class="text-center vw-100" >
+				<PlayImg
+					path="index_egg/1/1"
+					:interval="40"
+					:length="25"
+					:loop="false"
+					path2="index_egg/2/1"
+					:interval2="40"
+					:length2="25"
+					:start2="25"
+				/>
+				<image src="/static/icon/close.webp" class="i-52" style="margin-top: -10%;" @click="showEgg = false"></image>
+				<!-- <view class="relative">
 					<image src="/static/index/rewardegg.webp" class="w-308 h-370"></image>
+					
 					<view class="absolute left-0 right-0 auto-x pw-85 ph-20" style="bottom: 9%;" @click="$c.goto('/pages/activity/egg')"></view>
-				</view>
-				<image src="/static/icon/close.webp" class="i-52 mt-17" @click="showEgg = false"></image>
+				</view> -->
 			</view>
 		</u-popup>
 	</view>
@@ -125,9 +150,11 @@
 
 <script>
 	import TabBar from '../../components/TabBar.vue';
+	import PlayImg from '../../components/PlayImgs.vue';
 	export default {
 		components: {
-			TabBar
+			TabBar,
+			PlayImg
 		},
 		data() {
 			return {

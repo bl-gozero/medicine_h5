@@ -171,11 +171,13 @@
 					mode: 'register'
 				})
 				if(res) {
-					this.showCodeBtn = false
+					// this.showCodeBtn = false
 					// this.form.captcha_id = res.id
 					// this.captcha = res.base64_image
-					this.$refs.countDown.reset();
-					this.$refs.countDown.start();
+					// this.$refs.countDown.reset();
+					// this.$refs.countDown.start();
+					this.$c.toast('发送成功')
+					if(res.captcha) this.form.captcha = res.captcha
 				}
 			},
 			async onSubmit() {

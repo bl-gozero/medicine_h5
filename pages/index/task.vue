@@ -52,7 +52,7 @@
 					<view class="w-70">
 						<u-button v-if="item.number >= item.count" class="btn btn-1" shape="circle">今日完成</u-button>
 						<u-button v-else-if="item.id == 1" class="btn" shape="circle" @click="doSign">立即签到</u-button>
-						<u-button v-else class="btn" shape="circle" @click="$c.goto('/pages/index/index')">去完成</u-button>
+						<u-button v-else class="btn" shape="circle" @click="onTask(item)">去完成</u-button>
 						<!-- <u-button v-else class="btn" shape="circle">去完成</u-button> -->
 					</view>
 				</view>
@@ -175,6 +175,17 @@
 					this.profile = await this.$c.getProfile()
 				}
 			},
+			onTask(item) {
+				if(item.id == 1) {
+					this.doSign()
+				} else if(item.id == 2) {
+					this.$c.goto('/pages/index/index')
+				} else if(item.id == 3) {
+					this.$c.goto('/pages/group/index')
+				} else {
+					
+				}
+			}
 		}
 	}
 </script>

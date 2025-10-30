@@ -5,7 +5,7 @@
 				<text class="text-info fs-12" style="text-wrap: nowrap;">全部清除</text>
 			</template> -->
 		</Title>
-		<view class="mt-10">待处理</view>
+		<!-- <view class="mt-10">待处理</view> -->
 		<view class="mt-10">
 			<view v-if="item.actionType === 0" class="flex-between item-stretch" v-for="item in teamJoinList.list" :key="item.id">
 				<!-- <view class="u-line-1 pw-100">{{ item }}</view> -->
