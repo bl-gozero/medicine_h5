@@ -195,6 +195,7 @@
 				if(res) {
 					this.$c.toast('注册成功')
 					this.$c.setStorage('jwt', res.jwt)
+					this.$c.setStorage('index_pop', false)
 					// this.$c.goto('/pages/user/payPassword?type=1')
 					// this.getProfile()
 					this.intIm()

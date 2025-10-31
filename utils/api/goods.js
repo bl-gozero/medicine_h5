@@ -29,7 +29,7 @@ export default {
 		return request.post('/order_form/create', data, { loading: true })
 	},
 	orderPay(data) {
-		return request.post('/order_form/paying', data, { loading: true })
+		return request.post('/order_form/paying', { device: 2, ...data }, { loading: true })
 	},
 	orderCancel(data) {
 		return request.post('/order_form/cancel', data, { loading: true })

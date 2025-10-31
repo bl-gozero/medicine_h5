@@ -2,7 +2,10 @@
 	<view class="page bg">
 		<Title title="积分商城" bgColor="transparent" @back="$c.goto('/pages/index/index')" />
 		<view class="mt-10 plr-20 relative" style="z-index: 2;">
-			<image src="/static/point/index-top.webp" class="absolute top-20 right-0 i-135"></image>
+			<view class="absolute right-0 i-135">
+				<!-- <image src="/static/point/index-top.webp" class=""></image> -->
+				<PlayImg path="point/top/1" :length="40" :interval="50" />
+			</view>
 			<view class="">当前积分</view>
 			<view class="mt-10 fs-28 fw-7">{{ profile.integral }}</view>
 			<view class="mt-15 flex-start">
@@ -13,7 +16,12 @@
 				<view class="flex-between">
 					<text class="fs-16 fw-7">做任务赚积分</text>
 					<view v-if="point_1" class="all h-20 rounded-x flex-start plr-5">
-						<image src="/static/point/coin.webp" class="w-17 h-18"></image>
+						<view class="relative">
+							<image src="/static/point/coin.webp" class="w-17 h-18"></image>
+							<view class="absolute top-0 right-0 pw-100" style="transform: translate(20%, -5%);">
+								<PlayImg path="task/star/2" :length="40" :interval="50" />
+							</view>
+						</view>
 						<text class="fs-12 lh-10">完成全部可得 {{ point_1 }} 积分</text>
 					</view>
 				</view>
@@ -37,8 +45,11 @@
 					</view>
 				</view>
 			</view>
-			<image src="/static/point/title.webp" class="w-101 h-42 mt-20"></image>
-			<view class="flex-between flex-wrap" style="gap: 10px;">
+			<!-- <image src="/static/point/title.webp" class="w-101 h-42 "></image> -->
+			<view class="w-101 h-42 mt-20">
+				<PlayImg path="point/title/3" :length="40" :interval="50" />
+			</view>
+			<view class="flex-between flex-wrap mt-20" style="gap: 10px;">
 				<view 
 					class="bg-white rounded-14"
 					style="width: calc((100% - 10px) / 2);"
@@ -60,15 +71,30 @@
 			</view>
 			<view class="h-50"></view>
 		</view>
-		<view class=""></view>
+		
+		<u-popup :show="showReward" mode="center" bgColor="transparent" @close="showReward = false;">
+			<view class="w-308 h-280 sign_reward_box rounded-20 text-center">
+				<image src="/static/user/sign_reward.png" class="w-113 h-107" style="margin-top: -53px;"></image>
+				<view class="fw-7 fs-18 mt-20 text-base">签到成功</view>
+				<view class="mt-9 fs-12" style="color: #8B9E9F;">真棒！请保持每天签到哦！</view>
+				<view class="fs-16 mt-10">恭喜您获得<text class="fs-36 fw-7 text-danger">{{ reward }}</text>元</text></view>
+				<button
+					class="bg-black bold fs-16 flex-center text-white w-234 h-51 rounded-x mt-20"
+					@click="showReward = false;"
+				>知道了</button>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
 <script>
 	import Title from '../../components/Title.vue'
+	import PlayImg from '../../components/PlayImgs.vue'
+	
 	export default {
 		components: {
-			Title
+			Title,
+			PlayImg
 		},
 		data() {
 			return {
@@ -77,7 +103,9 @@
 				tasks: [],
 				search: { page: 1, limit: 10, name: '', load: 'more', is_integral: 1 },
 				doSign: null,
-				point_1: 0
+				point_1: 0,
+				showReward: false,
+				reward: 0
  			}
 		},
 		async onLoad() {
@@ -111,6 +139,8 @@
 			async onSign() {
 				const res = await this.$c.fetch(this.$api.user.signIn)
 				if(res) {
+					this.reward = res.amount
+					this.showReward = true
 					this.getTask()
 					this.profile = await this.$c.getProfile()
 				}

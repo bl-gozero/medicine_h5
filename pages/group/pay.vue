@@ -111,8 +111,9 @@
 				const res = await this.$c.fetch(this.$api.group.pay, this.form)
 				if (res) {
 					if(res.jump_url) {
-						this.$c.setStorage('web', { title: '支付', src: res.jump_url })
-						this.$c.goto('/pages/index/web?type=pay')
+						// this.$c.setStorage('web', { title: '支付', src: res.jump_url })
+						// this.$c.goto('/pages/index/web?type=pay')
+						this.$c.quickPay(res.jump_url)
 					} else {
 						this.$c.goBack()
 					}

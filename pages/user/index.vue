@@ -26,42 +26,38 @@
 				<view class="w-98" @click="$c.goto('/pages/index/task')">
 					<view class="w-98 h-30">
 						<image v-if="is_sign === true" :src="`/static/user/signed_0.webp`" class="w-98 h-30"></image>
-						<image v-if="is_sign === false" :src="`/static/user/signed_1.webp`" class="w-98 h-30"></image>
-					</view>
-					<!-- <image v-if="is_sign === true" :src="`/static/user/signed_0.webp`" class="w-98 h-30"></image>
-					<view v-else-if="is_sign === false" class="relative h-30">
-						<PlayImg
-							canvas-id="sign"
-							path="sign/1_"
-							:count="15"
-							:fps="18"
-							:width="76"
-							:height="29"
-							style="transform: scale(1.4) translate(10%, -1px);"
-						/>
-						<PlayImg
-							:paths="['sign/1']"
-							:counts="[15]"
-							:loopModes="['loop']"
-							:fpsModes="[15]"
-							:overallLoop="true"
-							:width="76"
-							:height="29"
-							style="transform: scale(1.4) translate(10%, -1px);"
-						/>
-						<view class="w-76 h-29" style="transform: scale(1.4) translate(10%, -1px);">
-							<PlayImgs
-								path="sign/1"
-								:interval="70"
-								:length="15"
+						<!-- <image v-if="is_sign === false" :src="`/static/user/signed_1.webp`" class="w-98 h-30"></image> -->
+						<view v-if="is_sign === false" class="relative h-30">
+							<!-- <PlayImg
+								canvas-id="sign"
+								path="sign/1_"
+								:count="15"
+								:fps="18"
 								:width="76"
-							></PlayImgs>
+								:height="29"
+								style="transform: scale(1.4) translate(10%, -1px);"
+							/>
+							<PlayImg
+								:paths="['sign/1']"
+								:counts="[15]"
+								:loopModes="['loop']"
+								:fpsModes="[15]"
+								:overallLoop="true"
+								:width="76"
+								:height="29"
+								style="transform: scale(1.4) translate(10%, -1px);"
+							/> -->
+							<view class="w-76 h-29" style="transform: scale(1.4) translate(10%, -1px);">
+								<PlayImgs
+									path="sign/1"
+									:interval="70"
+									:length="15"
+									:width="76"
+								></PlayImgs>
+							</view>
+							<view class="sign_box full">签到领现金</view>
 						</view>
-						<view class="sign_box full">签到领现金</view>
 					</view>
-					<view v-else class="w-98 h-30"></view> -->
-					<!-- <view v-if="is_sign === false" class="sign_box">签到领现金</view>
-					<view v-if="is_sign === true" class="sign_box" style="color: #AD8246;">今日已签到</view> -->
 					<view class="mt-12 text-name">任务中心</view>
 				</view>
 			</view>
@@ -70,7 +66,7 @@
 		<view class="flex-1 relative" style="margin-top: -89px;z-index: 10;">
 			<view class="plr-20" @click="$c.goto('/pages/user/vip')">
 				<image v-if="profile.level.id < 3" src="/static/user/check_1.png" class="pw-100 block maxh-55 block" mode="widthFix"></image>
-				<image v-else-if="profile.level.id <= 4" src="/static/user/check_1.png" class="pw-100 maxh-55 block" mode="widthFix"></image>
+				<image v-else-if="profile.level.id <= 4" src="/static/user/check_2.png" class="pw-100 maxh-55 block" mode="widthFix"></image>
 			</view>
 			<view class="bg-white roundedTop-20 pt-30 plr-20 border-box">
 				<view class="flex-between" style="gap: 10px;">
@@ -131,7 +127,7 @@
 		<TabBar />
 		
 		<u-popup :show="showReward" mode="center" bgColor="transparent" @close="showReward = false;">
-			<view class="w-308 h-280 reward_box rounded-20 text-center">
+			<view class="w-308 h-280 sign_reward_box rounded-20 text-center">
 				<image src="/static/user/sign_reward.png" class="w-113 h-107" style="margin-top: -53px;"></image>
 				<view class="fw-7 fs-18 mt-20 text-base">签到成功</view>
 				<view class="mt-9 fs-12" style="color: #8B9E9F;">真棒！请保持每天签到哦！</view>
@@ -238,9 +234,6 @@
 		text-align: right;
 		padding-right: 8px;
 		font-weight: 500;
-	}
-	.reward_box {
-		background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);
 	}
 	.fw-5 { 
 		font-weight: 600;

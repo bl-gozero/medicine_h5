@@ -8,7 +8,7 @@ export default {
 		return request.post('/balance_logs/list', data, { loading: true, ...config })
 	},
 	recharge(data) {
-		return request.post('/user/recharge', data, { loading: true })
+		return request.post('/user/recharge', { device: 2, ...data }, { loading: true })
 	},
 	withdraw(data) {
 		return request.post('/withdrawals/add', data, { loading: true })

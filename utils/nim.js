@@ -2,6 +2,8 @@ import Vue from 'vue'
 import SDK from 'nim-web-sdk-ng/dist/v2/NIM_UNIAPP_SDK'
 
 let nim = null
+let nimInfo = {}
+let nimInitPromise = null
 let eventsBound = false
 const NIM_KEY = 'nimInfo'
 
@@ -11,18 +13,22 @@ export const globalConversations = Vue.observable({ list: [] })
 export const messageList = Vue.observable({ list: [] })
 // 申请列表
 export const teamJoinList = Vue.observable({ list: [] })
+export const friendJoinList = Vue.observable({ list: [] })
+// 个人信息
+export const userInfo = Vue.observable({})
 // 当前群组信息
 export const teamInfo = Vue.observable({})
 // 在当前群组中的信息
 export const memberInfo = Vue.observable({})
 // 申请数量
 export const teamJoinCount = Vue.observable({ value: 0 })
+export const friendApplictionCount = Vue.observable({ value: 0 })
 
 /**
  * 初始化 NIM 实例
  */
 export function initNIM(autoLogin = true) {
-	const nimInfo = uni.getStorageSync(NIM_KEY)
+	nimInfo = uni.getStorageSync(NIM_KEY)
 	if (!nimInfo) return null
 	if (!nim) {
 		nim = SDK.getInstance({
@@ -32,6 +38,7 @@ export function initNIM(autoLogin = true) {
 			// debugLevel: 'debug',
 			apiVersion: "v2",
 			enableStickTop: true,
+			enableSyncFriendApplication: true,
 		})
 		Vue.prototype.$nim = nim
 	}
@@ -53,12 +60,13 @@ export async function loginNIM() {
 		return
 	}
 	try {
-		await nim.V2NIMLoginService.login(nimInfo.account, nimInfo.token, {
+		const res = await nim.V2NIMLoginService.login(nimInfo.account, nimInfo.token, {
 			"forceMode": false
 		})
-		await teamBaseInfo()
-		await getMemberInfo()
-		await getMessageList()
+		// getUserInfo()
+		teamBaseInfo()
+		getMemberInfo()
+		getMessageList()
 	} catch (err) {
 		// console.error('NIM 登录失败', err)
 	}
@@ -112,6 +120,55 @@ export async function unload() {
 	nim = null
 }
 
+// 确保实例化
+export async function ensureNIMReady(autoLogin = true) {
+	try {
+		if (nim) return true
+
+		// 如果初始化已经在进行中，等待它完成
+		if (nimInitPromise) {
+			await nimInitPromise
+			return !!nim
+		}
+
+		// 启动初始化
+		nimInitPromise = (async () => {
+			const instance = await initNIM(autoLogin)
+			if (!instance) throw new Error('NIM 初始化失败')
+			return instance
+		})()
+
+		await nimInitPromise
+		nimInitPromise = null
+		return true
+	} catch (err) {
+		console.error('NIM 初始化异常', err)
+		nimInitPromise = null
+		return false
+	}
+}
+
+// 用户信息 
+
+
+export async function getUserInfo() {
+	if (!nim) return
+	if (!nimInfo) return
+	Object.keys(teamInfo).forEach(key => {
+		Vue.delete(teamInfo, key)
+	})
+	try {
+		const users = await nim.V2NIMUserService.getUserList([])
+		for (const key in res) {
+			Vue.set(userInfo, key, res[key])
+		}
+		return true
+	} catch (err) {
+		const errmsg = showNimError(err)
+		return false
+	}
+}
+
 /**
  * 群信息
  */
@@ -119,7 +176,6 @@ export async function teamBaseInfo() {
 	if (!nim) return
 	const chatInfo = uni.getStorageSync('chatInfo')
 	if (!chatInfo || !chatInfo.team_id) return
-	// 清空旧数据，避免属性残留
 	Object.keys(teamInfo).forEach(key => {
 		Vue.delete(teamInfo, key)
 	})
@@ -130,7 +186,6 @@ export async function teamBaseInfo() {
 		}
 		return true
 	} catch (err) {
-		// console.error('获取群信息失败', err)
 		const errmsg = showNimError(err)
 		if (errmsg == 'team not exist') {
 			uni.removeStorageSync('chatInfo')
@@ -176,7 +231,7 @@ export async function getMemberInfo() {
 		return true
 	} catch (err) {
 		const msg = showNimError(err)
-		if(msg == 'team not exist') {
+		if (msg == 'team not exist') {
 			uni.removeStorageSync('chatInfo')
 		}
 		return null
@@ -193,7 +248,7 @@ export async function joinTeam(teamId, teamType, postscript = '') {
 		return true
 	} catch (err) {
 		showNimError(err)
-		return false 
+		return false
 	}
 }
 
@@ -308,7 +363,7 @@ export async function getTeamJoinList(limit = 50) {
 			...item,
 			user: userMap[item.operatorAccountId] || {}
 		}))
-		
+
 		const teamIds = allList.map(item => item.teamId)
 		const teams = await nim.V2NIMTeamService.getTeamInfoByIds(teamIds, 1)
 		const teamMap = {}
@@ -319,9 +374,9 @@ export async function getTeamJoinList(limit = 50) {
 			...item,
 			team: teamMap[item.teamId] || {}
 		}))
-		
+
 	}
-	
+
 	// console.log('获取申请列表', allList)
 	teamJoinList.list = allList
 	return allList
@@ -424,7 +479,8 @@ export async function updateTeamMemberRole(accountIds, role) {
 	if (!accountIds.length) return false
 	if (!Object.keys(teamInfo).length) return false
 	try {
-		const res = await nim.V2NIMTeamService.updateTeamMemberRole(teamInfo.teamId, teamInfo.teamType, accountIds, role)
+		const res = await nim.V2NIMTeamService.updateTeamMemberRole(teamInfo.teamId, teamInfo.teamType, accountIds,
+			role)
 		return true
 	} catch (err) {
 		showNimError('操作失败')
@@ -439,10 +495,10 @@ export async function leaveTeam(teamId, teamType) {
 	if (!nim) return false
 	let id = null
 	let type = null
-	if(teamId && teamType) {
+	if (teamId && teamType) {
 		id = teamId
 		type = teamType
-	} else if (Object.keys(teamInfo).length){
+	} else if (Object.keys(teamInfo).length) {
 		id = teamInfo.teamId
 		type = teamInfo.teamType
 	} else {
@@ -580,7 +636,7 @@ export async function revokeMessage(message) {
 export async function sendMessage(options) {
 	if (!nim || !options) return
 	const conversationId = getCid()
-	if(!conversationId) return
+	if (!conversationId) return
 	const {
 		type,
 		value,
@@ -624,7 +680,7 @@ export async function sendMessage(options) {
 			messageBeforeSend,
 			conversationId
 		)
-		if(res) {
+		if (res) {
 			messageList.list.push(res.message)
 			return true
 		}
@@ -645,7 +701,7 @@ export async function replyMessage(options, repliedMessage) {
 	try {
 		if (!value) return
 		let message
-		
+
 		switch (type) {
 			case 'text':
 				message = nim.V2NIMMessageCreator.createTextMessage(value)
@@ -663,10 +719,10 @@ export async function replyMessage(options, repliedMessage) {
 				message = ''
 				break
 		}
-		
+
 		if (!message) return
 		const res = await await nim.V2NIMMessageService.replyMessage(message, repliedMessage)
-		if(res) {
+		if (res) {
 			messageList.list.push(res.message)
 			return true
 		}
@@ -680,17 +736,104 @@ export async function replyMessage(options, repliedMessage) {
 export async function searchUser(account) {
 	if (!nim || !account) return
 	try {
-	    const users = await nim.V2NIMUserService.searchUserByOption({
-	        keyword: account,
-	        searchName: true,
-	        searchAccountId: false,
-	        searchMobile: true
-	    })
+		const users = await nim.V2NIMUserService.searchUserByOption({
+			keyword: account,
+			searchName: true,
+			searchAccountId: false,
+			searchMobile: true
+		})
 		return users || []
-	} catch(err) {
+	} catch (err) {
 		return false
-	    console.error('searchUserByOption Error:', err)
+		console.error('searchUserByOption Error:', err)
 	}
+}
+
+// 搜索用户
+export async function addFriend(accountId) {
+	if (!nim || !accountId) return
+	const name = ''
+	try {
+		await nim.V2NIMFriendService.addFriend(accountId, {
+			addMode: 2,
+			postscript: `您好，我是${name}`
+		});
+		return true
+	} catch (err) {
+		return false
+		console.error('addFriend Error:', err)
+	}
+}
+
+
+// 查询关系
+export async function checkFriend(accoundIds) {
+	if (!nim) return
+	if (!Array.isArray(accoundIds) || !accoundIds.length) return
+	try {
+		const res = await nim.V2NIMFriendService.checkFriend(accoundIds);
+		console.log(res)
+		return res
+	} catch (err) {
+		console.error('getAddApplicationUnreadCount Error:', err)
+	}
+}
+
+// 好友申请数
+export async function frienUnreadCount() {
+	if (!nim) return
+	try {
+		const count = await nim.V2NIMFriendService.getAddApplicationUnreadCount()
+		console.log(count)
+		friendApplictionCount.value = count || 0
+		return count || 0
+	} catch (err) {
+		console.error('getAddApplicationUnreadCount Error:', err)
+	}
+}
+
+// 申请列表
+export async function getFrienApplicaionList(limit = 50) {
+	if (!nim) return
+	let offset = 0
+	let finished = false
+	let allList = []
+	console.log(allList)
+	while (!finished) {
+		try {
+			const res = await nim.V2NIMFriendService.getAddApplicationList({
+				offset,
+				limit
+			})
+			console.log(res)
+			if (res && Array.isArray(res.infos)) {
+				allList.push(...res.infos)
+			}
+			// 更新 offset 和判断是否完成
+			offset = res.offset || 0
+			finished = res.finished || (res.infos.length < limit)
+		} catch (err) {
+			// console.error('获取群申请列表失败', err)
+			break
+		}
+	}
+	console.log(allList)
+	//获取或有人和群等信息
+	if (allList.length > 0) {
+		const accountIds = allList.map(item => item.operatorAccountId)
+		const users = await nim.V2NIMUserService.getUserList(accountIds)
+		const userMap = {}
+		users.forEach(u => {
+			userMap[u.accountId] = u
+		})
+		allList = allList.map(item => ({
+			...item,
+			user: userMap[item.operatorAccountId] || {}
+		}))
+	}
+	console.log(allList)
+	friendJoinList.list = allList
+	return allList
 }
 
 /**
@@ -761,20 +904,44 @@ function _bindEvents(nim) {
 		}
 	})
 	teamSvc.on('onTeamMemberInfoUpdated', (data) => {
-		if (data.teamId == memberInfo.teamId && data.teamId == memberInfo.accountId ) {
+		if (data.teamId == memberInfo.teamId && data.teamId == memberInfo.accountId) {
 			for (const key in data) {
 				Vue.set(memberInfo, key, data[key])
 			}
 		}
 	})
 	// 入群申请
-	teamSvc.on('onTeamMemberJoined', (data) => { 
+	teamSvc.on('onTeamMemberJoined', (data) => {
 		teamUnreadCount();
 		getTeamJoinList()
 	})
 	teamSvc.on('onReceiveTeamJoinActionInfo', (data) => {
 		teamUnreadCount();
 		getTeamJoinList()
+	})
+
+	// 好友相关
+	const friendSvc = nim.V2NIMFriendService
+	friendSvc.on('onFriendListSync', (friends) => {
+		console.log('好友列表同步完成', friends)
+	})
+
+	friendSvc.on('onFriendAdded', (friend) => {
+		console.log('新增好友', friend)
+	})
+
+	friendSvc.on('onFriendDeleted', (accountId) => {
+		console.log('好友被删除', accountId)
+	})
+
+	friendSvc.on('onFriendProfileUpdated', (friend) => {
+		console.log('好友资料更新', friend)
+	})
+
+	friendSvc.on("onFriendAddApplication", (friend) => {
+		console.log('好友申请', friend)
+		frienUnreadCount()
+		getFrienApplicaionList()
 	})
 
 	/**
@@ -784,7 +951,7 @@ function _bindEvents(nim) {
 	msgSvc.on('onReceiveMessages', (msgs) => {
 		console.log(msgs)
 		const conversationId = getCid()
-		if(conversationId) {
+		if (conversationId) {
 			const newMsgs = msgs.filter(msg => msg.conversationId === conversationId)
 			messageList.list = [...messageList.list, ...newMsgs]
 		}
@@ -825,7 +992,7 @@ function showNimError(err, fallback = '操作失败', show = 1) {
 	// 过滤掉 V2NIMError: 前缀
 	msg = msg.replace(/^V2NIMError:\s*/, '')
 	if (msg == 'team not exist') msg = '群不存在或您不是群成员'
-	
+
 	if (show) {
 		uni.showToast({
 			title: msg || fallback,
@@ -838,6 +1005,6 @@ function showNimError(err, fallback = '操作失败', show = 1) {
 function getCid() {
 	if (!Object.keys(teamInfo).length) return ''
 	const nimInfo = uni.getStorageSync('nimInfo')
-	if(!nimInfo || !nimInfo.account) return ''
+	if (!nimInfo || !nimInfo.account) return ''
 	return `${nimInfo.account}|2|${teamInfo.teamId}`
 }

@@ -32,7 +32,7 @@
 					<text class="fs-24 fw-7">{{ sku.price }}</text>
 					<text class="mlr-16 line-through">VIP价 ￥{{ sku.vip_price }}</text>
 				</view>
-				<text class="fs-12 fw-6 bg-white plr-3 ptb-2 rounded-4" style="color: #362826;">会员最高专享99折</text>
+				<text class="fs-12 fw-6 bg-white plr-3 ptb-2 rounded-4" style="color: #362826;">会员可享专属折扣</text>
 			</view>
 		</view>
 		<view class="p-20 bg-white">
@@ -279,8 +279,9 @@
 				})
 				if(res) {
 					if(res.jump_url) {
-						this.$c.setStorage('web', { title: '支付', src: res.jump_url })
-						this.$c.goto('/pages/index/web?type=pay')
+						// this.$c.setStorage('web', { title: '支付', src: res.jump_url })
+						// this.$c.goto('/pages/index/web?type=pay')
+						this.$c.quickPay(res.jump_url)
 					} else {
 						this.$c.goto('/pages/order/list')
 					}

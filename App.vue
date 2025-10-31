@@ -51,6 +51,10 @@
 		color: #fff !important;
 	}
 	
+	.sign_reward_box {
+		background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);
+	}
+	
 	.bg-address {
 		background: linear-gradient(180deg, #CDEAEB 2%, #FFFFFF 32px);
 	}

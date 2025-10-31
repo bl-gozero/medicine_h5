@@ -121,6 +121,7 @@ const common = {
 			uni.showToast({
 				title,
 				icon: 'none',
+				mask: true,
 				duration,
 				success() {
 					// 等待 duration 时间再 resolve
@@ -456,6 +457,52 @@ const common = {
 				return ''
 		}
 	},
+
+	parseJSON(str) {
+		if (typeof str !== 'string') return false
+		try {
+			return JSON.parse(str)
+		} catch (e) {
+			return false
+		}
+	},
+	
+	payUrl() {
+		return 'https://www.99bill.com/mobilegateway/recvMerchantInfoAction.htm'
+	},
+	
+	quickPay(params) {
+		if(!params) return
+		let data = this.parseJSON(params)
+		if (!data) {
+			this.setStorage('web', { title: '支付', src: params })
+			this.goto('/pages/index/web?type=pay')
+			return
+		} 
+		const url = this.payUrl()
+		
+		// 创建隐藏 form 元素
+		const form = document.createElement('form')
+		form.method = 'POST'
+		form.action = url
+		form.style.display = 'none'
+		
+		uni.showLoading({ title: '提交中，请稍等...', icon: 'none', mask: true })
+	
+		// 把 JSON 的 key/value 转成 input
+		Object.keys(data).forEach(key => {
+			const input = document.createElement('input')
+			input.type = 'hidden'
+			input.name = key
+			input.value = data[key]
+			form.appendChild(input)
+		})
+			
+		// 插入页面并提交
+		document.body.appendChild(form)
+		// form.submit()
+		setTimeout(() => { form.submit() }, 300)
+	}
 }
 
 export default common

@@ -62,7 +62,7 @@
 		
 		<u-popup :show="showDone" mode="center" bgColor="transparent" :closeOnClickOverlay="false" @close="showDone = false">
 			<view class="w-336 text-center">
-				<image src="/static/avtivity/new/done.webp" class="w-336 h-364"></image>
+				<image src="/static/avtivity/new/done.webp" class="w-336 h-364" @click="onDetail()"></image>
 				<image src="/static/icon/close.webp" class="i-52 mt-25" @click="showDone = false"></image>
 			</view>
 		</u-popup>

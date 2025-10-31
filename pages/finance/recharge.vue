@@ -26,8 +26,7 @@
 			</view> -->
 			<Payment v-model="form.pay_mode" :mode="0"></Payment>
 		</view>
-		<button
-			class="bg-base text-white fw-7 fs-14 w-247 h-47 flex-center mt-36 rounded-x"
+		<button class="bg-base text-white fw-7 fs-14 w-247 h-47 flex-center mt-36 rounded-x"
 			@click="doSubmit">立即充值</button>
 	</view>
 </template>
@@ -46,7 +45,10 @@
 				profile: this.$c.getStorage('profile') || {},
 				doSubmit: null,
 				cateList: [],
-				form: { amount: '', pay_mode: '' }
+				form: {
+					amount: '',
+					pay_mode: ''
+				}
 			}
 		},
 		onLoad() {
@@ -72,19 +74,18 @@
 				return match ? match[0] : '';
 			},
 			async onSubmit() {
-				if(!this.form.amount) {
+				if (!this.form.amount) {
 					this.$c.toast('请输入想要充值的金额')
 					return
 				}
-				if(!this.form.pay_mode) {
+				if (!this.form.pay_mode) {
 					this.$c.toast('请选择支付方式')
 					return
 				}
 				const res = await this.$c.fetch(this.$api.finance.recharge, this.form)
-				if(res.jump_url) {
+				if (res.jump_url) {
 					this.form = { amount: '', pay_mode: '' }
-					this.$c.setStorage('web', { title: '支付', src: res.jump_url })
-					this.$c.goto('/pages/index/web?type=pay')
+					this.$c.quickPay(res.jump_url)
 				}
 			},
 		}

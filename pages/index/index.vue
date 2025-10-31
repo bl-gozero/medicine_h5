@@ -28,13 +28,13 @@
 					/>
 				</view>
 				<view class="absolute ph-19 pw-50" style="top: 3%;right: 2%" @click="$c.goto('/pages/index/task')"></view>
-				<view class="absolute left-0 right-0 bottom-0 flex-between plr-14 border-box" style="top: 22%">
-					<view class="" v-for="(item, index) in pointList" :key="item.id" @click="$c.goto(`/pages/point/goodsDetail?id=${item.id}`)">
+				<view class="absolute left-0 right-0 bottom-0 flex-between plr-14 border-box" style="top: 28%">
+					<view class="self-start" v-for="(item, index) in pointList" :key="item.id" @click="$c.goto(`/pages/point/goodsDetail?id=${item.id}`)">
 						<view v-if="index < 3" class="w-70">
 							<view class="bg-white rounded-8 i-70">
 								<image :src="item.picture" class="i-70 rounded-8" mode="aspectFill"></image>
 							</view>
-							<view class="fs-10 text-center mt-7 mb-5 u-line-1">{{ item.name }}</view>
+							<view class="fs-10 text-center mt-7 u-line-1">{{ item.name }}</view>
 							<view class="flex-center">
 								<view class="flex-start u-line-1">
 									<image src="/static/icon/point.webp" class="i-9 mr-2"></image>
@@ -43,7 +43,7 @@
 							</view>
 						</view>
 					</view>
-					<view class="" @click="$c.goto('/pages/point/index')">
+					<view class="self-start" @click="$c.goto('/pages/point/index')">
 						<view class="bg-white rounded-8 i-70 text-center">
 							<image src="/static/index/poin_more.webp" class="w-46 h-49"></image>
 							<view class="text-base fs-12 lh-10">更多好礼</view>
@@ -109,12 +109,19 @@
 			:closeOnClickOverlay="false"
 			@close="showNew == false"
 		>
-			<view class="text-center">
-				<view class="relative">
-					<image src="/static/index/reward_new.webp" class="vw-100" mode="widthFix"></image>
-					<view class="absolute left-0 right-0 auto-x pw-36 ph-30" style="bottom: 1%;" @click="$c.goto('/pages/activity/newExclusive')"></view>
-				</view>
-				<image src="/static/icon/close.webp" class="i-52 mt-17" @click="onCloseNew()"></image>
+			<view class="text-center vw-100 relative">
+				<PlayImg
+					path="index_new/1/1"
+					:interval="40"
+					:length="25"
+					:loop="false"
+					path2="index_new/2/1"
+					:interval2="40"
+					:length2="50"
+					:start2="25"
+				/>
+				<view class="absolute left-0 right-0 auto-x pw-55 ph-9" style="bottom: 37%;" @click="$c.goto('/pages/activity/newExclusive')"></view>
+				<image v-if="showClose" src="/static/icon/close.webp" class="i-52 mt-17 absolute left-0 right-0 auto-x" style="bottom: 26%;" @click="onCloseNew()"></image>
 			</view>
 		</u-popup>
 		
@@ -126,7 +133,7 @@
 			overlayStyle="background: 'rgba(0, 0, 0, 0.6)'"
 			@close="showEgg == false"
 		>
-			<view class="text-center vw-100" >
+			<view class="text-center vw-100 relative" >
 				<PlayImg
 					path="index_egg/1/1"
 					:interval="40"
@@ -137,12 +144,8 @@
 					:length2="25"
 					:start2="25"
 				/>
-				<image src="/static/icon/close.webp" class="i-52" style="margin-top: -10%;" @click="showEgg = false"></image>
-				<!-- <view class="relative">
-					<image src="/static/index/rewardegg.webp" class="w-308 h-370"></image>
-					
-					<view class="absolute left-0 right-0 auto-x pw-85 ph-20" style="bottom: 9%;" @click="$c.goto('/pages/activity/egg')"></view>
-				</view> -->
+				<view class="absolute left-0 right-0 auto-x pw-70 ph-15" style="bottom: 23%;" @click="showEgg = false;$c.goto('/pages/activity/egg')"></view>
+				<image src="/static/icon/close.webp" class="i-52" style="margin-top: -10%;" @click="onCloseEgg()"></image>
 			</view>
 		</u-popup>
 	</view>
@@ -169,7 +172,8 @@
 				searchHistory: [],
 				pointList: [],
 				showNew: false,
-				showEgg: false
+				showEgg: false,
+				showClose: false
 			}
 		},
 		onLoad() {
@@ -177,7 +181,8 @@
 			if (obj && Object.keys(obj).length > 0) {
 				this.level = obj.level.id
 				this.getProfile()
-				this.getActivity()
+				const index_pop = this.$c.getStorage('index_pop')
+				if(!index_pop) this.getActivity()
 			}
 			this.searchHistory = this.$c.getStorage('searchHistory') || []
 			this.getBanner()
@@ -197,12 +202,20 @@
 		methods: {
 			onCloseNew() {
 				this.showNew = false
+				if(!this.showEgg) this.$c.setStorage('index_pop', true)
+			},
+			onCloseEgg() {
+				this.showEgg = false
+				this.$c.setStorage('index_pop', true)
 			},
 			async getActivity() {
 				const res = await this.$c.fetch(this.$api.user.activityStatus)
 				if (res) {
 					this.showNew = res.is_ginseng
 					this.showEgg = res.is_egg
+					setTimeout(() => {
+						this.showClose = true
+					}, 1200)
 				}
 			},
 			onSearch() {

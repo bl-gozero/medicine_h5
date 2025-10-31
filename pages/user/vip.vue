@@ -7,7 +7,19 @@
 					<u-avatar :src="profile.avatar" size="55" :default-url="$c.userAvatar()"></u-avatar>
 					<view class="ml-10 flex-1">
 						<view class="u-line-1">{{ profile.account }}</view>
-						<view class="fw-7">{{ profile.level.value }}</view>
+						<view class="h-20">
+							<view v-if="load" class="">
+								<view v-if="profile.level.id == 4" class="flex-start fw-7">
+									<image src="/static/vip/icon_4.webp" class="i-18 mr-3"></image>
+									<text style="color: #30304C;">{{ profile.level.value }}</text>
+								</view>
+								<view v-else-if="profile.level.id == 3" class="flex-start fw-7">
+									<image src="/static/vip/icon_3.webp" class="i-18 mr-3"></image>
+									<text style="color: #7B351B;">{{ profile.level.value }}</text>
+								</view>
+								<view v-else class="fw-7">{{ profile.level.value }}</view>
+							</view>
+						</view>
 					</view>
 					<view class="self-start">
 						<u-text
@@ -24,7 +36,7 @@
 			</view>
 			<view v-if="load" class="">
 				<view class="relative mt-24">
-					<image :src="`/static/vip/switch_${switcher}.png`" class="pw-100 block" mode="widthFix"></image>
+					<image :src="`/static/vip/switch_${switcher}.webp`" class="pw-100 block" mode="widthFix"></image>
 					<view class="full flex-between">
 						<view class="pw-50 ph-100" @click="onSwitch(3)"></view>
 						<view class="pw-50 ph-100" @click="onSwitch(4)"></view>
@@ -56,9 +68,9 @@
 							</view>
 							<view class="mlr-9 flex-1">
 								<view class="">升级为VIP</view>
-								<view class="text-info">邀请3位好友成为推广员</view>
+								<view class="text-info">邀请{{ level3.upgrade_count || 3 }}位好友成为推广员</view>
 							</view>
-							<u-button v-if="profile.level.id < 3" class="btn bg-0 text-0" shape="circle" text="去完成" @click="$c.goto('/pages/user/qrcode')"></u-button>
+							<u-button v-if="profile.level.id < 3" class="btn bg-0 text-0" shape="circle" :text="num1 > 0? `还需${num1}人` : '去完成'" @click="$c.goto('/pages/user/qrcode')"></u-button>
 							<u-button v-else class="btn bg-1 text-1" text="已完成"></u-button>
 						</view>
 						<view v-if="switcher == 4" class="step_box flex-between step_3">
@@ -69,9 +81,9 @@
 							</view>
 							<view class="mlr-9 flex-1">
 								<view class="">升级为合伙人</view>
-								<view class="text-info">邀请5位好友成为VIP会员</view>
+								<view class="text-info">邀请{{ level4.upgrade_count || 5 }}位好友成为VIP会员</view>
 							</view>
-							<u-button v-if="profile.direct_vip < 5" class="btn bg-0 text-0" shape="circle" text="去完成" @click="$c.goto('/pages/user/qrcode')"></u-button>
+							<u-button v-if="profile.direct_vip < 5" class="btn bg-0 text-0" shape="circle" :text="num2 > 0? `还需${num2}人` : '去完成'" @click="$c.goto('/pages/user/qrcode')"></u-button>
 							<u-button v-else class="btn bg-1 text-1" text="已完成"></u-button>
 						</view>
 						<view class="absolute text-center pw-100 left-0 bottom-12 fs-10">
@@ -85,7 +97,7 @@
 					</view>
 					<view v-else class="flex-center">
 						<view class="relative">
-							<image :src="`/static/vip/right_${switcher}.png`" class="w-312 h-223"></image>
+							<image :src="`/static/vip/right_${switcher}.webp`" class="w-312 h-223"></image>
 							<!-- <image 
 								:src="`/static/vip/tag_${switcher}.png`" 
 								class="absolute right-0"
@@ -119,7 +131,7 @@
 					</view>
 				</view>
 			</view>
-			<view v-if="profile.level.id >= 4 && performance.load" class="mt-12 rounded-20 ptb-25 plr-20 relative" style="background: linear-gradient(180deg, #FFE6E6 0%, #FFFFFF 17%);">
+			<view v-if="profile.level.id >= 4 && performance.load && switcher == 4" class="mt-12 rounded-20 ptb-25 plr-20 relative" style="background: linear-gradient(180deg, #FFE6E6 0%, #FFFFFF 17%);">
 				<view class="fs-16 fw-5 text-center">团队业绩</view>
 				<view class="text-info text-center mt-13 fs-12">数据更新于{{ today }}</view>
 				<view class="mt-10 mb-17">当月数据</view>
@@ -127,12 +139,12 @@
 					<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
 						<image src="/static/vip/data_1.png" class="i-17"></image>
 						<view class="text-info fs-10 mtb-5">销售业绩（元）</view>
-						<view class="fs-16 fw-7 u-line-1">{{ performance.month && performance.month.lengtn > 0? performance.month[0].sales : 0 }}</view>
+						<view class="fs-16 fw-7 u-line-1">{{ month_sales }}</view>
 					</view>
 					<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
 						<image src="/static/vip/data_2.png" class="i-17"></image>
 						<view class="text-info fs-10 mtb-5">绩效分红（元）</view>
-						<view class="fs-16 fw-7 u-line-1">{{ performance.month && performance.month.lengtn > 0? performance.month[0].bonus : 0 }}</view>
+						<view class="fs-16 fw-7 u-line-1">{{ month_bonus }}</view>
 					</view>
 				</view>
 				<view class="mt-10 mtb-17">累计数据</view>
@@ -162,7 +174,7 @@
 			</view>
 			<view class="mt-12 roundedTop-20 form_box text-center">
 				<view class="">尊享权益</view>
-				<image src="/static/vip/form.png" class="pw-100 mt-30 mb-17" mode="widthFix"></image>
+				<image src="/static/vip/form.webp" class="pw-100 mt-30 mb-17" mode="widthFix"></image>
 				<view class="fs-10">
 					<text class="text-info">详细权益、佣金比例等请查看</text>
 					<text class="text-base" @click="$c.goto('/pages/index/userService')">《会员服务介绍》</text>
@@ -205,7 +217,7 @@
 		},
 		data() {
 			return {
-				profile: this.$c.getStorage('profile') || {},
+				profile: this.$c.profile(),
 				switcher: 3,
 				agreed: [],
 				load: false,
@@ -216,12 +228,19 @@
 				showPassword: false,
 				password: '',
 				doPay: null,
-				price: 0
+				price: 0,
+				month_sales: 0,
+				month_bonus: 0,
+				level3: {},
+				level4: {},
+				num1: 0,
+				num2: 0
 			}
 		},
-		onLoad() {
-			this.getProfile()
+		async onLoad() {
+			this.profile = await this.$c.checkeLogin(1)
 			this.levelList()
+			if(this.profile.level.id >= 3) this.getPerformce()
 			this.doPay = this.$c.onceRequest(this.onPay)
 		},
 		methods: {
@@ -231,11 +250,33 @@
 			},
 			async levelList() {
 				const res = await this.$c.fetch(this.$api.config.levelList)
-				if(res) { this.list = res; this.price = res[2].price; this.load = true }
+				if(res) { 
+					this.list = res; 
+					this.price = res[2].price;
+					this.load = true
+					if(this.profile.level.id < 3) {
+						const level3 = res.find(i => i.id == 1)
+						if(level3) {
+							this.level3 = level3
+							this.num1 = level3.upgrade_count - this.profile.direct
+						}
+						const level4 = res.find(i => i.id == 3)
+						if(level4) {
+							this.level4 = level4
+							this.num2 = level4.upgrade_count - this.profile.direct_vip
+						}
+					}
+ 				}
 			},
 			async getPerformce() {
 				const res = await this.$c.fetch(this.$api.finance.performance, { year: this.year })
-				if(res) { this.performance = { ...res, ...{ load: true } } }
+				if(res) { 
+					this.performance = { ...res, ...{ load: true } }
+					if(res.month && Array.isArray(res.month) && res.month.length) {
+						this.month_bonus =  res.month.reduce((sum, item) => sum + (item.bonus || 0), 0)
+						this.month_sales = res.month.reduce((sum, item) => sum + (item.sales || 0), 0)
+					}
+				}
 			},
 			onSwitch(e) {
 				if(this.switcher != e) {

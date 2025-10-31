@@ -50,7 +50,7 @@
 		},
 		methods: {
 			selectPayMode(id) {
-				if(id != 4) {
+				if(![1, 3, 4].includes(id)) {
 					this.show = true
 					return
 				}
@@ -58,8 +58,13 @@
 				this.$emit('input', id);
 			},
 			async getCateList() {
-				const res = await this.$c.fetch(this.$api.config.payCategoryList)
-				if (res) this.cateList = this.mode? [...this.cateList, ...res] : res
+				// let res = await this.$c.fetch(this.$api.config.payCategoryList)
+				// if (res) {
+				// 	if(!res.find(i => i.id == 3)) res = [...res, ...[{ id: 3, value: '银联' }]]
+				// 	this.cateList = this.mode? [...this.cateList, ...res] : res
+				// } 
+				const res = [{ id: 3, value: '聚合支付'  }]
+				this.cateList = this.mode? [...this.cateList, ...res] : res
 			}
 		},
 		mounted() {

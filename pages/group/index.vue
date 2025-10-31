@@ -25,7 +25,7 @@
 					<view class="fs-12 mt-8">{{ item.name }}</view>
 					<u-badge
 						v-if="item.id === 4"
-						:value="teamJoinCount.value"
+						:value="teamJoinCount.value + friendApplictionCount.value"
 						:absolute="true"
 						bgColor="#FF2A40"
 						color="#fff"
@@ -180,7 +180,7 @@
 	import TabBar from '../../components/TabBar.vue'
 	import PlayImg from '../../components/PlayImgs.vue'
 	import ConversationList from './components/conversation-list.vue'
-	import { teamJoinCount } from '@/utils/nim.js'
+	import { teamJoinCount, friendApplictionCount } from '@/utils/nim.js'
 	
 	export default {
 		components: {
@@ -191,11 +191,12 @@
 		data() {
 			return {
 				teamJoinCount,
+				friendApplictionCount,
 				navList: [
 					{ id: 1, name: '发现群聊', icon: '/static/group/find.png', url: '/pages/group/find' },
 					{ id: 2, name: '创建群聊', icon: '/static/group/create.png', url: '/pages/group/create' },
 					{ id: 3, name: '通讯录', icon: '/static/group/my_group.png', url: '/pages/group/myGroup' },
-					{ id: 4, name: '群的申请', icon: '/static/group/apply.png', url: '/pages/group/apply' },
+					{ id: 4, name: '申请信息', icon: '/static/group/apply.png', url: '/pages/group/apply' },
 				],
 				showOperation: false,
 				showCreate: false,

@@ -29,7 +29,7 @@ export default {
 		return request.post('/im/teams/quit', data, { loading: true })
 	},
 	pay(data = {}) {
-		return request.post('/im/teams/paying', data, { loading: true })
+		return request.post('/im/teams/paying', { device: 2, ...data }, { loading: true })
 	},
 	payingList(data = {}) {
 		return request.post('/im/teams/paying_list', data)
@@ -71,6 +71,9 @@ export default {
 		return request.post('/im/teams/pass', data, { loading: true })
 	},
 	reject(data = {}) {
-		return request.post('/im/teams/reject', data, { loading: true })
+		
 	},
+	searchUser(data = {}, config = {}) {
+		return request.post('/im/user/search', data, { loading: true, ...config })
+	}
 }

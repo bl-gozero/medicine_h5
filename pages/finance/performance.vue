@@ -37,12 +37,12 @@
 				<view v-else class="flex-between ptb-13" v-for="(item, index) in list" :key="index">
 					<view class="">{{item.month}}月</view>
 					<view class="flex-start">
-						<view class="">
+						<view class="text-center">
 							<view class="fw-7">{{ item.sales }}</view>
 							<view class="fs-10 mt-5">销售业绩(元)</view>
 						</view>
 						<view class="line mlr-30"></view>
-						<view class="">
+						<view class="text-center">
 							<view class="fw-7">{{ item.bonus }}</view>
 							<view class="fs-10 mt-5">绩效分红(元)</view>
 						</view>

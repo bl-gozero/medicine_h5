@@ -212,6 +212,7 @@
 				const res = await this.$c.fetch(this.$api.user.register, this.form)
 				if(res) {
 					this.$c.setStorage('jwt', res.jwt)
+					this.$c.setStorage('index_pop', false)
 					await this.$c.toast('注册成功')
 					this.intIm()
 					// this.getProfile()
