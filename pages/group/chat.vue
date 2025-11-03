@@ -57,7 +57,7 @@
 				const reply = { ...this.reply }
 				this.reply = null
 			    const res = reply.messageClientId? await replyMessage(e, reply) : await sendMessage(e)
-				if(res) this.onTask()
+				if(res && ['text', 'audio'].includes(e.type)) this.onTask()
 			},
 			onTask() {
 				this.$c.fetch(this.$api.config.taskFinish, { id: 3 })

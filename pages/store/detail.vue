@@ -86,7 +86,7 @@
 				<view class="fs-18 fw-5 text-center">申请发货</view>
 				<view class="flex-between ptb-30 fs-12" @click="$c.goto('/pages/user/address?from=address')">
 					<image src="/static/goods/place.png" class="w-12 h-14 self-start"></image>
-					<view class="flex-1 ml-8 mr-20">
+					<view v-if="address.district" class="flex-1 ml-8 mr-20">
 						<view class="">{{ address.district + address.address }}</view>
 						<view class="mt-15 ">
 							<text class="text-info">{{ address.name }}</text>

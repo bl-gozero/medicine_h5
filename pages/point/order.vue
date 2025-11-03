@@ -15,8 +15,8 @@
 					<image :src="i.picture" class="i-70 rounded-10" mode="aspectFill"></image>
 					<view class="flex-1 ml-10 text-info fs-12">
 						<view class="flex-between">
-							<text class="u-line-1 fw-5 text-black">{{ i.goods_name }}</text>
-							<text v-if="index === 0" class="fs-10 text-right"
+							<view class="u-line-1 fw-5 text-black flex-1">{{ i.goods_name }}</view>
+							<text v-if="index === 0" class="fs-10 text-right ml-10"
 								:style="{color: $c.formatStatus(item.status).color}">{{ $c.formatStatus(item.status).text }}</text>
 						</view>
 						<view class="mt-4">{{ i.price }}积分 ×{{ i.quantity }}</view>

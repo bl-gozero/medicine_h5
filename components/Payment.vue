@@ -13,7 +13,7 @@
 		<u-modal 
 			:show="show"
 			title="提示"
-			content='H5暂不支持此支付方式，请在APP进行操作！'
+			content='网页端支付正在维护，请在APP端进行付款或充值等操作。'
 			showCancelButton
 			confirmText="去下载"
 			@cancel="show = false"
@@ -50,19 +50,21 @@
 		},
 		methods: {
 			selectPayMode(id) {
-				if(![1, 3, 4].includes(id)) {
+				if(![3, 4].includes(id)) {
 					this.show = true
 					return
 				}
 				this.payingMode = id
 				this.$emit('input', id);
 			},
+			// async getCateList() {
+			// 	let res = await this.$c.fetch(this.$api.config.payCategoryList)
+			// 	if (res) {
+			// 		// if(!res.find(i => i.id == 3)) res = [...res, ...[{ id: 3, value: '银联' }]]
+			// 		this.cateList = this.mode? [...this.cateList, ...res] : res
+			// 	} 
+			// },
 			async getCateList() {
-				// let res = await this.$c.fetch(this.$api.config.payCategoryList)
-				// if (res) {
-				// 	if(!res.find(i => i.id == 3)) res = [...res, ...[{ id: 3, value: '银联' }]]
-				// 	this.cateList = this.mode? [...this.cateList, ...res] : res
-				// } 
 				const res = [{ id: 3, value: '聚合支付'  }]
 				this.cateList = this.mode? [...this.cateList, ...res] : res
 			}

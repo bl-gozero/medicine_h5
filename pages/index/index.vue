@@ -260,7 +260,7 @@
 					is_level_valid: 0,
 					is_integral: 1
 				})
-				if(res) this.pointList = res
+				if(res) this.pointList = res.slice(0, 3)
 			}
 		}
 	}

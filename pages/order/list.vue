@@ -14,8 +14,8 @@
 					<image :src="i.picture" class="i-76 rounded-12" mode="aspectFill"></image>
 					<view class="ml-7 flex-1">
 						<view class="flex-between">
-							<text class="u-line-1 fw-5">{{ i.goods_name }}</text>
-							<text v-if="index === 0" class="fs-10 text-right"
+							<view class="u-line-1 fw-5 flex-1">{{ i.goods_name }}后将自动取消订单</view>
+							<text v-if="index === 0" class="fs-10 text-right ml-10"
 								:style="{color: $c.formatStatus(item.status).color}">{{ $c.formatStatus(item.status).text }}</text>
 						</view>
 						<view class="mt-8 fs-12 text-info">{{ i.goods_sku_name }}</view>

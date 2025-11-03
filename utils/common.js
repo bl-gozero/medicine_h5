@@ -501,7 +501,8 @@ const common = {
 		// 插入页面并提交
 		document.body.appendChild(form)
 		// form.submit()
-		setTimeout(() => { form.submit() }, 300)
+		console.log(form)
+		// setTimeout(() => { form.submit() }, 300)
 	}
 }
 

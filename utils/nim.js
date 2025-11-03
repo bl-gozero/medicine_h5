@@ -949,7 +949,7 @@ function _bindEvents(nim) {
 	 */
 	const msgSvc = nim.V2NIMMessageService
 	msgSvc.on('onReceiveMessages', (msgs) => {
-		console.log(msgs)
+		// console.log(msgs)
 		const conversationId = getCid()
 		if (conversationId) {
 			const newMsgs = msgs.filter(msg => msg.conversationId === conversationId)

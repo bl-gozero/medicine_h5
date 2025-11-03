@@ -25,7 +25,7 @@
 		</view>
 		<view class="mt-14 bg-white">
 			<view class="text-center fw-5 ptb-18">商品详情</view>
-			<u--image :src="item" v-for="(item, index) in sku.picture" :key="index" width="100%" height="auto" bgColor="transparent" mode="widthFix">
+			<u--image :src="item" v-for="(item, index) in goods.details" :key="index" width="100%" height="auto" bgColor="transparent" mode="widthFix">
 			  <template v-slot:loading>
 			    <u-loading-icon color="#9F9F9F" class="mtb-100"></u-loading-icon>
 			  </template>

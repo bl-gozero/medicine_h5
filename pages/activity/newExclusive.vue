@@ -46,14 +46,14 @@
 				</view>
 				<view class="flex-between ptb-25 border-bottom" @click="$c.goto('/pages/user/address?from=address')">
 					<image src="/static/goods/place.png" class="w-12 h-14 self-start"></image>
-					<view v-if="address.district" class="">
+					<view v-if="address.district" class="flex-1 ml-8 mr-20">
 						<view class="">{{ address.district + address.address }}</view>
 						<view class="mt-15 fs-12">
 							<text class="text-info">{{ address.name }}</text>
 							<text class="text-info ml-20">{{ address.phone }}</text>
 						</view>
 					</view>
-					<view class="flex-1 ml-8 mr-20 text-info">请添加收货地址</view>
+					<view v-else class="flex-1 ml-8 mr-20 text-info">请添加收货地址</view>
 					<u-icon name="arrow-right" size="14" color="#7D7D7D" class="self-start"></u-icon>
 				</view>
 				<u-button class="btn-submit bg-base mt-80" shape="circle" text="确认地址并领取" @click="doSubmit"></u-button>
