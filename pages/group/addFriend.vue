@@ -2,7 +2,7 @@
 	<view class="page bg-page plr-20">
 		<Title title="添加好友" fixed></Title>
 		<view class="mt-10">
-			<u-search v-model="name" placeholder="请输入账号" @search="onSearch" @custom="onSearch"></u-search>
+			<u-search v-model="name" placeholder="请输入账号/昵称" @search="onSearch" @custom="onSearch"></u-search>
 		</view>
 		<view v-if="searched" class="mt-30">
 			<view v-if="info.name" class="flex-between">

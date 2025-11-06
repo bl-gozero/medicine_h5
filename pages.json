@@ -379,6 +379,12 @@
 			}
 		},
 		{
+			"path": "pages/store/detail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/group/addFriend",
 			"style": {
 				"navigationStyle": "custom"
@@ -386,6 +392,18 @@
 		},
 		{
 			"path": "pages/group/blackList",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/group/friendDetail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/user/baseInfo",
 			"style": {
 				"navigationStyle": "custom"
 			}

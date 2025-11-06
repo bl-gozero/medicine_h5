@@ -18,6 +18,10 @@
 							<image src="/static/order/copy.png" class="i-12" @click="$c.copy(order.waybill_number)"></image>
 						</view>
 						<view v-else class="mt-10 fs-12 text-info">暂无信息</view>
+						<view v-if="express.AcceptStation" class="lh-15 mt-15 fs-12 text-info">
+							<view class="">{{ express.AcceptTime }}</view>
+							<view class="mt-8">{{ express.AcceptStation }}</view>
+						</view>
 					</view>
 				</view>
 				<view class="flex-between mt-23">
@@ -178,7 +182,8 @@
 				doShip: null,
 				doStore: null,
 				address: {},
-				load: false
+				load: false,
+				express: {}
 			}
 		},
 		onLoad(p) {
@@ -203,6 +208,7 @@
 				})
 				if (res) {
 					this.order = res
+					if(res.waybill_number) this.express = await this.$c.getExpress(res.id, 1)
 					this.load = true
 				}
 			},

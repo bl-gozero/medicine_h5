@@ -9,34 +9,35 @@
 		</view>
 		<view class="plr-20 pt-110">
 			<view class="p-13 bg-white rounded-18 mt-10" v-for="item in list" :key="item.id">
-				<view class="flex-between mb-15" v-for="(i, index) in item.details" :key="i.index"
-					@click="$c.goto(`/pages/order/detail?id=${item.id}`)">
-					<image :src="i.picture" class="i-76 rounded-12" mode="aspectFill"></image>
-					<view class="ml-7 flex-1">
-						<view class="flex-between">
-							<view class="u-line-1 fw-5 flex-1">{{ i.goods_name }}后将自动取消订单</view>
-							<text v-if="index === 0" class="fs-10 text-right ml-10"
-								:style="{color: $c.formatStatus(item.status).color}">{{ $c.formatStatus(item.status).text }}</text>
-						</view>
-						<view class="mt-8 fs-12 text-info">{{ i.goods_sku_name }}</view>
-						<view class="flex-between mt-15">
-							<view class="text-danger fw-7">
-								<text class="fs-10">￥</text>
-								<text class="fs-14">{{ i.price }}</text>
+				<view class="" @click="$c.goto(`/pages/order/detail?id=${item.id}`)">
+					<view class="flex-between mb-15" v-for="(i, index) in item.details" :key="i.index">
+						<image :src="i.picture" class="i-76 rounded-12" mode="aspectFill"></image>
+						<view class="ml-7 flex-1">
+							<view class="flex-between">
+								<view class="u-line-1 fw-5 flex-1">{{ i.goods_name }}后将自动取消订单</view>
+								<text v-if="index === 0" class="fs-10 text-right ml-10"
+									:style="{color: $c.formatStatus(item.status).color}">{{ $c.formatStatus(item.status).text }}</text>
 							</view>
-							<text class="text-info fs-12">×{{ i.quantity }}</text>
+							<view class="mt-8 fs-12 text-info">{{ i.goods_sku_name }}</view>
+							<view class="flex-between mt-15">
+								<view class="text-danger fw-7">
+									<text class="fs-10">￥</text>
+									<text class="fs-14">{{ i.price }}</text>
+								</view>
+								<text class="text-info fs-12">×{{ i.quantity }}</text>
+							</view>
 						</view>
 					</view>
-				</view>
-				<view class="flex-between">
-					<text 
-						v-if="item.status == 1"
-						class="fs-10 self-end lh-18" style="color: #FF8F1F;"
-					>{{ $c.calcTime(item.created_at, 30 * 60)}}后将自动取消订单</text>
-					<text v-else></text>
-					<view class="">
-						<text class="fs-12">实付</text>
-						<text class="fs-16 fw-7">￥{{ item.price }}</text>
+					<view class="flex-between">
+						<text 
+							v-if="item.status == 1"
+							class="fs-10 self-end lh-18" style="color: #FF8F1F;"
+						>{{ $c.calcTime(item.created_at, 30 * 60)}}后将自动取消订单</text>
+						<text v-else></text>
+						<view class="">
+							<text class="fs-12">实付</text>
+							<text class="fs-16 fw-7">￥{{ item.price }}</text>
+						</view>
 					</view>
 				</view>
 				<view class="mt-20 flex-between">

@@ -75,5 +75,8 @@ export default {
 	},
 	searchUser(data = {}, config = {}) {
 		return request.post('/im/user/search', data, { loading: true, ...config })
-	}
+	},
+	account_id_profile(data = {}, config = {}) {
+		return request.post('/im/user/account_id_profile', data, { ...config })
+	},
 }

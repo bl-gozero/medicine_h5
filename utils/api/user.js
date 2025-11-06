@@ -73,4 +73,10 @@ export default {
 	activityStatus(data = {}, config = {}) {
 		return request.post('/event/pop_up', data, { ...config })
 	},
+	nickname(data = {}, config = {}) {
+		return request.post('/user/edit_nickname', data, { loading: true, ...config })
+	},
+	accountInfo(data = {}, config = {}) {
+		return request.post('/user/search_profile', data, { ...config })
+	},
 }

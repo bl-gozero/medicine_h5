@@ -52,7 +52,19 @@ export default {
 	orderStore(data = {}, config = {}) {
 		return request.post('/order_form/save', data, { loading: true, ...config })
 	},
+	orderExpress(data = {}, config = {}) {
+		return request.post('/order_form/courier', data, { ...config })
+	},
 	storeList(data = {}, config = {}) {
-		return request.post('/warehouse/list', data, { loading: true, ...config })
-	}
+		return request.post('/warehouse/list', data, { ...config })
+	},
+	storeTransfer(data = {}, config = {}) {
+		return request.post('/warehouse/handsel', data, { loading: true, ...config })
+	},
+	storeTransferList(data = {}, config = {}) {
+		return request.post('/warehouse/handsel_list', data, { ...config })
+	},
+	storeShip(data = {}, config = {}) {
+		return request.post('/warehouse_mailing/create', data, { loading: true, ...config })
+	},
 }

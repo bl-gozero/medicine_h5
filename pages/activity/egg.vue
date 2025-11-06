@@ -18,11 +18,15 @@
 				</view>
 			</view>
 			<view class="flex-center">
-				<view class="relative">
-					<image src="/static/avtivity/egg/box_2.webp" class="w-375 block" style="height: 888px;"></image>
+				<view class="relative w-375">
+					<image src="/static/avtivity/egg/box_2.webp" class="pw-100 block" style="height: 888px;"></image>
 					<view class="full plr-20 border-box">
+						<view class="warn_box">
+							<image src="/static/avtivity/egg/warn.webp" class="i-12"></image>
+							<text class="ml-3">礼品若遇缺货，公司将以同等级别其它品牌作为平替，确保您的权益不受影响。</text>
+						</view>
 						<view v-if="list.length" class="">
-							<view class="mt-6 flex-between plr-4 ptb-6 border-box rounded-8" style="background: #E8F1FC;" v-for="(item, i) in list" :key="item.datetime">
+							<view class="mt-6 flex-between plr-4 ptb-4 border-box rounded-8" style="background: #E8F1FC;" v-for="(item, i) in list" :key="item.datetime">
 								<view class="i-47 bg-white rounded-8 flex-center">
 									<image src="/static/avtivity/egg/egg.webp" class="w-37 h-25"></image>
 								</view>
@@ -36,7 +40,7 @@
 							</view>
 						</view>
 						<view v-else class="">
-							<view class="mt-7 flex-between plr-4 ptb-5 border-box rounded-8" style="background: #E8F1FC;" v-for="item in 12" :key="item">
+							<view class="mt-7 flex-between plr-4 ptb-4 border-box rounded-8" style="background: #E8F1FC;" v-for="item in 12" :key="item">
 								<view class="i-47 bg-white rounded-8 flex-center">
 									<image src="/static/avtivity/egg/egg.webp" class="w-37 h-25"></image>
 								</view>
@@ -167,7 +171,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 	.bg {
 		background: linear-gradient(180deg, #F9F2C4 4%, #FFFFFF 32px);
 	}
@@ -177,5 +181,13 @@
 		height: 47px;
 		font-weight: 700;
 		color: #fff;
+	}
+	.warn_box {
+		background: #FFE6E6;
+		color: #B84C4C;
+		font-size: 12px;
+		line-height: 16px;
+		padding: 6px;
+		border-radius: 8px;
 	}
 </style>

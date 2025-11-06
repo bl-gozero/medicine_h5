@@ -1,5 +1,5 @@
 <script>
-	import { initNIM } from '@/utils/nim.js'
+	import { nimReady } from '@/utils/nim.js'
 	
 	export default {
 		onLaunch: function() {
@@ -12,7 +12,7 @@
 		},
 		methods: {
 			async onInitNIM() {
-				console.log('初始化')
+				// console.log('初始化')
 				const res = await this.$c.fetch(this.$api.group.config)
 				if(res) {
 					let nim = this.$c.getStorage('nimInfo') || {}
@@ -22,7 +22,7 @@
 					const current = '/' + currentPage.route
 					const arr = ['/pages/index/launch', '/pages/index/login', '/pages/index/index', '/pages/index/index', '/pages/index/register', '/pages/web/register']
 					const aotuLogin = arr.indexOf(current) > -1? false : true
-					initNIM(aotuLogin)
+					await nimReady()
 				}
 			}
 		}
@@ -65,7 +65,16 @@
 		overflow: hidden;
 	}
 	
+	.icon_info {
+		width: 18px;
+		height: 18px;
+		background-image: url('/static/icon/info.webp');
+		background-size: 100% 100%;
+		display: inline-block;
+	}
+	
 	.nav_active {
+		position: relative;
 		&::after {
 			content: '';
 			display: block;

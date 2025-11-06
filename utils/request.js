@@ -8,12 +8,13 @@ function request({
 	data = {},
 	header = {},
 	loading = false,
-	auth = true
+	auth = true,
+	showErr = true
 }) {
 	const jwt = uni.getStorageSync('jwt')
 
 	if (loading) {
-		uni.showLoading()
+		uni.showLoading({ mask: true })
 	}
 
 	return new Promise((resolve, reject) => {
@@ -53,10 +54,12 @@ function request({
 						}, 1000)
 						reject(res.data)
 					} else {
-						uni.showToast({
-							title: message || '操作失败',
-							icon: 'none'
-						})
+						if(showErr) {
+							uni.showToast({
+								title: message || '操作失败',
+								icon: 'none'
+							})
+						}
 						reject(res.data)
 					}
 				} else {

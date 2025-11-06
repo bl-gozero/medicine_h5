@@ -25,11 +25,17 @@
 					</view>
 				</view>
 				<view class="flex-between mt-20">
-					<view class="">物流信息</view>
+					<view class="self-start">物流信息</view>
 					<view v-if="info.number" class="ml-20 flex-1 text-info">
-						<text>{{ info.number }}</text>
-						<text class="mlr-5">|</text>
-						<text style="color: #1575F6;" @click="$c.copy(info.number)">复制</text>
+						<view class="">
+							<text>{{ info.number }}</text>
+							<text class="mlr-5">|</text>
+							<text style="color: #1575F6;" @click="$c.copy(info.number)">复制</text>
+						</view>
+						<view v-if="express.AcceptStation" class="lh-15 mt-15 fs-12 text-info">
+							<view class="">{{ express.AcceptTime }}</view>
+							<view class="mt-8" style="word-wrap: break-word;word-break: break-all;">{{ express.AcceptStation }}</view>
+						</view>
 					</view>
 					<view v-else class="ml-20 flex-1 text-info">暂无</view>
 				</view>
@@ -49,7 +55,8 @@
 				info: {},
 				event_id: 0,
 				id: 1,
-				load: false
+				load: false,
+				express: {}
 			}
 		},
 		onLoad(p) {
@@ -65,6 +72,7 @@
 				})
 				if(res) { 
 					this.info = res
+					if(res.number) this.express = await this.$c.getExpress(res.id , 2)
 					this.load = true
 				}
 			},

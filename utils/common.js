@@ -5,7 +5,8 @@ import {
 	teamBaseInfo,
 	getMemberInfo,
 	getMessageList,
-	initNIM
+	initNIM,
+	getUserInfo
 } from './nim'
 
 const BASE_URL = env.BASE_URL
@@ -377,7 +378,7 @@ const common = {
 	},
 
 	userAvatar() {
-		return '/static/common/logo_white.png'
+		return '/static/user/icon_user_default.png'
 	},
 
 	groupAvatar() {
@@ -385,26 +386,38 @@ const common = {
 	},
 
 	async goChat(item) {
-		if (!item.team_id && item.conversationId) {
-			const parts = item.conversationId.split('|')
-			if (parts.length == 3) {
+		// const profile = await this.getProfile()
+		// if(!profile.nickname) {
+		// 	await this.toast('请先设置昵称')
+		// 	this.goto('/pages/user/baseInfo')
+		// 	return
+		// }
+		if (!item.conversationId) return
+		this.setStorage('conversationId', item.conversationId)
+		const parts = item.conversationId.split('|')
+		if (parts.length != 3) return
+		// 1 个人聊天 2 群聊
+		if (parseInt(parts[1]) === 1) {
+			const accountId = this.getCidInfo(item.conversationId, 2)
+			this.setStorage('friend_id', accountId)
+		} else {
+			if (!item.team_id && item.conversationId) {
 				item.team_id = parseInt(parts[2])
 			}
-		}
-		const chatInfo = this.getStorage('chatInfo')
-		this.setStorage('chatInfo', item)
-		if (item.team_id != chatInfo.team_id) {
-			const res1 = await teamBaseInfo()
-			if (!res1) {
-				this.removeStorage('chatInfo')
-				return
+			const chatInfo = this.getStorage('chatInfo')
+			this.setStorage('chatInfo', item)
+			if (item.team_id != chatInfo.team_id) {
+				const res1 = await teamBaseInfo()
+				if (!res1) {
+					this.removeStorage('chatInfo')
+					return
+				}
+				const res2 = await getMemberInfo()
+				if (!res2) {
+					this.removeStorage('chatInfo')
+					return
+				}
 			}
-			const res2 = await getMemberInfo()
-			if (!res2) {
-				this.removeStorage('chatInfo')
-				return
-			}
-			await getMessageList()
 		}
 		this.goto('/pages/group/chat')
 	},
@@ -466,29 +479,36 @@ const common = {
 			return false
 		}
 	},
-	
+
 	payUrl() {
 		return 'https://www.99bill.com/mobilegateway/recvMerchantInfoAction.htm'
 	},
-	
+
 	quickPay(params) {
-		if(!params) return
+		if (!params) return
 		let data = this.parseJSON(params)
 		if (!data) {
-			this.setStorage('web', { title: '支付', src: params })
+			this.setStorage('web', {
+				title: '支付',
+				src: params
+			})
 			this.goto('/pages/index/web?type=pay')
 			return
-		} 
+		}
 		const url = this.payUrl()
-		
+
 		// 创建隐藏 form 元素
 		const form = document.createElement('form')
 		form.method = 'POST'
 		form.action = url
 		form.style.display = 'none'
-		
-		uni.showLoading({ title: '提交中，请稍等...', icon: 'none', mask: true })
-	
+
+		uni.showLoading({
+			title: '提交中，请稍等...',
+			icon: 'none',
+			mask: true
+		})
+
 		// 把 JSON 的 key/value 转成 input
 		Object.keys(data).forEach(key => {
 			const input = document.createElement('input')
@@ -497,13 +517,64 @@ const common = {
 			input.value = data[key]
 			form.appendChild(input)
 		})
-			
+
 		// 插入页面并提交
 		document.body.appendChild(form)
 		// form.submit()
-		console.log(form)
-		// setTimeout(() => { form.submit() }, 300)
-	}
+		// console.log(form)
+		setTimeout(() => {
+			form.submit()
+		}, 300)
+	},
+
+	getCid(id, mode) {
+		if (!id) return ''
+		const nimInfo = this.getStorage('nimInfo')
+		if (!nimInfo || !nimInfo.account) return ''
+		return `${nimInfo.account}|${mode}|${id}`
+	},
+
+	getCidInfo(id, n) {
+		if (!id) return null
+		const parts = id.split('|')
+		if (parts.length != 3) return null
+		return parts[n] ? parts[n] : null
+	},
+
+	async getExpress(id = null, mode = null) {
+		if (!id) return
+		if (!mode) return
+		const res = await this.fetch(api.goods.orderExpress, {
+			id: id,
+			mode: mode
+		})
+		if (res) return res || {}
+	},
+
+	formatTime(timestamp) {
+		const date = new Date(timestamp)
+		const now = new Date()
+
+		const Y = date.getFullYear()
+		const M = ('0' + (date.getMonth() + 1)).slice(-2)
+		const D = ('0' + date.getDate()).slice(-2)
+		const h = ('0' + date.getHours()).slice(-2)
+		const m = ('0' + date.getMinutes()).slice(-2)
+
+		const isToday =
+			Y === now.getFullYear() &&
+			M === ('0' + (now.getMonth() + 1)).slice(-2) &&
+			D === ('0' + now.getDate()).slice(-2)
+
+		if (isToday) {
+			return `${h}:${m}`
+		} else if (Y === now.getFullYear()) {
+			return `${M}月${D}日 ${h}:${m}`
+		} else {
+			return `${Y}年${M}月${D}日 ${h}:${m}`
+		}
+	},
+
 }
 
 export default common

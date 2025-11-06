@@ -9,19 +9,20 @@
 				<view v-for="item in pinnedConversations" :key="item.conversationId" class="flex-start ptb-16"
 					@longpress="showAction(item)" @click="$c.goChat(item)">
 					<!-- 群头像 -->
-					<u-avatar :src="item.avatar || defaultAvatar" size="44" default-url="/static/group/default.png"
+					<u-avatar :src="item.avatar" size="44" :default-url="item.type == 1? $c.userAvatar() : $c.groupAvatar()"
 						mode="aspectFill"></u-avatar>
 
 					<!-- 群名称 + 最后一条消息 -->
 					<view class="info">
 						<view>{{ item.name }}</view>
-						<view v-if="item.lastMessage" class="text-info fs-12 mt-5">
+						<view v-if="item.lastMessage" class="text-info fs-12 mt-5 u-line-1">
 							{{ formatMessage(item.lastMessage) }}
 						</view>
 					</view>
 
 					<!-- 未读数量 -->
-					<view v-if="item.unreadCount > 0" class="unread">{{ item.unreadCount }}</view>
+					<!-- <view v-if="item.unreadCount > 0" class="unread">{{ item.unreadCount }}</view> -->
+					<view class="">{{ $c.formatTime(item.createTime) }}</view>
 				</view>
 			</view>
 		</view>
@@ -29,19 +30,30 @@
 			<view v-for="item in normalConversations" :key="item.conversationId" class="flex-start ptb-16"
 				@longpress="showAction(item)" @click="$c.goChat(item)">
 				<!-- 群头像 -->
-				<u-avatar :src="item.avatar || defaultAvatar" size="44" default-url="/static/group/default.png"
-					mode="aspectFill"></u-avatar>
-
+				<view class="relative">
+					<u-avatar :src="item.avatar" size="44" :default-url="item.type == 1? $c.userAvatar() : $c.groupAvatar()"
+						mode="aspectFill"></u-avatar>
+						<u-badge
+							:value="item.unreadCount"
+							:absolute="true"
+							bgColor="#FF2A40"
+							color="#fff"
+							max="99"
+							:offset="[-5, 0]"
+						></u-badge>
+				</view>
+				
 				<!-- 群名称 + 最后一条消息 -->
 				<view class="info">
 					<view>{{ item.name }}</view>
-					<view v-if="item.lastMessage" class="text-info fs-12 mt-5">
+					<view v-if="item.lastMessage" class="text-info fs-12 mt-5 u-line-1">
 						{{ formatMessage(item.lastMessage) }}
 					</view>
 				</view>
 
 				<!-- 未读数量 -->
-				<view v-if="item.unreadCount > 0" class="unread">{{ item.unreadCount }}</view>
+				<!-- <view v-if="item.unreadCount > 0" class="unread">{{ item.unreadCount }}</view> -->
+				<view class="self-start text-info fs-12">{{ $c.formatTime(item.createTime) }}</view>
 			</view>
 		</view>
 
@@ -118,7 +130,6 @@
 
 			formatMessage(msg) {
 				if (!msg) return ''
-				if (msg.text) return msg.text
 				switch (msg.messageType) {
 					case 0:
 						return msg.text || ''
@@ -157,8 +168,8 @@
 	.unread {
 		background: red;
 		color: #fff;
-		padding: 4rpx 8rpx;
-		border-radius: 12rpx;
+		padding: 2%;
+		border-radius: 50%;
 		font-size: 24rpx;
 	}
 

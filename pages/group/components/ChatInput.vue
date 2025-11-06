@@ -35,24 +35,14 @@
 			<text v-for="emoji in emojis" :key="emoji" @click="addEmoji(emoji)">{{ emoji }}</text>
 		</view>
 
-		<view v-if="showFunc" class="ptb-20 flex-start">
-			<view class="text-center fs-12" @click="pickImage('album')">
-				<view class="i-63 rounded-12 flex-center" style="background: #F0F0F0;">
-					<image src="/static/chat/picture.png" class="i-30"></image>
+		<view v-if="showFunc" class="pb-16 func_box">
+			<view class="mt-16" v-for="item in funcs" :key="item.id">
+				<view v-if="item.type.includes(type)" class="text-center fs-12" @click="onFuncs(item)">
+					<view class="i-63 rounded-12 flex-center" style="background: #F0F0F0;">
+						<image :src="item.icon" class="i-30"></image>
+					</view>
+					<view class="mt-7">{{ item.name }}</view>
 				</view>
-				<view class="mt-7">相册</view>
-			</view>
-			<view class="ml-28 text-center" @click="pickImage('camera')">
-				<view class="i-63 rounded-12 flex-center" style="background: #F0F0F0;">
-					<image src="/static/chat/photo.png" class="i-30"></image>
-				</view>
-				<view class=" mt-7">拍照</view>
-			</view>
-			<view class="ml-28 text-center" @click="pickFile()">
-				<view class="i-63 rounded-12 flex-center" style="background: #F0F0F0;">
-					<image src="/static/chat/file.png" class="i-30"></image>
-				</view>
-				<view class="mt-7">文件</view>
 			</view>
 		</view>
 	</view>
@@ -60,14 +50,19 @@
 
 <script>
 	import {
-		teamInfo
+		teamInfo,
+		friendInfo
 	} from '@/utils/nim.js'
 	
 	export default {
 		name: "ChatInput",
 		props: {
-			reply: { // 接收父组件传递的回复消息
+			reply: {
 				type: Object,
+				default: null
+			},
+			type: {
+				type: Number,
 				default: null
 			}
 		},
@@ -80,10 +75,27 @@
 				showRecord: false,
 				voiceStartTime: 0,
 				recording: false,
-				emojis: ['😀', '😁', '😂', '🤣', '😃', '😄', '😅', '😆', '😉', '😊']
+				emojis: ['😀', '😁', '😂', '🤣', '😃', '😄', '😅', '😆', '😉', '😊'],
+				funcs: [
+					{ id: 1, name: '相册', icon: '/static/chat/picture.png', code: 'album', type: [1, 2] },
+					{ id: 2, name: '拍照', icon: '/static/chat/photo.png', code: 'camera', type: [1, 2] },
+					{ id: 3, name: '文件', icon: '/static/chat/file.png', code: 'file', type: [1, 2] },
+					// { id: 4, name: '发起语音', icon: '/static/chat/phone.png', code: 'phone', type: [1] },
+					{ id: 5, name: '转账', icon: '/static/chat/transfer.webp', code: 'transfer', type: [1] },
+				]
 			}
 		},
 		methods: {
+			onFuncs(item) {
+				if(item.code == 'album') this.pickImage('album')
+				if(item.code == 'camera') this.pickImage('camera')
+				if(item.code == 'file') this.pickFile()
+				if(item.code == 'phone') {}
+				if(item.code == 'transfer') {
+					this.$c.goto(`/pages/finance/transfer?to_account=${friendInfo.accountId}`)
+					this.showFunc = false
+				}
+			},
 			replyMsg(reply) {
 				switch(reply.messageType) {
 					case 0: return reply.text || ''
@@ -137,6 +149,7 @@
 				})
 			},
 			sendMessage() {
+				this.showFunc = false
 				if (!this.inputValue) return
 				this.$emit('send', {
 					type: 'text',
@@ -199,6 +212,13 @@
 	.emoji-panel text {
 		font-size: 20px;
 		margin: 4px;
+	}
+	
+	.func_box {
+	  display: grid;
+	  grid-template-columns: repeat(4, 63px);
+	  justify-content: space-between;
+	  row-gap: 10px;
 	}
 
 	::v-deep .uni-input-input {

@@ -114,7 +114,6 @@
 
 <script>
 	import Title from '../../components/Title.vue';
-import form from '../../uni_modules/uview-ui/libs/config/props/form';
 	import RegionPicker from '@/components/RegionPicker.vue'
 	
 	export default {

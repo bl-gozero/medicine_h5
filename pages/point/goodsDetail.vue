@@ -13,10 +13,10 @@
 					<text class="fs-24 fw-7">{{ sku.price }}</text>
 					<text class="fs-12">积分</text>
 				</view>
-				<view class="text-info fs-12">
+				<!-- <view class="text-info fs-12">
 					<text>已售{{ sku.sales }}</text>
 					<text class="ml-16">库存{{ sku.stock }}</text>
-				</view>
+				</view> -->
 			</view>
 			<view class="fs-16 fw-5 mt-12">
 				<text>{{ goods.name }}</text>
@@ -262,15 +262,15 @@
 				}
 			},
 			onNumChange(e) {
-				if(this.sku.limit_quantity && this.sku.limit_quantity < e.value) {
-					this.$c.toast('当前商品限购' + this.sku.limit_quantity + '件')
-					return
-				}
-				if(this.sku.stock - this.sku.sales < e.value) {
-					this.$c.toast('库存不足')
-					this.quantity = this.sku.stock - this.sku.sales
-					return
-				}
+				// if(this.sku.limit_quantity && this.sku.limit_quantity < e.value) {
+				// 	this.$c.toast('当前商品限购' + this.sku.limit_quantity + '件')
+				// 	return
+				// }
+				// if(this.sku.stock - this.sku.sales < e.value) {
+				// 	this.$c.toast('库存不足')
+				// 	this.quantity = this.sku.stock - this.sku.sales
+				// 	return
+				// }
 				this.quantity = e.value
 			},
 			onShowPasswrod() {

@@ -5,9 +5,11 @@
 			<view class="menu_box bg-white plr-15 rounded-8 mt-12" v-for="(item, index) in list" :key="index">
 				<view class="menu ptb-14 flex-between" v-for="(i, j) in item" :key="j" @click="onMenu(i)">
 					<text class="">{{ i.name }}</text>
-					<text v-if="i.type == 'account'" class="text-info">{{ profile.account }}</text>
-					<u-icon v-else-if="i.type == 'link'" name="arrow-right" size="12" color="#7D7D7D"></u-icon>
-					<u-avatar v-else-if="i.type == 'avatar'" :src="profile.avatar" size="55" :default-url="$c.userAvatar()" class="mr-10"></u-avatar>
+					<view class="flex-end">
+						<text v-if="i.type == 'account'" class="text-info">{{ profile.account }}</text>
+						<u-avatar v-else-if="i.type == 'avatar'" :src="profile.avatar" size="55" :default-url="$c.userAvatar()" class="mr-10"></u-avatar>
+						<u-icon v-if="i.url" name="arrow-right" size="12" color="#7D7D7D"></u-icon>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -33,8 +35,9 @@
 				profile: this.$c.getStorage('profile') || {},
 				list: [
 					[{
-							name: '头像',
-							type: 'avatar'
+							name: '我的信息',
+							type: 'link',
+							url: '/pages/user/baseInfo'
 						},
 						{
 							name: '账号',
@@ -89,11 +92,12 @@
 				logoutNIM()
 			},
 			onMenu(i) {
-				if (i.type == 'link') {
-					this.$c.goto(i.url)
-				} else if (i.type == 'avatar') {
-					this.chooseAvatar()
-				}
+				this.$c.goto(i.url)
+				// if (i.type == 'link') {
+					
+				// } else if (i.type == 'avatar') {
+				// 	this.chooseAvatar()
+				// }
 			},
 			chooseAvatar() {
 				uni.chooseImage({

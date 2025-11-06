@@ -19,6 +19,10 @@
 								<image src="/static/order/copy.png" class="i-12" @click="$c.copy(order.waybill_number)"></image>
 							</view>
 							<view v-else class="mt-10 fs-12 text-info">暂无信息</view>
+							<view v-if="express.AcceptStation" class="lh-15 mt-15 fs-12 text-info">
+								<view class="">{{ express.AcceptTime }}</view>
+								<view class="mt-8">{{ express.AcceptStation }}</view>
+							</view>
 						</view>
 					</view>
 					<view class="flex-between mt-23">
@@ -108,8 +112,12 @@
 					text="取消订单" @click="showCancel = true"></u-button>
 				<u-button v-if="order.status == 4 || order.status == 6" class="btn btn-black" shape="circle" plain text="再来一单"
 					@click="onAgain()"></u-button>
+					
+				<!-- <u-button v-if="order.status == 3" class="btn btn-black" shape="circle" plain text="查看物流" 
+					@click="$c.goto(`/pages/order/express?id=${order.id}`)"></u-button> -->
 				<u-button v-if="order.status == 3" class="btn bg-base text-white" shape="circle" plain text="确认收货"
 					@click="showReceive = true"></u-button>
+					
 				<u-button v-if="order.status == 1" class="btn bg-base text-white" shape="circle" plain text="去付款"
 					@click="$c.goto(`/pages/order/pay?id=${order.id}`)"></u-button>
 					
@@ -192,19 +200,22 @@
 				doShip: null,
 				doStore: null,
 				address: {},
-				load: false
+				load: false,
+				express: {}
 			}
 		},
 		onLoad(p) {
-			if (p.id) this.id = parseInt(p.id)
-			this.$c.removeStorage('address')
-			this.getDetail()
-			this.addressList()
 			this.doCancel = this.$c.onceRequest(this.onCancel)
 			this.doDelete = this.$c.onceRequest(this.onDelete)
 			this.doReceive = this.$c.onceRequest(this.onReceiving)
 			this.doShip = this.$c.onceRequest(this.onShip)
 			this.doStore = this.$c.onceRequest(this.onStore)
+			this.$c.removeStorage('address')
+			if (p.id && parseInt(p.id)) {
+				this.id = parseInt(p.id)
+				this.getDetail()
+				this.addressList()
+			}
 		},
 		onShow() {
 			const address = this.$c.getStorage('address')
@@ -217,6 +228,7 @@
 				})
 				if (res) {
 					this.order = res
+					if(res.waybill_number) this.express = await this.$c.getExpress(res.id, 1)
 					this.load = true
 				}
 			},

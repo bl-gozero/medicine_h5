@@ -90,21 +90,18 @@
 		</view>
 
 		<u-popup :show="showQr" mode="center" bgColor="transparent" @close="showQr = false">
-			<view class="w-200">
-				<view class="text-center">
-					<u--image :src="qrcode" width="200px" height="auto" bgColor="transparent" mode="widthFix"
-						@load="showBtn = true">
-						<template v-slot:loading>
-							<view class="pt-100">
-								<u-loading-icon color="#9F9F9F"></u-loading-icon>
-							</view>
-						</template>
-					</u--image>
+			<view class="">
+				<view class="relative">
+					<image :src="path" mode="widthFix"></image>
+					<view class="text-info fs-12 mt-20 absolute left-0 pw-100 bottom-20 text-center">如果保存无效请长按图片保存</view>
 				</view>
-				<u-button v-if="showBtn" class="bg-base fw-7 fs-14 text-white w-169 h-47 mt-20 border-0" shape="circle"
+				<u-button class="bg-base fw-7 fs-14 text-white w-169 h-47 mt-15 border-0" shape="circle"
 					text="保存" @click="onSave()"></u-button>
 			</view>
 		</u-popup>
+		
+		<!-- <image :src="path" mode="widthFix" @click="onSave()"></image> -->
+		<l-painter ref="painter" :board="poster" isCanvasToTempFilePath @success="path = $event" hidden />
 	</view>
 </template>
 
@@ -123,11 +120,41 @@
 				height: 0,
 				qrcode: '',
 				showQr: false,
-				showBtn: false
+				showBtn: false,
+				path: '',
+				poster: {
+					css: {
+						width: "376px",
+						position: "relative"
+					},
+					views: [
+						{
+							src: "/static/user/poster.webp",
+							type: "image",
+							css: {
+								background: "#fff",
+								objectFit: "cover",
+								width: "376px",
+								height: "525px",
+							}
+						},
+						{
+							text: this.$c.profile().share_url,
+							type: "qrcode",
+							css: {
+								width: "146px",
+								height: "146px",
+								top: "317px",
+								left: "115px",
+								position: "absolute"
+							}
+						}
+					]
+				}
 			}
 		},
 		onLoad() {
-			this.qrcode = this.$baseUrl + '/user/qrcode?referral_code=' + this.profile.referral_code
+			this.qrcode = this.$c.profile().share_url
 		},
 		onReady() {
 			setTimeout(() => {
@@ -142,10 +169,10 @@
 				return res
 			},
 			onShare() {
-				this.showBtn = false
+				this.showBtn = true
 				this.showQr = true
 			},
-			async onSave() {
+			async onSave1() {
 				try {
 					const url = this.qrcode
 					const res = await fetch(url, {
@@ -162,6 +189,39 @@
 				} catch (err) {
 					console.error("下载失败", err)
 				}
+			},
+			onSave() {
+				this.$refs.painter.canvasToTempFilePathSync({
+					fileType: "jpg",
+					pathType: 'url',
+					quality: 1,
+					success: (res) => {
+						console.log(res.tempFilePath);
+						
+						// #ifdef H5
+						// H5 端：自动触发下载
+						const link = document.createElement('a')
+						link.href = res.tempFilePath
+						link.download = link.download = '我的二维码_' +  new Date().toISOString().replace(/[:.-]/g, '') + '.jpg' //'image.jpg'
+						link.click()
+						// #endif
+			
+						// #ifndef H5
+						// 非 H5 端：保存到相册
+						uni.saveImageToPhotosAlbum({
+							filePath: res.tempFilePath,
+							success: () => {
+								console.log('save success')
+								this.$c.toast('保存成功')
+								this.showQr = false
+							},
+							fail: (err) => {
+								console.error('save fail', err)
+							}
+						})
+						// #endif
+					},
+				})
 			}
 		}
 	}

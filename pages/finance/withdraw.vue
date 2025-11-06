@@ -47,6 +47,7 @@
 				<view class="">1. 最低提现金额： 单次提现金额需满 ¥100方可申请提现。</view>
 				<view class="">2. 提现方式： 提现支持绑定的微信、支付宝或银行卡账户，提现前请确保账户信息准确无误。</view>
 				<view class="">3. 账时间： 提现申请将在1-3个工作日内处理完成，节假日顺延。</view>
+				<view v-if="fee" class="">4. 提现收取手续费为{{ fee }}%，到账金额为提现金额的{{ 100 - fee }}%。</view>
 			</view>
 		</view>
 		<view class="h-60"></view>
@@ -91,12 +92,14 @@
 				form: { amount: '', password: '', card_holder_id: '', full_name: '',  card_number: '' },
 				showPassword: false,
 				cateList: [],
-				pay: {}
+				pay: {},
+				fee: 0
 			}
 		},
 		onLoad() {
 			this.getProfile()
 			this.cardCategoryList()
+			this.getConfig()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},
 		methods: {
@@ -112,6 +115,13 @@
 				if(res) {
 					this.cateList = res
 					this.getCardList()
+				}
+			},
+			async getConfig() {
+				const res = await this.$c.fetch(this.$api.config.config, { id: [9] })
+				if(res) { 
+					const config = res.find(i => i.id == 9)
+					if(config) this.fee = config.value * 100
 				}
 			},
 			async getCardList() {

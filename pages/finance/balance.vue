@@ -58,7 +58,7 @@
 				]
 			}
 		},
-		async onLoad() {
+		async onShow() {
 			this.profile = await this.$c.checkeLogin(1)
 		},
 		methods: {

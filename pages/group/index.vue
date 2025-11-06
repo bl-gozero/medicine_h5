@@ -3,7 +3,7 @@
 		<view class="title_bg pb-18 plr-20" :class="`pt-${$c.barHeight()}`">
 			<view class="flex-between">
 				<text class="fw-7 fs-18">群聊</text>
-				<!-- <view class="relative">
+				<view class="relative">
 					<image src="/static/icon/circle-plus.webp" class="i-23" @click="showPlus = !showPlus"></image>
 					<view v-if="showPlus" class="plus_box plr-10 text-white fs-16">
 						<view class="flex-center ptb-15" @click="showPlus = false;$c.goto('/pages/group/addFriend')">
@@ -15,7 +15,7 @@
 							<text class="">好友黑名单</text>
 						</view>
 					</view>
-				</view> -->
+				</view>
 			</view>
 		</view>
 		<view class="ptb-16 plr-20 bg-white">
@@ -173,6 +173,9 @@
 				></u-button>
 			</view>
 		</u-popup>
+		
+		<u-modal :show="showNick" title="提示" content='您还未设置昵称' confirmText="去设置" confirmColor="#3D3D3D" cancelColor="#9F9F9F"
+			showCancelButton @cancel="$c.goBack()" @confirm="$c.goto('/pages/user/baseInfo');showNick = false"></u-modal>
 	</view>
 </template>
 
@@ -202,7 +205,7 @@
 				showCreate: false,
 				showLv: false,
 				showPlus: false,
-				profile: this.$c.getStorage('profile') || {},
+				profile: this.$c.profile(),
 				search: { page: 1, limit: 10, load: 'more', search: {
 						join_state: 0,
 						name: '',
@@ -212,17 +215,18 @@
 				list: [],
 				groupList: [],
 				showNew: false,
-				showEgg: false
+				showEgg: false,
+				showNick: false
 			}
 		},
 		onLoad() {
-			this.$c.checkeLogin()
 			this.$c.checkNim()
-			this.getProfile()
 			this.getActivity()
 		},
-		onShow() {
+		async onShow() {
 			// this.updateUnreadCount()
+			this.profile = await this.$c.checkeLogin(1)
+			if(!this.profile.nickname) this.showNick = true
 		},
 		methods: {
 			// async updateUnreadCount() {
@@ -241,13 +245,6 @@
 					return
 				}
 				this.$c.goto(e.url)
-			},
-			async getProfile() {
-				const res = await this.$c.fetch(this.$api.user.getProfile)
-				if(res) {
-					this.profile = res
-					this.$c.setStorage('profile', res)
-				}
 			},
 			toCreate() {
 				this.showCreate = false

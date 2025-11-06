@@ -1,15 +1,31 @@
 <template>
 	<view class="page bg-white flex-col">
-		<Title :title="chatInfo.name" bgColor="#fff" @back="$c.goto('/pages/group/index')" @right="$c.goto('/pages/group/detail')">
+		<Title :title="title" bgColor="#fff" @back="$c.goto('/pages/group/index')" @right="$c.goto('/pages/group/detail')">
 			<template v-slot:right>
-				<u-icon name="more-dot-fill" size="18" color="#676C74"></u-icon>
+				<u-icon v-if="mode == 2" name="more-dot-fill" size="18" color="#676C74"></u-icon>
 			</template>
 		</Title>
 		<!-- 消息列表 -->
 		<ChatMessageList @reply="handleReply" />
 	
 		<!-- 输入框 -->
-		<ChatInput :reply="reply" @unreply="reply = null" @send="handleSendMsg" />
+		<ChatInput :reply="reply" :type="mode" @unreply="reply = null" @send="handleSendMsg" />
+		
+		<!-- 语音通话弹窗 -->
+		<view v-if="voiceVisible" class="voice-box flex-col align-center justify-center text-center plr-20 border-box">
+			<u-avatar :src="friendInfo.avatar" size="100" :default-url="$c.userAvatar()" class="auto-x"></u-avatar>
+			<view class="nickname mt-50">{{ friendInfo.name }}</view>
+			<view class="status-text mt-20">{{ voiceStatus }}</view>
+					
+			<view class="flex justify-center mt-50">
+				<u-button type="error" class="w-247" shape="circle" size="large" @click="endVoiceCall">挂断</u-button>
+			</view>
+		</view>
+		
+		<view class="">
+			<u-modal :show="showNick" title="提示" content='您还未设置昵称' confirmText="去设置" confirmColor="#3D3D3D" cancelColor="#9F9F9F"
+				showCancelButton @cancel="$c.goBack()" @confirm="$c.goto('/pages/user/baseInfo');showNick = false"></u-modal>
+		</view>
 	</view>
 </template>
 
@@ -17,7 +33,7 @@
 	import Title from '../../components/Title.vue'
 	import ChatInput from './components/ChatInput.vue'
 	import ChatMessageList from './components/ChatMessageList.vue'
-	import { teamInfo, memberInfo, sendMessage, replyMessage } from '@/utils/nim.js'
+	import { teamInfo, memberInfo, sendMessage, replyMessage, getMessageList, friendInfo, getUserInfo, clearUnreadCountByIds, getFriendList } from '@/utils/nim.js'
 	
 	export default {
 		components: {
@@ -29,21 +45,45 @@
 			return {
 				teamInfo,
 				memberInfo,
+				friendInfo,
 				chatInfo: '',
 				name: '',
 				join_info: {},
-				reply: null
+				reply: null,
+				mode: null,
+				title: '',
+				voiceVisible: false,
+				voiceStatus: '正在呼叫...',
+				profile: this.$c.profile(),
+				showNick: false
 			}
 		},			
 		async onLoad() {
-			this.$c.checkeLogin()
 			this.$c.checkNim()
-			this.chatInfo = this.$c.getStorage('chatInfo')
-			if(!this.chatInfo || Object.keys(this.chatInfo).length === 0) {
-				this.$c.toast('参数有误')
+			const id = this.$c.getStorage('conversationId')
+			if(!id) {
 				this.$c.goto('/pages/group/index')
 				return
 			}
+			this.mode = parseInt(this.$c.getCidInfo(id, 1))
+			if(this.mode == 1) {
+				const accountId = this.$c.getCidInfo(id, 2)
+				await getUserInfo([accountId], 2)
+				this.title = friendInfo.name
+			} else {
+				this.chatInfo = this.$c.getStorage('chatInfo')
+				this.title = this.chatInfo.name
+				if(!this.chatInfo || Object.keys(this.chatInfo).length === 0) {
+					this.$c.toast('参数有误')
+					this.$c.goto('/pages/group/index')
+					return
+				}
+			}
+			this.getList()
+		},
+		async onShow() {
+			this.profile = await this.$c.checkeLogin(1)
+			if(!this.profile.nickname) this.showNick = true
 		},
 		methods: {
 			onReceiveMsg(msg) {
@@ -52,6 +92,16 @@
 			},
 			handleReply(message) {
 			    this.reply = message;  // 保存被回复的消息
+			},
+			async getList() {
+			 	const res = await getMessageList()
+				if(res) {
+					await clearUnreadCountByIds()
+				} else {
+					setTimeout(() => {
+						this.$c.goto('/pages/group/index')
+					}, 1500)
+				}
 			},
 			async handleSendMsg(e) {
 				const reply = { ...this.reply }
@@ -62,6 +112,9 @@
 			onTask() {
 				this.$c.fetch(this.$api.config.taskFinish, { id: 3 })
 			},
+			endVoiceCall() {
+				
+			}
 		}
 	}
 </script>
@@ -83,5 +136,29 @@
 		height: 280px;
 		border-radius: 20px;		
 		background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);
+	}
+	.voice-box {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background: #232323;
+		z-index: 999;
+		.avatar {
+			width: 80px;
+			height: 80px;
+			border-radius: 50%;
+			margin-bottom: 10px;
+		}
+		.nickname {
+			font-size: 16px;
+			font-weight: 600;
+			margin-bottom: 4px;
+		}
+		.status-text {
+			font-size: 14px;
+			color: #888;
+		}
 	}
 </style>

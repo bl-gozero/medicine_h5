@@ -9,10 +9,19 @@
 						class="fs-12 text-center pb-20"
 						style="color: #A7A7A7;"
 						v-for="i in renderNotice(item)"
-					>
-						{{ i }}
-						<!-- <view class="u-line-1">{{item}}</view> -->
-					</view>
+					>{{ i }}</view>
+				</view>
+				<!-- <view v-else-if="item.messageType == 10 && item.text.indexOf('转账') > -1" class="">
+					<view 
+						class="fs-12 text-center pb-20"
+						style="color: #A7A7A7;"
+					>{{ item.isSelf? `你向${friendInfo.name}${item.text}` : `${item.fromNick}向你${item.text}` }}</view>
+				</view> -->
+				<view v-else-if="item.messageType == 10 && item.text" class="">
+					<view 
+						class="fs-12 text-center pb-20"
+						style="color: #A7A7A7;"
+					>{{ item.text }}</view>
 				</view>
 				<view v-else-if="item.revokeType === 2" class="fs-12 text-center pb-20" style="color: #A7A7A7;">
 					<text>{{ item.isSelf ? '你' : (item.fromNick || item.senderId) }}{{ item.postscript }}</text>
@@ -21,13 +30,13 @@
 				<view v-else class="">
 					<!-- 时间分割 -->
 					<view v-if="isTimeGap(index)" class="time-divider pb-20">
-						<text>{{ formatTime(item.createTime) }}</text>
+						<text>{{ $c.formatTime(item.createTime) }}</text>
 					</view>
 
 					<!-- 消息气泡 -->
 					<view class="" :class="['message-item pb-20', item.isSelf ? 'self' : 'other']">
 						<u-avatar v-if="!item.isSelf" :src="item.avatar" size="28"
-							:default-url="$c.userAvatar()"></u-avatar>
+							:default-url="$c.userAvatar()" @click="onAvatar(item)"></u-avatar>
 						<view class="plr-5 relative" style="max-width: 70%;" @longpress="tipItem = item;showTips = true">
 							<view v-if="!item.isSelf" class="fs-12 lh-13 pb-3 text-info">{{ item.fromNick }}</view>
 							<!-- 文字类消息 -->
@@ -141,7 +150,8 @@
 		teamInfo,
 		memberInfo,
 		deleteMessage,
-		revokeMessage
+		revokeMessage,
+		friendInfo
 	} from '@/utils/nim.js'
 
 	export default {
@@ -152,6 +162,7 @@
 		data() {
 			return {
 				teamInfo,
+				friendInfo,
 				memberInfo,
 				messageList,
 				scrollTop: 99999,
@@ -178,6 +189,9 @@
 			}
 		},
 		methods: {
+			onAvatar(item) {
+				if(item.conversationType == 1) this.$c.goto('/pages/group/friendDetail')
+			},
 			formatReplyInfo(item) {
 				if(item.threadReply && item.threadReply.messageClientId) {
 					const reply = this.messages.find(i => i.messageClientId === item.threadReply.messageClientId)
@@ -234,29 +248,6 @@
 			},
 			onShowFile(item) {
 
-			},
-			formatTime(timestamp) {
-				const date = new Date(timestamp)
-				const now = new Date()
-
-				const Y = date.getFullYear()
-				const M = ('0' + (date.getMonth() + 1)).slice(-2)
-				const D = ('0' + date.getDate()).slice(-2)
-				const h = ('0' + date.getHours()).slice(-2)
-				const m = ('0' + date.getMinutes()).slice(-2)
-
-				const isToday =
-					Y === now.getFullYear() &&
-					M === ('0' + (now.getMonth() + 1)).slice(-2) &&
-					D === ('0' + now.getDate()).slice(-2)
-
-				if (isToday) {
-					return `${h}:${m}`
-				} else if (Y === now.getFullYear()) {
-					return `${M}月${D}日 ${h}:${m}`
-				} else {
-					return `${Y}年${M}月${D}日 ${h}:${m}`
-				}
 			},
 			isTimeGap(index) {
 				if (index === 0) return true

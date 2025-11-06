@@ -120,10 +120,10 @@
 				if (res) {
 					res.map(item => {
 						item.status = false
-						if(item.quantity > item.limit_quantity) {
-							item.quantity = item.limit_quantity || 1
-							this.onLimit(item)
-						}
+						// if(item.quantity > item.limit_quantity) {
+						// 	item.quantity = item.limit_quantity || 1
+						// 	this.onLimit(item)
+						// }
 					});
 					this.list = res
 				}
@@ -148,10 +148,10 @@
 			async onEdit(e) {
 				const item = this.list.find(item => item.id == e.name)
 				if(!item) return
-				if(item.limit_quantity && item.limit_quantity < e.value) {
-					this.$c.toast('当前商品限购' + item.limit_quantity + '件')
-					e.value = item.limit_quantity
-				}
+				// if(item.limit_quantity && item.limit_quantity < e.value) {
+				// 	this.$c.toast('当前商品限购' + item.limit_quantity + '件')
+				// 	e.value = item.limit_quantity
+				// }
 				const res = await this.$c.fetch(this.$api.goods.cartEdit, {
 					id: e.name,
 					quantity: e.value

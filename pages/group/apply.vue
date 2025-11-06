@@ -5,28 +5,60 @@
 				<text class="text-info fs-12" style="text-wrap: nowrap;">全部清除</text>
 			</template> -->
 		</Title>
-		<!-- <view class="mt-10">待处理</view> -->
-		<view class="mt-10">
-			<view v-if="item.actionType === 0" class="flex-between item-stretch" v-for="item in teamJoinList.list" :key="item.id">
-				<!-- <view class="u-line-1 pw-100">{{ item }}</view> -->
-				<view class="ptb-10">
-					<u-avatar :src="item.user? item.user.avatar : ''" size="44" :default-url="defaultAvatar"
-						mode="aspectFill"></u-avatar>
+		<view class="mt-10 flex-start fs-16">
+			<view class="" :class="type == 1 && 'nav_active'" @click="type = 1">群聊</view>
+			<view class="ml-43" :class="type == 2 && 'nav_active'" @click="type = 2">好友</view>
+		</view>
+		<view v-if="type == 1" class="mt-10">
+			<view v-if="!teamJoinList.list.length" class="flex-center h-300 text-info">暂无验证消息</view>
+			<view v-else class="">
+				<view v-if="item.actionType === 0" class="flex-between item-stretch" v-for="item in teamJoinList.list" :key="item.id">
+					<!-- <view class="u-line-1 pw-100">{{ item }}</view> -->
+					<view class="ptb-10">
+						<u-avatar :src="item.user? item.user.avatar : ''" size="44" :default-url="defaultAvatar"
+							mode="aspectFill"></u-avatar>
+					</view>
+					<view class="border-bottom ml-8 flex-1 flex-between">
+						<view class="flex-1">
+							<view class="u-line-1">{{ item.user? item.user.name : '' }}</view>
+							<view class="text-info fs-12 mt-6">申请加入群 {{ item.team? item.team.name : '' }}</view>
+						</view>
+						<view v-if="item.actionStatus === 0" class="flex-end ml-10">
+							<u-button class="bg-white fs-10 lh-8 w-47 h-20 text-base flex-center border-1 plr-0"
+								shape="circle" @click="doReject(item)">忽略</u-button>
+							<u-button class="bg-base fs-10 lh-8 w-47 h-20 text-white flex-center border-1 ml-10"
+								shape="circle" @click="doPass(item)">同意</u-button>
+						</view>
+						<view v-else-if="item.actionStatus === 1" class="text-base fs-12">已通过</view>
+						<view v-else-if="item.actionStatus === 2" class="text-danger fs-12">已拒绝</view>
+						<view v-else-if="item.actionStatus === 3" class="text-info fs-12">已过期</view>
+					</view>
 				</view>
-				<view class="border-bottom ml-8 flex-1 flex-between">
-					<view class="flex-1">
-						<view class="u-line-1">{{ item.user? item.user.name : '' }}</view>
-						<view class="text-info fs-12 mt-6">申请加入群 {{ item.team? item.team.name : '' }}</view>
+			</view>
+		</view>
+		<view v-else-if="type == 2" class="mt-10">
+			<view v-if="!friendJoinList.list.length" class="flex-center h-300 text-info">暂无验证消息</view>
+			<view v-else class="">
+				<view class="flex-between item-stretch" v-for="item in friendJoinList.list" :key="item.id">
+					<view class="ptb-10">
+						<u-avatar :src="item.user? item.user.avatar : ''" size="44" :default-url="defaultAvatar"
+							mode="aspectFill"></u-avatar>
 					</view>
-					<view v-if="item.actionStatus === 0" class="flex-end ml-10">
-						<u-button class="bg-white fs-10 lh-8 w-47 h-20 text-base flex-center border-1 plr-0"
-							shape="circle" @click="doReject(item)">忽略</u-button>
-						<u-button class="bg-base fs-10 lh-8 w-47 h-20 text-white flex-center border-1 ml-10"
-							shape="circle" @click="doPass(item)">同意</u-button>
+					<view class="border-bottom ml-8 flex-1 flex-between">
+						<view class="flex-1">
+							<view class="u-line-1">{{ item.user? item.user.name : '' }}</view>
+							<view class="text-info fs-12 mt-6">添加您为好友</view>
+						</view>
+						<view v-if="item.status === 0" class="flex-end ml-10">
+							<u-button class="bg-white fs-10 lh-8 w-47 h-20 text-base flex-center border-1 plr-0"
+								shape="circle" @click="doReject(item)">拒绝</u-button>
+							<u-button class="bg-base fs-10 lh-8 w-47 h-20 text-white flex-center border-1 ml-10"
+								shape="circle" @click="doPass(item)">同意</u-button>
+						</view>
+						<view v-else-if="item.status === 1 || item.status === 4" class="text-base fs-12">已通过</view>
+						<view v-else-if="item.status === 2" class="text-danger fs-12">已拒绝</view>
+						<view v-else-if="item.status === 3" class="text-info fs-12">已过期</view>
 					</view>
-					<view v-else-if="item.actionStatus === 1" class="text-base fs-12">已通过</view>
-					<view v-else-if="item.actionStatus === 2" class="text-danger fs-12">已拒绝</view>
-					<view v-else-if="item.actionStatus === 3" class="text-info fs-12">已过期</view>
 				</view>
 			</view>
 		</view>
@@ -39,11 +71,17 @@
 	import Title from '../../components/Title.vue'
 	import {
 		teamJoinList,
+		friendJoinList,
 		getTeamJoinList,
 		acceptJoinApplication,
 		rejectJoinApplication,
 		clearAllTeamJoinActionInfo,
-		teamUnreadCount
+		teamUnreadCount,
+		acceptAddApplication,
+		rejectAddApplication,
+		getFrienApplicaionList,
+		frienUnreadCount,
+		sendMessage
 	} from '@/utils/nim.js'
 	
 	export default {
@@ -52,12 +90,14 @@
 		},
 		data() {
 			return {
+				friendJoinList,
 				teamJoinList,
 				show: false,
 				defaultAvatar: this.$c.userAvatar(),
 				count: 0,
 				doPass: null,
-				doReject: null
+				doReject: null,
+				type: 1
 			}
 		},
 		onLoad() {
@@ -73,28 +113,49 @@
 				const res = await clearAllTeamJoinActionInfo()
 			},
 			async onPass(item) {
-				const res1 = await acceptJoinApplication(item.teamId, item.teamType, item.operatorAccountId)
-				if(res1) {
-					const res = await this.$c.fetch(this.$api.group.pass, {
-						team_id: parseInt(item.teamId),
-						account_id: item.operatorAccountId
-					})
-					if(res) { 
-						this.$c.toast('操作成功')
+				if(this.type == 1) {
+					const res1 = await acceptJoinApplication(item.teamId, item.teamType, item.operatorAccountId)
+					if(res1) {
+						const res = await this.$c.fetch(this.$api.group.pass, {
+							team_id: parseInt(item.teamId),
+							account_id: item.operatorAccountId
+						})
+						if(res) { 
+							this.$c.toast('操作成功')
+						}
+					}
+				} else if(this.type == 2) {
+					const res = await acceptAddApplication(item)
+					if(res) {
+						await getFrienApplicaionList()
+						await frienUnreadCount()
+						setTimeout(() => {
+							const text = '我已经同意了你的好友申请，现在开始聊天吧~'
+							const cid = this.$c.getCid(item.applicantAccountId, 1)
+							sendMessage({ type: 'text', value: text }, cid)
+						}, 2000)
 					}
 				}
 			},
 			async onReject(item) {
-				const res1 = await rejectJoinApplication(item.teamId, item.teamType, item.operatorAccountId)
-				if(res1) {
-					const res = await this.$c.fetch(this.$api.group.reject, {
-						team_id: parseInt(item.teamId),
-						account_id: item.operatorAccountId
-					})
-					if(res) { 
-						this.$c.toast('操作成功')
-						await getTeamJoinList()
-						await teamUnreadCount()
+				if(this.type == 1) {
+					const res1 = await rejectJoinApplication(item.teamId, item.teamType, item.operatorAccountId)
+					if(res1) {
+						const res = await this.$c.fetch(this.$api.group.reject, {
+							team_id: parseInt(item.teamId),
+							account_id: item.operatorAccountId
+						})
+						if(res) { 
+							this.$c.toast('操作成功')
+							await getTeamJoinList()
+							await teamUnreadCount()
+						}
+					}
+				} else if(this.type == 2) {
+					const res = await rejectAddApplication(item)
+					if(res) {
+						getFrienApplicaionList()
+						frienUnreadCount()
 					}
 				}
 			}
