@@ -59,7 +59,7 @@
 								text="去完成"
 								@click="$c.goto('/pages/goods/searchResult?is_level_valid=1')"
 							></u-button>
-							<u-button v-else class="btn bg-1 text-1" text="已完成"></u-button>
+							<u-button v-else class="btn bg-1 text-1" shape="circle" text="已完成"></u-button>
 						</view>
 						<view class="step_box flex-between">
 							<view class="i-35 relative">
@@ -71,7 +71,7 @@
 								<view class="text-info">邀请{{ level3.upgrade_count || 3 }}位好友成为推广员</view>
 							</view>
 							<u-button v-if="profile.level.id < 3" class="btn bg-0 text-0" shape="circle" :text="num1 > 0? `还需${num1}人` : '去完成'" @click="$c.goto('/pages/user/qrcode')"></u-button>
-							<u-button v-else class="btn bg-1 text-1" text="已完成"></u-button>
+							<u-button v-else class="btn bg-1 text-1" shape="circle" text="已完成"></u-button>
 						</view>
 						<view v-if="switcher == 4" class="step_box flex-between step_3">
 							<view class="i-35 relative">
@@ -84,7 +84,7 @@
 								<view class="text-info">邀请{{ level4.upgrade_count || 5 }}位好友成为VIP会员</view>
 							</view>
 							<u-button v-if="profile.direct_vip < 5" class="btn bg-0 text-0" shape="circle" :text="num2 > 0? `还需${num2}人` : '去完成'" @click="$c.goto('/pages/user/qrcode')"></u-button>
-							<u-button v-else class="btn bg-1 text-1" text="已完成"></u-button>
+							<u-button v-else class="btn bg-1 text-1" shape="circle" text="已完成"></u-button>
 						</view>
 						<view class="absolute text-center pw-100 left-0 bottom-12 fs-10">
 							<view>
@@ -131,111 +131,54 @@
 					</view>
 				</view>
 			</view>
-			
-			<view 
-				v-if="profile.level.id >= 3 && performance.load && switcher == 3" 
-				class="mt-12 rounded-20 ptb-25 plr-20 relative" 
-				style="background: linear-gradient(180deg, #E0E5FA 0%, #FFFFFF 12%);"
-			>
-				<view class="fs-16 fw-5 flex-center">
-					<text>销售数据</text>
-					<view class="icon_info ml-3" @click="showHint = true"></view>
-				</view>
-				<view class="text-info flex-center mt-13 fs-12 lh-10">
-					<text>数据更新于{{ today }}</text>
-					<image src="/static/vip/refresh.webp" class="i-11 ml-4"></image>
-				</view>
-				<view class="flex-between gap-20 mt-33">
-					<view class="data_bg rounded-8 p-12 flex-1 border-box">
-						<image src="/static/vip/ri.webp" class="icon"></image>
-						<view class="text-info fs-12 mt-6">今日总销售（元）</view>
+			<view v-if="profile.level.id >= 4 && performance.load && switcher == 4" class="mt-12 rounded-20 ptb-25 plr-20 relative" style="background: linear-gradient(180deg, #FFE6E6 0%, #FFFFFF 17%);">
+				<view class="fs-16 fw-5 text-center">团队业绩</view>
+				<view class="text-info text-center mt-13 fs-12">数据更新于{{ today }}</view>
+				<view class="mt-10 mb-17">当月数据</view>
+				<view class="flex-between">
+					<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
+						<image src="/static/vip/data_1.png" class="i-17"></image>
+						<view class="text-info fs-10 mtb-5">销售业绩（元）</view>
 						<view class="fs-16 fw-7 u-line-1">{{ month_sales }}</view>
 					</view>
-					<view class="data_bg rounded-8 p-12 flex-1 border-box">
-						<image src="/static/vip/yue.webp" class="icon"></image>
-						<view class="text-info fs-12 mt-6">当月总销售（元）</view>
+					<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
+						<image src="/static/vip/data_2.png" class="i-17"></image>
+						<view class="text-info fs-10 mtb-5">绩效分红（元）</view>
 						<view class="fs-16 fw-7 u-line-1">{{ month_bonus }}</view>
 					</view>
 				</view>
-				<view class="flex-between gap-20 mt-34">
-					<view class="data_bg rounded-8 p-12 flex-1 border-box">
-						<image src="/static/vip/lei.webp" class="icon"></image>
-						<view class="text-info fs-12 mt-6">累计总销售（元）</view>
+				<view class="mt-10 mtb-17">累计数据</view>
+				<view class="flex-between">
+					<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
+						<image src="/static/vip/data_3.png" class="i-17"></image>
+						<view class="text-info fs-10 mtb-5">销售业绩（元）</view>
 						<view class="fs-16 fw-7 u-line-1">{{ performance.total.sales }}</view>
 					</view>
-					<view class="data_bg rounded-8 p-12 flex-1 border-box icon">
-						<image src="/static/vip/cun.webp" class="icon"></image>
-						<view class="text-info fs-12 mt-6">存储产品总数量（件））</view>
+					<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
+						<image src="/static/vip/data_4.png" class="i-17"></image>
+						<view class="text-info fs-10 mtb-5">绩效分红（元）</view>
 						<view class="fs-16 fw-7 u-line-1">{{ performance.total.bonus }}</view>
 					</view>
 				</view>
-				<u-button class="fw-7 btn-search" shape="circle" @click="$c.goto('/pages/user/sell')">
-					<image src="/static/vip/search.webp" class="i-22 mr-3"></image>
-					<text class="text-white">查询销售数据</text>
-				</u-button>
-			</view>
-			<view 
-				v-if="profile.level.id >= 4 && performance.load && switcher == 4" 
-				class="mt-12 rounded-20 pt-25 relative" 
-				style="background: linear-gradient(180deg, #FFE6E6 0%, #FFFFFF 17%);"
-			>
-				<view class="plr-20">
-					<view class="fs-16 fw-5 flex-center">
-						<text>团队业绩</text>
-						<view class="icon_info ml-3" @click="showHint = true"></view>
-					</view>
-					<view class="text-info text-center mt-13 fs-12">数据更新于{{ today }}</view>
-					<view class="mt-10 mb-17">当月数据</view>
-					<view class="flex-between">
-						<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
-							<image src="/static/vip/data_1.png" class="i-17"></image>
-							<view class="text-info fs-10 mtb-5">销售业绩（元）</view>
-							<view class="fs-16 fw-7 u-line-1">{{ month_sales }}</view>
-						</view>
-						<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
-							<image src="/static/vip/data_2.png" class="i-17"></image>
-							<view class="text-info fs-10 mtb-5">绩效分红（元）</view>
-							<view class="fs-16 fw-7 u-line-1">{{ month_bonus }}</view>
-						</view>
-					</view>
-					<view class="mt-10 mtb-17">累计数据</view>
-					<view class="flex-between">
-						<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
-							<image src="/static/vip/data_3.png" class="i-17"></image>
-							<view class="text-info fs-10 mtb-5">销售业绩（元）</view>
-							<view class="fs-16 fw-7 u-line-1">{{ performance.total.sales }}</view>
-						</view>
-						<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
-							<image src="/static/vip/data_4.png" class="i-17"></image>
-							<view class="text-info fs-10 mtb-5">绩效分红（元）</view>
-							<view class="fs-16 fw-7 u-line-1">{{ performance.total.bonus }}</view>
-						</view>
-					</view>
-					<view class="absolute top-30 right-20">
-						<u-text
-							suffixIcon="arrow-right"
-							iconStyle="font-size: 14px;color: #9F9F9F;"
-							size="12"
-							color="#3D3D3D"
-							lineHeight="1"
-							text="历史数据"
-							@click="$c.goto('/pages/finance/performance')"
-						></u-text>
-					</view>
+				<view class="absolute top-30 right-20">
+					<u-text
+						suffixIcon="arrow-right"
+						iconStyle="font-size: 14px;color: #9F9F9F;"
+						size="12"
+						color="#3D3D3D"
+						lineHeight="1"
+						text="历史数据"
+						@click="$c.goto('/pages/finance/performance')"
+					></u-text>
 				</view>
-				<image src="/static/vip/level_4_reward.webp" class="pw-100 block mt-40" mode="widthFix"></image>
 			</view>
-			<view v-if="profile.level.id == 3 && switcher == 4" class="mt-12 roundedTop-20 form_box text-center">
+			<view class="mt-12 roundedTop-20 form_box text-center">
 				<view class="">尊享权益</view>
 				<image src="/static/vip/form.webp" class="pw-100 mt-30 mb-17" mode="widthFix"></image>
-				<!-- <view class="fs-10">
+				<view class="fs-10">
 					<text class="text-info">详细权益、佣金比例等请查看</text>
 					<text class="text-base" @click="$c.goto('/pages/index/userService')">《会员服务介绍》</text>
-				</view> -->
-			</view>
-			<view class="fs-10 text-center ptb-30">
-				<text class="text-info">详细权益、佣金比例等请查看</text>
-				<text class="text-base" @click="$c.goto('/pages/index/userService')">《会员服务介绍》</text>
+				</view>
 			</view>
 		</view>
 		
@@ -258,20 +201,6 @@
 						dot 
 						@finish="doPay"></u-code-input>
 				</view>
-			</view>
-		</u-popup>
-		
-		<!-- 密码 -->
-		<u-popup :show="showHint" mode="center" round="20" :closeOnClickOverlay="false" @close="showHint = false">
-			<view class="w-308 plr-30 ptb-25 text-center border-box">
-				<view class="fs-18">温馨提示</view>
-				<view v-if="switcher == 3" class="mt-34 lh-17 fs-14">
-					无论用户处于什么级别（即使与当前用户同级），只要属于该用户的8层内，其数据均计入统计范围。
-				</view>
-				<view v-if="switcher == 4" class="mt-34 lh-17 fs-14">
-					同级别团队绩效数据不纳入绩效统计范围。绩效分红每月1日自动重置，每月完成绩效考核可获得不同程度的绩效分红奖励。
-				</view>
-				<u-button class="bg-base text-white w-234 h-51 fs-16 fw-7 mt-68" shape="circle" @click="showHint = false">知道了</u-button>
 			</view>
 		</u-popup>
 	</view>
@@ -305,8 +234,7 @@
 				level3: {},
 				level4: {},
 				num1: 0,
-				num2: 0,
-				showHint: false
+				num2: 0
 			}
 		},
 		async onLoad() {
@@ -380,7 +308,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style>
 	.bg {
 		background-image: url('/static/vip/bg.png');
 		background-repeat: no-repeat;
@@ -438,16 +366,6 @@
 	}
 	.data_bg {
 		background: #F3F4FB;
-		position: relative;
-		
-		.icon {
-			position: absolute;
-			left: 12px;
-			top: 0;
-			transform: translateY(-50%);
-			width: 23px;
-			height: 23px;
-		}
 	}
 	.step_box {
 		background: linear-gradient(270deg, #F9E6CD 0%, #FEF7EA 100%);
@@ -499,12 +417,5 @@
 	
 	.step_3 {
 		background: linear-gradient(270deg, #C0C5D4 5%, #F2F6FD 100%) !important;
-	}
-	
-	.btn-search {
-		background: linear-gradient(270deg, #72A3F7 0%, #1D66E2 100%);
-		width: 180px;
-		height: 38px;
-		margin-top: 30px;
 	}
 </style>

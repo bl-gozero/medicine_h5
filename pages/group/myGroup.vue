@@ -66,7 +66,7 @@
 			>
 				<view v-if="!item.isBlocked" class="flex-between item-stretch">
 					<view class="ptb-10">
-						<u-avatar :src="item.userProfile? item.userProfile.avatar : ''" :defaultUrl="$c.userAvatar()" size="42" mode="aspectFill"></u-avatar>
+						<u-avatar :src="$c.formatImgUrl(item.userProfile? item.userProfile.avatar : '')" :defaultUrl="$c.userAvatar()" size="42" mode="aspectFill"></u-avatar>
 					</view>
 					<view class="border-bottom ml-8 flex-start flex-1">
 						<view class="u-line-1 flex-1">{{ item.userProfile? item.userProfile.name : '' }}</view>

@@ -35,7 +35,7 @@
 
 					<!-- 消息气泡 -->
 					<view class="" :class="['message-item pb-20', item.isSelf ? 'self' : 'other']">
-						<u-avatar v-if="!item.isSelf" :src="item.avatar" size="28"
+						<u-avatar v-if="!item.isSelf" :src="$c.formatImgUrl(item.conversationType == 1 ? friendInfo.avatar : (teamInfo.members? teamInfo.members[item.senderId] : '' ))" size="28"
 							:default-url="$c.userAvatar()" @click="onAvatar(item)"></u-avatar>
 						<view class="plr-5 relative" style="max-width: 70%;" @longpress="tipItem = item;showTips = true">
 							<view v-if="!item.isSelf" class="fs-12 lh-13 pb-3 text-info">{{ item.fromNick }}</view>
@@ -122,7 +122,7 @@
 								</view> -->
 							</view>
 						</view>
-						<u-avatar v-if="item.isSelf" :src="item.avatar" size="28"
+						<u-avatar v-if="item.isSelf" :src="$c.formatImgUrl(profile.avatar)" size="28"
 							:default-url="$c.userAvatar()"></u-avatar>
 					</view>
 				</view>
@@ -151,7 +151,7 @@
 		memberInfo,
 		deleteMessage,
 		revokeMessage,
-		friendInfo
+		friendInfo,
 	} from '@/utils/nim.js'
 
 	export default {
@@ -172,7 +172,8 @@
 				tipItem: {},
 				showTips: false,
 				showDelete: false,
-				showRevoke: false
+				showRevoke: false,
+				profile: this.$c.profile()
 			}
 		},
 		computed: {

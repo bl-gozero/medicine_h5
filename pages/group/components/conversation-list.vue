@@ -9,8 +9,8 @@
 				<view v-for="item in pinnedConversations" :key="item.conversationId" class="flex-start ptb-16"
 					@longpress="showAction(item)" @click="$c.goChat(item)">
 					<!-- 群头像 -->
-					<u-avatar :src="item.avatar" size="44" :default-url="item.type == 1? $c.userAvatar() : $c.groupAvatar()"
-						mode="aspectFill"></u-avatar>
+					<u-avatar :src="$c.formatImgUrl(item.avatar)" size="44"
+						:default-url="item.type == 1? $c.userAvatar() : $c.groupAvatar()" mode="aspectFill"></u-avatar>
 
 					<!-- 群名称 + 最后一条消息 -->
 					<view class="info">
@@ -31,18 +31,12 @@
 				@longpress="showAction(item)" @click="$c.goChat(item)">
 				<!-- 群头像 -->
 				<view class="relative">
-					<u-avatar :src="item.avatar" size="44" :default-url="item.type == 1? $c.userAvatar() : $c.groupAvatar()"
-						mode="aspectFill"></u-avatar>
-						<u-badge
-							:value="item.unreadCount"
-							:absolute="true"
-							bgColor="#FF2A40"
-							color="#fff"
-							max="99"
-							:offset="[-5, 0]"
-						></u-badge>
+					<u-avatar :src="$c.formatImgUrl(item.avatar)" size="44"
+						:default-url="item.type == 1? $c.userAvatar() : $c.groupAvatar()" mode="aspectFill"></u-avatar>
+					<u-badge :value="item.unreadCount" :absolute="true" bgColor="#FF2A40" color="#fff" max="99"
+						:offset="[-5, 0]"></u-badge>
 				</view>
-				
+
 				<!-- 群名称 + 最后一条消息 -->
 				<view class="info">
 					<view>{{ item.name }}</view>

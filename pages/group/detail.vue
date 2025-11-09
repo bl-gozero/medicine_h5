@@ -3,16 +3,16 @@
 		<Title title="群聊设置" fixed />
 		<view class="list_box plr-15 bg-white mt-12 rounded-8">
 			<view class="ptb-14 flex-between" @click="$c.goto('/pages/group/info/baseInfo')">
-				<u-avatar :src="info.avatar" size="47" default-url="/static/group/default.png" class="" mode="aspectFill"></u-avatar>
+				<u-avatar :src="$c.formatImgUrl(teamInfo.avatar)" size="47" :default-url="$c.groupAvatar()" class="" mode="aspectFill"></u-avatar>
 				<view class="flex-1 mlr-9">
-					<view class="u-line-1">{{ info.name }}</view>
-					<view class="text-info fs-12 mt-9">{{ info.intro }}</view>
+					<view class="u-line-1">{{ teamInfo.name }}</view>
+					<view class="text-info fs-12 mt-9">{{ teamInfo.intro }}</view>
 				</view>
 				<image v-if="memberInfo.memberRole === 1" src="/static/icon/edit.png" class="i-15"></image>
 			</view>
 			<view class="ptb-18">
 				<view class="flex-between">
-					<text>群成员({{ info.memberCount }})</text>
+					<text>群成员({{ teamInfo.memberCount }})</text>
 					<view class="flex-start" @click="$c.goto('/pages/group/info/member')">
 						<text class="text-info">全部</text>
 						<u-icon name="arrow-right" size="14" color="#7d7d7d"></u-icon>
@@ -26,7 +26,7 @@
 						>
 							<view class="pt-14 text-center">
 								<view class="relative flex-center">
-									<u-avatar :src="item.avatar" size="42" default-url="/static/user/default.png" mode="aspectFill"></u-avatar>
+									<u-avatar :src="item.avatar" size="42" :default-url="$c.userAvatar()" mode="aspectFill"></u-avatar>
 									<view 
 										v-if="item.role && (item.role.id == 1 || item.role.id == 2)" 
 										:class="item.role.id == 1? 'group-owner' : 'group-admin'"
@@ -53,7 +53,7 @@
 			<view class="flex-between ptb-18" @click="$c.goto('/pages/group/info/announcement')">
 				<text>群公告</text>
 				<view class="flex-end flex-1 ml-20">
-					<view class="fs-12 text-info u-line-1">{{ info.announcement || '未设置' }}</view>
+					<view class="fs-12 text-info u-line-1">{{ teamInfo.announcement || '未设置' }}</view>
 					<u-icon name="arrow-right" size="14" color="#7d7d7d"></u-icon>
 				</view>
 			</view>
@@ -61,10 +61,10 @@
 				<text>群管理</text>
 				<u-icon name="arrow-right" size="14" color="#7d7d7d"></u-icon>
 			</view>
-			<view v-model="typeof info.stickTop === 'boolean'" class="flex-between ptb-18">
+			<view v-model="typeof teamInfo.stickTop === 'boolean'" class="flex-between ptb-18">
 				<text>置顶聊天</text>
 				<u-switch
-					v-model="info.stickTop"
+					v-model="teamInfo.stickTop"
 					:activeColor="$c.baseColor()"
 					inactiveColor="#DFDFDF"
 					:activeValue="true"
@@ -74,10 +74,10 @@
 					@change="pinConversation"
 				></u-switch>
 			</view>
-			<view  v-if="memberInfo.memberRole > 0 && (info.chatBannedMode == 1 || info.chatBannedMode == 0)" class="flex-between ptb-18">
+			<view  v-if="memberInfo.memberRole > 0 && (teamInfo.chatBannedMode == 1 || teamInfo.chatBannedMode == 0)" class="flex-between ptb-18">
 				<text>群禁言</text>
 				<u-switch
-					v-model="info.chatBannedMode"
+					v-model="teamInfo.chatBannedMode"
 					:activeColor="$c.baseColor()"
 					inactiveColor="#DFDFDF"
 					:activeValue="1"
@@ -97,10 +97,10 @@
 					<u-icon name="arrow-right" size="14" color="#7d7d7d"></u-icon>
 				</view>
 			</view>
-			<!-- <view class="flex-between ptb-18" @click="onDeleteConversation()">
+			<view class="flex-between ptb-18" @click="onDeleteConversation()">
 				<text>清空聊天记录</text>
 				<u-icon name="arrow-right" size="14" color="#7d7d7d"></u-icon>
-			</view> -->
+			</view>
 		</view>
 		
 		<u-button
@@ -132,7 +132,7 @@
 		teamInfo, 
 		setTopConversations, 
 		setTeamMute, 
-		clearTeamMessages, 
+		clearHistoryMessage, 
 		memberInfo, 
 		leaveTeam,
 		deleteConversation,
@@ -191,15 +191,15 @@
 				}
 				const id = `${nimInfo.account}|2|${this.info.teamId}`
 				const res = await setTopConversations(id)
-				if(res) this.info.stickTop = e
+				if(res) this.teamInfo.stickTop = e
 			},
 			async onMute(e) {
 				const res = await setTeamMute(this.info, e)
-				if(res) this.info.chatBannedMode = e
+				if(res) this.teamInfo.chatBannedMode = e
 			},
 			async onDelete() {
 				this.showDelete = false
-				const team_id = parseInt(this.info.teamId)
+				const team_id = parseInt(this.teamInfo.teamId)
 				if(!team_id) return
 				this.onDeleteConversation()
 				const res = await this.$c.fetch(this.$api.group.teamDelete, { team_id: team_id })
@@ -212,7 +212,7 @@
 			},
 			async onQuit() {
 				this.showQuit = false
-				const team_id = parseInt(this.info.teamId)
+				const team_id = parseInt(this.teamInfo.teamId)
 				if(!team_id) return
 				const res1 = await leaveTeam() 
 				if(res1) {
@@ -227,9 +227,8 @@
 				}
 			},
  			async onDeleteConversation() {
-				const nimInfo = uni.getStorageSync('nimInfo')
-				const conversationId = `${nimInfo.account}|2|${teamInfo.teamId}`
-				const res = await deleteConversation(conversationId)
+				const res = await clearHistoryMessage()
+				if(res) this.$c.toast('清除成功')
 			}
 		}
 	}

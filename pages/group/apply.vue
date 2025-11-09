@@ -15,7 +15,7 @@
 				<view v-if="item.actionType === 0" class="flex-between item-stretch" v-for="item in teamJoinList.list" :key="item.id">
 					<!-- <view class="u-line-1 pw-100">{{ item }}</view> -->
 					<view class="ptb-10">
-						<u-avatar :src="item.user? item.user.avatar : ''" size="44" :default-url="defaultAvatar"
+						<u-avatar :src="$c.formatImgUrl(item.user? item.user.avatar : '')" size="44" :default-url="defaultAvatar"
 							mode="aspectFill"></u-avatar>
 					</view>
 					<view class="border-bottom ml-8 flex-1 flex-between">
@@ -41,7 +41,7 @@
 			<view v-else class="">
 				<view class="flex-between item-stretch" v-for="item in friendJoinList.list" :key="item.id">
 					<view class="ptb-10">
-						<u-avatar :src="item.user? item.user.avatar : ''" size="44" :default-url="defaultAvatar"
+						<u-avatar :src="$c.formatImgUrl(item.user? item.user.avatar : '')" size="44" :default-url="defaultAvatar"
 							mode="aspectFill"></u-avatar>
 					</view>
 					<view class="border-bottom ml-8 flex-1 flex-between">

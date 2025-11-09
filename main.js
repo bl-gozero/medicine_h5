@@ -7,12 +7,22 @@ import api from '@/utils/api/index.js'
 import uView from '@/uni_modules/uview-ui'
 import './uni.promisify.adaptor'
 import env from '@/utils/env'
+import UConfirm from '@/utils/confirm'
 
 Vue.config.productionTip = false
 
 Vue.prototype.$c = common
 Vue.prototype.$api = api
 Vue.prototype.$baseUrl = env.BASE_URL
+Vue.prototype.$confirm = function(options) {
+	// 兼容简写：this.$confirm('内容')
+	if (typeof options === 'string') {
+		options = {
+			content: options
+		}
+	}
+	return UConfirm(options)
+}
 
 Vue.prototype.$nim = null
 
@@ -36,17 +46,19 @@ uni.$u.setConfig({
 
 App.mpType = 'app'
 const app = new Vue({
-  ...App
+	...App
 })
 app.$mount()
 // #endif
 
 // #ifdef VUE3
-import { createSSRApp } from 'vue'
+import {
+	createSSRApp
+} from 'vue'
 export function createApp() {
-  const app = createSSRApp(App)
-  return {
-    app
-  }
+	const app = createSSRApp(App)
+	return {
+		app
+	}
 }
 // #endif

@@ -22,7 +22,7 @@
 					const current = '/' + currentPage.route
 					const arr = ['/pages/index/launch', '/pages/index/login', '/pages/index/index', '/pages/index/index', '/pages/index/register', '/pages/web/register']
 					const aotuLogin = arr.indexOf(current) > -1? false : true
-					await nimReady()
+					await nimReady(aotuLogin)
 				}
 			}
 		}
@@ -190,11 +190,6 @@
 	::v-deep .u-number-box__input {
 		height: 20px !important;
 	}
-	::v-deep .uni-input-input {
-		font-size: 12px;
-		color: #3d3d3d;
-		font-weight: 400;
-	}
 	::v-deep .u-modal__content__text {
 		text-align: center;
 	}
@@ -209,5 +204,20 @@
 	
 	::v-deep .u-count-down__text {
 		color: #9f9f9f;
+	}
+	
+	.uni-modal__title {
+		font-size: 16px !important; /* 标题字体 */
+		font-weight: bold !important;
+	}
+	
+	uni-modal .uni-modal__bd {
+		color: $color-black;
+		
+		padding: 12px 25px 25px 25px;
+	}
+	
+	uni-modal .uni-modal__ft {
+		font-size: 16px !important; /* 内容字体 */
 	}
 </style>

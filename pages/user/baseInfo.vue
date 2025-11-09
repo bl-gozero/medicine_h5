@@ -136,6 +136,7 @@
 				})
 				if (res) {
 					this.$c.toast('保存成功')
+					this.$c.goBack()
 				}
 			}
 		}

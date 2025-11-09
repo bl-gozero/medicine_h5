@@ -26,7 +26,7 @@
 			<view class="">
 				<view v-show="nav == 1 || (item.chat_banned && item.chat_banned.id == 1)" class="flex-between item-stretch" v-for="item in list" :key="item.account_id">
 					<view class="relative mtb-10">
-						<u-avatar :src="item.avatar" size="42" default-url="/static/user/default.png" mode="aspectFill"></u-avatar>
+						<u-avatar :src="item.avatar" size="42" :default-url="$c.userAvatar()" mode="aspectFill"></u-avatar>
 						<view 
 							v-if="item.role && (item.role.id == 1 || item.role.id == 2)" 
 							:class="item.role.id == 1? 'group-owner' : 'group-admin'"

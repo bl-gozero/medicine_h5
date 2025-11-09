@@ -406,17 +406,15 @@ const common = {
 			}
 			const chatInfo = this.getStorage('chatInfo')
 			this.setStorage('chatInfo', item)
-			if (item.team_id != chatInfo.team_id) {
-				const res1 = await teamBaseInfo()
-				if (!res1) {
-					this.removeStorage('chatInfo')
-					return
-				}
-				const res2 = await getMemberInfo()
-				if (!res2) {
-					this.removeStorage('chatInfo')
-					return
-				}
+			const res1 = await teamBaseInfo()
+			if (!res1) {
+				this.removeStorage('chatInfo')
+				return
+			}
+			const res2 = await getMemberInfo()
+			if (!res2) {
+				this.removeStorage('chatInfo')
+				return
 			}
 		}
 		this.goto('/pages/group/chat')
@@ -574,6 +572,23 @@ const common = {
 			return `${Y}年${M}月${D}日 ${h}:${m}`
 		}
 	},
+	
+	formatImgUrl(url, key = 'avatar') {
+		if(!url) return ''
+		if(url.startsWith('http')) return url
+		if(!this.profile().avatar) return url
+		const str = this.profile().avatar 
+		if(!str.startsWith('http') || str.indexOf(key) === -1) return url
+		const idx = str.indexOf(key)
+		const domain = str.slice(0, idx)
+		return `${domain}${url}`
+	},
+	
+	// async formatChatAvatarUrl(data) {
+	// 	if(data.avatar) return formatImgUrl(data.avatar)
+	// 	if(data.isSelf) return this.profile().avatar
+	// 	if(data.senderId) return ''		
+	// }
 
 }
 

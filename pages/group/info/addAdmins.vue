@@ -17,7 +17,7 @@
 			<view class="mt-10">
 				<view class="flex-between item-stretch" v-for="item in list" :key="item.account_id" @click="onSelect(item)">
 					<view class="relative mtb-10">
-						<u-avatar :src="item.avatar" size="42" default-url="/static/user/default.png" mode="aspectFill"></u-avatar>
+						<u-avatar :src="item.avatar" size="42" :default-url="$c.userAvatar()" mode="aspectFill"></u-avatar>
 						<view 
 							v-if="item.role && (item.role.id == 1 || item.role.id == 2)" 
 							:class="item.role.id == 1? 'group-owner' : 'group-admin'"

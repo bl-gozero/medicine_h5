@@ -1,8 +1,8 @@
 <template>
 	<view class="page bg-white flex-col">
-		<Title :title="title" bgColor="#fff" @back="$c.goto('/pages/group/index')" @right="$c.goto('/pages/group/detail')">
+		<Title :title="title" bgColor="#fff" @back="$c.goto('/pages/group/index')" @right="onDetail()">
 			<template v-slot:right>
-				<u-icon v-if="mode == 2" name="more-dot-fill" size="18" color="#676C74"></u-icon>
+				<u-icon name="more-dot-fill" size="18" color="#676C74"></u-icon>
 			</template>
 		</Title>
 		<!-- 消息列表 -->
@@ -13,7 +13,7 @@
 		
 		<!-- 语音通话弹窗 -->
 		<view v-if="voiceVisible" class="voice-box flex-col align-center justify-center text-center plr-20 border-box">
-			<u-avatar :src="friendInfo.avatar" size="100" :default-url="$c.userAvatar()" class="auto-x"></u-avatar>
+			<u-avatar :src="$c.formatImgUrl(friendInfo.avatar)" size="100" :default-url="$c.userAvatar()" class="auto-x"></u-avatar>
 			<view class="nickname mt-50">{{ friendInfo.name }}</view>
 			<view class="status-text mt-20">{{ voiceStatus }}</view>
 					
@@ -86,6 +86,9 @@
 			if(!this.profile.nickname) this.showNick = true
 		},
 		methods: {
+			onDetail() {
+				this.mode == 1? this.$c.goto('/pages/group/friendDetail') :  this.$c.goto('/pages/group/detail')
+			},
 			onReceiveMsg(msg) {
 			  this.msgs.push(msg)
 			  // 可加滚动到底部逻辑

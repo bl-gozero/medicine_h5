@@ -67,4 +67,16 @@ export default {
 	storeShip(data = {}, config = {}) {
 		return request.post('/warehouse_mailing/create', data, { loading: true, ...config })
 	},
+	storeShipList(data = {}, config = {}) {
+		return request.post('/warehouse_mailing/list', data, { ...config })
+	},
+	storeShipDetail(data = {}, config = {}) {
+		return request.post('/warehouse_mailing/details', data, { ...config })
+	},
+	storeReceive(data = {}, config = {}) {
+		return request.post('/warehouse_mailing/receiving', data, { loading: true, ...config })
+	},
+	storeBuyList(data = {}, config = {}) {
+		return request.post('/warehouse_mailing/list', data, { ...config })
+	},
 }

@@ -6,7 +6,7 @@
 				<view class="relative" :class="nav == 1 && 'nav_active text-black'" @click="onNav(1)">已寄存</view>
 				<view class="relative w-65" :class="nav == 2 && 'nav_active text-black'" @click="onNav(2)">
 					<text>发货-{{ ships[shipIndex]? ships[shipIndex].value : '' }}</text>
-					<view v-if="showShipItem" class="ship_box">
+					<view v-if="showShipItem" class="ship_box text-info">
 						<view 
 							:class="shipIndex == index && 'text-black'"
 							v-for="(item, index) in ships"
@@ -21,7 +21,7 @@
 		</view>
 		<view class="pt-11 plr-20">
 			<view v-if="nav == 1" class="ptb-14 plr-12 rounded-12 flex-start bg-white mt-12" v-for="item in list" :key="item.id">
-				<image :src="$c.checkIcon(item.status)" class="i-18 self-start" @click="item.status = !item.status"></image>
+				<image :src="$c.checkIcon(item.selected)" class="i-18 self-start" @click="item.selected = !item.selected"></image>
 				<view class="flex-1 ml-8">
 					<view class="flex-between">
 						<!-- <text class="fs-12 fw-5">自购存入</text> -->
@@ -38,7 +38,27 @@
 					</view>
 				</view>
 			</view>
-			<view v-if="nav == 3" class="p-12 rounded-12 bg-white mt-12" v-for="(item, index) in list" :key="index">
+			<view v-if="nav == 2" class="p-12 rounded-12 bg-white mt-12" v-for="(item, index) in list" :key="index" @click="$c.goto(`/pages/store/detailForShip?id=${item.id}`)">
+				<view class="flex-between">
+					<text class="fs-12">发货号：{{ item.order_number }}</text>
+					<text :class="['fs-10', { 'text-gold': item.status && item.status.id < 3 }]">{{ item.status ? item.status.value : '' }}</text>
+				</view>
+				<view class="flex-between mt-14" v-for="i in item.details" :key="i.id">
+					<image :src="i.picture" class="i-57 rounded-12 mr-10" mode="aspectFill"></image>
+					<view class="flex-1 fs-12 text-info">
+						<view class="fw-5 fs-14 text-black">{{ i.goods_name }}</view>
+						<view class="mtb-3">{{ i.goods_sku_name }}</view>
+						<view class="h-17"></view>
+					</view>
+				</view>
+				<view class="flex-end" @click.stop>
+					<view class="">
+						<u-button v-if="item.status == 2" class="btn-list btn-black fs-12 p-0" shape="circle" plain
+							@click="onReceive(item)">确认收货</u-button>
+					</view>
+				</view>
+			</view>
+			<view v-if="nav == 3" class="p-12 rounded-12 bg-white mt-12" v-for="(item, index) in list" :key="index" @click="item.id && $c.goto(`/pages/store/detailForTransfer?id=${item.id}`)">
 				<view class="flex-between">
 					<text  class="fs-12">赠出账号：{{ item.receive_account }}</text>
 					<text class="fs-10">已赠出</text>
@@ -49,6 +69,20 @@
 						<view class="fw-5 fs-14 text-black">{{ i.goods_name }}</view>
 						<view class="mtb-3">{{ i.goods_sku_name }}</view>
 						<view class="">于{{ i.created_at }}赠出</view>
+					</view>
+				</view>
+			</view>
+			<view v-if="nav == 4" class="p-12 rounded-12 bg-white mt-12" v-for="(item, index) in list" :key="index" @click="item.id && $c.goto(`/pages/store/detailForBuy?id=${item.id}`)">
+				<view class="flex-between">
+					<text  class="fs-12">官方回购：总价￥345.88</text>
+					<text class="fs-10">已回购</text>
+				</view>
+				<view class="flex-between mt-14" v-for="i in item.details" :key="i.id">
+					<image :src="i.picture" class="i-57 rounded-12 mr-10" mode="aspectFill"></image>
+					<view class="flex-1 fs-12 text-info">
+						<view class="fw-5 fs-14 text-black">{{ i.goods_name }}</view>
+						<view class="mtb-3">{{ i.goods_sku_name }}</view>
+						<view class="">回购价格:￥234</view>
 					</view>
 				</view>
 			</view>
@@ -244,18 +278,18 @@
 				status: 'more',
 				limit: 10,
 				address: {},
-				to_account: null
+				to_account: null,
 			}
 		},
 		computed: {
 			num() {
 				return this.list
-					.filter(item => item.status === true)
+					.filter(item => item.selected === true)
 					.reduce((sum, cur) => sum + 1, 0);
 			},
 			order() {
 				return this.list
-					.filter(item => item.status === true)
+					.filter(item => item.selected === true)
 			}
 		},
 		onLoad() {
@@ -279,13 +313,16 @@
 		methods: {
 			onAll() {
 				this.all = !this.all
-				this.list.forEach(item => { item.status = this.all });
+				this.list.forEach(item => { item.selected = this.all });
 			},
 			onNav(n) {
-				if(n == 2 || n == 4) return
-				if(this.status == 'load') return
+				if(n == 4 || this.status == 'load') return
  				if(n == 2) {
-					this.showShipItem = !this.showShipItem
+					if(this.nav != n) {
+						this.onShipItem(0)
+					} else {
+						this.showShipItem = !this.showShipItem
+					}
 				} else if(this.nav != n) {
 					this.showShipItem = false
 					this.nav = n
@@ -326,14 +363,15 @@
 			async getList() {
 				if(this.status != 'more') return
 				this.status = 'load'
-				const api = [this.$api.goods.storeList, '', this.$api.goods.storeTransferList, ''][this.nav - 1]
+				const api = [this.$api.goods.storeList, this.$api.goods.storeShipList, this.$api.goods.storeTransferList, this.$api.goods.storeBuyList][this.nav - 1]
 				if(api) {
 					const res = await this.$c.fetch(api, {
 						page: this.page,
-						limit: this.limit
+						limit: this.limit,
+						search: { status: this.shipIndex }
 					})
 					if (res) {
-						res.map(item => { item.status = false })
+						res.map(item => { item.selected = false })
 						this.list = [...this.list, ...res]
 						this.status = res.length >= this.limit ? 'more' : 'end'
 						this.page++
@@ -347,7 +385,11 @@
 				const res = await this.$c.fetch(this.$api.user.addressList)
 				if(res) { this.address = res.length > 0? res[0] : {} }
 			},
-			async onSubmit(mode) {
+			onReceive(item) {
+				this.$confirm('确定该订单已收货？')
+				  .then(() => { this.doSubmit('receive', item) })
+			},
+			async onSubmit(mode, order = null) {
 				// this.$c.toast('未到开放时间')
 				this.onClose()
 				if(mode == 'transfer') {
@@ -379,6 +421,17 @@
 					const res = await this.$c.fetch(this.$api.goods.storeShip, { warehouse_id: ids, address_id: this.address.id })
 					if(res) {
 						this.$c.toast('提交成功，请等待发货')
+						this.init()
+					}
+				}
+				if(mode == 'receive') {
+					if(!order) {
+						this.$c.toast('请选择产品')
+						return
+					}
+					const res = await this.$c.fetch(this.$api.goods.storeReceive, { id: order.id })
+					if(res) {
+						this.$c.toast('操作成功')
 						this.init()
 					}
 				}
@@ -439,5 +492,11 @@
 			background-image: url('/static/point/buy.webp');
 			background-size: 100% 100%;
 		}
+	}
+	
+	.btn-list {
+		width: 65px;
+		height: 26px;
+		margin-left: 5px;
 	}
 </style>

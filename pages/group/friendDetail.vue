@@ -2,14 +2,13 @@
 	<view class="page bg-page plr-20">
 		<Title title="聊天设置" fixed />
 		<view class=" plr-15 ptb-14 bg-white flex-between mt-12 rounded-8">
-			<u-avatar :src="friendInfo.avatar" size="47" :default-url="$c.userAvatar()" mode="aspectFill"></u-avatar>
+			<u-avatar :src="$c.formatImgUrl(friendInfo.avatar)" size="47" :default-url="$c.userAvatar()" mode="aspectFill"></u-avatar>
 			<view class="flex-1 ml-9">
 				<view class="">{{ friendInfo.name }}</view>
 				<u--text mode="name" :text="account" format="encrypt"></u--text>
 				<!-- <view class="mt-3">{{ account }}</view> -->
 			</view>
 		</view>
-				
 		<view class="plr-15 bg-white mt-12 rounded-8 list_box">
 			<!-- <view class="flex-between ptb-18">
 				<text>举报</text>
@@ -18,10 +17,10 @@
 					<u-icon name="arrow-right" size="14" color="#7d7d7d"></u-icon>
 				</view>
 			</view> -->
-			<!-- <view class="flex-between ptb-18" @click="onDeleteConversation()">
+			<view class="flex-between ptb-18" @click="onDeleteConversation()">
 				<text>清空聊天记录</text>
 				<u-icon name="arrow-right" size="14" color="#7d7d7d"></u-icon>
-			</view> -->
+			</view>
 			<!-- <view class="flex-between ptb-18" @click="$c.goto('/pages/finance')">
 				<text>查看交易记录</text>
 				<u-icon name="arrow-right" size="14" color="#7d7d7d"></u-icon>
@@ -66,7 +65,8 @@
 		removeUserFromBlockList,
 		deleteConversation,
 		deleteFriend,
-		clearConversations
+		clearConversations,
+		clearHistoryMessage
 	} from '@/utils/nim.js'
 	
 	export default {
@@ -108,7 +108,8 @@
 			},
  			async onDeleteConversation() {
 				// const cid = this.$c.getCid(friendInfo.accoundId, 1)
-				const res = await clearConversations()
+				const res = await clearHistoryMessage()
+				if(res) this.$c.toast('清除成功')
 			},
 			async onBlack() {
 				if(friendInfo.isBlocked) {

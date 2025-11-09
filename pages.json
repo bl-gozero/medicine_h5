@@ -407,7 +407,48 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/store/detailForShip",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/user/sell",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/user/sellDetail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/user/sellSearch",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/user/sellSearchResult",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
+		// {
+		// 	"path": "pages/store/detailForTransfer",
+		// 	"style": {
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },{
+		// 	"path": "pages/store/detailForBuy",
+		// 	"style": {
+		// 		"navigationStyle": "custom"
+		// 	}
+		// }
 	],
 	"easycom": {
 		"^u-(.*)": "@/uni_modules/uview-ui/components/u-$1/u-$1.vue"
