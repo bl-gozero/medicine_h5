@@ -174,7 +174,7 @@
 		},
 		onShow() {
 			this.getProfile()
-			this.getOrderNum()
+			// this.getOrderNum()
 			if(this.is_sign !== true) this.getSignStatus()
 		},
 		methods: {

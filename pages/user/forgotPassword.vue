@@ -19,7 +19,6 @@
 					v-model="form.captcha_code"
 					placeholder="请输入验证码"
 					placeholderClass="text-info fs-14 fw-7"
-					:maxlength="6"
 				>
 					<template #suffix>
 						<u-button

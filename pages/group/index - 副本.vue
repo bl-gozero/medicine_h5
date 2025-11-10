@@ -23,48 +23,136 @@
 				<view class="text-center relative" v-for="(item, index) in navList" :key="index" @click="onNav(item)">
 					<image :src="item.icon" class="i-39"></image>
 					<view class="fs-12 mt-8">{{ item.name }}</view>
-					<u-badge v-if="item.id === 4" :value="teamJoinCount.value + friendApplictionCount.value"
-						:absolute="true" bgColor="#FF2A40" color="#fff" max="99" :offset="[-5, 5]"></u-badge>
+					<u-badge
+						v-if="item.id === 4"
+						:value="teamJoinCount.value + friendApplictionCount.value"
+						:absolute="true"
+						bgColor="#FF2A40"
+						color="#fff"
+						max="99"
+						:offset="[-5, 5]"
+					></u-badge>
 				</view>
 			</view>
 			<view class="">
-				<swiper class="h-90 mt-20" :interval="5000" :duration="500" circular indicator-dots autoplay>
+				<swiper 
+					class="h-90 mt-20" 
+					:interval="5000"
+					:duration="500"
+					circular
+					indicator-dots
+					autoplay
+				>
 					<swiper-item v-if="1 || showNew">
+						<!-- <view class="swiper-item flex-between fs-12 relative mt-20" @click="$c.goto('/pages/activity/newExclusive')">
+							<image src="/static/avtivity/new/goods.webp" class="i-25 rounded-8"></image>
+							<text>价值135元朝鲜山参</text>
+							<text class="text-orange">免费领取</text>
+							<text class="text-orange fs-20 fw-7">0元</text>
+							<view class="line"></view>
+							<text class="fw-5">倒计时</text>
+							<view class="text-orange plr-4 ptb-6 rounded-6 fw-7" style="background: #FBE4DC;">去领取</view>
+							<view class="new">新用户专享</view>
+						</view> -->
 						<view class="" @click="$c.goto('/pages/activity/newExclusive')">
-							<PlayImg path="group_activity/new/1" :interval="50" :length="20" />
+							<!-- <PlayImg
+								canvasId="new"
+								:paths="['group_activity/new/1']"
+								:counts="[20]"
+								:loopModes="['loop']"
+								:fpsModes="[20]"
+								:overallLoop="true"
+								:designWidth="336"
+								:designHeight="60"
+							/> -->
+							<PlayImg
+								path="group_activity/new/1"
+								:interval="50"
+								:length="20"
+							/>
 						</view>
 					</swiper-item>
 					<swiper-item v-if="1 || showEgg">
+						<!-- <view class="swiper-item flex-between fs-12 relative mt-20" @click="$c.goto('/pages/activity/egg')">
+							<image src="/static/avtivity/egg/egg.webp" class="w-24 h-13"></image>
+							<text>购买一次商品</text>
+							<text class="text-orange">免费领取鸡蛋</text>
+							<text class="text-orange fs-20 fw-7">12箱</text>
+							<view class="line"></view>
+							<text class="fw-5">已领取</text>
+							<view class="text-orange plr-4 ptb-6 rounded-6 fw-7" style="background: #FBE4DC;">去领取</view>
+							<view class="new">月月领百冠山初生蛋</view>
+						</view> -->
 						<view class="flex-center" @click="$c.goto('/pages/activity/egg')">
-							<PlayImg path="group_activity/egg/2" :interval="50" :length="20" />
+							<!-- <PlayImg
+								canvasId="egg"
+								:paths="['group_activity/egg/2']"
+								:counts="[20]"
+								:loopModes="['loop']"
+								:fpsModes="[20]"
+								:overallLoop="true"
+								:width="336"
+								:height="60"
+							/> -->
+							<PlayImg
+								path="group_activity/egg/2"
+								:interval="50"
+								:length="20"
+							/>
 						</view>
 					</swiper-item>
 					<swiper-item>
+						<!-- <view class="swiper-item flex-between fs-12 relative mt-20" @click="$c.goto('/pages/index/task')">
+							<image src="/static/task/1.webp" class="i-24 rounded-8"></image>
+							<text>完成每日任务获取积分</text>
+							<text class="text-orange fs-20 fw-7">换好礼</text>
+							<view class="line"></view>
+							<view class="text-orange plr-4 ptb-6 rounded-6 fw-5" style="background: #FBE4DC;">去任务中心</view>
+							<view class="new">每日任务</view>
+						</view> -->
 						<view class="flex-center" @click="$c.goto('/pages/index/task')">
-							<PlayImg path="group_activity/daily/3" :interval="50" :length="20" />
+							<!-- <PlayImg
+								canvasId="daily"
+								:paths="['group_activity/daily/3']"
+								:counts="[20]"
+								:loopModes="['loop']"
+								:fpsModes="[20]"
+								:overallLoop="true"
+								:width="336"
+								:height="60"
+							/> -->
+							<PlayImg
+								path="group_activity/daily/3"
+								:interval="50"
+								:length="20"
+							/>
 						</view>
 					</swiper-item>
 				</swiper>
 			</view>
-		</view>
-
+		</view>	
+			
 		<ConversationList />
 
 		<view class="h-70"></view>
 		<TabBar />
-
+		
 		<!-- 等级 -->
 		<u-popup :show="showLv" mode="center" round="20" @close="showLv = false">
 			<view class="lv_box pt-75 border-box">
 				<view class="lh-15 text-center">
-					<view class="">需要成为合伙人</view>
+					<view class="">需要成为合伙人</view>	
 					<view class="">才可以创建群聊哦~</view>
 				</view>
-				<u-button class="bg-black fw-7 fs-14 w-234 h-51 mt-80 text-white" shape="circle" text="知道了"
-					@click="showLv = false"></u-button>
+				<u-button
+					class="bg-black fw-7 fs-14 w-234 h-51 mt-80 text-white"
+					shape="circle"
+					text="知道了"
+					@click="showLv = false"
+				></u-button>
 			</view>
 		</u-popup>
-
+		
 		<!-- 创建 -->
 		<u-popup :show="showCreate" mode="bottom" round="20" closeable @close="showCreate = false">
 			<view class="pt-25 plr-30 pb-35">
@@ -72,19 +160,22 @@
 				<view class="lh-15 mtb-60" style="color: #909090;">
 					<view class="">
 						1，创建属于自己的群聊，找到志同道合的朋友，讨论共同话题，并且可以进行在线群聊语音
-					</view>
+					</view>	
 					<view class="mt-20">
 						2，创建群聊需达到合伙人身份
 					</view>
 				</view>
-				<u-button class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white" shape="circle" text="支付99元并创建"
-					@click="toCreate()"></u-button>
+				<u-button
+					class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white"
+					shape="circle"
+					text="支付99元并创建"
+					@click="toCreate()"
+				></u-button>
 			</view>
 		</u-popup>
-
-		<u-modal :show="showNick" title="提示" content='您还未设置昵称' confirmText="去设置" confirmColor="#3D3D3D"
-			cancelColor="#9F9F9F" showCancelButton @cancel="$c.goBack()"
-			@confirm="$c.goto('/pages/user/baseInfo');showNick = false"></u-modal>
+		
+		<u-modal :show="showNick" title="提示" content='您还未设置昵称' confirmText="去设置" confirmColor="#3D3D3D" cancelColor="#9F9F9F"
+			showCancelButton @cancel="$c.goBack()" @confirm="$c.goto('/pages/user/baseInfo');showNick = false"></u-modal>
 	</view>
 </template>
 
@@ -92,11 +183,8 @@
 	import TabBar from '../../components/TabBar.vue'
 	import PlayImg from '../../components/PlayImgs.vue'
 	import ConversationList from './components/conversation-list.vue'
-	import {
-		teamJoinCount,
-		friendApplictionCount
-	} from '@/utils/nim.js'
-
+	import { teamJoinCount, friendApplictionCount } from '@/utils/nim.js'
+	
 	export default {
 		components: {
 			TabBar,
@@ -107,41 +195,18 @@
 			return {
 				teamJoinCount,
 				friendApplictionCount,
-				navList: [{
-						id: 1,
-						name: '发现群聊',
-						icon: '/static/group/find.png',
-						url: '/pages/group/find'
-					},
-					{
-						id: 2,
-						name: '创建群聊',
-						icon: '/static/group/create.png',
-						url: '/pages/group/create'
-					},
-					{
-						id: 3,
-						name: '通讯录',
-						icon: '/static/group/my_group.png',
-						url: '/pages/group/myGroup'
-					},
-					{
-						id: 4,
-						name: '申请信息',
-						icon: '/static/group/apply.png',
-						url: '/pages/group/apply'
-					},
+				navList: [
+					{ id: 1, name: '发现群聊', icon: '/static/group/find.png', url: '/pages/group/find' },
+					{ id: 2, name: '创建群聊', icon: '/static/group/create.png', url: '/pages/group/create' },
+					{ id: 3, name: '通讯录', icon: '/static/group/my_group.png', url: '/pages/group/myGroup' },
+					{ id: 4, name: '申请信息', icon: '/static/group/apply.png', url: '/pages/group/apply' },
 				],
 				showOperation: false,
 				showCreate: false,
 				showLv: false,
 				showPlus: false,
 				profile: this.$c.profile(),
-				search: {
-					page: 1,
-					limit: 10,
-					load: 'more',
-					search: {
+				search: { page: 1, limit: 10, load: 'more', search: {
 						join_state: 0,
 						name: '',
 						is_preferred: 1
@@ -161,7 +226,7 @@
 		async onShow() {
 			// this.updateUnreadCount()
 			this.profile = await this.$c.checkeLogin(1)
-			if (!this.profile.nickname) this.showNick = true
+			if(!this.profile.nickname) this.showNick = true
 		},
 		methods: {
 			// async updateUnreadCount() {
@@ -175,7 +240,7 @@
 				}
 			},
 			onNav(e) {
-				if (e.id == 2 && this.profile.level.id < 4) {
+				if(e.id == 2 && this.profile.level.id < 4) {
 					this.showLv = true
 					return
 				}
@@ -197,33 +262,33 @@
 	.tabbar {
 		box-shadow: none;
 	}
-
+	
 	.group {
 		.list_box {
 			background: linear-gradient(180deg, #FFF2C9 4%, rgba(255, 242, 201, 0.34) 46%, rgba(255, 246, 216, 0) 98%);
 		}
 	}
-
+	
 	.lv_box {
 		width: 308px;
 		height: 280px;
-		border-radius: 20px;
+		border-radius: 20px;		
 		background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);
 	}
-
+	
 	.swiper-item {
 		border: 1px solid #F6BE97;
 		background: #FEF6F1;
 		padding: 4px 6px;
 		border-radius: 8px;
 	}
-
+	
 	.line {
 		width: 1px;
 		height: 22.5px;
 		background: #FFC4A4;
 	}
-
+	
 	.new {
 		height: 18px;
 		/* transform: rotate(180deg); */
@@ -238,7 +303,7 @@
 		text-align: center;
 		padding: 0 9px 0 6px;
 	}
-
+	
 	.plus_box {
 		position: absolute;
 		width: 130px;
@@ -249,31 +314,26 @@
 		z-index: 10;
 		border-radius: 10px;
 		transition: all 0.3s ease;
-
+		
 		&::after {
 			content: "";
 			position: absolute;
-			top: -6px;
-			/* 调整露出的高度 */
-			right: 20px;
-			/* 位置微调 */
+			top: -6px;              /* 调整露出的高度 */
+			right: 20px;            /* 位置微调 */
 			width: 14px;
 			height: 14px;
-			background: #4C4C4C;
-			/* 和气泡框背景一致 */
-			border-radius: 3px;
-			/* 倒角柔和程度 */
+			background: #4C4C4C;    /* 和气泡框背景一致 */
+			border-radius: 3px;     /* 倒角柔和程度 */
 			transform: rotate(45deg);
-			box-shadow: -1px -1px 2px rgba(0, 0, 0, 0.08);
-			/* 轻微阴影更立体 */
+			box-shadow: -1px -1px 2px rgba(0,0,0,0.08); /* 轻微阴影更立体 */
 			z-index: 1;
 			// border-left: 10px solid transparent;
 			// border-right: 10px solid transparent;
 			// border-bottom: 10px solid #4C4C4C; /* 内层：跟对话框背景相同 */
 			// clip-path: path('M2,12 Q0,2 10,2 L12,2 Q22,2 20,12 Z');
 		}
-
-		&> :last-child {
+		
+		& > :last-child {
 			border-top: 1px solid #616161;
 		}
 	}

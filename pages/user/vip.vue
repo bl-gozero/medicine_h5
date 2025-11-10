@@ -142,31 +142,31 @@
 					<view class="icon_info ml-3" @click="showHint = true"></view>
 				</view>
 				<view class="text-info flex-center mt-13 fs-12 lh-10">
-					<text>数据更新于{{ today }}</text>
-					<image src="/static/vip/refresh.webp" class="i-11 ml-4"></image>
+					<text>数据更新于{{ now }}</text>
+					<image src="/static/vip/refresh.webp" class="i-11 ml-4" @click="getSellData()"></image>
 				</view>
 				<view class="flex-between gap-20 mt-33">
 					<view class="data_bg rounded-8 p-12 flex-1 border-box">
 						<image src="/static/vip/ri.webp" class="icon"></image>
 						<view class="text-info fs-12 mt-6">今日总销售（元）</view>
-						<view class="fs-16 fw-7 u-line-1">{{ month_sales }}</view>
+						<view class="fs-16 fw-7 u-line-1">{{ sell.day_sales || 0 }}</view>
 					</view>
 					<view class="data_bg rounded-8 p-12 flex-1 border-box">
 						<image src="/static/vip/yue.webp" class="icon"></image>
 						<view class="text-info fs-12 mt-6">当月总销售（元）</view>
-						<view class="fs-16 fw-7 u-line-1">{{ month_bonus }}</view>
+						<view class="fs-16 fw-7 u-line-1">{{ sell.month_sales || 0 }}</view>
 					</view>
 				</view>
 				<view class="flex-between gap-20 mt-34">
 					<view class="data_bg rounded-8 p-12 flex-1 border-box">
 						<image src="/static/vip/lei.webp" class="icon"></image>
 						<view class="text-info fs-12 mt-6">累计总销售（元）</view>
-						<view class="fs-16 fw-7 u-line-1">{{ performance.total.sales }}</view>
+						<view class="fs-16 fw-7 u-line-1">{{ sell.total_sales || 0 }}</view>
 					</view>
 					<view class="data_bg rounded-8 p-12 flex-1 border-box icon">
 						<image src="/static/vip/cun.webp" class="icon"></image>
 						<view class="text-info fs-12 mt-6">存储产品总数量（件））</view>
-						<view class="fs-16 fw-7 u-line-1">{{ performance.total.bonus }}</view>
+						<view class="fs-16 fw-7 u-line-1">{{ sell.save_count || 0 }}</view>
 					</view>
 				</view>
 				<u-button class="fw-7 btn-search" shape="circle" @click="$c.goto('/pages/user/sell')">
@@ -306,19 +306,27 @@
 				level4: {},
 				num1: 0,
 				num2: 0,
-				showHint: false
+				showHint: false,
+				sell: {},
+				now: this.$c.formatDateTime()
 			}
 		},
 		async onLoad() {
 			this.profile = await this.$c.checkeLogin(1)
 			this.levelList()
-			if(this.profile.level.id >= 3) this.getPerformce()
+			if(this.profile.level.id >= 3) {
+				this.getSellData()
+				this.getPerformce()
+			}
 			this.doPay = this.$c.onceRequest(this.onPay)
 		},
 		methods: {
-			async getProfile() {
-				const res = await this.$c.fetch(this.$api.user.getProfile)
-				if(res) { this.profile = res; if(res.level.id >= 3) this.getPerformce() }
+			async getSellData() {
+				const res = await this.$c.fetch(this.$api.user.mySellInfo)
+				if(res) {
+					this.sell = res
+					this.now = this.$c.formatDateTime()
+				}
 			},
 			async levelList() {
 				const res = await this.$c.fetch(this.$api.config.levelList)

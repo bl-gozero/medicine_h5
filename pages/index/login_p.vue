@@ -47,7 +47,6 @@
 							placeholder="请输入验证码"
 							placeholderClass="text-info fs-14 fw-5"
 							:showLine="true"
-							:maxlength="6"
 						>
 							<template #suffix>
 							    <!-- <image v-if="!showCodeBtn && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix" @click="getCode()"></image> -->

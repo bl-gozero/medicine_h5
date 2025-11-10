@@ -79,4 +79,16 @@ export default {
 	accountInfo(data = {}, config = {}) {
 		return request.post('/user/search_profile', data, { ...config })
 	},
+	sellInfo(data = {}, config = {}) {
+		return request.post('/user_team/person', data, { ...config })
+	},
+	mySellInfo(data = {}, config = {}) {
+		return request.post('/user_team/self_stat', data, { ...config })
+	},
+	teamList(data = {}, config = {}) {
+		return request.post('/user_team/list', data, { loading: true, ...config })
+	},
+	teamNum(data = {}, config = {}) {
+		return request.post('/user_team/member_stat', data, { ...config })
+	},
 }

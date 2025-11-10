@@ -2,7 +2,7 @@
 	<view class="page bg-page plr-20">
 		<Title :isBlank="true"></Title>
 		<view class="flex-between">
-			<image src="/static/icon/back.png" class="i-24 mr-23" @click="$c.goto('/pages/index/index')"></image>
+			<image src="/static/icon/back.png" class="i-24 mr-23" @click="$c.goBack()"></image>
 			<u-search v-model="search.name" placeholder="输入账号搜索成员" bgColor="#fff" :showAction="false"></u-search>
 			<u-button
 				class="bg-base fs-12 text-white w-62 h-32 ml-12"
@@ -16,8 +16,8 @@
 				<text class=" fs-16 fw-5">历史搜索</text>
 				<image src="/static/icon/del.png" class="i-16" @click="onClear()"></image>
 			</view>
-			<view class="flex-start flex-wrap mt-13">
-				<view class="history" v-for="(item, index) in searchHistory" :key="index" @click="onSearchItem(item)">{{ item }}</view>
+			<view class="flex-start flex-wrap">
+				<view class="history mt-13" v-for="(item, index) in searchHistory" :key="index" @click="onSearchItem(item)">{{ item }}</view>
 			</view>
 		</view>
 	</view>

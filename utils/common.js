@@ -15,7 +15,8 @@ const common = {
 	/**
 	 * 格式化时间：yyyy-mm-dd hh:MM:ss
 	 */
-	formatDateTime(date) {
+	formatDateTime(date = null) {
+		if(!date) date = new Date()
 		const d = new Date(date)
 		const yyyy = d.getFullYear()
 		const mm = String(d.getMonth() + 1).padStart(2, '0')

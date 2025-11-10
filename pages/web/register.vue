@@ -45,7 +45,6 @@
 					v-model="form.captcha"
 					placeholder="请输入验证码"
 					placeholderClass="text-info fs-14 fw-5"
-					:maxlength="6"
 				>
 					<template #suffix>
 					    <!-- <image v-if="!showCodeBtn && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix" @click="getCode()"></image> -->
@@ -216,7 +215,7 @@
 						account: res2.account_id,
 						token: res2.token,
 					})
-					initNIM()
+					await initNIM(true, res2.p_account_id)
 				}
 				this.getProfile()
 			},

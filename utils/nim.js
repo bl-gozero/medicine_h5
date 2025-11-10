@@ -49,7 +49,7 @@ export const blackList = Vue.observable({
 /**
  * 初始化 NIM 实例
  */
-export function initNIM(autoLogin = true) {
+export function initNIM(autoLogin = true, accountId = null) {
 	nimInfo = uni.getStorageSync(NIM_KEY)
 	if (!nimInfo) return null
 	if (!nim) {
@@ -65,14 +65,14 @@ export function initNIM(autoLogin = true) {
 		Vue.prototype.$nim = nim
 	}
 	if (!eventsBound) _bindEvents(nim)
-	if (autoLogin) loginNIM()
+	if (autoLogin) loginNIM(accountId)
 	return nim
 }
 
 /**
  * 登录
  */
-export async function loginNIM() {
+export async function loginNIM(accountId) {
 	const nimInfo = uni.getStorageSync(NIM_KEY)
 	if (!nimInfo) return
 	if (!nimInfo.account || !nimInfo.token) {
@@ -88,6 +88,7 @@ export async function loginNIM() {
 		isLogin = true
 		teamBaseInfo()
 		getMemberInfo()
+		if(accountId) await addFriend(accountId, { addMode: 1 })
 		// getMessageList()
 	} catch (err) {
 		console.error('NIM 登录失败', err)
@@ -154,7 +155,7 @@ export async function nimReady(autoLogin = true) {
 
 		nimInitPromise = (async () => {
 			const instance = await initNIM(autoLogin)
-			console.log('初始化', instance)
+			// console.log('初始化', instance)
 			if (!instance) throw new Error('NIM 初始化失败')
 
 			console.log('[NIM] 初始化及登录完成，等待同步...')
@@ -983,17 +984,20 @@ export async function searchUser(account) {
 }
 
 // 搜索用户
-export async function addFriend(accountId) {
-	if (!nim || !accountId) return
-	const name = ''
+export async function addFriend(accountId, params = {}) {
+	if (!accountId) return
+	if (!await nimReady()) return
 	try {
-		await nim.V2NIMFriendService.addFriend(accountId, {
+		const data = {
 			addMode: 2,
-			postscript: ''
-		});
+			postscript: '',
+			...params
+		}
+		await nim.V2NIMFriendService.addFriend(accountId, data);
+		console.log('加好友成功', accountId, data)
 		return true
 	} catch (err) {
-		console.error('addFriend Error:', err)
+		console.error('加好友成功 Error:', err)
 		return false
 	}
 }

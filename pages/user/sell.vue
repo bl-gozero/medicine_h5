@@ -7,71 +7,58 @@
 					<text class="fs-18 lh-13">团队成员</text>
 				</view>
 				<view class="flex-1" style="max-width: 220px;">
-					<u-search v-model="account" placeholder="输入账号搜索成员" bgColor="#fff" :showAction="true" animation @search="onSearch"></u-search>
+					<u-search v-model="account" placeholder="输入账号搜索成员" bgColor="#fff" :showAction="true" animation @search="onSearch" @custom="onSearch"></u-search>
 				</view>
 			</view>
-			<view class="relative mt-20">
-				<image src="/static/user/level/sell_top.webp" class="pw-100 maxh-100 block" mode="widthFix"></image>
-				<view class="full flex-between gap-10 text-center plr-11">
-					<view class="flex-1">
-						<view class="fs-16 fw-7 u-line-1">0</view>
-						<view class="text_top_name">总人数</view>
-					</view>
-					<view class="flex-1">
-						<view class="fs-16 fw-7 u-line-1">0</view>
-						<view class="text_top_name">普通用户</view>
-					</view>
-					<view class="flex-1">
-						<view class="fs-16 fw-7 u-line-1">0</view>
-						<view class="text_top_name">推广员</view>
-					</view>
-					<view class="flex-1">
-						<view class="fs-16 fw-7 u-line-1">0</view>
-						<view class="text_top_name">VIP</view>
-					</view>
-					<view class="flex-1">
-						<view class="fs-16 fw-7 u-line-1">0</view>
-						<view class="text_top_name">合伙人</view>
+			<view class="minh-76">
+				<view v-if="nums.length > 0" class="relative mt-20">
+					<image src="/static/user/level/sell_top.webp" class="pw-100 maxh-100 block" mode="widthFix"></image>
+					<view class="full flex-between gap-10 text-center plr-11">
+						<view class="flex-1" v-for="item in nums">
+							<view class="fs-16 fw-7 u-line-1">{{ item.count }}</view>
+							<view class="text_top_name">{{ item.level_name }}</view>
+						</view>
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="flex-1 bg-white roundedTop-20 relative flex-col" style="margin-top: -27px;">
-			<view class="" style="top: -10px;">
+		<view class="flex-1 bg-white roundedTop-20 relative flex-col border-box" style="margin-top: -27px;">
+			<view class="" style="margin-top: -10px;">
 				<image src="/static/user/level/member_level.webp" class="w-134 h-42 auto-x block" ></image>
 			</view>
 			<view class="" style="margin-top: -7px;">
 				<view class="flex-center">
-					<u-icon name="play-left-fill" color="#AC7747" size="12" @click="level > 1 && level--"></u-icon>
+					<u-icon name="play-left-fill" color="#AC7747" size="12" @click="onChangeLevel(0)"></u-icon>
 					<image :src="`/static/user/level/${level}.webp`" class="w-49 h-46 mlr-20 block"></image>
-					<u-icon name="play-right-fill" color="#AC7747" size="12" @click="level < 8 && level++"></u-icon>
+					<u-icon name="play-right-fill" color="#AC7747" size="12" @click="onChangeLevel(1)"></u-icon>
 				</view>
 			</view>
 			<view class="flex-1 relative">
 				<swiper class="full" :current="level - 1" :duration="500" @change="onChange">
 					<swiper-item v-for="i in levelMax" :key="i">
-						<scroll-view class="full ptb-10" scroll-y>
-							<view class="plr-20 inline-block pw-100 border-box member_outbox" v-for="i in 8" :key="i">
+						<scroll-view class="full ptb-10 border-box" scroll-y>
+							<view v-if="list.length === 0" class="h-200 flex-center text-info">{{ listStatus != 'load' ? '暂无下级' : '' }}</view>
+							<view v-else class="plr-20 inline-block pw-100 border-box member_outbox" v-for="item in list" :key="item.id">
 								<view class="member_box">
 									<view class="flex-between item-stretch gap-10">
 										<view class="ptb-12">
 											<view class="relative">
-												<u-avatar src="" :defaultUrl="$c.userAvatar()" size="36" mode="aspectFill"></u-avatar>
-												<view class="level bg-1">推广员</view>
+												<u-avatar :src="item.avatar" :defaultUrl="$c.userAvatar()" size="36" mode="aspectFill"></u-avatar>
+												<view :class="['level', item.level ? `bg-${item.level.id}` : '']">{{ item.level ? item.level.value : '' }}</view>
 											</view>
 										</view>
 										<view class="flex-1 flex-between border-bottom">
 											<view class="lh-10 flex-1">
-												<view class="u-line-1">13696968989</view>
-												<view class="fs-12 text-info mt-9">2023.03.23 12:09</view>
+												<view class="u-line-1">{{ item.account }}</view>
+												<view class="fs-12 text-info mt-9">{{ item.created_at }}</view>
 											</view>
-											<u-button class="btn-check" shape="circle" @click="$c.goto('/pages/user/sellDetail')">查看</u-button>
+											<u-button class="btn-check" shape="circle" @click="$c.goto(`/pages/user/sellDetail?id=${item.id}`)">查看</u-button>
 										</view>
 									</view>
 									<view class="flex-end mt-13 lh-10">
 										<image src="/static/user/level/info.webp" class="i-12"></image>
 										<text class="fs-12 mlr-2" style="color: #7F99C4;">当月销售(元)：</text>
-										<text class="fs-16 fw-7" style="color: #1F67E3;">1231231</text>
+										<text class="fs-16 fw-7" style="color: #1F67E3;">{{ item.sales }}</text>
 									</view>
 								</view>
 							</view>
@@ -108,14 +95,62 @@
 				showAction: false,
 				account: '',
 				level: 1,
-				levelMax: 8
+				levelMax: 8,
+				nums: [],
+				list: [],
+				page: 1,
+				limit: 10,
+				listStatus: 'more'
 			}
 		},
-		onLoad() {
+		async onLoad() {
 			const arr = this.$c.getStorage('seeAction') || []
 			if(!arr.includes(this.profile.account)) this.showAction = true
+			const list = await this.levelList()
+			this.getNum(list)
+			this.getList()
+		},
+		onReachBottom() {
+			this.getList()
 		},
 		methods: {
+			async levelList() {
+				const res = await this.$c.fetch(this.$api.config.levelList)
+				if(res) return res.map(item => ({ level_name: item.name, count: 0 }))
+			},
+			init() {
+				this.page = 1
+				this.list = []
+				this.listStatus = 'more'
+				this.getList()
+			},
+			async getList() {
+				if(this.listStatus != 'more') return
+				this.listStatus = 'load'
+				const res = await this.$c.fetch(this.$api.user.teamList, {
+					page: this.page,
+					limit: this.limit,
+					tiers: this.level,
+					search: { account: '' }
+				})
+				if(res) {
+					this.list = [...this.list, ...res]
+					this.listStatus = res.length < this.limit ? 'end' : 'more'
+					this.page++
+				}
+				if(this.listStatus != 'end') this.listStatus = 'more'
+			},
+			onChangeLevel(n) {
+				if(n) {
+					this.level < 8 && this.level++
+				} else {
+					this.level > 1 && this.level--
+				}
+			},
+			onChange(e) {
+				this.level = e.detail.current + 1
+				this.init()
+			},
 			onCloseAction() {
 				const arr = this.$c.getStorage('seeAction') || []
 				if(!arr.includes(this.profile.account)) {
@@ -124,16 +159,34 @@
 				}
 				this.showAction = false
 			},
-			onChange(e) {
-		 		this.level = e.detail.current + 1
-			},
-			onSearch() {
+			onSearch(e) {
+				this.account = uni.$u.trim(this.account)
 				if(this.account) {
+					if(this.account.length < 4) {
+						this.$c.toast('请至少输入4个字符')
+						return
+					}
+					const searchHistory = this.$c.getStorage('searchMemberHistory') || []
+					if(searchHistory.indexOf(this.account) == -1) {
+						searchHistory.push(this.account)
+						this.$c.setStorage('searchMemberHistory', searchHistory)
+					}
 					this.$c.goto(`/pages/user/sellSearchResult?account=${this.account}`)
 				} else {
 					this.$c.goto(`/pages/user/sellSearch`)
 				}
-			}
+			},
+			async getNum(list) {
+				const res = await this.$c.fetch(this.$api.user.teamNum)
+				if(res) {
+					list.forEach(item => {
+					    const found = res.find(c => c.level_name === item.level_name)
+					    if (found) item.count = found.count
+					})
+					const all = res.reduce((sum, item) => sum + (Number(item.count) || 0), 0)
+					this.nums = [...[{level_name: '总人数', count: all }], ...list]
+				}
+			},
 		}
 	}
 </script>

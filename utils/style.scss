@@ -113,6 +113,7 @@ $color-orange:  #EE6F2E;
   .w-#{$i} { width: $val !important; }
   .h-#{$i} { height: $val !important; }
   .maxh-#{$i} { max-height: $val !important; }
+  .minh-#{$i} { min-height: $val !important; }
   .top-#{$i} { top: $val !important; }
   .left-#{$i} { left: $val !important; }
   .right-#{$i} { right: $val !important; }

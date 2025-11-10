@@ -1,11 +1,12 @@
 import request from '../request'
 
 export default {
-	groupList(data) {
-		return request.post('/im/teams/list', data)
+	groupList(data = {}, config = {}) {
+		if(!data?.search?.is_official) data.search.is_official = 2
+		return request.post('/im/teams/list', data, { ...config })
 	},
-	myList() {
-		return request.post('/im/teams/my_list', {})
+	myList(data = {}, config = {}) {
+		return request.post('/im/teams/my_list', data, { ...config })
 	},
 	userInfo(data = {}) {
 		return request.post('/im/user/info', data)

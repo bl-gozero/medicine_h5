@@ -1,5 +1,40 @@
 <template>
 	<view class="">
+		<!-- 官方群 -->
+		<view v-if="officials.length" class="plr-20 bg-white list_box mt-10">
+			<view v-for="item in officials" :key="item.team_id" class="">
+				<view v-if="!pinned_ids.includes(item.team_id + '')" class="flex-start ptb-16" @click="onOfficial(item)">
+					<!-- 群头像 -->
+					<u-avatar :src="$c.formatImgUrl(item.icon)" size="44" :default-url="$c.groupAvatar()"
+						mode="aspectFill"></u-avatar>
+					
+					<!-- 群名称 + 信息 -->
+					<view class="info mr-30">
+						<view>{{ item.name }}</view>
+						<view class="text-info fs-12 mt-5 u-line-1">
+							{{ item.intro }}
+						</view>
+					</view>
+					
+					<view
+						v-if="item.join_state && item.join_state.id == 2"
+						class="text-info fs-12 lh-10 w-53 h-21 rounded-x flex-center"
+						style="border: 0.5px solid #9F9F9F;"
+					>{{ item.join_state.value }}</view>
+					<view
+						v-else-if="item.join_state && item.join_state.id == 1"
+						class="text-white fs-12 lh-10 w-53 h-21 rounded-x flex-center"
+						style="background: #9DC7CA;"
+					>{{ item.join_state.value }}</view>
+					<view
+						v-else
+						class="text-white bg-base fs-12 lh-10 w-53 h-21 rounded-x flex-center"
+					>加入</view>
+				</view>
+			</view>
+		</view>
+
+		<!-- 置顶群 -->
 		<view v-if="pinnedConversations.length > 0" class=" bg-white mt-10">
 			<view class="fs-12 fw-7 pt-10 flex-start zd_bg plr-20" style="color: #F98D19;">
 				<image src="/static/group/setTop.png" style="width: 8.06px;height: 8.74px;"></image>
@@ -26,6 +61,7 @@
 				</view>
 			</view>
 		</view>
+
 		<view class="plr-20 bg-white list_box mt-10">
 			<view v-for="item in normalConversations" :key="item.conversationId" class="flex-start ptb-16"
 				@longpress="showAction(item)" @click="$c.goChat(item)">
@@ -60,13 +96,40 @@
 				</view>
 			</view>
 		</u-popup>
+
+		<!-- 加入 -->
+		<u-popup :show="showJoin" mode="bottom" round="20" closeable @close="showJoin = false">
+			<view class="p-20 pb-30">
+				<view class="flex-center">
+					<u-avatar :src="group.icon" size="58" default-url="/static/group/default.png"
+						mode="aspectFill"></u-avatar>
+				</view>
+				<view class="text-center ptb-15 border-bottom fs-16 fw-6">{{ group.name }}({{ group.member_count }})
+				</view>
+				<view class="fs-12 text-info mtb-15">群介绍</view>
+				<view class="">{{ group.intro }}</view>
+				<u-button v-if="group.join_state && group.join_state.id == 2"
+					class="fw-7 fs-14 w-224 h-43 mt-20 text-danger mt-70 border-0" style="background: #f8f8f8;"
+					shape="circle" text="退出该群聊" @click="doQuit"></u-button>
+				<u-button v-else-if="group.join_state && group.join_state.id == 1"
+					class="fw-7 fs-14 w-224 h-43 mt-20 text-white mt-70" style="background: #9DC7CA;" shape="circle"
+					:text="group.join_state.value"></u-button>
+				<u-button v-else class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white mt-70" shape="circle" text="申请加入"
+					@click="doJoin"></u-button>
+				<view class="text-center fs-10 mt-10">
+					<text class="text-info">维护群内生态健康，请遵守</text>
+					<text class="text-base" @click="$c.goto('/pages/index/userAgreement')">《群聊公约》</text>
+				</view>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
 <script>
 	import {
 		globalConversations,
-		setTopConversations
+		setTopConversations,
+		joinTeam
 	} from '@/utils/nim.js'
 
 	export default {
@@ -75,24 +138,41 @@
 				defaultAvatar: this.$c.groupAvatar(),
 				pinnedIds: uni.getStorageSync('pinnedIds') || [], // 持久化置顶ID
 				showOperation: false,
-				target: {}
+				target: {},
+				official_list: [],
+				group: {},
+				showJoin: false,
+				doJoin: null
 			}
 		},
 		computed: {
 			conversations() {
 				return globalConversations.list
 			},
+			officials() {
+				return this.official_list
+					.filter(item => !this.pinned_ids.includes(item.team_id + '')) || []
+			},
+			official_ids() {
+				return (this.official_list || []).map(item => item.team_id + '')
+			},
+			pinned_ids() {
+				return this.pinnedConversations.map(item => this.$c.getCidInfo(item.conversationId, 2))
+			},
 			pinnedConversations() {
 				return this.conversations
-					.filter(c => c.stickTop)
-					// .filter(c => this.pinnedIds.includes(c.conversationId))
+					.filter(c => c.stickTop || this.official_ids.includes(this.$c.getCidInfo(c.conversationId, 2)))
 					.sort((a, b) => (b.lastMessage?.timestamp || 0) - (a.lastMessage?.timestamp || 0))
 			},
 			normalConversations() {
 				return this.conversations
-					.filter(c => !c.stickTop)
+					.filter(c => !c.stickTop && !this.official_ids.includes(this.$c.getCidInfo(c.conversationId, 2)))
 					.sort((a, b) => (b.lastMessage?.timestamp || 0) - (a.lastMessage?.timestamp || 0))
 			}
+		},
+		created() {
+			this.doJoin = this.$c.onceRequest(this.onJoin)
+			this.getOfficialList()
 		},
 		methods: {
 			// 显示操作菜单
@@ -105,6 +185,60 @@
 			pinConversation(id) {
 				this.showOperation = false
 				setTopConversations(id)
+			},
+
+			// 官方群
+			async getOfficialList() {
+				const res = await this.$c.fetch(this.$api.group.groupList, {
+					page: 1,
+					limit: 20,
+					search: {
+						join_state: 0,
+						is_preferred: 0,
+						is_official: 1
+					}
+				})
+				if (res) this.official_list = res
+			},
+
+			onOfficial(item) {
+				if (item?.join_state?.id == 2) {
+					item.conversationId = this.$c.getCid(item.team_id, 2)
+					this.$c.goChat(item)
+				} else {
+					this.group = item
+					this.showJoin = true
+				}
+			},
+
+			async onJoin() {
+				this.showJoin = false
+				const res1 = await joinTeam(this.group.team_id, 1)
+				if (res1) {
+					const res = await this.$c.fetch(this.$api.group.join, {
+						team_id: this.group.team_id
+					})
+					if (res) {
+						this.updateInfo()
+					}
+				}
+			},
+
+			async updateInfo() {
+				const res = await this.$c.fetch(this.$api.group.join_info, {
+					team_id: this.group.team_id
+				})
+				if (res) {
+					this.official_list = this.official_list.map(item => {
+						if (item.team_id === this.group.team_id) {
+							return {
+								...item,
+								...res
+							} // 举例更新状态
+						}
+						return item
+					})
+				}
 			},
 
 			// 删除会话

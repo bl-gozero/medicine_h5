@@ -27,7 +27,8 @@
 		<view class="flex-1 bg-white plr-20">
 			<view class="list_box">
 				<view class="flex-between ptb-17 fs-12" v-for="(item, index) in list" :key="item.id" @click="onFriend(item)">
-					<image :src="$c.userAvatar()" class="i-36 rounded"></image>
+					<!-- <image :src="" class="i-36 rounded"></image> -->
+					<u-avatar :src="item.avatar" :defaultUrl="$c.userAvatar()" size="36" shape="circle"></u-avatar>
 					<view class="flex-1 mlr-10">
 						<view class="flex-between">
 							<view class="flex-start">

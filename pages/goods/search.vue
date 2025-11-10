@@ -16,8 +16,8 @@
 				<text class=" fs-16 fw-5">历史搜索</text>
 				<image src="/static/icon/del.png" class="i-16" @click="onClear()"></image>
 			</view>
-			<view class="flex-start flex-wrap mt-13">
-				<view class="history" v-for="(item, index) in searchHistory" :key="index" @click="onSearchItem(item)">{{ item }}</view>
+			<view class="flex-start flex-wrap">
+				<view class="history mt-13" v-for="(item, index) in searchHistory" :key="index" @click="onSearchItem(item)">{{ item }}</view>
 			</view>
 		</view>
 	</view>
