@@ -994,7 +994,13 @@ export async function addFriend(accountId, params = {}) {
 			...params
 		}
 		await nim.V2NIMFriendService.addFriend(accountId, data);
-		console.log('加好友成功', accountId, data)
+		// console.log('加好友成功', accountId, data)
+		// 直接添加成功发送一条信息
+		if(data.addMode == 1) {
+			const text = '我们已经是好友了，现在开始聊天吧~'
+			const cid = getCid(accountId, 1)
+			sendMessage({ type: 'text', value: text }, cid)
+		}
 		return true
 	} catch (err) {
 		console.error('加好友成功 Error:', err)
@@ -1394,9 +1400,12 @@ function showNimError(err, fallback = '操作失败', show = 1) {
 	return msg
 }
 
-function getCid(cid) {
-	if (cid) {
+function getCid(cid, mode = 0) {
+	if (cid && !mode) {
 		return cid
+	} else if(cid && mode) {
+		if (!nimInfo || !nimInfo.account) return ''
+		return `${nimInfo.account}|${mode}|${cid}`
 	} else {
 		let conversationId = uni.getStorageSync('conversationId')
 		if (!conversationId) {

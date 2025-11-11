@@ -1,7 +1,7 @@
 <template>
 	<view class="">
 		<!-- 置顶 -->
-		<view class=" bg-white mt-10">
+		<view v-if="officials.length || pinnedConversations.length" class=" bg-white mt-10">
 			<view class="fs-12 fw-7 pt-10 flex-start zd_bg plr-20" style="color: #F98D19;">
 				<image src="/static/group/setTop.png" style="width: 8.06px;height: 8.74px;"></image>
 				<text class="ml-4">置顶</text>
