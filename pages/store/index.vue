@@ -1,25 +1,28 @@
 <template>
 	<view class="page bg-page">
-		<Title title="我的仓库"></Title>
-		<view class="plr-30 mt-10">
-			<view class="flex-start fs-12 text-info nav_box pl-10" style="gap: 5%;">
-				<view class="relative" :class="nav == 1 && 'nav_active text-black'" @click="onNav(1)">已寄存</view>
-				<view class="relative w-65" :class="nav == 2 && 'nav_active text-black'" @click="onNav(2)">
-					<text>发货-{{ ships[shipIndex]? ships[shipIndex].value : '' }}</text>
-					<view v-if="showShipItem" class="ship_box text-info">
-						<view 
-							:class="shipIndex == index && 'text-black'"
-							v-for="(item, index) in ships"
-							:key="item.id"
-							@click.stop="onShipItem(index)"
-						>{{ item.value }}</view>
+		<view class="fixed top-0 left-0 pw-100 bg-page pb-15" style="z-index: 100;">
+			<Title title="我的仓库"></Title>
+			<view class="plr-30 mt-10">
+				<view class="flex-start fs-12 text-info nav_box pl-10" style="gap: 5%;">
+					<view class="relative" :class="nav == 1 && 'nav_active text-black'" @click="onNav(1)">已寄存</view>
+					<view class="relative w-80 flex-center" :class="nav == 2 && 'nav_active text-black'" @click="onNav(2)">
+						<text>发货 - {{ ships[shipIndex]? ships[shipIndex].value : '' }}</text>
+						<u-icon name="arrow-down-fill" :color="nav == 2? '#3D3D3D' : '#9F9F9F'" size="8"></u-icon>
+						<view v-if="showShipItem" class="ship_box text-info">
+							<view 
+								:class="shipIndex == index && 'text-black'"
+								v-for="(item, index) in ships"
+								:key="item.id"
+								@click.stop="onShipItem(index)"
+							>{{ item.value }}</view>
+						</view>
 					</view>
+					<view class="relative" :class="nav == 3 && 'nav_active text-black'" @click="onNav(3)">已赠出</view>
+					<view class="relative" :class="nav == 4 && 'nav_active text-black'" @click="onNav(4)">已回购</view>
 				</view>
-				<view class="relative" :class="nav == 3 && 'nav_active text-black'" @click="onNav(3)">已赠出</view>
-				<view class="relative" :class="nav == 4 && 'nav_active text-black'" @click="onNav(4)">已回购</view>
 			</view>
 		</view>
-		<view class="pt-11 plr-20">
+		<view class="pt-11 plr-20 pt-100">
 			<view v-if="nav == 1" class="ptb-14 plr-12 rounded-12 flex-start bg-white mt-12" v-for="item in list" :key="item.id">
 				<image :src="$c.checkIcon(item.selected)" class="i-18 self-start" @click="item.selected = !item.selected"></image>
 				<view class="flex-1 ml-8">
@@ -337,6 +340,10 @@
 			},
 			onShipItem(n) {
 				if(this.status == 'load') return
+				if(this.nav == 2 && this.shipIndex == n) {
+					this.showShipItem = false
+					return
+				}
 				this.shipIndex = n
 				this.nav = 2
 				this.showShipItem = false
@@ -450,16 +457,21 @@
 	
 	.ship_box {
 		position: absolute;
-		left: 0;
-		right: 0;
+		z-index: 100;
+		left: -10%;
 		bottom: 0;
 		margin: 0 auto;
 		transform: translateY(105%);
+		width: 120%;
 		background: #fff;
 		text-align: center;
 		border-radius: 4px;
 		padding-bottom: 7px;
 		transition: all 0.3s ease;
+		box-shadow:
+			0px 2px 6px rgba(0, 0, 0, 0.15),   /* 下方阴影 */
+			2px 0px 6px rgba(0, 0, 0, 0.1),   /* 右侧阴影 */
+		   -2px 0px 6px rgba(0, 0, 0, 0.1);   /* 左侧阴影 */
 	}
 	
 	.ship_box > view {
@@ -499,4 +511,5 @@
 		height: 26px;
 		margin-left: 5px;
 	}
+
 </style>
