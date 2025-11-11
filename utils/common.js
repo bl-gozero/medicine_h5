@@ -387,12 +387,6 @@ const common = {
 	},
 
 	async goChat(item) {
-		// const profile = await this.getProfile()
-		// if(!profile.nickname) {
-		// 	await this.toast('请先设置昵称')
-		// 	this.goto('/pages/user/baseInfo')
-		// 	return
-		// }
 		if (!item.conversationId) return
 		this.setStorage('conversationId', item.conversationId)
 		const parts = item.conversationId.split('|')
@@ -443,7 +437,7 @@ const common = {
 		const currentPage = pages[pages.length - 1]
 		const current = '/' + currentPage.route
 		const arr = ['/pages/index/launch', '/pages/index/login', '/pages/index/index', '/pages/index/index',
-			'/pages/index/register'
+			'/pages/index/register', '/pages/web/register'
 		]
 		const aotuLogin = arr.indexOf(current) > -1 ? false : true
 		initNIM(aotuLogin)
@@ -577,11 +571,12 @@ const common = {
 	formatImgUrl(url, key = 'avatar') {
 		if(!url) return ''
 		if(url.startsWith('http')) return url
-		if(!this.profile().avatar) return url
-		const str = this.profile().avatar 
-		if(!str.startsWith('http') || str.indexOf(key) === -1) return url
-		const idx = str.indexOf(key)
-		const domain = str.slice(0, idx)
+		// if(!this.profile().avatar) return url
+		// const str = this.profile().avatar 
+		// if(!str.startsWith('http') || str.indexOf(key) === -1) return url
+		// const idx = str.indexOf(key)
+		// const domain = str.slice(0, idx)
+		const domain = 'https://m1m3g8k3.resource.hbooks.xyz/medicine/'
 		return `${domain}${url}`
 	},
 	

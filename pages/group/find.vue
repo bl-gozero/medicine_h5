@@ -177,11 +177,6 @@
 			this.doJoin = this.$c.onceRequest(this.onJoin)
 			this.doQuit = this.$c.onceRequest(this.onQuit)
 		},
-		onReady() {
-			this.$uGetRect('.search_box').then(res => {
-				this.height = 70 + res.height
-			})
-		},
 		onShow() {
 		},
 		onReachBottom() {

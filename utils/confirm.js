@@ -10,12 +10,12 @@ export default function confirm(options = {}) {
 
 	const {
 		title = '提示',
-			content = '',
-			confirmText = '确定',
-			cancelText = '取消',
-			confirmColor = '#3D3D3D',
-			cancelColor = '#9F9F9F',
-			showCancel = true
+		content = '',
+		confirmText = '确定',
+		cancelText = '取消',
+		confirmColor = '#3D3D3D',
+		cancelColor = '#9F9F9F',
+		showCancel = true
 	} = options
 
 	return new Promise((resolve, reject) => {

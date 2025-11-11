@@ -59,9 +59,11 @@
 			}
 		},
 		onReady() {
-			this.$uGetRect('.title_box').then(res => {
-				this.height = res.height
-			})
+			setTimeout(() => {
+				this.$uGetRect('.title_box').then(res => {
+					this.height = res.height
+				})
+			}, 100)
 		},
 		onReachBottom() {
 			this.getGoods()

@@ -104,9 +104,11 @@
 			this.getList()
 		},
 		onReady() {
-			this.$uGetRect('.total_box').then(res => {
-				this.height = 70 + res.height
-			})
+			setTimeout(() => {
+				this.$uGetRect('.total_box').then(res => {
+					this.height = 70 + res.height
+				})
+			}, 100)
 		},
 		methods: {
 			onAll() {

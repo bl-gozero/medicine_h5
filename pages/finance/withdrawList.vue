@@ -1,7 +1,7 @@
 <template>
 	<view class="page bg-page">
 		<Title title="提现明细" :fixed="true" />
-		<view class="plr-20" :class="`pt-${height + 20}`">
+		<view class="plr-20 mt-10">
 			<view class="bg-white list_box rounded-8">
 				<view class="plr-16" v-for="(item, index) in list" :key="item.id">
 					<view class="flex-between ptb-16">
@@ -49,11 +49,6 @@
 		onLoad() {
 			this.getList()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
-		},
-		onReady() {
-			this.$uGetRect('.title_box').then(res => {
-				this.height = res.height
-			})
 		},
 		onReachBottom() {
 			this.getList()

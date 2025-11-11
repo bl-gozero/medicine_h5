@@ -33,9 +33,11 @@
 			}
 		},
 		onReady() {
-			this.$uGetRect('.title-bar').then(res => {
-				this.top = res.height
-			})
+			setTimeout(() => {
+				this.$uGetRect('.title-bar').then(res => {
+					this.top = res.height
+				})
+			}, 100)
 		},
 		methods: {
 		}
