@@ -5,7 +5,7 @@ import {
 	teamBaseInfo,
 	getMemberInfo,
 	getMessageList,
-	initNIM,
+	nimReady,
 	getUserInfo
 } from './nim'
 
@@ -440,7 +440,7 @@ const common = {
 			'/pages/index/register', '/pages/web/register'
 		]
 		const aotuLogin = arr.indexOf(current) > -1 ? false : true
-		initNIM(aotuLogin)
+		nimReady(aotuLogin)
 	},
 
 	checkIcon(res) {
@@ -571,21 +571,9 @@ const common = {
 	formatImgUrl(url, key = 'avatar') {
 		if(!url) return ''
 		if(url.startsWith('http')) return url
-		// if(!this.profile().avatar) return url
-		// const str = this.profile().avatar 
-		// if(!str.startsWith('http') || str.indexOf(key) === -1) return url
-		// const idx = str.indexOf(key)
-		// const domain = str.slice(0, idx)
-		const domain = 'https://m1m3g8k3.resource.hbooks.xyz/medicine/'
-		return `${domain}${url}`
-	},
-	
-	// async formatChatAvatarUrl(data) {
-	// 	if(data.avatar) return formatImgUrl(data.avatar)
-	// 	if(data.isSelf) return this.profile().avatar
-	// 	if(data.senderId) return ''		
-	// }
-
+		const domain = this.getStorage('endpoint')
+		return domain ? `${domain}/${url}` : url
+	}
 }
 
 export default common

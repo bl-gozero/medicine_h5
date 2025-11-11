@@ -15,14 +15,10 @@
 				// console.log('初始化')
 				const res = await this.$c.fetch(this.$api.group.config)
 				if(res) {
+					if(res.endpoint) this.$c.setStorage('endpoint', res.endpoint)
 					let nim = this.$c.getStorage('nimInfo') || {}
 					this.$c.setStorage('nimInfo',  {...nim, appkey: res.app_key })
-					const pages = getCurrentPages()
-					const currentPage = pages[pages.length - 1]
-					const current = '/' + currentPage.route
-					const arr = ['/pages/index/launch', '/pages/index/login', '/pages/index/index', '/pages/index/index', '/pages/index/register', '/pages/web/register']
-					const aotuLogin = arr.indexOf(current) > -1? false : true
-					await nimReady(aotuLogin)
+					this.$c.checkNim()
 				}
 			}
 		}
