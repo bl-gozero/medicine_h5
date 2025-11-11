@@ -59,7 +59,7 @@
 								text="去完成"
 								@click="$c.goto('/pages/goods/searchResult?is_level_valid=1')"
 							></u-button>
-							<u-button v-else class="btn bg-1 text-1" text="已完成"></u-button>
+							<u-button v-else class="btn bg-1 text-1" shape="circle" text="已完成"></u-button>
 						</view>
 						<view class="step_box flex-between">
 							<view class="i-35 relative">
@@ -71,7 +71,7 @@
 								<view class="text-info">邀请{{ level3.upgrade_count || 3 }}位好友成为推广员</view>
 							</view>
 							<u-button v-if="profile.level.id < 3" class="btn bg-0 text-0" shape="circle" :text="num1 > 0? `还需${num1}人` : '去完成'" @click="$c.goto('/pages/user/qrcode')"></u-button>
-							<u-button v-else class="btn bg-1 text-1" text="已完成"></u-button>
+							<u-button v-else class="btn bg-1 text-1" shape="circle" text="已完成"></u-button>
 						</view>
 						<view v-if="switcher == 4" class="step_box flex-between step_3">
 							<view class="i-35 relative">
@@ -84,7 +84,7 @@
 								<view class="text-info">邀请{{ level4.upgrade_count || 5 }}位好友成为VIP会员</view>
 							</view>
 							<u-button v-if="profile.direct_vip < 5" class="btn bg-0 text-0" shape="circle" :text="num2 > 0? `还需${num2}人` : '去完成'" @click="$c.goto('/pages/user/qrcode')"></u-button>
-							<u-button v-else class="btn bg-1 text-1" text="已完成"></u-button>
+							<u-button v-else class="btn bg-1 text-1" shape="circle" text="已完成"></u-button>
 						</view>
 						<view class="absolute text-center pw-100 left-0 bottom-12 fs-10">
 							<view>
@@ -225,7 +225,7 @@
 				</view>
 				<image src="/static/vip/level_4_reward.webp" class="pw-100 block mt-40" mode="widthFix"></image>
 			</view>
-			<view v-if="profile.level.id == 3 && switcher == 4" class="mt-12 roundedTop-20 form_box text-center">
+			<view v-if="(profile.level.id == 3 && switcher == 4) || profile.level.id < 3" class="mt-12 roundedTop-20 form_box text-center">
 				<view class="">尊享权益</view>
 				<image src="/static/vip/form.webp" class="pw-100 mt-30 mb-17" mode="widthFix"></image>
 				<!-- <view class="fs-10">
