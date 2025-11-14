@@ -70,17 +70,28 @@ $color-orange:  #EE6F2E;
 .relative	  { position: relative; }
 .absolute	  { position: absolute; }
 .fixed		  { position: fixed; }
+.shrink-0	  { flex-shrink: 0; } //防止flex下被压缩
 
 @for $i from 5 through 20 {
 	$val: $i * 1px;
 	.gap-#{$i}>*:not(:last-child) {
 		margin-right: $val; // 模拟 gap
 	}
+	.fgap-#{$i} {
+		gap: $val;
+	}
 }
 /* ========== 其他 ========== */
+.text-wrap {
+  word-break: break-all; /* 遇到长单词也换行 */
+  white-space: normal; /* 允许自动换行 */
+}
 .ellipsis { overflow: hidden;white-space: nowrap;text-overflow: ellipsis; }
+.white-nowrap { white-space: nowrap; }
 .full { position: absolute;top: 0;left: 0;width: 100%;height: 100%;box-sizing: border-box; }
 .sroller-y { overflow-y: scroll; }
+.sroller-x { overflow-x: scroll; }
+.overflow-hide { overflow: hidden; }
 .border-box { box-sizing: border-box; }
 .circle { border: 1px solid #DBDBDB;width: 18px;height: 18px;border-radius: 50%;box-sizing: border-box; }
 .border-0 { border: 0 !important; }
@@ -122,6 +133,8 @@ $color-orange:  #EE6F2E;
 @for $i from 0 through 100 {
   .pw-#{$i} { width: $i * 1%; }
   .ph-#{$i} { height: $i * 1%; }
+  .x-#{$i} { width: $i * 1%; }
+  .y-#{$i} { height: $i * 1%; }
 }
 @for $i from 2 through 250 {
   $val: $i * 1px;

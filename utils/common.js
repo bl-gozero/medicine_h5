@@ -16,7 +16,7 @@ const common = {
 	 * 格式化时间：yyyy-mm-dd hh:MM:ss
 	 */
 	formatDateTime(date = null) {
-		if(!date) date = new Date()
+		if (!date) date = new Date()
 		const d = new Date(date)
 		const yyyy = d.getFullYear()
 		const mm = String(d.getMonth() + 1).padStart(2, '0')
@@ -362,6 +362,10 @@ const common = {
 				id: 1,
 				value: "普通用户"
 			},
+			medals: {
+				id: 1,
+				value: "无奖牌"
+			},
 			upgrade_at: "",
 			balance: 0,
 			referral_code: "",
@@ -567,13 +571,50 @@ const common = {
 			return `${Y}年${M}月${D}日 ${h}:${m}`
 		}
 	},
-	
+
 	formatImgUrl(url, key = 'avatar') {
-		if(!url) return ''
-		if(url.startsWith('http')) return url
+		if (!url) return ''
+		if (url.startsWith('http')) return url
 		const domain = this.getStorage('endpoint')
 		return domain ? `${domain}/${url}` : url
-	}
+	},
+	
+	isMedals(data) {
+		if (!data) return 0;
+		const level = Number(data?.level?.id) || 1;
+		const medals = Number(data?.medals?.id) || 1;
+		return level > 3 && medals > 1?  (medals - 1) : 0
+	},
+	
+	calcLv(data) {
+		if (!data) return 1;
+		const level = Number(data?.level?.id) || 1;
+		const medals = Number(data?.medals?.id) || 1;
+		return level + medals - 1
+	},
+	
+	calcLvName(data) {
+		if (data?.level?.id > 3 && data?.medals?.id > 1 && data?.medals?.value) {
+			return data.medals.value
+		} else if (data?.level?.value) {
+			return data.level.value
+		}
+		return ''
+	},
+	
+	calcLvBg(item) {
+		const lv = this.calcLv(item)
+		switch(lv) {
+			case 1: return 'background: #E1E9EA;color: #3D3D3D'
+			case 2: return 'background: #E5E0D2;color: #3D3D3D'
+			case 3: return 'background: #B08E3E;color: #fff'
+			case 4: return 'background: #30304C;color: #fff'
+			case 5: return 'background: linear-gradient(90deg, #895041 0%, #BD967E 96%);color: #fff'
+			case 6: return 'background: linear-gradient(90deg, #41474D 0%, #9BA4B5 96%);color: #fff'
+			case 7: return 'background: linear-gradient(90deg, #B76B20 0%, #DDAB57 100%);color: #fff'
+			default: return 'background: #D8D8D8'
+		}
+	},
 }
 
 export default common

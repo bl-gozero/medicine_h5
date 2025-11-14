@@ -91,4 +91,10 @@ export default {
 	teamNum(data = {}, config = {}) {
 		return request.post('/user_team/member_stat', data, { ...config })
 	},
+	isRecruit(data = {}, config = {}) {
+		return request.post('/user_enlist/is_add', data, { ...config })
+	},
+	recruit(data = {}, config = {}) {
+		return request.post('/user_enlist/add', data, { loading: true, ...config })
+	},
 }

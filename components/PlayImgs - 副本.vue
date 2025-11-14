@@ -87,7 +87,8 @@
 				imgSrc: '',
 				diceAnimationImages: [],
 				diceAnimationImages2: [],
-				loadedCache: {} // 图片缓存
+				loadedCache: {}, // 缓存 Image 对象
+				imagesLoaded: false,
 			};
 		},
 		watch: {
@@ -95,20 +96,17 @@
 				this.startAnimation();
 			},
 			stop(newVal) {
-				if (newVal) this.stopAnimation();
-				else this.startAnimation();
+				newVal ? this.stopAnimation() : this.startAnimation();
 			},
-			path(newVal, oldVal) {
+			path() {
 				this.reloadAnimation();
 			},
-			length(newVal) {
+			length() {
 				this.reloadAnimation();
 			}
 		},
 		mounted() {
-			this.loadImages().then(() => {
-				this.startAnimation();
-			});
+			this.loadImages().then(() => this.startAnimation());
 		},
 		beforeDestroy() {
 			this.stopAnimation();
@@ -124,98 +122,109 @@
 				this.stopAnimation();
 				this.loadImages().then(() => this.startAnimation());
 			},
+
 			getImage(imgSrc) {
 				if (!this.loadedCache[imgSrc]) {
-					let image = new Image();
-					image.src = imgSrc;
-					this.loadedCache[imgSrc] = true; // 标记已加载
+					const img = new Image();
+					img.src = imgSrc;
+					this.loadedCache[imgSrc] = img;
 				}
 			},
+
 			async loadImages() {
-				// 第一组
+				if (this.imagesLoaded) return;
+
+				// 第一组动画
 				const key1 = `${this.path}_${this.start}_${this.length}`;
 				if (!this.loadedCache[key1]) {
 					for (let i = 0; i < this.length; i++) {
-						let tmpi = (this.start + i).toString().padStart(5, '0');
-						let image = `/static/anime/${this.path}_${tmpi}.${this.type}`;
-						this.diceAnimationImages[i] = image;
-						//#ifdef H5
-						this.getImage(image);
-						//#endif
+						const tmpi = (this.start + i).toString().padStart(5, '0');
+						const src = `/static/anime/${this.path}_${tmpi}.${this.type}`;
+						this.diceAnimationImages[i] = src;
+						this.getImage(src);
 					}
 					this.loadedCache[key1] = this.diceAnimationImages.slice();
 				} else {
 					this.diceAnimationImages = this.loadedCache[key1].slice();
 				}
 
-				// 第二组
+				// 第二组动画
 				const key2 = `${this.path2}_${this.start2}_${this.length2}`;
 				if (this.length2 > 0) {
 					if (!this.loadedCache[key2]) {
 						for (let i = 0; i < this.length2; i++) {
-							let tmpi = (this.start2 + i).toString().padStart(5, '0');
-							let image = `/static/anime/${this.path2}_${tmpi}.${this.type}`;
+							const tmpi = (this.start2 + i).toString().padStart(5, '0');
+							const src = `/static/anime/${this.path2}_${tmpi}.${this.type}`;
 							if (this.loopAll) {
-								this.diceAnimationImages[this.length + i] = image;
+								this.diceAnimationImages[this.length + i] = src;
 							} else {
-								this.diceAnimationImages2[i] = image;
+								this.diceAnimationImages2[i] = src;
 							}
-							//#ifdef H5
-							this.getImage(image);
-							//#endif
+							this.getImage(src);
 						}
-						this.loadedCache[key2] = this.loopAll ?
-							this.diceAnimationImages.slice(this.length) :
-							this.diceAnimationImages2.slice();
+						this.loadedCache[key2] = this.loopAll ? this.diceAnimationImages.slice(this.length) : this
+							.diceAnimationImages2.slice();
 					} else {
 						if (this.loopAll) {
 							for (let i = 0; i < this.length2; i++) {
-								this.diceAnimationImages[this.length + i] = this.loadedCache[key2][i];
+								this.diceAnimationImages[this.length + i] = this.loadedCache[key2][i].src;
 							}
 						} else {
-							this.diceAnimationImages2 = this.loadedCache[key2].slice();
+							this.diceAnimationImages2 = this.loadedCache[key2].slice().map(img => img.src);
 						}
 					}
 				}
-				
+
+				// 设置第一帧
+				if (this.diceAnimationImages.length > 0) {
+					this.imgSrc = this.loadedCache[this.diceAnimationImages[0]].src;
+				}
+
+				this.imagesLoaded = true;
 				this.$emit('load', {
 					length1: this.diceAnimationImages.length,
 					length2: this.diceAnimationImages2.length
 				});
 			},
+
 			startAnimation() {
 				this.stopAnimation();
-				if (this.diceAnimationImages.length > 0) {
-					this.timer = setInterval(() => {
-						if (this.order) {
-							let end = this.aniIndex1 >= this.diceAnimationImages.length - 1;
-							if (!this.loop && end) {
-								clearInterval(this.timer);
-								if (this.diceAnimationImages2.length > 0) this.startAnimation2();
-							} else {
-								this.imgSrc = this.diceAnimationImages[this.aniIndex1];
-								this.aniIndex1 = (this.aniIndex1 + 1) % this.diceAnimationImages.length;
-							}
+				if (!this.diceAnimationImages.length) return;
+
+				this.timer = setInterval(() => {
+					if (this.order) {
+						const end = this.aniIndex1 >= this.diceAnimationImages.length - 1;
+						if (!this.loop && end) {
+							clearInterval(this.timer);
+							if (this.diceAnimationImages2.length > 0) this.startAnimation2();
 						} else {
-							this.aniIndex1--;
-							if (this.aniIndex1 < 0) {
-								if (this.loop) this.aniIndex1 = this.diceAnimationImages.length - 1;
-								else this.aniIndex1 = 0;
-							}
-							this.imgSrc = this.diceAnimationImages[this.aniIndex1];
+							const img = this.loadedCache[this.diceAnimationImages[this.aniIndex1]];
+							this.imgSrc = img.src;
+							this.aniIndex1 = (this.aniIndex1 + 1) % this.diceAnimationImages.length;
 						}
-					}, this.interval);
-				}
+					} else {
+						this.aniIndex1--;
+						if (this.aniIndex1 < 0) {
+							this.aniIndex1 = this.loop ? this.diceAnimationImages.length - 1 : 0;
+						}
+						const img = this.loadedCache[this.diceAnimationImages[this.aniIndex1]];
+						this.imgSrc = img.src;
+					}
+				}, this.interval);
 			},
+
 			startAnimation2() {
-				if (this.diceAnimationImages2.length === 0) return;
+				if (!this.diceAnimationImages2.length) return;
 				this.aniIndex2 = 0;
+
 				this.timer2 = setInterval(() => {
-					this.imgSrc = this.diceAnimationImages2[this.aniIndex2];
+					const img = this.loadedCache[this.diceAnimationImages2[this.aniIndex2]];
+					this.imgSrc = img.src;
 					this.aniIndex2 = (this.aniIndex2 + 1) % this.diceAnimationImages2.length;
 					if (!this.loop2 && this.aniIndex2 === 0) clearInterval(this.timer2);
 				}, this.interval2);
 			},
+
 			stopAnimation() {
 				clearInterval(this.timer);
 				clearInterval(this.timer2);

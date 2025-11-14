@@ -437,6 +437,12 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/index/recruit",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
 		// {
 		// 	"path": "pages/store/detailForTransfer",

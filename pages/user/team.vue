@@ -12,28 +12,24 @@
 					activeStyle="color: #3d3d3d !important;font-weight: 700;"
 					inactiveStyle="color: #9F9F9F !important;"
 					itemStyle="height: 24px;"
-					@click="onSwitch"
+					@click=""
 				></u-tabs>
 			</view>
 		</view>
 		<view :class="link.length == 1? `h-${height1}` : `h-${height2}`"></view>
-		<view v-if="link.length > 1" class="plr-20 pt-10 pb-20 flex-start text-info">
-			<view class="flex-start" v-for="(item, index) in link" :key="item.id">
-				<u-icon v-if="index > 0" name="arrow-right" color="#9F9F9F" size="14"></u-icon>
-				<text :class="index == link.length - 1? 'fw-7' : ''">{{ item.account }}</text>
-			</view>
+		<view v-if="link.length > 1" class="plr-20 pt-10 pb-20 text-info text-wrap">
+			<text class="name" v-for="(item, index) in link" :key="item.id" :class="{ 'fw-7 text-black': index == link.length - 1 }">{{ item.account }}</text>
 			<text>邀请的好友{{ list.length }}人</text>
 		</view>
 		<view class="flex-1 bg-white plr-20">
 			<view class="list_box">
 				<view class="flex-between ptb-17 fs-12" v-for="(item, index) in list" :key="item.id" @click="onFriend(item)">
-					<!-- <image :src="" class="i-36 rounded"></image> -->
 					<u-avatar :src="item.avatar" :defaultUrl="$c.userAvatar()" size="36" shape="circle"></u-avatar>
 					<view class="flex-1 mlr-10">
 						<view class="flex-between">
 							<view class="flex-start">
 								<text class="u-line-1 fs-14">{{ item.account }}</text>
-								<view class="level flex-center ml-4" :style="getBg(item.level.id) ">{{ item.level.value }}</view>
+								<view class="level flex-center ml-4" :style="$c.calcLvBg(item)">{{ $c.calcLvName(item) }}</view>
 							</view>
 							<text class="num">他邀请的好友</text>
 						</view>
@@ -58,16 +54,17 @@
 		data() {
 			return {
 				form: { level_id: 0, user_id: 0 },
-				levels: [{ id: 0, name: '全部' }],
+				levels: [],
+				nums: [],
 				list: [],
 				link: [{ id: 0, account: '我' }],
 				height1: 0,
 				height2: 0,
 				status: 0,
+				all: { level_name: '总数', count: 0 }
 			}
 		},
 		onLoad() {
-			this.getLevelList()
 			this.getFriendList()
 		},
 		onReady() {
@@ -81,28 +78,48 @@
 			}, 100)
 		},
 		methods: {
-			async getLevelList() {
-				const res = await this.$c.fetch(this.$api.config.levelList)
-				if(res) this.levels = [...this.levels, ...res]
+			init() {
+				this.levels = [{ id: 0, name: '全部', count: 0 }],
+				this.nums = [
+					{ code: 'regular_count', name: '普通用户', count: 0 },
+					{ code: 'staff_count',name: '推广员', count: 0 },
+					{ code: 'vip_count', name: 'VIP', count: 0 },
+					{ code: 'partners_count', name: '合伙人', count: 0 },
+					{ code: 'bronze_partners_count', name: '铜牌合伙人', count: 0 },
+					{ code: 'silver_partners_count', name: '银牌合伙人', count: 0 },
+					{ code: 'gold_partners_count', name: '金牌合伙人', count: 0 },
+				],
+				this.list = []
 			},
 			async getFriendList() {
+				this.init() 
 				const res = await this.$c.fetch(this.$api.user.friend, this.form)
-				if(res) this.list = res
+				if(res) {
+					this.list = res.user_list
+					for (let key in res) {
+						if (key != 'user_list') {
+							const item = this.nums.find(item => item.code == key)
+							if (item) item.count = res[key] || 0
+							if (!['bronze_partners_count', 'gold_partners_count', 'silver_partners_count'].includes(key)) {
+								this.levels[0].count += res[key]
+							}
+						}
+					}
+					this.levels = [...this.levels, ...this.nums]
+					this.levels.forEach(item => { item.name = `${item.name}(${item.count})` })
+				}
 			},
 			onSwitch(item) {
 				if(this.form.level_id == item.id) return
 				this.form.level_id = item.id
-				this.list = []
 				this.getFriendList()
 			},
-			getBg(id) {
-				switch(id) {
-					case 3: return 'background: #B08E3E;color: #fff'
-					case 4: return 'background: #30304C;color: #fff'
-					default: return 'background: #D8D8D8'
-				}
-			},
 			onFriend(item) {
+				const len = 8
+				if(this.link.length > len) {
+					this.$c.toast(`目前仅支持查询${len}层内用户数据`)
+					return
+				}
 				if(this.status) return
 				this.form = { level_id: 0, user_id: item.id }
 				this.link.push(item)
@@ -129,17 +146,15 @@
 	::v-deep .u-tabs__wrapper__nav__line {
 		bottom: 0 !important;
 	}
-	.level {
-		width: 45px;
-		height: 14px;
-		border-radius: 3px;
-		font-size: 10px;
-		line-height: 10px;
-		margin-left: 4px;
-	}
 	.num {
 		color: #646464;
 	}
-	
-	
+	.name:not(:first-child) {
+		&::before {
+			content: '>';
+			color: #9F9F9F;
+			font-size: 14px;
+			margin: 0 3px;
+		}
+	}
 </style>

@@ -106,6 +106,8 @@
 				</view>
 			</view>
 			<view class="flex-start">
+				<u-button v-if="order.status == 1" class="btn btn-black" shape="circle" plain
+					text="取消订单" @click="showCancel = true"></u-button>
 				<u-button v-if="order.status == 2" class="btn bg-base text-white" shape="circle" plain
 					text="申请发货" @click="showShip = true"></u-button>
 				<u-button v-if="order.status == 3" class="btn bg-base text-white" shape="circle" text="确认收货"

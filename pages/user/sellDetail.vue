@@ -11,7 +11,7 @@
 				<view class="absolute top-0 right-0 ph-100 p-4 border-box">
 					<image src="/static/user/level/detail.webp" class="ph-100" mode="heightFix"></image>
 				</view>
-				<image v-if="info.level" :src="`/static/user/level/level-${info.level.id}.webp`" class="w-43 h-44"></image>
+				<image v-if="info.level" :src="`/static/user/level/lv-${$c.calcLv(info)}.webp`" class="w-43 h-44"></image>
 				<view class="flex-1">
 					<view class="flex-between fs-16 text-white gap-20">
 						<view>所属{{ info.tiers }}层</view>
@@ -23,28 +23,31 @@
 					</view>
 				</view>
 			</view>
-			<view class="flex-between gap-20 mt-20">
-				<view class="data_bg rounded-8 p-12 flex-1 border-box">
+			<view class="flex-between mt-33 flex-wrap fgap-20">
+				<view class="data_bg rounded-8 p-12 border-box">
 					<image src="/static/vip/ri.webp" class="icon"></image>
 					<view class="text-info fs-12 mt-6">今日总销售（元）</view>
-					<view class="fs-16 fw-7 u-line-1">{{ info.day_sales }}</view>
+					<view class="fs-16 fw-7 u-line-1">{{ info.day_sales || 0 }}</view>
 				</view>
-				<view class="data_bg rounded-8 p-12 flex-1 border-box">
+				<view class="data_bg rounded-8 p-12 border-box">
+					<image src="/static/vip/zhou.webp" class="icon"></image>
+					<view class="text-info fs-12 mt-6">本周总销售（元）</view>
+					<view class="fs-16 fw-7 u-line-1">{{ info.week_sales || 0 }}</view>
+				</view>
+				<view class="data_bg rounded-8 p-12 border-box">
 					<image src="/static/vip/yue.webp" class="icon"></image>
 					<view class="text-info fs-12 mt-6">当月总销售（元）</view>
-					<view class="fs-16 fw-7 u-line-1">{{ info.month_sales }}</view>
+					<view class="fs-16 fw-7 u-line-1">{{ info.month_sales || 0 }}</view>
 				</view>
-			</view>
-			<view class="flex-between gap-20 mt-34">
-				<view class="data_bg rounded-8 p-12 flex-1 border-box">
+				<view class="data_bg rounded-8 p-12 border-box">
 					<image src="/static/vip/lei.webp" class="icon"></image>
 					<view class="text-info fs-12 mt-6">累计总销售（元）</view>
-					<view class="fs-16 fw-7 u-line-1">{{ info.total_sales }}</view>
+					<view class="fs-16 fw-7 u-line-1">{{ info.total_sales || 0 }}</view>
 				</view>
-				<view class="data_bg rounded-8 p-12 flex-1 border-box icon">
+				<view class="data_bg rounded-8 p-12 border-box icon">
 					<image src="/static/vip/cun.webp" class="icon"></image>
 					<view class="text-info fs-12 mt-6">存储产品总数量（件）</view>
-					<view class="fs-16 fw-7 u-line-1">{{ info.save_count }}</view>
+					<view class="fs-16 fw-7 u-line-1">{{ info.save_count || 0 }}</view>
 				</view>
 			</view>
 		</view>
@@ -80,6 +83,7 @@
 	.data_bg {
 		background: #F3F4FB;
 		position: relative;
+		width: calc(50% - 10px);
 		
 		.icon {
 			position: absolute;

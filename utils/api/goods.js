@@ -79,4 +79,7 @@ export default {
 	storeBuyList(data = {}, config = {}) {
 		return request.post('/warehouse_mailing/list', data, { ...config })
 	},
+	priceLog(data = {}, config = {}) {
+		return request.post('/goods_sku_price_logs/list', data, { ...config })
+	}
 }

@@ -16,17 +16,20 @@
 		<view class="pt-70">
 			<view v-if="search.search.account && search.load != 'loading' && list.length === 0" class="h-300 flex-center text-info">未搜索到相关下级信息</view>
 			<view v-else-if="list.length" class="member_box" v-for="item in list" :key="item.id">
-				<view class="flex-between item-stretch gap-10">
-					<view class="ptb-12">
+				<view class="flex-between item-stretch gap-15">
+					<view class="self-start">
 						<view class="relative">
 							<u-avatar :src="item.avatar" :defaultUrl="$c.userAvatar()" size="36" mode="aspectFill"></u-avatar>
-							<view :class="['level', item.level ? `bg-${item.level.id}` : '']">{{ item.level ? item.level.value : '' }}</view>
+							<view class="flex-center w-36" style="margin-top: -3px;">
+								<view class="level" :style="$c.calcLvBg(item)">{{ $c.calcLvName(item) }}</view>
+							</view>
 						</view>
 					</view>
-					<view class="flex-1 flex-between border-bottom">
+					<view class="flex-1 flex-between border-bottom border-box pt-5 pb-16">
 						<view class="lh-10 flex-1">
 							<view class="u-line-1">{{ item.account }}</view>
 							<view class="fs-12 text-info mt-9">{{ item.created_at }}</view>
+							<view v-if="item.p_account" class="fs-12 text-info mt-9">他的推荐人:{{ item.p_account }}</view>
 						</view>
 						<u-button class="btn-check" shape="circle" @click="$c.goto(`/pages/user/sellDetail?id=${item.id}`)">查看</u-button>
 					</view>
@@ -100,30 +103,8 @@
 		margin-top: 10px;
 	}
 	.level {
-		font-size: 10px;
-		width: 45px;
-		height: 14px;
-		line-height: 14px;
-		text-align: center;
-		border-radius: 4px;
 		position: relative;
-		margin-top: -3px;
-		transform: translateX(-5px);
 		z-index: 10;
-	}
-	.bg-1 {
-		background: #D8D8D8;
-	}
-	.bg-2 {
-		background: #E5E0D2;
-	}
-	.bg-3 {
-		background: #B08E3E;
-		color: #fff;
-	}
-	.bg-4 {
-		background: #30304C;
-		color: #fff;
 	}
 	.btn-check {
 		background: linear-gradient(270deg, #72A3F7 0%, #1D66E2 100%);

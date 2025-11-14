@@ -135,14 +135,15 @@
 		>
 			<view class="text-center vw-100 relative" >
 				<PlayImg
-					path="index_egg/1/1"
+					path="index_egg_web/1/1"
 					:interval="40"
 					:length="25"
 					:loop="false"
-					path2="index_egg/2/1"
+					path2="index_egg_web/2/1"
 					:interval2="40"
 					:length2="25"
 					:start2="25"
+					type="webp"
 				/>
 				<view class="absolute left-0 right-0 auto-x pw-70 ph-15" style="bottom: 23%;" @click="showEgg = false;$c.goto('/pages/activity/egg')"></view>
 				<image src="/static/icon/close.webp" class="i-52" style="margin-top: -10%;" @click="onCloseEgg()"></image>

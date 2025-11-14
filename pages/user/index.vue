@@ -1,7 +1,32 @@
 <template>
 	<view class="page">
-		<view class="user_box plr-20" :class="`pt-${$c.barHeight()}`">
-			<view class="flex-between">
+		<view class="user_box" :class="`pt-${$c.barHeight()}`">
+			<view class="flex-end plr-20">
+				<image src="/static/icon/set.webp" class="i-20" @click="$c.goto('/pages/user/settings')"></image>
+				<image src="/static/icon/qr.webp" class="i-20 ml-14" @click="$c.goto('/pages/user/qrcode')"></image>
+			</view>
+			<view class="flex-center">
+				<view class="relative mt-30">
+					<image :src="`/static/vip/user_index/bg_level_${$c.calcLv(profile)}.webp`" class="w-351 h-126" mode="widthFix"></image>
+					<view class="full border-box pl-25">
+						<view class="flex-start" style="margin-top: -13px;">
+							<view class="i-60 rounded" style="border: 2px solid #fff;background: #EAEAEA;">
+								<u-avatar :src="profile.avatar" size="60" :default-url="$c.userAvatar()" ></u-avatar>
+							</view>
+							<!-- <u-avatar :src="profile.avatar" size="60" :default-url="$c.userAvatar()" style="border: 2px solid #fff;"></u-avatar> -->
+							<view class="fs-16 u-line-1">{{ profile.account }}</view>
+						</view>
+						<image :src="`/static/vip/name_level_${$c.calcLv(profile)}.webp`" class="h-14 mt-10 block" mode="heightFix"></image>
+						<view class="fs-12 mt-10">升级成为合伙人，享永久绩效分红</view>
+					</view>
+					<image 
+						src="/static/vip/user_index/center.webp" 
+						class="w-111 h-55 absolute right-0" style="bottom: 3%;"
+						 @click="$c.goto('/pages/user/vip')"
+					></image>
+				</view>
+			</view>
+			<!-- <view class="flex-between">
 				<u-avatar :src="profile.avatar" size="55" :default-url="$c.userAvatar()"></u-avatar>
 				<view class="flex-1 mlr-13">
 					<view class="fs-16 fw-7 u-line-1">{{ profile.account }}</view>
@@ -13,8 +38,8 @@
 					<view v-else class="">{{ profile.level.value }}</view>
 				</view>
 				<image src="/static/icon/qr.webp" class="i-20" @click="$c.goto('/pages/user/qrcode')"></image>
-			</view>
-			<view class="flex-between lh-10 mt-47 pl-20 pr-20 border-box text-center" style="color: #064144;gap: 15px;">
+			</view> -->
+			<view class="flex-between lh-10 mt-20 plr-40 border-box text-center" style="color: #064144;gap: 15px;">
 				<view class="pw-30" @click="$c.goto('/pages/finance/balance')">
 					<view class="fw-7 fs-22 flex-start u-line-1" style="line-height: 30px;">{{ profile.balance }}</view>
 					<view class="mt-12 text-name">余额</view>
@@ -36,15 +61,17 @@
 								:width="76"
 								:height="29"
 								style="transform: scale(1.4) translate(10%, -1px);"
-							/>
-							<PlayImg
+							/> -->
+							<!-- <PlayImg
+								class="w-76 h-29"
+								canvas-id="sign"
 								:paths="['sign/1']"
 								:counts="[15]"
 								:loopModes="['loop']"
 								:fpsModes="[15]"
 								:overallLoop="true"
-								:width="76"
-								:height="29"
+								:designWidth="76"
+								:designHeight="29"
 								style="transform: scale(1.4) translate(10%, -1px);"
 							/> -->
 							<view class="w-76 h-29" style="transform: scale(1.4) translate(10%, -1px);">
@@ -64,10 +91,10 @@
 			<view class="h-120"></view>
 		</view>
 		<view class="flex-1 relative" style="margin-top: -89px;z-index: 10;">
-			<view class="plr-20" @click="$c.goto('/pages/user/vip')">
+			<!-- <view class="plr-20" @click="$c.goto('/pages/user/vip')">
 				<image v-if="profile.level.id < 3" src="/static/user/check_1.png" class="pw-100 block maxh-55 block" mode="widthFix"></image>
 				<image v-else-if="profile.level.id <= 4" src="/static/user/check_2.png" class="pw-100 maxh-55 block" mode="widthFix"></image>
-			</view>
+			</view> -->
 			<view class="bg-white roundedTop-20 pt-30 plr-20 border-box">
 				<view class="flex-between" style="gap: 10px;">
 					<view class="order_box flex-between pl-16" @click="$c.goto('/pages/order/list')">
@@ -99,24 +126,10 @@
 				</view>
 				<view class="fw-5 mt-23">其他</view>
 				<view class="">
-					<view class="border-bottom ptb-20 flex-between" @click="$c.goto('/pages/index/web')">
+					<view class="border-bottom ptb-20 flex-between" v-for="item in menus" :key="item.id" @click="$c.goto(item.url)">
 						<view class="flex-start">
-							<image src="/static/icon/cs.png" class="i-16"></image>
-							<text class="fs-12 lh-8 ml-9">在线客服</text>
-						</view>
-						<u-icon name="arrow-right" size="12" color="#7D7D7D"></u-icon>
-					</view>
-					<view class="border-bottom ptb-20 flex-between" @click="$c.goto('/pages/user/address')">
-						<view class="flex-start">
-							<image src="/static/icon/address.png" class="i-16"></image>
-							<text class="fs-12 lh-8 ml-9">地址管理</text>
-						</view>
-						<u-icon name="arrow-right" size="12" color="#7D7D7D"></u-icon>
-					</view>
-					<view class="ptb-20 flex-between"  @click="$c.goto('/pages/user/settings')">
-						<view class="flex-start">
-							<image src="/static/icon/settings.png" class="i-16"></image>
-							<text class="fs-12 lh-8 ml-9">设置</text>
+							<image :src="item.icon" class="i-16"></image>
+							<text class="fs-12 lh-8 ml-9">{{ item.name  }}</text>
 						</view>
 						<u-icon name="arrow-right" size="12" color="#7D7D7D"></u-icon>
 					</view>
@@ -160,6 +173,12 @@
 					{ id: 2, name: '待发货', value: 2, count: 0 },
 					{ id: 3, name: '待收货', value: 3, count: 0 },
 					{ id: 4, name: '全部订单', value: 0, count: 0 }
+				],
+				menus: [
+					{ id: 1, name: '招募计划', icon: '/static/icon/recruit.webp', url: '/pages/index/recruit' },
+					{ id: 2, name: '在线客服', icon: '/static/icon/cs.png', url: '/pages/index/web' },
+					{ id: 3, name: '地址管理', icon: '/static/icon/address.png', url: '/pages/user/address' },
+					{ id: 4, name: '设置', icon: '/static/icon/settings.png', url: '/pages/user/settings' },
 				],
 				is_sign: 'no-load',
 				reward: 0,

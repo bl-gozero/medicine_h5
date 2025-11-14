@@ -147,6 +147,22 @@
 		border-radius: 4px;
 	}
 	
+	.level {
+		min-width: 45px;
+		height: 14px;
+		line-height: 14px;
+		border-radius: 3px;
+		font-size: 10px;
+		padding: 0 2px;
+		// box-sizing: border-box;
+		text-align: center;
+	}
+	
+	.scroll-view_H {
+		white-space: nowrap;
+		width: 100%;
+	}
+	
 	.u-text__value {
 		line-height: 1;
 		align-items: center;

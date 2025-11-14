@@ -13,10 +13,21 @@
 			<view class="minh-76">
 				<view v-if="nums.length > 0" class="relative mt-20">
 					<image src="/static/user/level/sell_top.webp" class="pw-100 maxh-100 block" mode="widthFix"></image>
-					<view class="full flex-between gap-10 text-center plr-11">
-						<view class="flex-1" v-for="item in nums">
-							<view class="fs-16 fw-7 u-line-1">{{ item.count }}</view>
-							<view class="text_top_name">{{ item.level_name }}</view>
+					<view class="full flex-start pl-11 pb-10">
+						<view class="flex-start fgap-10 pw-100">
+							<view class="w-60 text-center">
+								<view class="fs-16 fw-7 u-line-1">{{ all.count }}</view>
+								<view class="text_top_name">{{ all.level_name }}</view>
+							</view>
+							<view class="line w-1 h-43" style="background: rgba(169, 115, 67, 0.2;"></view>
+							<view class="flex-1 overflow-hide">
+								<u-scroll-list indicatorActiveColor="#B88854">
+									<view class="nums text-center" v-for="item in nums">
+										<view class="fs-16 fw-7 u-line-1">{{ item.count }}</view>
+										<view class="text_top_name">{{ item.name }}</view>
+									</view>
+								</u-scroll-list>
+							</view>
 						</view>
 					</view>
 				</view>
@@ -33,6 +44,7 @@
 					<u-icon name="play-right-fill" color="#AC7747" size="12" @click="onChangeLevel(1)"></u-icon>
 				</view>
 			</view>
+			<view class="text-center fs-12" style="color: #AC7747;">“成员层级”将展示您8层内的用户数据详情</view>
 			<view class="flex-1 relative">
 				<swiper class="full" :current="level - 1" :duration="500" @change="onChange">
 					<swiper-item v-for="i in levelMax" :key="i">
@@ -40,17 +52,20 @@
 							<view v-if="list.length === 0" class="h-200 flex-center text-info">{{ listStatus != 'load' ? '暂无下级' : '' }}</view>
 							<view v-else class="plr-20 inline-block pw-100 border-box member_outbox" v-for="item in list" :key="item.id">
 								<view class="member_box">
-									<view class="flex-between item-stretch gap-10">
-										<view class="ptb-12">
+									<view class="flex-between item-stretch gap-15">
+										<view class="self-start">
 											<view class="relative">
 												<u-avatar :src="item.avatar" :defaultUrl="$c.userAvatar()" size="36" mode="aspectFill"></u-avatar>
-												<view :class="['level', item.level ? `bg-${item.level.id}` : '']">{{ item.level ? item.level.value : '' }}</view>
+												<view class="flex-center w-36" style="margin-top: -3px;">
+													<view class="level" :style="$c.calcLvBg(item)">{{ $c.calcLvName(item) }}</view>
+												</view>
 											</view>
 										</view>
-										<view class="flex-1 flex-between border-bottom">
+										<view class="flex-1 flex-between border-bottom border-box pt-5 pb-16">
 											<view class="lh-10 flex-1">
 												<view class="u-line-1">{{ item.account }}</view>
 												<view class="fs-12 text-info mt-9">{{ item.created_at }}</view>
+												<view v-if="item.p_account" class="fs-12 text-info mt-9">他的推荐人:{{ item.p_account }}</view>
 											</view>
 											<u-button class="btn-check" shape="circle" @click="$c.goto(`/pages/user/sellDetail?id=${item.id}`)">查看</u-button>
 										</view>
@@ -96,28 +111,32 @@
 				account: '',
 				level: 1,
 				levelMax: 8,
-				nums: [],
+				nums: [
+					{ code: 'regular_count', name: '普通用户', count: 0 },
+					{ code: 'staff_count',name: '推广员', count: 0 },
+					{ code: 'vip_count', name: 'VIP', count: 0 },
+					{ code: 'partners_count', name: '合伙人', count: 0 },
+					{ code: 'bronze_partners_count', name: '铜牌合伙人', count: 0 },
+					{ code: 'silver_partners_count', name: '银牌合伙人', count: 0 },
+					{ code: 'gold_partners_count', name: '金牌合伙人', count: 0 },
+				],
 				list: [],
 				page: 1,
 				limit: 10,
-				listStatus: 'more'
+				listStatus: 'more',
+				all: { level_name: '总数', count: 0 }
 			}
 		},
 		async onLoad() {
 			const arr = this.$c.getStorage('seeAction') || []
 			if(!arr.includes(this.profile.account)) this.showAction = true
-			const list = await this.levelList()
-			this.getNum(list)
+			this.getNum()
 			this.getList()
 		},
 		onReachBottom() {
 			this.getList()
 		},
 		methods: {
-			async levelList() {
-				const res = await this.$c.fetch(this.$api.config.levelList)
-				if(res) return res.map(item => ({ level_name: item.name, count: 0 }))
-			},
 			init() {
 				this.page = 1
 				this.list = []
@@ -134,6 +153,7 @@
 					search: { account: '' }
 				})
 				if(res) {
+					res.forEach(item => { item.level = { id: 4, value: '合伙人' }; item.medals = { id: 3, value: '金牌合伙人' } })
 					this.list = [...this.list, ...res]
 					this.listStatus = res.length < this.limit ? 'end' : 'more'
 					this.page++
@@ -176,15 +196,16 @@
 					this.$c.goto(`/pages/user/sellSearch`)
 				}
 			},
-			async getNum(list) {
+			async getNum(list = []) {
 				const res = await this.$c.fetch(this.$api.user.teamNum)
-				if(res) {
-					list.forEach(item => {
-					    const found = res.find(c => c.level_name === item.level_name)
-					    if (found) item.count = found.count
-					})
-					const all = res.reduce((sum, item) => sum + (Number(item.count) || 0), 0)
-					this.nums = [...[{level_name: '总人数', count: all }], ...list]
+				if (res) {
+					for (let key in res) {
+						const item = this.nums.find(item => item.code == key)
+						if (item) item.count = res[key] || 0
+						if (!['bronze_partners_count', 'gold_partners_count', 'silver_partners_count'].includes(key)) {
+							this.all.count += res[key]
+						}
+					}
 				}
 			},
 		}
@@ -198,7 +219,7 @@
 	.text_top_name {
 		color: #AD987F;
 		font-size: 12px;
-		margin-top: 8px;
+		margin-top: 3px;
 	}
 	.member_box {
 		background: #F7FAFF;
@@ -209,30 +230,8 @@
 		margin-top: 10px;
 	}
 	.level {
-		font-size: 10px;
-		width: 45px;
-		height: 14px;
-		line-height: 14px;
-		text-align: center;
-		border-radius: 4px;
 		position: relative;
-		margin-top: -3px;
-		transform: translateX(-5px);
 		z-index: 10;
-	}
-	.bg-1 {
-		background: #D8D8D8;
-	}
-	.bg-2 {
-		background: #E5E0D2;
-	}
-	.bg-3 {
-		background: #B08E3E;
-		color: #fff;
-	}
-	.bg-4 {
-		background: #30304C;
-		color: #fff;
 	}
 	.btn-check {
 		background: linear-gradient(270deg, #72A3F7 0%, #1D66E2 100%);
@@ -244,8 +243,18 @@
 	.border-bottom {
 		border-color: #E4E7EB;
 	}
-	.scroll-view_H {
-		white-space: nowrap;
-		width: 100%;
+	.nums {
+		min-width: 60px;
+		margin-right: 5px;
+		display: inline-block;
+	}
+	::v-deep .u-scroll-list {
+		padding-bottom: 0 !important;
+	}
+	::v-deep .u-scroll-list__indicator {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 6px;
 	}
 </style>

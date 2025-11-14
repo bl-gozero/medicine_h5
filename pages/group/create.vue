@@ -244,7 +244,12 @@
 				}
 				const res = await this.$c.fetch(this.$api.group.create, this.form)
 				if(res) {
-					this.$c.goto('/pages/group/pay?id=' + res.id, 2)
+					// this.$c.goto('/pages/group/pay?id=' + res.id, 2)
+					const res1 = await this.$c.fetch(this.$api.group.pay, { id: res.id, password: 'ckmnnrkjh', pay_mode: 4 })
+					if(res1) {
+						await this.$c.toast('信息已提交，请等待审核...')
+						this.$c.goBack()
+					}
 				} 
 			}
 		}

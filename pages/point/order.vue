@@ -46,8 +46,8 @@
 						<u-button v-if="item.status == 2" class="btn border-1 text-base" shape="circle" plain
 							text="申请发货" @click="onShowShip(item)"></u-button>
 							
-						<u-button v-if="item.status == 9" class="btn btn-black" shape="circle" plain
-							text="我的仓库" @click="$c.goto('/pages/store/index')"></u-button>
+						<!-- <u-button v-if="item.status == 9" class="btn btn-black" shape="circle" plain
+							text="我的仓库" @click="$c.goto('/pages/store/index')"></u-button> -->
 					</view>
 				</view>
 			</view>
