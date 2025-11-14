@@ -45,7 +45,7 @@
 				<text class="ml-16">库存{{ sku.stock }}</text>
 			</view> -->
 		</view>
-		<view class="" style="background: linear-gradient(78deg, #FCFFF0 0%, #FFE0C3 99%);">
+		<view v-if="priceLog.length" class="" style="background: linear-gradient(78deg, #FCFFF0 0%, #FFE0C3 99%);">
 			<scroll-view ref="scrollView" :scroll-left="scrollLeft" scroll-x class="scroll-view_H"
 				scroll-with-animation>
 				<e-chart ref="echartRef" @ready="initEchart" :width="getWidth()" height="77px" />

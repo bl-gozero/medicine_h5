@@ -1,27 +1,43 @@
 <template>
 	<view class="page bg-page flex-col">
-		<view class="title_box fixed top-0 left-0 pw-100 bg-page" style="z-index: 10;">
-			<Title :title="link.length == 1? '我邀请的好友':'他邀请的好友'" @back="onBack()" />
-			<view v-if="link.length == 1" class="bg-white roundedTop-20 pt-10 pb-15 plr-20">
-				<u-tabs
-					:list="levels"
-					keyName="name"
-					:lineColor="$c.baseColor()"
-					lineWidth="10"
-					lineHeight="2"
-					activeStyle="color: #3d3d3d !important;font-weight: 700;"
-					inactiveStyle="color: #9F9F9F !important;"
-					itemStyle="height: 24px;"
-					@click=""
-				></u-tabs>
+		<view v-if="link.length == 1" class="bg plr-20 bg" :class="`pt-${$c.barHeight()}`">
+			<Title title="我邀请的好友" bgColor="transparent" @back="onBack()" />
+			<view class="minh-76">
+				<view v-if="nums.length > 0" class="relative mt-20">
+					<image src="/static/user/level/sell_top.webp" class="pw-100 maxh-100 block" mode="widthFix"></image>
+					<view class="full flex-start pl-11 pb-10">
+						<view class="flex-start fgap-10 pw-100">
+							<view class="w-60 text-center">
+								<view class="fs-16 fw-7 u-line-1">{{ all.count }}</view>
+								<view class="text_top_name">{{ all.level_name }}</view>
+							</view>
+							<view class="line w-1 h-43" style="background: rgba(169, 115, 67, 0.2;"></view>
+							<view class="flex-1 overflow-hide">
+								<u-scroll-list indicatorActiveColor="#B88854">
+									<view class="nums text-center" v-for="item in nums">
+										<view class="fs-16 fw-7 u-line-1">{{ item.count }}</view>
+										<view class="text_top_name">{{ item.name }}</view>
+									</view>
+								</u-scroll-list>
+							</view>
+						</view>
+					</view>
+				</view>
 			</view>
+			<view class="flex-between mt-16 pb-13">
+				<text>我邀请的好友</text>
+				<text class="fs-12" style="color: #A26527;">*可显示8层用户</text>
+			</view>
+		</view>
+		<view v-else class="title_box fixed top-0 left-0 pw-100 bg-page" style="z-index: 10;">
+			<Title title="他邀请的好友" @back="onBack()" />
 		</view>
 		<view :class="link.length == 1? `h-${height1}` : `h-${height2}`"></view>
 		<view v-if="link.length > 1" class="plr-20 pt-10 pb-20 text-info text-wrap">
 			<text class="name" v-for="(item, index) in link" :key="item.id" :class="{ 'fw-7 text-black': index == link.length - 1 }">{{ item.account }}</text>
 			<text>邀请的好友{{ list.length }}人</text>
 		</view>
-		<view class="flex-1 bg-white plr-20">
+		<view class="flex-1 bg-white plr-20 roundedTop-20">
 			<view class="list_box">
 				<view class="flex-between ptb-17 fs-12" v-for="(item, index) in list" :key="item.id" @click="onFriend(item)">
 					<u-avatar :src="item.avatar" :defaultUrl="$c.userAvatar()" size="36" shape="circle"></u-avatar>
@@ -101,12 +117,10 @@
 							const item = this.nums.find(item => item.code == key)
 							if (item) item.count = res[key] || 0
 							if (!['bronze_partners_count', 'gold_partners_count', 'silver_partners_count'].includes(key)) {
-								this.levels[0].count += res[key]
+								this.all.count += res[key]
 							}
 						}
 					}
-					this.levels = [...this.levels, ...this.nums]
-					this.levels.forEach(item => { item.name = `${item.name}(${item.count})` })
 				}
 			},
 			onSwitch(item) {
@@ -156,5 +170,27 @@
 			font-size: 14px;
 			margin: 0 3px;
 		}
+	}
+	.bg {
+		background: linear-gradient(180deg, #FFE2C0 5%, #FFF0DE 142px, rgba(255, 240, 222, 0) 226px);
+	}
+	.text_top_name {
+		color: #AD987F;
+		font-size: 12px;
+		margin-top: 3px;
+	}
+	.nums {
+		min-width: 60px;
+		margin-right: 5px;
+		display: inline-block;
+	}
+	::v-deep .u-scroll-list {
+		padding-bottom: 0 !important;
+	}
+	::v-deep .u-scroll-list__indicator {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 6px;
 	}
 </style>
