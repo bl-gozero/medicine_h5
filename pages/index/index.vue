@@ -119,6 +119,7 @@
 					:interval2="40"
 					:length2="50"
 					:start2="25"
+					type="webp"
 				/>
 				<view class="absolute left-0 right-0 auto-x pw-55 ph-9" style="bottom: 37%;" @click="$c.goto('/pages/activity/newExclusive')"></view>
 				<image v-if="showClose" src="/static/icon/close.webp" class="i-52 mt-17 absolute left-0 right-0 auto-x" style="bottom: 26%;" @click="onCloseNew()"></image>
@@ -135,11 +136,11 @@
 		>
 			<view class="text-center vw-100 relative" >
 				<PlayImg
-					path="index_egg_web/1/1"
+					path="index_egg/1/1"
 					:interval="40"
 					:length="25"
 					:loop="false"
-					path2="index_egg_web/2/1"
+					path2="index_egg/2/1"
 					:interval2="40"
 					:length2="25"
 					:start2="25"

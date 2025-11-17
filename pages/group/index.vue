@@ -31,17 +31,17 @@
 				<swiper class="h-90 mt-20" :interval="5000" :duration="500" circular indicator-dots autoplay>
 					<swiper-item v-if="1 || showNew">
 						<view class="" @click="$c.goto('/pages/activity/newExclusive')">
-							<PlayImg path="group_activity/new/1" :interval="50" :length="20" />
+							<PlayImg path="group_activity/new/1" :interval="50" :length="20" type="webp" />
 						</view>
 					</swiper-item>
 					<swiper-item v-if="1 || showEgg">
 						<view class="flex-center" @click="$c.goto('/pages/activity/egg')">
-							<PlayImg path="group_activity/egg/2" :interval="50" :length="20" />
+							<PlayImg path="group_activity/egg/2" :interval="50" :length="20" type="webp" />
 						</view>
 					</swiper-item>
 					<swiper-item>
 						<view class="flex-center" @click="$c.goto('/pages/index/task')">
-							<PlayImg path="group_activity/daily/3" :interval="50" :length="20" />
+							<PlayImg path="group_activity/daily/3" :interval="50" :length="20" type="webp" />
 						</view>
 					</swiper-item>
 				</swiper>

@@ -128,6 +128,7 @@
 									path="user/vip/tag_3/1"
 									:interval="50"
 									:length="40"
+									type='webp'
 								/>
 							</view>
 							<view v-if="switcher == 4" class="absolute right-0 pw-55" style="top: -8%;">
@@ -135,6 +136,7 @@
 									path="user/vip/tag_4/2"
 									:interval="50"
 									:length="40"
+									type='webp'
 								/>
 							</view>
 							<view class="absolute text-center pw-100 left-0 bottom-12 fs-10">

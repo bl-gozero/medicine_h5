@@ -5,7 +5,7 @@
 		<view class="pt-10 mlr-20 relative" style="z-index: 2;">
 			<view class="absolute top-20 right-0 w-179 h-118" style="transform: translateY(-30%);">
 				<!-- <image src="/static/index/task_top.webp" class="pw-100 h-ph-100"></image> -->
-				<PlayImg path="task/top/1" :length="40" :interval="50" />
+				<PlayImg path="task/top/1" :length="40" :interval="50" type="webp" />
 			</view>
 			<view class="" @click="$c.goto('/pages/point/index')">
 				<view class="">
@@ -24,7 +24,7 @@
 								<image :src="item.img" class="i-70 block"></image>
 								<!-- <view v-if="item.is_new" class="new">新用户专享</view> -->
 								<view v-if="item.is_new" class="new">
-									<PlayImg path="task/new/22" :length="40" :interval="50" />
+									<PlayImg path="task/new/22" :length="40" :interval="50" type="webp" />
 								</view>
 							</view>
 						</view>

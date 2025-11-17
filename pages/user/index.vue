@@ -54,15 +54,6 @@
 						<!-- <image v-if="is_sign === false" :src="`/static/user/signed_1.webp`" class="w-98 h-30"></image> -->
 						<view v-if="is_sign === false" class="relative h-30">
 							<!-- <PlayImg
-								canvas-id="sign"
-								path="sign/1_"
-								:count="15"
-								:fps="18"
-								:width="76"
-								:height="29"
-								style="transform: scale(1.4) translate(10%, -1px);"
-							/> -->
-							<!-- <PlayImg
 								class="w-76 h-29"
 								canvas-id="sign"
 								:paths="['sign/1']"
@@ -80,6 +71,7 @@
 									:interval="70"
 									:length="15"
 									:width="76"
+									type="webp"
 								></PlayImgs>
 							</view>
 							<view class="sign_box full">签到领现金</view>
@@ -121,6 +113,7 @@
 							path="user/index_join/2"
 							:interval="50"
 							:length="40"
+							type="webp"
 						></PlayImgs>
 					</view>
 				</view>

@@ -53,6 +53,10 @@
 			designHeight: {
 				type: Number,
 				default: 100
+			},
+			type: {
+				type: String,
+				default: 'webp'
 			}
 		},
 		data() {
@@ -121,7 +125,7 @@
 
 				for (let i = 0; i < count; i++) {
 					const num = String(i).padStart(5, '0')
-					const src = `/static/anime/${path}_${num}.png`
+					const src = `/static/anime/${path}_${num}.${this.type}`
 					await this.loadImage(src)
 				}
 				this.segmentLoaded[index] = true

@@ -4,7 +4,7 @@
 		<view class="mt-10 plr-20 relative" style="z-index: 2;">
 			<view class="absolute right-0 i-135">
 				<!-- <image src="/static/point/index-top.webp" class=""></image> -->
-				<PlayImg path="point/top/1" :length="40" :interval="50" />
+				<PlayImg path="point/top/1" :length="40" :interval="50" type="webp" />
 			</view>
 			<view class="">当前积分</view>
 			<view class="mt-10 fs-28 fw-7">{{ profile.integral }}</view>
