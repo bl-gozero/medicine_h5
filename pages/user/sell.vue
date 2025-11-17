@@ -153,7 +153,7 @@
 					search: { account: '' }
 				})
 				if(res) {
-					res.forEach(item => { item.level = { id: 4, value: '合伙人' }; item.medals = { id: 3, value: '金牌合伙人' } })
+					// res.forEach(item => { item.level = { id: 4, value: '合伙人' }; item.medals = { id: 3, value: '金牌合伙人' } })
 					this.list = [...this.list, ...res]
 					this.listStatus = res.length < this.limit ? 'end' : 'more'
 					this.page++
