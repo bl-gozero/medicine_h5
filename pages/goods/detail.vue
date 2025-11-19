@@ -304,8 +304,9 @@
 				let len = this.priceLog.length
 				return `${len * 16}%`
 			},
-			initEchart() {
-				this.$refs.echartRef.init(this.option);
+			async initEchart() {
+				await this.$refs.echartRef.init(this.option);
+				// console.log('echart初始化后', this.$refs.echartRef)
 				this.setOption()
 			},
 			// 异步更新数据或配置
@@ -351,6 +352,7 @@
 						return `￥${params.value}`;
 					}
 				}
+				// console.log('绘图', this.$refs.echartRef)
 				this.$refs.echartRef.setOption(this.option);
 				setTimeout(() => {
 					this.scrollLeft = 99999;
@@ -360,7 +362,7 @@
 				const res = await this.$c.fetch(this.$api.goods.priceLog, { goods_sku_id: this.sku.id })
 				if(res.length) {
 					this.priceLog = res
-					this.setOption()
+					// this.setOption()
 				}
 			},
 			onTask() {

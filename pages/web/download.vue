@@ -55,6 +55,7 @@
 		},
 		methods: {
 			onDownload() {
+				// console.log(this.downloadUrl)
 				window.location.href = this.downloadUrl;
 			}
 		}

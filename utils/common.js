@@ -208,7 +208,7 @@ const common = {
 			case 'cs':
 				return this.cs()
 			case 'dl':
-				return 'https://resource.kkanyng.vip/medicine/download/app-release.new.apk'
+				return  this.getStorage('endpoint') + '/download/app-release.new.apk'
 			default:
 				return ''
 		}
@@ -441,7 +441,7 @@ const common = {
 		const currentPage = pages[pages.length - 1]
 		const current = '/' + currentPage.route
 		const arr = ['/pages/index/launch', '/pages/index/login', '/pages/index/index', '/pages/index/index',
-			'/pages/index/register', '/pages/web/register'
+			'/pages/index/register', '/pages/web/register', '/pages/web/download'
 		]
 		const aotuLogin = arr.indexOf(current) > -1 ? false : true
 		nimReady(aotuLogin)

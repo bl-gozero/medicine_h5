@@ -88,7 +88,7 @@
 				const res = await this.$c.fetch(this.$api.user.payPassword, this.form)
 				if(res) {
 					await this.$c.toast('操作成功')
-					this.type == 1? this.$c.goto('/pages/web/download') : this.$c.goBack()
+					this.type == 1? this.$c.goto('/pages/user/baseInfo?type=1') : this.$c.goBack()
 				}
 			}
 		}

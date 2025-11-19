@@ -12,8 +12,10 @@
 			</view>
 
 			<!-- 右侧插槽 -->
-			<view class="right-slot" @click="handleRightClick">
-				<slot name="right"></slot>
+			<view class="right-slot relative" @click="handleRightClick">
+				<view class="absolute top-0 right-0 ph-100 flex-end w-100">
+					<slot name="right"></slot>
+				</view>
 			</view>
 		</view>
 		<view v-if="fixed && ph" :style="{ height: barHeight }"></view>
@@ -125,7 +127,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 28px 20px 11px 20rpx;
+		padding: 28px 20px 11px 20px;
 		position: relative;
 		z-index: 10;
 	}
@@ -143,6 +145,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		line-height: 1;
 	}
 
 	.title-text {
@@ -163,7 +166,7 @@
 	}
 
 	.right-slot {
-		/* width: 24px; */
+		width: 24px;
 		height: 24px;
 		display: flex;
 		align-items: center;

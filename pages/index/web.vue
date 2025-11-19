@@ -29,7 +29,10 @@
 					this.web = web
 				}
 			} else {
+				// this.web = { title: '在线客服', src: this.$c.cs() }
 				this.web = { title: '在线客服', src: this.$c.cs() }
+				window.open(this.$c.cs(), '_blank')
+				this.$c.goBack()
 			}
 		},
 		onReady() {

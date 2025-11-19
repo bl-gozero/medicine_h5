@@ -85,8 +85,8 @@
 				aniIndex1: 0,
 				aniIndex2: 0,
 				imgSrc: '',
-				diceAnimationImages: [],
-				diceAnimationImages2: [],
+				diceAnimationImages: [], // 第一段动画 src 列表
+				diceAnimationImages2: [], // 第二段动画 src 列表
 				loadedCache: {}, // 缓存 Image 对象
 				imagesLoaded: false,
 			};
@@ -120,9 +120,11 @@
 		methods: {
 			reloadAnimation() {
 				this.stopAnimation();
+				this.imagesLoaded = false;
 				this.loadImages().then(() => this.startAnimation());
 			},
 
+			// 预缓存 Image 对象到内存，播放时直接用，不走网络请求
 			getImage(imgSrc) {
 				if (!this.loadedCache[imgSrc]) {
 					const img = new Image();
@@ -134,7 +136,7 @@
 			async loadImages() {
 				if (this.imagesLoaded) return;
 
-				// 第一组动画
+				// -------- 第一段动画 --------
 				const key1 = `${this.path}_${this.start}_${this.length}`;
 				if (!this.loadedCache[key1]) {
 					for (let i = 0; i < this.length; i++) {
@@ -148,7 +150,7 @@
 					this.diceAnimationImages = this.loadedCache[key1].slice();
 				}
 
-				// 第二组动画
+				// -------- 第二段动画 --------
 				const key2 = `${this.path2}_${this.start2}_${this.length2}`;
 				if (this.length2 > 0) {
 					if (!this.loadedCache[key2]) {
@@ -175,9 +177,10 @@
 					}
 				}
 
-				// 设置第一帧
+				// -------- 设置第一帧 --------
 				if (this.diceAnimationImages.length > 0) {
-					this.imgSrc = this.loadedCache[this.diceAnimationImages[0]].src;
+					const firstImg = this.loadedCache[this.diceAnimationImages[0]];
+					if (firstImg) this.imgSrc = firstImg.src;
 				}
 
 				this.imagesLoaded = true;
@@ -199,16 +202,15 @@
 							if (this.diceAnimationImages2.length > 0) this.startAnimation2();
 						} else {
 							const img = this.loadedCache[this.diceAnimationImages[this.aniIndex1]];
-							this.imgSrc = img.src;
+							if (img) this.imgSrc = img.src;
 							this.aniIndex1 = (this.aniIndex1 + 1) % this.diceAnimationImages.length;
 						}
 					} else {
 						this.aniIndex1--;
-						if (this.aniIndex1 < 0) {
-							this.aniIndex1 = this.loop ? this.diceAnimationImages.length - 1 : 0;
-						}
+						if (this.aniIndex1 < 0) this.aniIndex1 = this.loop ? this.diceAnimationImages.length - 1 :
+							0;
 						const img = this.loadedCache[this.diceAnimationImages[this.aniIndex1]];
-						this.imgSrc = img.src;
+						if (img) this.imgSrc = img.src;
 					}
 				}, this.interval);
 			},
@@ -219,7 +221,7 @@
 
 				this.timer2 = setInterval(() => {
 					const img = this.loadedCache[this.diceAnimationImages2[this.aniIndex2]];
-					this.imgSrc = img.src;
+					if (img) this.imgSrc = img.src;
 					this.aniIndex2 = (this.aniIndex2 + 1) % this.diceAnimationImages2.length;
 					if (!this.loop2 && this.aniIndex2 === 0) clearInterval(this.timer2);
 				}, this.interval2);

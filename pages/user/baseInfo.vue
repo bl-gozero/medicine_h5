@@ -43,10 +43,12 @@
 				profile: this.$c.profile(),
 				doAvatar: null,
 				avatar: '',
-				doNick: null
+				doNick: null,
+				type: 0
 			}
 		},
-		async onLoad() {
+		async onLoad(p) {
+			if(p.type == 1) this.type = 1
 			this.profile = await this.$c.checkeLogin(1)
 			this.doAvatar = this.$c.onceRequest(this.onAvatarEdit)
 			this.doNick = this.$c.onceRequest(this.onNick)
@@ -136,7 +138,7 @@
 				})
 				if (res) {
 					this.$c.toast('保存成功')
-					this.$c.goBack()
+					this.type == 1 ?  this.$c.goto('/pages/web/download') : this.$c.goBack()
 				}
 			}
 		}

@@ -102,7 +102,7 @@
 				})
 				if (res) {
 					this.order = res
-					if(res.waybill_number) this.express = await this.$c.getExpress(res.id, 3)
+					if(res.courier_number) this.express = await this.$c.getExpress(res.id, 3)
 					this.load = true
 				}
 			},

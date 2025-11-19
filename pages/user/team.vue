@@ -1,8 +1,8 @@
 <template>
 	<view class="page bg-page flex-col">
-		<view v-if="link.length == 1" class="bg plr-20 bg" :class="`pt-${$c.barHeight()}`">
+		<view v-if="link.length == 1" class="bg">
 			<Title title="我邀请的好友" bgColor="transparent" @back="onBack()" />
-			<view class="minh-76">
+			<view class="minh-76 plr-20">
 				<view v-if="nums.length > 0" class="relative mt-20">
 					<image src="/static/user/level/sell_top.webp" class="pw-100 maxh-100 block" mode="widthFix"></image>
 					<view class="full flex-start pl-11 pb-10">
@@ -24,7 +24,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="flex-between mt-16 pb-13">
+			<view class="flex-between mt-16 pb-13 plr-20">
 				<text>我邀请的好友</text>
 				<text class="fs-12" style="color: #A26527;">*可显示8层用户</text>
 			</view>
