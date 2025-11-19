@@ -160,7 +160,7 @@
 						</view>
 					</view>
 					<view class="pw-24">
-						<view v-if="switcher == 4" class="flex-end" @click="$c.goto('/pages/finance/performance')">
+						<view class="flex-end" @click="$c.goto(switcher == 4? '/pages/finance/performance' : '/pages/finance/sell')">
 							<text class="fs-12">历史数据</text>
 							<u-icon name="arrow-right" color="#9F9F9F" size="13"></u-icon>
 						</view>
@@ -372,6 +372,7 @@
 				this.getSellData()
 				this.getPerformce()
 			}
+			this.level_index = this.$c.calcLv(this.profile)
 		},
 		methods: {
 			getPercent(item) {

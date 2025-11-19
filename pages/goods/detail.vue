@@ -436,7 +436,8 @@
 						// this.$c.goto('/pages/index/web?type=pay')
 						this.$c.quickPay(res.jump_url)
 					} else {
-
+						await this.$c.toast('购买成功')
+						this.$c.goto('/pages/order/list')
 					}
 				} else {
 					setTimeout(() => {

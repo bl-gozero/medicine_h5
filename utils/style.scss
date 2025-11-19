@@ -70,9 +70,10 @@ $color-orange:  #EE6F2E;
 .relative	  { position: relative; }
 .absolute	  { position: absolute; }
 .fixed		  { position: fixed; }
+.sticky		  { position: sticky; }
 .shrink-0	  { flex-shrink: 0; } //防止flex下被压缩
 
-@for $i from 5 through 20 {
+@for $i from 5 through 50 {
 	$val: $i * 1px;
 	.gap-#{$i}>*:not(:last-child) {
 		margin-right: $val; // 模拟 gap
@@ -141,7 +142,7 @@ $color-orange:  #EE6F2E;
   .i-#{$i} { width: $val; height: $val; }
 }
 // ======= 间距类自动生成工具 =======
-@for $i from 0 through 150 {
+@for $i from 0 through 200 {
   $val: $i * 1px;
   .mt-#{$i}, .mtb-#{$i}, .m-#{$i}   { margin-top: $val !important; }
   .mb-#{$i}, .mtb-#{$i}, .m-#{$i}   { margin-bottom: $val !important; }

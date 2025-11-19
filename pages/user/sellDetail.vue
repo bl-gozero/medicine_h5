@@ -1,6 +1,10 @@
 <template>
 	<view class="page bg-page flex-col">
-		<Title title="他的销售数据" fixed />
+		<Title title="他的销售数据" fixed>
+			<template v-slot:right>
+				<view class="lh-10 fs-12" @click="$c.goto(`/pages/finance/sell?account=${info.account}`)">历史数据</view>
+			</template>
+		</Title>
 		<view v-if="info.account" class="flex-1 mt-50 bg-white roundedTop-20 plr-20">
 			<view class="flex-center" style="margin-top: -23px;">
 				<u-avatar :src="info.avatar" :defaultUrl="$c.userAvatar()" size="46" mode="aspectFill"></u-avatar>
