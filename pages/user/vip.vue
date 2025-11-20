@@ -1,7 +1,7 @@
 <template>
 	<view class="page bg-page">
 		<view class="level_box">
-			<view class="pb-20" :class="`bg-${level_index}`">
+			<view class="" :class="`bg-${level_index}`">
 				<Title title="会员" bgColor="transparent">
 					<template v-if="profile.level.id < 3" v-slot:right>
 						<text @click="$c.goto('/pages/user/team')">邀请的好友</text>
@@ -34,7 +34,7 @@
 														inactiveColor="#D8D8D8" :height="2"></u-line-progress>
 												</view>
 												<text v-if="item.id > 3"
-													class="fw-7 fs-12 ml-7">{{ item.count }}/{{ item.num }}</text>
+													class="fw-7 fs-12 ml-7">{{ item.count > item.num? item.num : item.count }}/{{ item.num }}</text>
 												<image v-else src="/static/vip/v2/icon.webp" class="i-16 block ml-8">
 												</image>
 											</view>
@@ -77,23 +77,23 @@
 						<image src="/static/vip/right.webp" class="i-14"></image>
 					</view>
 				</view>
-				<view class="mt-20">
-					<swiper :class="privilege_index == 0? 'h-50' : 'h-250'" :interval="5000" :duration="500"
-						@change="(e) => { privilege_index = e.detail.current }">
-						<swiper-item>
-							<view class="pl-20">
-								<image :src="`/static/vip/v2/privilege_1_${level_index}.webp`"
-									class="pw-100 inline-block" mode="widthFix"></image>
-							</view>
-						</swiper-item>
-						<swiper-item>
-							<view class="plr-20">
-								<image :src="`/static/vip/v2/privilege_2_${level_index}.webp`"
-									class="pw-100 inline-block" mode="widthFix"></image>
-							</view>
-						</swiper-item>
-					</swiper>
-				</view>
+			</view>
+			<view class="bg-white ptb-15">
+				<swiper :style="{ height: `${privilege_index == 0? swiperHeight1 : swiperHeight2}px` }" :interval="5000" :duration="500"
+					@change="(e) => { privilege_index = e.detail.current }">
+					<swiper-item>
+						<view class="pl-20">
+							<image :src="`/static/vip/v2/privilege_1_${level_index}.webp`"
+								class="pw-100 inline-block" mode="widthFix" @load="onImgLoad1"></image>
+						</view>
+					</swiper-item>
+					<swiper-item>
+						<view class="plr-20">
+							<image :src="`/static/vip/v2/privilege_2_${level_index}.webp`"
+								class="pw-100 inline-block" mode="widthFix" @load="onImgLoad2"></image>
+						</view>
+					</swiper-item>
+				</swiper>
 			</view>
 		</view>
 		<view v-if="$c.calcLv(profile) < 4" class="roundedTop-14 p-20 pt-25 mt-15"
@@ -141,111 +141,108 @@
 				</view>
 			</view>
 		</view>
-		<view class="mt-15" :class="$c.calcLv(profile) == 3 && 'switch_box'">
-			<view v-if="$c.calcLv(profile) > 3" class="relative mt-15">
-				<image :src="`/static/vip/switch-${switcher}.webp`" class="pw-100 block" mode="widthFix"></image>
-				<view class="full flex-between item-stretch pr-20 border-box" style="padding-top: 7%;">
-					<view class="fw-5 pw-26 plr-13 border-box"
-						:style="{ color: switcher == 4 ? '#969AA7' : '#B2A09B' }"
-						@click="switcher = switcher == 3 ? 4 : 3">{{ switcher == 4 ? '销售数据' : '团队业绩' }}</view>
-					<view class="flex-1">
-						<view class="fs-16 fw-5 flex-center">
-							<text>{{ switcher == 3 ? '销售数据' : '团队业绩' }}</text>
-							<view class="icon_info ml-3" @click="showHint = true"></view>
-						</view>
-						<view class="text-info flex-center mt-13 fs-10 lh-10">
-							<text>数据更新于{{ switcher == 3 ? now : today }}</text>
-							<image v-if="switcher == 3" src="/static/vip/refresh.webp" class="i-11 ml-4"
-								@click="getSellData(1)"></image>
-						</view>
-					</view>
-					<view class="pw-24">
-						<view class="flex-end" @click="$c.goto(switcher == 4? '/pages/finance/performance' : '/pages/finance/sell')">
-							<text class="fs-12">历史数据</text>
-							<u-icon name="arrow-right" color="#9F9F9F" size="13"></u-icon>
-						</view>
-					</view>
-				</view>
-			</view>
-			<view v-else-if="$c.calcLv(profile) == 3" class="">
-				<view class="fs-16 fw-5 flex-center">
-					<text>销售数据</text>
-					<view class="icon_info ml-3" @click="showHint = true"></view>
-				</view>
-				<view class="text-info flex-center mt-13 fs-12 lh-10">
-					<text>数据更新于{{ now }}</text>
-					<image src="/static/vip/refresh.webp" class="i-11 ml-4" @click="getSellData()"></image>
-				</view>
-			</view>
-			<view class="bg-white">
-				<view v-if="switcher == 3" class="plr-20 pb-30">
-					<view class="flex-between pt-33 flex-wrap fgap-20">
-						<view class="data_bg rounded-8 p-12 border-box">
-							<image src="/static/vip/ri.webp" class="icon"></image>
-							<view class="text-info fs-12 mt-6">今日总销售（元）</view>
-							<view class="fs-16 fw-7 u-line-1">{{ sell.day_sales || 0 }}</view>
-						</view>
-						<view class="data_bg rounded-8 p-12 border-box">
-							<image src="/static/vip/zhou.webp" class="icon"></image>
-							<view class="text-info fs-12 mt-6">本周总销售（元）</view>
-							<view class="fs-16 fw-7 u-line-1">{{ sell.week_sales || 0 }}</view>
-						</view>
-						<view class="data_bg rounded-8 p-12 border-box">
-							<image src="/static/vip/yue.webp" class="icon"></image>
-							<view class="text-info fs-12 mt-6">当月总销售（元）</view>
-							<view class="fs-16 fw-7 u-line-1">{{ sell.month_sales || 0 }}</view>
-						</view>
-						<view class="data_bg rounded-8 p-12 border-box">
-							<image src="/static/vip/lei.webp" class="icon"></image>
-							<view class="text-info fs-12 mt-6">累计总销售（元）</view>
-							<view class="fs-16 fw-7 u-line-1">{{ sell.total_sales || 0 }}</view>
-						</view>
-						<view class="data_bg rounded-8 p-12 border-box icon">
-							<image src="/static/vip/cun.webp" class="icon"></image>
-							<view class="text-info fs-12 mt-6">存储产品总数量（件）</view>
-							<view class="fs-16 fw-7 u-line-1">{{ sell.save_count || 0 }}</view>
-						</view>
-					</view>
-					<u-button class="fw-7 btn-search" shape="circle" @click="$c.goto('/pages/user/sell')">
-						<image src="/static/vip/search.webp" class="i-22 mr-3"></image>
-						<text class="text-white">查询销售数据</text>
-					</u-button>
-				</view>
-				<view v-else-if="switcher == 4" class="">
-					<view class="plr-20">
-						<view class="pt-10 mb-17">当月数据</view>
-						<view class="flex-between">
-							<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
-								<image src="/static/vip/data_1.png" class="i-17"></image>
-								<view class="text-info fs-10 mtb-5">销售业绩（元）</view>
-								<view class="fs-16 fw-7 u-line-1">{{ month_sales }}</view>
+		<view v-if="$c.calcLv(profile) > 2" class="">
+			<view class="mt-15" :class="$c.calcLv(profile) == 3 && 'switch_box'">
+				<view v-if="$c.calcLv(profile) > 3" class="relative mt-15">
+					<image :src="`/static/vip/switch-${switcher}.webp`" class="pw-100 block" mode="widthFix"></image>
+					<view class="full flex-between item-stretch pr-20 border-box" style="padding-top: 7%;">
+						<view class="fw-5 pw-26 plr-13 border-box"
+							:style="{ color: switcher == 4 ? '#969AA7' : '#B2A09B' }"
+							@click="switcher = switcher == 3 ? 4 : 3">{{ switcher == 4 ? '销售数据' : '团队业绩' }}</view>
+						<view class="flex-1">
+							<view class="fs-16 fw-5 flex-center">
+								<text>{{ switcher == 3 ? '销售数据' : '团队业绩' }}</text>
+								<view class="icon_info ml-3" @click="showHint = true"></view>
 							</view>
-							<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
-								<image src="/static/vip/data_2.png" class="i-17"></image>
-								<view class="text-info fs-10 mtb-5">绩效分红（元）</view>
-								<view class="fs-16 fw-7 u-line-1">{{ month_bonus }}</view>
+							<view class="text-info flex-center mt-13 fs-10 lh-10">
+								<text>数据更新于{{ switcher == 3 ? now : today }}</text>
+								<image v-if="switcher == 3" src="/static/vip/refresh.webp" class="i-11 ml-4"
+									@click="getSellData(1)"></image>
 							</view>
 						</view>
-						<view class="mt-10 mtb-17">累计数据</view>
-						<view class="flex-between">
-							<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
-								<image src="/static/vip/data_3.png" class="i-17"></image>
-								<view class="text-info fs-10 mtb-5">销售业绩（元）</view>
-								<view class="fs-16 fw-7 u-line-1">{{ performance.total.sales }}</view>
-							</view>
-							<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
-								<image src="/static/vip/data_4.png" class="i-17"></image>
-								<view class="text-info fs-10 mtb-5">绩效分红（元）</view>
-								<view class="fs-16 fw-7 u-line-1">{{ performance.total.bonus }}</view>
+						<view class="pw-24">
+							<view class="flex-end" @click="$c.goto(switcher == 4? '/pages/finance/performance' : '/pages/finance/sell')">
+								<text class="fs-12">历史数据</text>
+								<u-icon name="arrow-right" color="#9F9F9F" size="13"></u-icon>
 							</view>
 						</view>
 					</view>
-					<!-- <view class="absolute top-30 right-20">
-						<u-text suffixIcon="arrow-right" iconStyle="font-size: 14px;color: #9F9F9F;" size="12"
-							color="#3D3D3D" lineHeight="1" text="历史数据"
-							@click="$c.goto('/pages/finance/performance')"></u-text>
-					</view> -->
-					<image src="/static/vip/reward.webp" class="pw-100 block mt-40" mode="widthFix"></image>
+				</view>
+				<view v-else-if="$c.calcLv(profile) == 3" class="">
+					<view class="fs-16 fw-5 flex-center">
+						<text>销售数据</text>
+						<view class="icon_info ml-3" @click="showHint = true"></view>
+					</view>
+					<view class="text-info flex-center mt-13 fs-12 lh-10">
+						<text>数据更新于{{ now }}</text>
+						<image src="/static/vip/refresh.webp" class="i-11 ml-4" @click="getSellData()"></image>
+					</view>
+				</view>
+				<view class="bg-white">
+					<view v-if="switcher == 3" class="plr-20 pb-30">
+						<view class="flex-between pt-33 flex-wrap fgap-20">
+							<view class="data_bg rounded-8 p-12 border-box">
+								<image src="/static/vip/ri.webp" class="icon"></image>
+								<view class="text-info fs-12 mt-6">今日总销售（元）</view>
+								<view class="fs-16 fw-7 u-line-1">{{ sell.day_sales || 0 }}</view>
+							</view>
+							<view class="data_bg rounded-8 p-12 border-box">
+								<image src="/static/vip/zhou.webp" class="icon"></image>
+								<view class="text-info fs-12 mt-6">本周总销售（元）</view>
+								<view class="fs-16 fw-7 u-line-1">{{ sell.week_sales || 0 }}</view>
+							</view>
+							<view class="data_bg rounded-8 p-12 border-box">
+								<image src="/static/vip/yue.webp" class="icon"></image>
+								<view class="text-info fs-12 mt-6">当月总销售（元）</view>
+								<view class="fs-16 fw-7 u-line-1">{{ sell.month_sales || 0 }}</view>
+							</view>
+							<view class="data_bg rounded-8 p-12 border-box">
+								<image src="/static/vip/lei.webp" class="icon"></image>
+								<view class="text-info fs-12 mt-6">累计总销售（元）</view>
+								<view class="fs-16 fw-7 u-line-1">{{ sell.total_sales || 0 }}</view>
+							</view>
+							<view class="data_bg rounded-8 p-12 border-box icon">
+								<image src="/static/vip/cun.webp" class="icon"></image>
+								<view class="text-info fs-12 mt-6">存储产品总数量（件）</view>
+								<view class="fs-16 fw-7 u-line-1">{{ sell.save_count || 0 }}</view>
+							</view>
+						</view>
+						<u-button class="fw-7 btn-search" shape="circle" @click="$c.goto('/pages/user/sell')">
+							<image src="/static/vip/search.webp" class="i-22 mr-3"></image>
+							<text class="text-white">查询销售数据</text>
+						</u-button>
+					</view>
+					<view v-else-if="switcher == 4" class="">
+						<view class="plr-20">
+							<view class="pt-10 mb-17">当月数据</view>
+							<view class="flex-between">
+								<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
+									<image src="/static/vip/data_1.png" class="i-17"></image>
+									<view class="text-info fs-10 mtb-5">销售业绩（元）</view>
+									<view class="fs-16 fw-7 u-line-1">{{ month_sales }}</view>
+								</view>
+								<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
+									<image src="/static/vip/data_2.png" class="i-17"></image>
+									<view class="text-info fs-10 mtb-5">绩效分红（元）</view>
+									<view class="fs-16 fw-7 u-line-1">{{ month_bonus }}</view>
+								</view>
+							</view>
+							<view class="mt-10 mtb-17">累计数据</view>
+							<view class="flex-between">
+								<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
+									<image src="/static/vip/data_3.png" class="i-17"></image>
+									<view class="text-info fs-10 mtb-5">销售业绩（元）</view>
+									<view class="fs-16 fw-7 u-line-1">{{ performance.total.sales }}</view>
+								</view>
+								<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
+									<image src="/static/vip/data_4.png" class="i-17"></image>
+									<view class="text-info fs-10 mtb-5">绩效分红（元）</view>
+									<view class="fs-16 fw-7 u-line-1">{{ performance.total.bonus }}</view>
+								</view>
+							</view>
+						</view>
+						<image src="/static/vip/reward.webp" class="pw-100 block mt-40" mode="widthFix"></image>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -357,7 +354,9 @@
 				],
 				level_index: 1,
 				privilege_index: 0,
-				scrollOffset: 50
+				scrollOffset: 50,
+				swiperHeight1: 50,
+				swiperHeight2: 200,
 			}
 		},
 		async onLoad() {
@@ -375,6 +374,26 @@
 			this.level_index = this.$c.calcLv(this.profile)
 		},
 		methods: {
+			onImgLoad1(e) {
+				const { width, height } = e.detail;
+				// 获取 window 宽度
+				const screenWidth = uni.getSystemInfoSync().windowWidth;
+				// 计算图片显示宽度（根据你的 pw-100 = 100% 宽度来算）
+				const displayWidth = screenWidth - 20;
+				// 按比例计算高度
+				const displayHeight = (height / width) * displayWidth;
+				this.swiperHeight1 = displayHeight;
+			},
+			onImgLoad2(e) {
+				const { width, height } = e.detail;
+				// 获取 window 宽度
+				const screenWidth = uni.getSystemInfoSync().windowWidth;
+				// 计算图片显示宽度（根据你的 pw-100 = 100% 宽度来算）
+				const displayWidth = screenWidth - 40;
+				// 按比例计算高度
+				const displayHeight = (height / width) * displayWidth;
+				this.swiperHeight2 = displayHeight;
+			},
 			getPercent(item) {
 				if(this.$c.calcLv(this.profile) >= item.id) return 100
 				if(item.id < 4) {

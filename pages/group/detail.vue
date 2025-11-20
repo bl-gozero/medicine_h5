@@ -97,7 +97,7 @@
 					<u-icon name="arrow-right" size="14" color="#7d7d7d"></u-icon>
 				</view>
 			</view>
-			<view class="flex-between ptb-18" @click="onDeleteConversation()">
+			<view class="flex-between ptb-18" @click="onClearConversation()">
 				<text>清空聊天记录</text>
 				<u-icon name="arrow-right" size="14" color="#7d7d7d"></u-icon>
 			</view>
@@ -153,7 +153,7 @@
 				doQuit: null,
 				showDelete: false,
 				showQuit: false,
-				info: {}
+				info: teamInfo
 			}
 		},
 		watch: {
@@ -214,6 +214,7 @@
 				this.showQuit = false
 				const team_id = parseInt(this.teamInfo.teamId)
 				if(!team_id) return
+				this.onDeleteConversation()
 				const res1 = await leaveTeam() 
 				if(res1) {
 					const res = await this.$c.fetch(this.$api.group.quit, { team_id: team_id })
@@ -226,7 +227,11 @@
 					}
 				}
 			},
- 			async onDeleteConversation() {
+			async onDeleteConversation() {
+				const cid = this.$c.getStorage('conversationId')
+				if(cid) await deleteConversation(cid)
+			},
+ 			async onClearConversation() {
 				const res = await clearHistoryMessage()
 				if(res) this.$c.toast('清除成功')
 			}

@@ -46,7 +46,7 @@
 				doSubmit: null,
 				show: false,
 				role: 100,
-				form: {}
+				form: teamInfo
 			}
 		},
 		watch: {
@@ -67,17 +67,15 @@
 		},
 		methods: {
 			async onSubmit() {
-				const res1 = updateTeamInfo(this.form.teamId, this.form.teamType, { announcement: this.form.announcement || ''})
+				const res1 = await updateTeamInfo(this.teamInfo.teamId, this.teamInfo.teamType, { announcement: this.form.announcement || ''})
 				if(res1) {
 					const res = await this.$c.fetch(this.$api.group.announcement, {
-						team_id: parseInt(this.form.teamId),
+						team_id: parseInt(this.teamInfo.teamId),
 						announcement: this.form.announcement || ''
 					})
 					if (res) {
-						this.$c.toast('更新成功')
-						setTimeout(() => {
-							this.$c.goBack()
-						}, 1500)
+						await this.$c.toast('更新成功')
+						this.$c.goBack()
 					}
 				}
 			}

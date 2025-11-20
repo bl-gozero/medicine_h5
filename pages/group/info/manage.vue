@@ -26,7 +26,7 @@
 						:activeValue="1"
 						:inactiveValue="2"
 						size="20"
-						:disabled="role > 2"
+						:disabled="memberInfo.memberRole === 0"
 						asyncChange
 						@change="onCate"
 					></u-switch>
@@ -97,34 +97,15 @@
 				return
 			}
 			this.team_id = info.team_id
-			this.onRoleInfo(info.team_id, this.$c.getStorage('profile').account)
+			// this.onRoleInfo(info.team_id, this.$c.getStorage('profile').account)
 		}, 
 		onShow() {
 			this.groupInfo()
-			if(this.role == 1) this.getAdmins()
+			if(this.memberInfo.memberRole === 1) this.getAdmins()
 		},
 		methods: {
 			onShowPicer() {
-				if(this.role < 3) this.showPicker = true
-			},
-			async onRoleInfo(team_id, name) {
-				const res = await this.$c.fetch(this.$api.group.memberList, {
-					team_id: this.team_id,
-					page: 1,
-					limit: 10,
-					search: {
-						name: name
-					}
-				})
-				if (res.list && res.list.length > 0) {
-					this.role = res.list[0].role.id
-					if(this.role != 1) {
-						this.$c.toast('无访问权限')
-						setTimeout(() => {
-							this.$c.goto('/pages/group/index')
-						}, 1500)
-					}
-				}
+				if(this.memberInfo.memberRole > 0) this.showPicker = true
 			},
 			async groupInfo() {
 				const res = await this.$c.fetch(this.$api.group.groupInfo, {

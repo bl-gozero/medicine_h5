@@ -525,6 +525,7 @@ const common = {
 	},
 
 	getCid(id, mode) {
+		// mode 1 私聊 2 群聊
 		if (!id) return ''
 		const nimInfo = this.getStorage('nimInfo')
 		if (!nimInfo || !nimInfo.account) return ''

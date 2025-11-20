@@ -52,21 +52,12 @@
 			<view class="h-60"></view>
 		</view>
 		
-<!-- 		<u-datetime-picker
-			:show="showTimePicker"
-			:minDate="1735689600000"
-			:confirmColor="$c.baseColor()"
-			mode="year"
-			@confirm="onConfirm"
-			@cancel="showTimePicker = false">
-		></u-datetime-picker> -->
-		
 		<u-picker
 		    :columns="columns"
 		    :show="showTimePicker"
 			:confirmColor="$c.baseColor()"
 		    @confirm="onConfirm"
-		    @cancel="showPicker = false"
+		    @cancel="showTimePicker = false"
 		></u-picker>
 	</view>
 </template>

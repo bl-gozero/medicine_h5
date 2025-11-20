@@ -13,7 +13,7 @@
 				</view>
 				<view class="flex-1 flex-between ml-8 border-bottom">
 					<text class="u-line-1">{{ item.name }}</text>
-					<view v-if="role === 1 && item.role.id === 2" class="">
+					<view v-if="memberInfo.memberRole === 1 && item.role.id === 2" class="">
 						<u-button
 							class="w-47 h-20 fs-10"
 							shape="circle"
@@ -31,7 +31,7 @@
 				5、群语音功能<br>
 				6、设置进群方式，并可同意/拒绝进群申请置顶和撤群成员消息<br>
 			</view>
-			<view v-if="role === 1" class="mt-20">
+			<view v-if="memberInfo.memberRole === 1" class="mt-20">
 				<u-button class="fw-7 lh-10 fs-14 bg-base text-white w-247 h-47 flex-center" shape="circle" text="添加管理员"
 					@click="$c.goto('/pages/group/info/addAdmins')"></u-button>
 			</view>
@@ -55,6 +55,8 @@
 		},
 		data() {
 			return {
+				teamInfo,
+				memberInfo,
 				admins: [],
 				show: false,
 				doSubmit: null,

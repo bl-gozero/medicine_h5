@@ -72,7 +72,15 @@
 				<view class="fs-12 text-info mtb-15">群介绍</view>
 				<view class="">{{ group.intro }}</view>
 				<u-button
-					v-if="group.join_state && group.join_state.id == 2"
+					v-if="group.join_state && group.join_state.id == 2 && group.role && group.role.id == 1"
+					class="fw-7 fs-14 w-224 h-43 mt-20 text-danger mt-70 border-0"
+					style="background: #f8f8f8;"
+					shape="circle"
+					text="解散该群聊"
+					@click="doDelete"
+				></u-button>
+				<u-button
+					v-else-if="group.join_state && group.join_state.id == 2"
 					class="fw-7 fs-14 w-224 h-43 mt-20 text-danger mt-70 border-0"
 					style="background: #f8f8f8;"
 					shape="circle"
@@ -141,7 +149,7 @@
 
 <script>
 	import Title from '../../components/Title.vue'
-	import { joinTeam } from '@/utils/nim.js' 
+	import { joinTeam, leaveTeam } from '@/utils/nim.js' 
 	
 	export default {
 		components: {
@@ -162,6 +170,7 @@
 				group: {},
 				doJoin: null,
 				doQuit: null,
+				doDelete: null,
 				showCreate: false,
 				showLv: false,
 				profile: this.$c.getStorage('profile') || {},
@@ -176,6 +185,7 @@
 			this.getProfile()
 			this.doJoin = this.$c.onceRequest(this.onJoin)
 			this.doQuit = this.$c.onceRequest(this.onQuit)
+			this.doDelete = this.$c.onceRequest(this.onDelete)
 		},
 		onShow() {
 		},
@@ -247,6 +257,17 @@
 						this.$c.toast('退出成功')
 						this.updateInfo()
 					}
+				}
+			},
+			async onDelete() {
+				this.showJoin = false
+				const res = await this.$c.fetch(this.$api.group.teamDelete, { team_id: this.group.team_id })
+				if(res) {
+					this.$c.removeStorage('chatInfo')
+					this.$c.toast('解散成功')
+					// this.getList()
+					const idx = this.list.findIndex(i => i.team_id === this.group.team_id)
+					if (idx !== -1) this.list.splice(idx, 1)
 				}
 			},
 			async updateInfo() {

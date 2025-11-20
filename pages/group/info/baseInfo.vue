@@ -5,7 +5,7 @@
 			<view class="bg-white plr-15 ptb-14 flex-between rounded-8 mt-12" @click="chooseAvatar()">
 				<text class="">群头像</text>
 				<view class="flex-start">
-					<u-avatar :src="form.avatar" size="39" default-url="/static/group/default.png" class="mr-9"
+					<u-avatar :src="$c.formatImgUrl(form.avatar)" size="39" default-url="/static/group/default.png" class="mr-9"
 						mode="aspectFill"></u-avatar>
 					<u-icon name="arrow-right" size="14" color="#7d7d7d"></u-icon>
 				</view>

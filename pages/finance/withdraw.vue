@@ -44,7 +44,7 @@
 					<u-icon name="bell-fill" size="12" color="#9D9762"></u-icon>
 					<text class="fw-7 ml-5" style="color: #9D9762;">提现条件</text>
 				</view>
-				<view class="">1. 最低提现金额： 单次提现金额需满 ¥100方可申请提现。</view>
+				<view class="">1. 最低提现金额： 单次提现金额需满 ¥120方可申请提现。</view>
 				<view class="">2. 提现方式： 提现支持绑定的微信、支付宝或银行卡账户，提现前请确保账户信息准确无误。</view>
 				<view class="">3. 账时间： 提现申请将在1-3个工作日内处理完成，节假日顺延。</view>
 				<view v-if="fee" class="">4. 提现收取手续费为{{ fee }}%，到账金额为提现金额的{{ 100 - fee }}%。</view>

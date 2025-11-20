@@ -2,15 +2,15 @@
 	<view class="page bg-page plr-20">
 		<Title title="销售数据" fixed />
 		<view class="">
-			<view class="plr-17 mt-10  ptb-13 bg rounded-8">
-				<view class="flex-between fgap-20">
+			<view class="plr-17 mt-10  ptb-13 bg rounded-8 flex-col flex-between fgap-15">
+				<view class="flex-between fgap-10 pw-100">
 					<view class="u-line-1">{{ account }}</view>
 					<view class="flex-end" @click="getData(1)">
 						<image src="/static/vip/refresh.webp" class="i-11 mr-4"></image>
-						<text class="text-info fs-12">数据更新于{{ now }}</text>
+						<text class="text-info fs-12 u-line-1">数据更新于{{ now }}</text>
 					</view>
 				</view>
-				<view class="flex-between mt-20 lh-10 fgap-10">
+				<view class="flex-between lh-10 fgap-10 pw-100">
 					<view class="rounded-8 flex-1 border-box">
 						<view class="flex-start">
 							<image src="/static/vip/lei.webp" class="i-19 block"></image>

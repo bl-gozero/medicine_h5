@@ -49,7 +49,7 @@ export const blackList = Vue.observable({
 /**
  * 初始化 NIM 实例
  */
-export function initNIM(autoLogin = true, accountId = null) {
+export async function initNIM(autoLogin = true, accountId = null) {
 	nimInfo = uni.getStorageSync(NIM_KEY)
 	if (!nimInfo) return null
 	if (!nim) {
@@ -65,7 +65,7 @@ export function initNIM(autoLogin = true, accountId = null) {
 		Vue.prototype.$nim = nim
 	}
 	if (!eventsBound) _bindEvents(nim)
-	if (autoLogin) loginNIM(accountId)
+	if (autoLogin) await loginNIM(accountId)
 	return nim
 }
 
@@ -86,8 +86,8 @@ export async function loginNIM(accountId) {
 			"forceMode": false
 		})
 		isLogin = true
-		teamBaseInfo()
-		getMemberInfo()
+		teamBaseInfo(0)
+		getMemberInfo(0)
 		if(accountId) await addFriend(accountId, { addMode: 1 })
 		// getMessageList()
 	} catch (err) {
@@ -147,7 +147,9 @@ export async function unload() {
 // 确保实例化
 export async function nimReady(autoLogin = true) {
 	try {
-		if (nim) return true
+		if (nim) {
+			return true
+		}
 		if (nimInitPromise) {
 			await nimInitPromise
 			return !!nim
@@ -160,14 +162,13 @@ export async function nimReady(autoLogin = true) {
 
 			console.log('[NIM] 初始化及登录完成，等待同步...')
 			await waitForSDKSync(instance)
-
+			await new Promise(r => setTimeout(r, 2000))
 			return instance
 		})()
 
 		nim = await nimInitPromise
 		nimInitPromise = null
 		console.log('初始化彻底完成')
-		await new Promise(r => setTimeout(r, 2000))
 		return true
 	} catch (err) {
 		console.error('NIM 初始化异常', err)
@@ -253,8 +254,8 @@ export async function getUserInfo(ids = [], mode = 1) {
 		// console.log(userInfo, friendInfo)
 		return users || {}
 	} catch (err) {
-		const errmsg = showNimError(err)
-		console.error('获取账号信息失败', err)
+		// const errmsg = showNimError(err)
+		// console.error('获取账号信息失败', err)
 		return false
 	}
 }
@@ -289,7 +290,7 @@ export async function getFriendInfo() {
 /**
  * 群信息
  */
-export async function teamBaseInfo() {
+export async function teamBaseInfo(showMsg = 1) {
 	if (!await nimReady()) return
 	const chatInfo = uni.getStorageSync('chatInfo')
 	if (!chatInfo || !chatInfo.team_id) return
@@ -305,8 +306,8 @@ export async function teamBaseInfo() {
 		Vue.set(teamInfo, 'members', members)
 		return true
 	} catch (err) {
-		// const errmsg = showNimError(err)
-		console.error('获取群组信息失败', err)
+		const errmsg = showNimError(err, '', showMsg)
+		// console.error('获取群组信息失败', err)
 		if (errmsg == 'team not exist') {
 			uni.removeStorageSync('chatInfo')
 		}
@@ -372,7 +373,7 @@ async function getTeamMembersAvatarMap(teamId) {
 /**
  * 个人群信息
  */
-export async function getMemberInfo() {
+export async function getMemberInfo(showMsg = 1) {
 	if (!await nimReady()) return
 	const chatInfo = uni.getStorageSync('chatInfo')
 	if (!chatInfo.team_id) return
@@ -391,8 +392,8 @@ export async function getMemberInfo() {
 		}
 		return true
 	} catch (err) {
-		const msg = showNimError(err)
-		console.error('获取群组成员信息失败', err)
+		const msg = showNimError(err, '', showMsg)
+		// console.error('获取群组成员信息失败', err)
 		if (msg == 'team not exist') {
 			uni.removeStorageSync('chatInfo')
 		}
@@ -604,6 +605,7 @@ export async function deleteConversation(id) {
 	if (!await nimReady()) return
 	try {
 		const res = await nim.V2NIMLocalConversationService.deleteConversation(id, true)
+		console.log(id, res)
 		return true
 	} catch (err) {
 		console.error('清理会话失败', err)
