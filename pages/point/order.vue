@@ -1,6 +1,6 @@
 <template>
 	<view class="page bg-page">
-		<Title title="兑换记录" fixed @back="$c.goto('/pages/point/index')" />
+		<Title title="兑换记录" fixed @back="$c.goBack()" />
 		<view class="plr-20 mt-10">
 			<view 
 				class="bg-white rounded-8 p-8 mb-10" 

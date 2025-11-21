@@ -2,17 +2,17 @@
 	<view class="page bg-page">
 		<view class="level_box">
 			<view class="" :class="`bg-${level_index}`">
-				<Title title="会员" bgColor="transparent">
+				<Title title="会员中心" bgColor="transparent">
 					<template v-if="profile.level.id < 3" v-slot:right>
 						<text @click="$c.goto('/pages/user/team')">邀请的好友</text>
 					</template>
 				</Title>
-				<swiper class="h-220" :interval="5000" :duration="500" :current="level_index - 1"
+				<image :src="`/static/vip/v2/pointer_${level_index}.webp`" class="pw-100 maxh-50"
+					mode="widthFix"></image>
+				<swiper class="h-170" :interval="5000" :duration="500" :current="level_index - 1"
 					@change="(e) => { level_index = e.detail.current + 1 }">
 					<swiper-item v-for="item in level_list">
 						<view class="">
-							<image :src="`/static/vip/v2/pointer_${item.id}.webp`" class="pw-100 maxh-50"
-								mode="widthFix"></image>
 							<view class="flex-center">
 								<view class="relative">
 									<image :src="`/static/vip/v2/bg_${item.id}.webp`" class="w-335 h-148 block"></image>
@@ -232,12 +232,12 @@
 								<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
 									<image src="/static/vip/data_3.png" class="i-17"></image>
 									<view class="text-info fs-10 mtb-5">销售业绩（元）</view>
-									<view class="fs-16 fw-7 u-line-1">{{ performance.total.sales }}</view>
+									<view class="fs-16 fw-7 u-line-1">{{ total_sales }}</view>
 								</view>
 								<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
 									<image src="/static/vip/data_4.png" class="i-17"></image>
 									<view class="text-info fs-10 mtb-5">绩效分红（元）</view>
-									<view class="fs-16 fw-7 u-line-1">{{ performance.total.bonus }}</view>
+									<view class="fs-16 fw-7 u-line-1">{{ total_bonus }}</view>
 								</view>
 							</view>
 						</view>
@@ -285,16 +285,19 @@
 					load: false
 				},
 				year: new Date().getFullYear(),
+				month: new Date().getMonth() + 1,
 				today: new Date().toISOString().slice(0, 10),
+				now: this.$c.formatDateTime(),
 				month_sales: 0,
 				month_bonus: 0,
+				total_sales: 0,
+				total_bonus: 0,
 				level3: {},
 				level4: {},
 				num1: 0,
 				num2: 0,
 				showHint: false,
 				sell: {},
-				now: this.$c.formatDateTime(),
 				level_list: [{
 						id: 1,
 						name: '',
@@ -367,10 +370,8 @@
 			if (this.profile.team_bronze_count) this.level_list[5].count = this.profile.team_bronze_count
 			if (this.profile.team_silver_count) this.level_list[6].count = this.profile.team_silver_count
 			this.levelList()
-			if (this.profile.level.id >= 3) {
-				this.getSellData()
-				this.getPerformce()
-			}
+			if (this.$c.calcLv(this.profile) >= 3) this.getSellData()
+			if (this.$c.calcLv(this.profile) >= 4) this.getPerformce()
 			this.level_index = this.$c.calcLv(this.profile)
 		},
 		methods: {
@@ -435,20 +436,12 @@
 				}
 			},
 			async getPerformce() {
-				const res = await this.$c.fetch(this.$api.finance.performance, {
-					year: this.year
-				})
+				const res = await this.$c.fetch(this.$api.finance.performance)
 				if (res) {
-					this.performance = {
-						...res,
-						...{
-							load: true
-						}
-					}
-					if (res.month && Array.isArray(res.month) && res.month.length) {
-						this.month_bonus = res.month.reduce((sum, item) => sum + (item.bonus || 0), 0)
-						this.month_sales = res.month.reduce((sum, item) => sum + (item.sales || 0), 0)
-					}
+					this.month_sales = res.month_sales || 0
+					this.month_bonus = res.month_dividends || 0
+					this.total_sales = res.total_sales || 0
+					this.total_bonus = res.total_dividends || 0
 				}
 			}
 		}

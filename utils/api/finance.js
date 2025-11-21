@@ -19,8 +19,11 @@ export default {
 	withdrawCheck(data) {
 		return request.post('/withdrawals/check', data, { loading: true })
 	},
-	performance(data = {}, config = {}) {
+	performanceList(data = {}, config = {}) {
 		return request.post('/team_performance/list', data, { ...config  })
+	},
+	performance(data = {}, config = {}) {
+		return request.post('/team_performance/stat', data, { ...config  })
 	},
 	transfer(data = {}, config = {}) {
 		return request.post('/user/transfer', data, { loading: true, ...config  })

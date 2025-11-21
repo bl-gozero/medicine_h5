@@ -139,6 +139,7 @@ const common = {
 	goto(url, type = 1) {
 		if (!url) return
 		if (type == 2) {
+			// 关闭此页面跳转
 			uni.redirectTo({
 				url
 			})

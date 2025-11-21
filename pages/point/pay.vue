@@ -89,7 +89,8 @@
 				paying_mode: 4,
 				doPay: null,
 				profile: {},
-				load: false
+				load: false,
+				from: ''
 			}
 		},
 		onLoad(p) {
@@ -98,8 +99,8 @@
 			if (p.id) {
 				this.id = parseInt(p.id)
 				this.getDetail()
-				// this.getCateList()
 			}
+			if (p.from) this.from = p.from
 			this.doPay = this.$c.onceRequest(this.onPay)
 		},
 		onShow() {
@@ -112,14 +113,6 @@
 			}, 100)
 		},
 		methods: {
-			// onNumChange(e) {
-			// 	const item = this.order.details[e.name]
-			// 	if(item.limit_quantity < e.value) {
-			// 		this.$c.toast('当前商品限购' + item.limit_quantity + '件')
-			// 	} else {
-			// 		this.quantity = e.value
-			// 	}
-			// },
 			onShowPassword() {
 				if(!this.paying_mode) {
 					this.$c.toast('请选择支付方式')
@@ -154,7 +147,7 @@
 						// this.$c.goto('/pages/index/web?type=pay')
 						this.$c.quickPay(res.jump_url)
 					} else {
-						this.$c.goto('/pages/point/order')
+						this.from == 'detail' ? this.$c.goto('/pages/point/order', 2) : this.$c.goBack()
 					}
 				}
 			},

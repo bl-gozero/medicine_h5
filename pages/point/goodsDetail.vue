@@ -258,7 +258,9 @@
 						this.$c.goto('/pages/point/order')
 					}
 				} else {
-					this.$c.goto(`/pages/point/pay?id=${id}`)
+					setTimeout(() => {
+						this.$c.goto(`/pages/point/pay?id=${id}&from=detail`)
+					}, 1500)
 				}
 			},
 			onNumChange(e) {

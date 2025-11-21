@@ -1,6 +1,6 @@
 <template>
 	<view class="page bg">
-		<Title title="积分商城" bgColor="transparent" @back="$c.goto('/pages/index/index')" />
+		<Title title="积分商城" bgColor="transparent" @back="$c.goBack()" />
 		<view class="mt-10 plr-20 relative" style="z-index: 2;">
 			<view class="absolute right-0 i-135">
 				<!-- <image src="/static/point/index-top.webp" class=""></image> -->
@@ -105,10 +105,10 @@
 				doSign: null,
 				point_1: 0,
 				showReward: false,
-				reward: 0
+				reward: 0,
  			}
 		},
-		async onLoad() {
+		async onLoad(p) {
 			this.profile = await this.$c.checkeLogin(1)
 			this.getTask()
 			this.getPoint()

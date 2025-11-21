@@ -86,7 +86,7 @@
 		},
 		methods: {
 			async getPerformance() {
-				const res = await this.$c.fetch(this.$api.finance.performance, { year: this.year })
+				const res = await this.$c.fetch(this.$api.finance.performanceList, { year: this.year })
 				if(res) { 
 					this.sales = res.total.sales
 					this.bonus = res.total.bonus

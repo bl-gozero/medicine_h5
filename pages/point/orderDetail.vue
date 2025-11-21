@@ -191,7 +191,6 @@
 		onLoad(p) {
 			if (p.id) this.id = parseInt(p.id)
 			this.$c.removeStorage('address')
-			this.getDetail()
 			this.addressList()
 			this.doCancel = this.$c.onceRequest(this.onCancel)
 			this.doDelete = this.$c.onceRequest(this.onDelete)
@@ -202,6 +201,7 @@
 		onShow() {
 			const address = this.$c.getStorage('address')
 			if(address) this.address = address
+			this.getDetail()
 		},
 		methods: {
 			async getDetail() {
