@@ -1,5 +1,5 @@
 <template>
-	<view class="page bg-page">
+	<view class="page bg-page flex-col">
 		<Title title="团队业绩" />
 		<view class="plr-20">
 			<view class="plr-17 ptb-13 bg rounded-8">
@@ -24,8 +24,9 @@
 					</view>
 				</view>
 			</view>
-			
-			<view class="mt-12 bg-white rounded-8 plr-16 list_box">
+		</view>
+		<view class="flex-1 plr-20 mt-12 relative">
+			<view class="absolute left-20 right-20 top-0 bottom-0 flex-col bg-white rounded-8 plr-16 list_box">
 				<view class="flex-between ptb-17">
 					<text>月绩效</text>
 					<view class="" @click="showTimePicker = !showTimePicker">
@@ -33,32 +34,39 @@
 						<image src="/static/finance/year.png" class="i-14 ml-4"></image>
 					</view>
 				</view>
-				<view v-if="list.length == 0" class="ptb-17 text-center text-info">暂无数据</view>
-				<view v-else class="flex-between ptb-13" v-for="(item, index) in list" :key="index">
-					<view class="">{{item.month}}月</view>
-					<view class="flex-start">
-						<view class="text-center">
-							<view class="fw-7">{{ item.sales }}</view>
-							<view class="fs-10 mt-5">销售业绩(元)</view>
+				<view class="flex-1 relative">
+					<scroll-view scroll-y class="full">
+						<view v-if="list.length == 0" class="h-200 flex-center text-info">暂无数据</view>
+						<view v-else class="flex-between ptb-13" v-for="(item, index) in list" :key="index">
+							<view class="">
+								<view class="">{{ item.month }}</view>
+								<view class="fs-10 mt-5 text-info">{{ item.day_between }}</view>
+							</view>
+							<view class="flex-end">
+								<view class="text-center">
+									<view class="fw-7">{{ item.total_sales }}</view>
+									<view class="fs-10 mt-5 text-info">销售业绩(元)</view>
+								</view>
+								<view class="line"></view>
+								<view class="text-center">
+									<view class="fw-7">{{ item.total_dividends }}</view>
+									<view class="fs-10 mt-5 text-info">绩效分红(元)</view>
+								</view>
+							</view>
 						</view>
-						<view class="line mlr-30"></view>
-						<view class="text-center">
-							<view class="fw-7">{{ item.bonus }}</view>
-							<view class="fs-10 mt-5">绩效分红(元)</view>
-						</view>
-					</view>
+					</scroll-view>
 				</view>
 			</view>
-			<view class="h-60"></view>
 		</view>
-		
-		<u-picker
-		    :columns="columns"
-		    :show="showTimePicker"
-			:confirmColor="$c.baseColor()"
-		    @confirm="onConfirm"
-		    @cancel="showTimePicker = false"
-		></u-picker>
+		<view class="">
+			<u-picker
+			    :columns="columns"
+			    :show="showTimePicker"
+				:confirmColor="$c.baseColor()"
+			    @confirm="onConfirm"
+			    @cancel="showTimePicker = false"
+			></u-picker>
+		</view>
 	</view>
 </template>
 
@@ -88,9 +96,9 @@
 			async getPerformance() {
 				const res = await this.$c.fetch(this.$api.finance.performanceList, { year: this.year })
 				if(res) { 
-					this.sales = res.total.sales
-					this.bonus = res.total.bonus
-					this.list = res.month
+					this.sales = res.total_sales || 0
+					this.bonus = res.total_dividends || 0
+					this.list = res.month || []
 				}
 			},
 			onConfirm(e) {

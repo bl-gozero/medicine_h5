@@ -117,7 +117,6 @@
 			return {
 				profile: this.$c.getStorage('profile') || {},
 				downloadUrl: this.$c.url('dl'),
-				height: 0,
 				qrcode: '',
 				showQr: false,
 				showBtn: false,
@@ -155,13 +154,6 @@
 		},
 		onLoad() {
 			this.qrcode = this.$c.profile().share_url
-		},
-		onReady() {
-			setTimeout(() => {
-				this.$uGetRect('.title-bar').then(res => {
-					this.height = res.height
-				})
-			}, 100)
 		},
 		methods: {
 			async getProfile() {

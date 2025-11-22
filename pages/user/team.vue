@@ -29,34 +29,35 @@
 				<text class="fs-12" style="color: #A26527;">*可显示8层用户</text>
 			</view>
 		</view>
-		<view v-else class="title_box fixed top-0 left-0 pw-100 bg-page" style="z-index: 10;">
+		<view v-else class="">
 			<Title title="他邀请的好友" @back="onBack()" />
 		</view>
-		<view :class="link.length == 1? `h-${height1}` : `h-${height2}`"></view>
 		<view v-if="link.length > 1" class="plr-20 pt-10 pb-20 text-info text-wrap">
 			<text class="name" v-for="(item, index) in link" :key="item.id" :class="{ 'fw-7 text-black': index == link.length - 1 }">{{ item.account }}</text>
 			<text>邀请的好友{{ list.length }}人</text>
 		</view>
-		<view class="flex-1 bg-white plr-20 roundedTop-20">
-			<view class="list_box">
-				<view class="flex-between ptb-17 fs-12" v-for="(item, index) in list" :key="item.id" @click="onFriend(item)">
-					<u-avatar :src="item.avatar" :defaultUrl="$c.userAvatar()" size="36" shape="circle"></u-avatar>
-					<view class="flex-1 mlr-10">
-						<view class="flex-between">
-							<view class="flex-start">
-								<text class="u-line-1 fs-14">{{ item.account }}</text>
-								<view class="level flex-center ml-4" :style="$c.calcLvBg(item)">{{ $c.calcLvName(item) }}</view>
+		<view class="flex-1 bg-white roundedTop-20 relative">
+			<scroll-view scroll-y class="full plr-20">
+				<view class="list_box">
+					<view class="flex-between ptb-17 fs-12" v-for="(item, index) in list" :key="item.id" @click="onFriend(item)">
+						<u-avatar :src="item.avatar" :defaultUrl="$c.userAvatar()" size="36" shape="circle"></u-avatar>
+						<view class="flex-1 mlr-10">
+							<view class="flex-between">
+								<view class="flex-start">
+									<text class="u-line-1 fs-14">{{ item.account }}</text>
+									<view class="level flex-center ml-4" :style="$c.calcLvBg(item)">{{ $c.calcLvName(item) }}</view>
+								</view>
+								<text class="num">他邀请的好友</text>
 							</view>
-							<text class="num">他邀请的好友</text>
+							<view class="flex-between">
+								<view class="text-info mt-5">{{ item.created_at }}</view>
+								<text class="mt-5 num">{{ item.children_count }}人</text>
+							</view>
 						</view>
-						<view class="flex-between">
-							<view class="text-info mt-5">{{ item.created_at }}</view>
-							<text class="mt-5 num">{{ item.children_count }}人</text>
-						</view>
+						<u-icon name="arrow-right" color="#7D7D7D"></u-icon>
 					</view>
-					<u-icon name="arrow-right" color="#7D7D7D"></u-icon>
 				</view>
-			</view>
+			</scroll-view>
 		</view>
 	</view>
 </template>
@@ -82,16 +83,6 @@
 		},
 		onLoad() {
 			this.getFriendList()
-		},
-		onReady() {
-			setTimeout(() => {
-				this.$uGetRect('.title_box').then(res => {
-					this.height1 = res.height
-				})
-				this.$uGetRect('.title-bar').then(res => {
-					this.height2 = res.height
-				})
-			}, 100)
 		},
 		methods: {
 			init() {

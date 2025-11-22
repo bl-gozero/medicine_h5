@@ -1,7 +1,7 @@
 <template>
-	<view class="page bg-page">
-		<view class="top_box fixed top-0 left-0 pw-100 bg-page" style="z-index: 10;">
-			<Title title="积分明细" />
+	<view class="page bg-page flex-col">
+		<Title title="积分明细" />
+		<view class="">
 			<view class="mt-20 plr-20 mt-10 flex-start">
 				<view 
 					class="w-58 h-25 flex-center bg-white mr-10 rounded-x" 
@@ -17,20 +17,13 @@
 						<text class="fs-16 fw-7 mr-4">{{ form.month }}</text>
 						<u-icon name="arrow-down-fill" color="#3D3D3D" size="14"></u-icon>
 					</view>
-					<!-- <view class="mt-10 fs-12">
-						<text v-if="form.mode != 2">收入：</text>
-						<text v-if="form.mode != 2" class="fw-7 mr-32">{{ income }}</text>
-						<text>支出：</text>
-						<text v-if="form.mode != 1" class="fw-7">{{ expense }}</text>
-					</view> -->
 					<image src="/static/point/list.webp" class="absolute right-0 bottom-0 w-108 h-78"></image>
 				</view>
 			</view>
 		</view>
-		<view :class="`h-${height}`"></view>
-		<view class="plr-20">
-			<view class="bg-white">
-				<view class="" v-for="(item, index) in list" :key="index">
+		<view class="flex-1 relative">
+			<scroll-view scroll-y class="full plr-20" @scrolltolower="getList()">
+				<view class="bg-white" v-for="(item, index) in list" :key="index">
 					<view class="plr-11">
 						<view class="border-bottom ptb-15">
 							<view class="flex-between">
@@ -42,7 +35,7 @@
 						</view>
 					</view>
 				</view>
-			</view>
+			</scroll-view>
 		</view>
 		
 		<view class="">
@@ -77,16 +70,6 @@
 			}
 		},
 		onLoad() {
-			this.getList()
-		},
-		onReady() {
-			setTimeout(() => {
-				this.$uGetRect('.top_box').then(res => {
-					this.height = res.height
-				})
-			}, 100)
-		},
-		onReachBottom() {
 			this.getList()
 		},
 		methods: {

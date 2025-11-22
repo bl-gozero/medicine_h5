@@ -22,19 +22,11 @@
 		data() {
 			return {
 				qrcode: '',
-				height: 0
 			}
 		},
 		onLoad() {
 			const profile = this.$c.getStorage('profile') || this.getProfile()
 			if(profile) this.qrcode = this.$baseUrl + '/user/qrcode?referral_code=' +  profile.referral_code
-		},
-		onReady() {
-			setTimeout(() => {
-				this.$uGetRect('.title-bar').then(res => {
-					this.height = res.height
-				})
-			}, 100)
 		},
 		methods: {
 			async getProfile() {

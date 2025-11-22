@@ -591,7 +591,7 @@ const common = {
 	calcLv(data) {
 		if (!data) return 1;
 		const level = Number(data?.level?.id) || 1;
-		const medals = Number(data?.medals?.id) || 1;
+		const medals = level > 3 ? (Number(data?.medals?.id) || 1) : 1;
 		return level + medals - 1
 	},
 	
@@ -617,6 +617,12 @@ const common = {
 			default: return 'background: #D8D8D8'
 		}
 	},
+	
+	sellData(id = 0, account = '') {
+		if(!account) return
+		this.setStorage('sellAccount', { id: Number(id) || 0, account: account })
+		this.goto('/pages/finance/sell')
+	}
 }
 
 export default common

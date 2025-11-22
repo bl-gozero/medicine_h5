@@ -1,36 +1,33 @@
 <template>
-	<view class="page bg-page">
-		<view class="top_box fixed top-0 left-0 pw-100 bg-page" style="z-index: 10;">
-			<Title title="账单明细" />
-			<view class="mt-20 plr-20 mt-10 flex-start">
-				<view 
-					class="w-58 h-25 flex-center bg-white mr-10 rounded-x" 
-					:class="form.mode == item.id && 'text-base fw-7'" 
-					v-for="item in navBar" 
-					:key="item.id"
-					@click="onNav(item.id)"
-				>{{ item.name }}</view>
-			</view>
-			<view class="plr-20 mt-20">
-				<view class="ptb-16 plr-16 roundedTop-14 time relative">
-					<view class="flex-start" @click="showTimePicker = true">
-						<text class="fs-16 fw-7 mr-4">{{ form.month }}</text>
-						<u-icon name="arrow-down-fill" color="#3D3D3D" size="14"></u-icon>
-					</view>
-					<view class="mt-10 fs-12">
-						<text v-if="form.mode != 2">收入：</text>
-						<text v-if="form.mode != 2" class="fw-7 mr-32">{{ income }}</text>
-						<text v-if="form.mode != 1">支出：</text>
-						<text v-if="form.mode != 1" class="fw-7">{{ expense }}</text>
-					</view>
-					<image src="/static/finance/balance_log.png" class="absolute right-11 bottom-0 w-93 h-84"></image>
+	<view class="page bg-page flex-col">
+		<Title title="账单明细" />
+		<view class="mt-20 plr-20 mt-10 flex-start">
+			<view 
+				class="w-58 h-25 flex-center bg-white mr-10 rounded-x" 
+				:class="form.mode == item.id && 'text-base fw-7'" 
+				v-for="item in navBar" 
+				:key="item.id"
+				@click="onNav(item.id)"
+			>{{ item.name }}</view>
+		</view>
+		<view class="plr-20 mt-20">
+			<view class="ptb-16 plr-16 roundedTop-14 time relative">
+				<view class="flex-start" @click="showTimePicker = true">
+					<text class="fs-16 fw-7 mr-4">{{ form.month }}</text>
+					<u-icon name="arrow-down-fill" color="#3D3D3D" size="14"></u-icon>
 				</view>
+				<view class="mt-10 fs-12">
+					<text v-if="form.mode != 2">收入：</text>
+					<text v-if="form.mode != 2" class="fw-7 mr-32">{{ income }}</text>
+					<text v-if="form.mode != 1">支出：</text>
+					<text v-if="form.mode != 1" class="fw-7">{{ expense }}</text>
+				</view>
+				<image src="/static/finance/balance_log.png" class="absolute right-11 bottom-0 w-93 h-84"></image>
 			</view>
 		</view>
-		<view :class="`h-${height}`"></view>
-		<view class="plr-20">
-			<view class="bg-white">
-				<view class="" v-for="(item, index) in list" :key="index">
+		<view class="flex-1 relative">
+			<scroll-view scroll-y class="full plr-20" @scrolltolower="getList()">
+				<view class="bg-white" v-for="(item, index) in list" :key="index">
 					<view class="plr-11">
 						<view class="border-bottom ptb-15">
 							<view class="flex-between">
@@ -42,7 +39,7 @@
 						</view>
 					</view>
 				</view>
-			</view>
+			</scroll-view>
 		</view>
 		
 		<view class="">
@@ -73,22 +70,11 @@
 				income: 0,
 				expense: 0,
 				showTimePicker: false,
-				height: 0
 			}
 		},
 		onLoad() {
 			this.getList()
 			this.doAvatar = this.$c.onceRequest(this.onAvatarEdit)
-		},
-		onReady() {
-			setTimeout(() => {
-				this.$uGetRect('.top_box').then(res => {
-					this.height = res.height
-				})
-			}, 100)
-		},
-		onReachBottom() {
-			this.getList()
 		},
 		methods: {
 			async getList() {

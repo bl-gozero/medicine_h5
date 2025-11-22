@@ -124,7 +124,6 @@
 		data() {
 			return {
 				page: 1,
-				height: 0,
 				list: [],
 				doAdd: null,
 				doDelete: null,
@@ -138,13 +137,6 @@
 			this.doAdd = this.$c.onceRequest(this.onBind)
 			this.doDelete = this.$c.onceRequest(this.onDelete)
 			if(p.from) this.from = p.from
-		},
-		onReady() {
-			setTimeout(() => {
-				this.$uGetRect('.title-bar').then(res => {
-					this.height = res.height
-				})
-			}, 100)
 		},
 		methods: {
 			async getList() {

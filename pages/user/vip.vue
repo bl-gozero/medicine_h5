@@ -161,7 +161,7 @@
 							</view>
 						</view>
 						<view class="pw-24">
-							<view class="flex-end" @click="$c.goto(switcher == 4? '/pages/finance/performance' : '/pages/finance/sell')">
+							<view class="flex-end" @click="switcher == 4 ? $c.goto('/pages/finance/performance') : $c.sellData(0, profile.account)">
 								<text class="fs-12">历史数据</text>
 								<u-icon name="arrow-right" color="#9F9F9F" size="13"></u-icon>
 							</view>
@@ -365,6 +365,7 @@
 		async onLoad() {
 			this.profile = await this.$c.checkeLogin(1)
 			if (this.profile.direct) this.level_list[2].count = this.profile.direct
+			// if (this.profile.spread_count) this.level_list[2].count = this.profile.spread_count
 			if (this.profile.direct_vip) this.level_list[3].count = this.profile.direct_vip
 			if (this.profile.team_partners_count) this.level_list[4].count = this.profile.team_partners_count
 			if (this.profile.team_bronze_count) this.level_list[5].count = this.profile.team_bronze_count

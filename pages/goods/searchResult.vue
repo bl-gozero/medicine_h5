@@ -4,11 +4,13 @@
 			<Title :isBlank="true"></Title>
 			<view class="flex-between plr-20 border-box">
 				<image src="/static/icon/back.png" class="i-24 mr-23" @click="$c.goBack()"></image>
-				<u-search v-model="search.name" placeholder="" bgColor="#fff" :showAction="false" @focus="$c.goBack()"></u-search>
+				<u-search v-model="search.name" placeholder="" bgColor="#fff" :showAction="false"
+					@focus="$c.goBack()"></u-search>
 			</view>
 		</view>
 		<view :class="`pt-${height}`">
-			<view class="rounded-12 bg-white ptb-13 plr-16 border-box flex-between mb-12" v-for="item in list" :key="item.id" @click="$c.goto('/pages/goods/detail?id=' + item.id)">
+			<view class="rounded-12 bg-white ptb-13 plr-16 border-box flex-between mb-12" v-for="item in list"
+				:key="item.id" @click="$c.goto('/pages/goods/detail?id=' + item.id)">
 				<image :src="item.picture" class="i-76 rounded-12" mode="aspectFill"></image>
 				<view class="flex-1 ml-8">
 					<view class="flex-between">
@@ -37,10 +39,19 @@
 <script>
 	import Title from '../../components/Title.vue'
 	export default {
-		components: { Title },
+		components: {
+			Title
+		},
 		data() {
 			return {
-				search: { page: 1, limit: 10, name: '', is_level_valid: 0, is_integral: 2, load: 'more' },
+				search: {
+					page: 1,
+					limit: 10,
+					name: '',
+					is_level_valid: 0,
+					is_integral: 2,
+					load: 'more'
+				},
 				list: [],
 				level: 0,
 				height: 0
@@ -51,38 +62,40 @@
 			if (obj && Object.keys(obj).length > 0) {
 				this.level = obj.level.id
 			}
-			if(p.name || p.is_level_valid == 1) {
-				if(p.name) this.search.name = p.name
-				if(p.is_level_valid == 1) this.search.is_level_valid = 1
+			if (p.name || p.is_level_valid == 1) {
+				if (p.name) this.search.name = p.name
+				if (p.is_level_valid == 1) this.search.is_level_valid = 1
 				this.getProfile()
 				this.getGoods()
 			}
 		},
 		onReady() {
-			setTimeout(() => {
-				this.$uGetRect('.title_box').then(res => {
-					this.height = res.height
+			this.$nextTick(() => {
+				this.$nextTick(() => {
+					this.$uGetRect('.title_box').then(res => {
+						this.height = res.height
+					})
 				})
-			}, 100)
+			})
 		},
 		onReachBottom() {
 			this.getGoods()
 		},
 		methods: {
 			async getGoods() {
-				if(this.search.load != 'more') return
+				if (this.search.load != 'more') return
 				this.search.load = 'loading'
 				const res = await this.$c.fetch(this.$api.goods.goodsList, this.search)
-				if(res) {
+				if (res) {
 					this.list = [...this.list, ...res]
 					this.search.load = res.length >= this.search.limit ? 'more' : 'end'
 					this.search.page++
 				}
-				if(this.search.load != 'end') this.search.load = 'more'
+				if (this.search.load != 'end') this.search.load = 'more'
 			},
 			async getProfile() {
 				const res = await this.$c.fetch(this.$api.user.getProfile)
-				if(res) {
+				if (res) {
 					this.level = res.level.id
 					this.$c.setStorage('profile', res)
 				}
@@ -92,5 +105,5 @@
 </script>
 
 <style>
-	
+
 </style>

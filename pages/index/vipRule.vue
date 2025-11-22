@@ -29,20 +29,12 @@
 		data() {
 			return {
 				value: 2,
-				height: 0,
 				rule: '',
 				navImg: ['/static/index/rule_vip.png', '/static/index/rule_partner.png']
 			}
 		},
 		onLoad() {
 			this.getUrl()
-		},
-		onReady() {
-			setTimeout(() => {
-				this.$uGetRect('.title-bar').then(res => {
-					this.height = res.height
-				})
-			}, 100)
 		},
 		methods: {
 			onSwitch(n) {

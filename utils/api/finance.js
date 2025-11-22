@@ -27,5 +27,8 @@ export default {
 	},
 	transfer(data = {}, config = {}) {
 		return request.post('/user/transfer', data, { loading: true, ...config  })
+	},
+	sellList(data = {}, config = {}) {
+		return request.post('/user_team/person_list', data, { loading: true, ...config  })
 	}
 }

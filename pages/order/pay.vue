@@ -62,9 +62,9 @@
 				<Payment v-model="paying_mode"></Payment>
 			</view>
 		</view>
-		<u-button class="w-279 h-41 bg-base-change fw-7 text-white mt-10" shape="circle"
-			text="立即支付" @click="onShowPassword()"></u-button>
-			
+		<u-button class="w-279 h-41 bg-base-change fw-7 text-white mt-10" shape="circle" text="立即支付"
+			@click="onShowPassword()"></u-button>
+
 		<!-- 密码 -->
 		<u-popup :show="showPassword" mode="bottom" round="20" closeable @close="showPassword = false">
 			<view class="plr-20 pt-50 pb-70 text-center">
@@ -75,14 +75,8 @@
 				</view>
 				<view class="mt-28 fw-7 text-left">请输入交易密码</view>
 				<view class="mt-20">
-					<u-code-input 
-						v-model="password" 
-						:maxlength="6" 
-						:focus="true"
-						:color="$c.baseColor()"
-						borderColor="#EAEAEA"
-						dot 
-						@finish="doPay"></u-code-input>
+					<u-code-input v-model="password" :maxlength="6" :focus="true" :color="$c.baseColor()"
+						borderColor="#EAEAEA" dot @finish="doPay"></u-code-input>
 				</view>
 			</view>
 		</u-popup>
@@ -92,7 +86,7 @@
 <script>
 	import Title from '../../components/Title.vue'
 	import Payment from '../../components/Payment.vue'
-	
+
 	export default {
 		components: {
 			Title,
@@ -100,12 +94,14 @@
 		},
 		data() {
 			return {
-				top: 0,
 				id: 0,
 				order: {},
 				showPassword: false,
 				password: '',
-				cateList: [{ id: 4, value: '余额' }],
+				cateList: [{
+					id: 4,
+					value: '余额'
+				}],
 				paying_mode: '',
 				doPay: null
 			}
@@ -119,15 +115,7 @@
 			}
 			this.doPay = this.$c.onceRequest(this.onPay)
 		},
-		onShow() {
-		},
-		onReady() {
-			setTimeout(() => {
-				this.$uGetRect('.title-bar').then(res => {
-					this.top = res.height
-				})
-			}, 100)
-		},
+		onShow() {},
 		methods: {
 			// onNumChange(e) {
 			// 	const item = this.order.details[e.name]
@@ -138,7 +126,7 @@
 			// 	}
 			// },
 			onShowPassword() {
-				if(!this.paying_mode) {
+				if (!this.paying_mode) {
 					this.$c.toast('请选择支付方式')
 					return
 				}
@@ -164,8 +152,8 @@
 					paying_mode: this.paying_mode,
 					password: this.password
 				})
-				if(res) {
-					if(res.jump_url) {
+				if (res) {
+					if (res.jump_url) {
 						// this.$c.setStorage('web', { title: '支付', src: res.jump_url })
 						// this.$c.goto('/pages/index/web?type=pay')
 						this.$c.quickPay(res.jump_url)
@@ -191,5 +179,5 @@
 </script>
 
 <style lang="scss" scoped>
-	
+
 </style>

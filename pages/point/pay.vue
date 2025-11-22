@@ -80,7 +80,6 @@
 		},
 		data() {
 			return {
-				top: 0,
 				id: 0,
 				order: {},
 				showPassword: false,
@@ -104,13 +103,6 @@
 			this.doPay = this.$c.onceRequest(this.onPay)
 		},
 		onShow() {
-		},
-		onReady() {
-			setTimeout(() => {
-				this.$uGetRect('.title-bar').then(res => {
-					this.top = res.height
-				})
-			}, 100)
 		},
 		methods: {
 			onShowPassword() {

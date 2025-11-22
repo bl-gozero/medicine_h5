@@ -3,10 +3,6 @@
 		<view class="title_box fixed flex-between pb-15 plr-20 pw-100 border-box" :class="`pt-${$c.barHeight()}`" style="z-index: 10;background: #519296;">
 			<image src="/static/common/logo.gif" class="w-73 h-32 mr-11"></image>
 			<view class="flex-end">
-				<!-- <view class="w-192 h-35 bg-white rounded-x plr-11 flex-start ptb-12 border-box">
-					<u-icon name="search" color="#1A7E84" size="15"></u-icon>
-					<text class="text-base fs-12 lh-14 fw-4 ml-7">输入药品名称</text>
-				</view> -->
 				<view class="w-192">
 					<u-search v-model="name" placeholder="输入药品名称" :searchIconColor="$c.baseColor()" :placeholderColor="$c.baseColor()" bgColor="#fff" :showAction="false"></u-search>
 				</view>
@@ -192,11 +188,13 @@
 			this.getPointList()
 		},
 		onReady() {
-			setTimeout(() => {
-				this.$uGetRect('.title_box').then(res => {
-					this.height = res.height
-				})
-			}, 100)
+			this.$nextTick(() => {
+			    this.$nextTick(() => {
+					this.$uGetRect('.title_box').then(res => {
+						this.height = res.height
+					})
+			    })
+			})
 		},
 		onReachBottom() {
 			this.getGoods()

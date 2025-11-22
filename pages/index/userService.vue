@@ -22,18 +22,10 @@
 		data() {
 			return {
 				img: '',
-				height: 0
 			}
 		},
 		onLoad() {
 			this.getImages()
-		},
-		onReady() {
-			setTimeout(() => {
-				this.$uGetRect('.title-bar').then(res => {
-					this.height = res.height
-				})
-			}, 100)
 		},
 		methods: {
 			async getImages() {

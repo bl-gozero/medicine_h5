@@ -18,7 +18,7 @@
 						color: this.$c.baseColor()
 					}
 				},
-				top: 0,
+				top: 55,
 				web: { title: '', src: '' }
 			}
 		},
@@ -29,18 +29,10 @@
 					this.web = web
 				}
 			} else {
-				// this.web = { title: '在线客服', src: this.$c.cs() }
 				this.web = { title: '在线客服', src: this.$c.cs() }
 				window.open(this.$c.cs(), '_blank')
 				this.$c.goBack()
 			}
-		},
-		onReady() {
-			setTimeout(() => {
-				this.$uGetRect('.title-bar').then(res => {
-					this.top = res.height
-				})
-			}, 100)
 		},
 		methods: {
 		}

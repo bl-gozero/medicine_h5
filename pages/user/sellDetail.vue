@@ -2,7 +2,7 @@
 	<view class="page bg-page flex-col">
 		<Title title="他的销售数据" fixed>
 			<template v-slot:right>
-				<view class="lh-10 fs-12" @click="$c.goto(`/pages/finance/sell?account=${info.account}`)">历史数据</view>
+				<view v-if="info.id" class="lh-10 fs-12" @click="$c.sellData(info.id, info.account)">历史数据</view>
 			</template>
 		</Title>
 		<view v-if="info.account" class="flex-1 mt-50 bg-white roundedTop-20 plr-20">
@@ -70,9 +70,11 @@
 				info: {},
 			}
 		},
-		onLoad(p) {
+		async onLoad(p) {
 			const id = Number(p?.id)
-			if (Number.isInteger(id) && id > 0) this.getInfo(id)
+			if (Number.isInteger(id) && id > 0) {
+				this.getInfo(id)
+			}
 		},
 		methods: {
 			async getInfo(id) {

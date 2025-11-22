@@ -2,14 +2,14 @@
 	<view class="page bg-page">
 		<view v-if="page == 1" class="">
 			<Title title="账户绑定管理" :fixed="true" />
-			<view class="page bg-white border-box" :class="`pt-${height}`">
+			<view class="page bg-white border-box">
 				<view v-if="load" class="">
 					<view v-if="list.length == 0" class="pt-100 text-center">
 						<image src="/static/pay/card/empty.png" class="w-160 h-98"></image>
 						<view class="fs-12 mt-39">您还未绑定任何账户，请新增绑定账户</view>
 					</view>
 					<view v-else class="plr-20">
-						<view class="mt-17" v-for="item in list" :key="item.id">
+						<view class="pt-17" v-for="item in list" :key="item.id">
 							<view class="flex-between">
 								<view class="flex-start">
 									<image :src="`/static/pay/icon/${item.category.id}.png`" class="i-18 mr-10"></image>
@@ -48,7 +48,7 @@
 		</view>
 		<view v-else>
 			<Title :title="(form.category == 3? '' : '绑定') + form.value" :fixed="true" @back="page = 1" />
-			<view class="plr-20" :class="`pt-${height}`">
+			<view class="plr-20">
 				<view class="">
 					<view class="mt-10">{{ form.category == 3? '持卡人' : '姓名' }}</view>
 					<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
@@ -147,7 +147,6 @@
 		data() {
 			return {
 				page: 1,
-				height: 0,
 				category: 0,
 				list: [],
 				doAdd: null,
@@ -168,13 +167,6 @@
 			this.getCateList()
 			this.doAdd = this.$c.onceRequest(this.onBind)
 			this.doDelete = this.$c.onceRequest(this.onDelete)
-		},
-		onReady() {
-			setTimeout(() => {
-				this.$uGetRect('.title-bar').then(res => {
-					this.height = res.height
-				})
-			}, 100)
 		},
 		methods: {
 			onConfirm(e) {
