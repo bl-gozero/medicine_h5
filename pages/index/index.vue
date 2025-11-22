@@ -186,6 +186,7 @@
 			this.getBanner()
 			this.getGoods()
 			this.getPointList()
+			this.$c.removeStorage('sellAccount')
 		},
 		onReady() {
 			this.$nextTick(() => {
