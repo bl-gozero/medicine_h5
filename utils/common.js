@@ -143,6 +143,10 @@ const common = {
 			uni.redirectTo({
 				url
 			})
+		} if(type == 3) {
+			uni.reLaunch({
+				url
+			})
 		} else {
 			uni.navigateTo({
 				url
@@ -340,7 +344,8 @@ const common = {
 		const profile = this.getStorage('profile')
 		if (!jwt || !profile || Object.keys(profile).length === 0) {
 			this.toast('请先登录')
-			this.goto('/pages/index/login')
+			this.goto('/pages/index/login', 3)
+			return false
 		}
 		if (type) {
 			await this.getProfile()
@@ -439,11 +444,14 @@ const common = {
 
 	checkNim() {
 		const pages = getCurrentPages()
-		const currentPage = pages[pages.length - 1]
-		const current = '/' + currentPage.route
 		const arr = ['/pages/index/launch', '/pages/index/login', '/pages/index/index', '/pages/index/index',
 			'/pages/index/register', '/pages/web/register', '/pages/web/download'
 		]
+		let current = ''
+		if(pages.length) {
+			const currentPage = pages[pages.length - 1]
+			current = '/' + currentPage.route
+		}
 		const aotuLogin = arr.indexOf(current) > -1 ? false : true
 		nimReady(aotuLogin)
 	},

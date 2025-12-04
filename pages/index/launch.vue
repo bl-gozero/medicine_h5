@@ -24,7 +24,7 @@
 		},
 		onLoad(p) {
 			setTimeout(() => {
-				this.$c.goto('/pages/index/index')
+				this.$c.goto('/pages/index/login')
 			}, 2000)
 		},
 		onShow() {

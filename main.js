@@ -8,12 +8,14 @@ import uView from '@/uni_modules/uview-ui'
 import './uni.promisify.adaptor'
 import env from '@/utils/env'
 import UConfirm from '@/utils/confirm'
+import $know from '@/utils/know.js'
 
 Vue.config.productionTip = false
 
 Vue.prototype.$c = common
 Vue.prototype.$api = api
 Vue.prototype.$baseUrl = env.BASE_URL
+Vue.prototype.$know = $know
 Vue.prototype.$confirm = function(options) {
 	// 兼容简写：this.$confirm('内容')
 	if (typeof options === 'string') {

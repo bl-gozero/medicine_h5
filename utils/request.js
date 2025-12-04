@@ -12,10 +12,9 @@ function request({
 	showErr = true
 }) {
 	const jwt = uni.getStorageSync('jwt')
-
-	if (loading) {
-		uni.showLoading({ mask: true })
-	}
+	if(auth && !jwt) return false
+	
+	if (loading) uni.showLoading({ mask: true })
 
 	return new Promise((resolve, reject) => {
 		uni.request({
@@ -24,7 +23,7 @@ function request({
 			data,
 			header: {
 				'Content-Type': 'application/json',
-				...(auth && jwt ? {
+				...(jwt ? {
 					Authorization: `Bearer ${jwt}`
 				} : {}),
 				...header

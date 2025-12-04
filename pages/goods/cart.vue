@@ -92,16 +92,14 @@
 				return total.toFixed(2)
 			}
 		},
-		onLoad() {
-			this.$c.checkeLogin()
+		async onLoad() {
+			if(!await this.$c.checkeLogin()) return
 			this.getProfile()
+			this.getList()
 			this.addressList()
 			this.doEdit = this.$c.onceRequest(this.onEdit)
 			this.doBuy = this.$c.onceRequest(this.onBuy)
 			this.doDelete = this.$c.onceRequest(this.onDelete)
-		},
-		onShow() {
-			this.getList()
 		},
 		onReady() {
 			this.$nextTick(() => {
@@ -120,13 +118,7 @@
 			async getList() {
 				const res = await this.$c.fetch(this.$api.goods.cartList)
 				if (res) {
-					res.map(item => {
-						item.status = false
-						// if(item.quantity > item.limit_quantity) {
-						// 	item.quantity = item.limit_quantity || 1
-						// 	this.onLimit(item)
-						// }
-					});
+					res.map(item => { item.status = false });
 					this.list = res
 				}
 			},
@@ -150,10 +142,6 @@
 			async onEdit(e) {
 				const item = this.list.find(item => item.id == e.name)
 				if(!item) return
-				// if(item.limit_quantity && item.limit_quantity < e.value) {
-				// 	this.$c.toast('当前商品限购' + item.limit_quantity + '件')
-				// 	e.value = item.limit_quantity
-				// }
 				const res = await this.$c.fetch(this.$api.goods.cartEdit, {
 					id: e.name,
 					quantity: e.value

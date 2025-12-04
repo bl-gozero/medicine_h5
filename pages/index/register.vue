@@ -222,10 +222,10 @@
 				let nimInfo = this.$c.getStorage('nimInfo') || {}
 				if(!nimInfo.appkey) {
 					const res1 = await this.$c.fetch(this.$api.group.config)
-					if(res1) nimInfo.appkey = res1.app_key
+					if(res1?.app_key) nimInfo.appkey = res1.app_key
 				}
 				const res2 = await this.$c.fetch(this.$api.group.login)
-				if(res2) {
+				if(res2?.account_id) {
 					this.$c.setStorage('nimInfo', { ...nimInfo,
 						account: res2.account_id,
 						token: res2.token,

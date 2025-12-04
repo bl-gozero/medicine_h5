@@ -77,9 +77,12 @@ export default {
 		return request.post('/warehouse_mailing/receiving', data, { loading: true, ...config })
 	},
 	storeBuyList(data = {}, config = {}) {
-		return request.post('/warehouse_mailing/list', data, { ...config })
+		return request.post('/warehouse/buyback_yes', data, { ...config })
 	},
 	priceLog(data = {}, config = {}) {
 		return request.post('/goods_sku_price_logs/list', data, { ...config })
+	},
+	storeBuy(data = {}, config = {}) {
+		return request.post('/warehouse/buyback', data, { loading: true, ...config })
 	}
 }

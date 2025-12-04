@@ -181,18 +181,15 @@
 			}
 		},
 		onLoad() {
-			this.$c.checkeLogin()
-			this.getSignStatus()
 			this.doSign = this.$c.onceRequest(this.onSign)
 		},
-		onShow() {
+		async onShow() {
+			await this.$c.checkeLogin()
 			this.getProfile()
-			// this.getOrderNum()
 			if (this.is_sign !== true) this.getSignStatus()
 		},
 		methods: {
 			onWithdraw() {
-				// this.$c.toast('功能正在开发中')
 				this.$c.goto('/pages/finance/withdraw')
 			},
 			async getProfile() {

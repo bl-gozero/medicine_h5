@@ -47,8 +47,10 @@
 		methods: {
 			setCurrentPath() {
 				const pages = getCurrentPages()
-				const currentPage = pages[pages.length - 1]
-				this.current = '/' + currentPage.route
+				if(pages.length) {
+					const currentPage = pages[pages.length - 1]
+					this.current = '/' + currentPage.route
+				}
 			},
 			switchTab(item) {
 				if (item.pagePath !== this.current) {

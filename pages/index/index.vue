@@ -174,19 +174,22 @@
 				showClose: false
 			}
 		},
-		onLoad() {
-			const obj = this.$c.getStorage('profile')
-			if (obj && Object.keys(obj).length > 0) {
+		async onLoad() {
+			const obj = await this.$c.checkeLogin(1)
+			if (obj && Object.keys(obj).length) {
 				this.level = obj.level.id
-				this.getProfile()
 				const index_pop = this.$c.getStorage('index_pop')
 				if(!index_pop) this.getActivity()
+				
+				this.searchHistory = this.$c.getStorage('searchHistory') || []
+				this.getBanner()
+				this.getGoods()
+				this.getPointList()
+				this.$c.removeStorage('sellAccount')
 			}
-			this.searchHistory = this.$c.getStorage('searchHistory') || []
-			this.getBanner()
-			this.getGoods()
-			this.getPointList()
-			this.$c.removeStorage('sellAccount')
+		},
+		onShow() {
+			this.$c.checkeLogin()
 		},
 		onReady() {
 			this.$nextTick(() => {
@@ -229,13 +232,6 @@
 						this.$c.setStorage('searchHistory', this.searchHistory)
 					}
 					this.$c.goto('/pages/goods/searchResult?name=' + this.name)
-				}
-			},
-			async getProfile() {
-				const res = await this.$c.fetch(this.$api.user.getProfile)
-				if(res) {
-					this.level = res.level.id
-					this.$c.setStorage('profile', res)
 				}
 			},
 			async getBanner() {
