@@ -12,7 +12,7 @@
 			<view class="bg-white rounded-14 ptb-20 plr-16 fs-12 mt-12">
 				<view class="flex-between">
 					<view class="">领取时间</view>
-					<view class="ml-20 flex-1 text-info">2024-07-30 11:44:29</view>
+					<view class="ml-20 flex-1 text-info">{{ info.created_at }}</view>
 				</view>
 				<view class="flex-between mt-20">
 					<view class="self-start">收件地址</view>
