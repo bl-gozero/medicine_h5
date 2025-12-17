@@ -138,8 +138,8 @@
 					},
 					{
 						id: 2,
-						name: '每月领一箱鸡蛋',
-						img: '/static/task/task_egg.webp',
+						name: '每月领一箱礼品',
+						img: '/static/task/egg_rice.webp',
 						text: '做任务',
 						url: '/pages/activity/egg',
 						is_new: false

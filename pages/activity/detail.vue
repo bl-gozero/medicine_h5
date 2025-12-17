@@ -4,8 +4,9 @@
 		<view v-if="load" class="plr-20 mt-10">
 			<view class="bg-white rounded-14 pt-40 pb-25 text-center">
 				<view class="">
-					<image v-if="event_id == 2" src="/static/avtivity/egg/egg.webp" class="w-115 h-73"></image>
-					<image v-if="event_id == 1" src="/static/avtivity/new/goods.webp" class="i-84"></image>
+					<!-- <image v-if="info.commodity && info.commodity.id" src="/static/avtivity/egg/egg.webp" class="w-115 h-73"></image>
+					<image v-if="event_id == 1" src="/static/avtivity/new/goods.webp" class="i-84"></image> -->
+					<image v-if="info.goods" :src="info.goods.img" :class="info.goods.class"></image>
 				</view>
 				<view class="mt-20 fs-16">领取成功</view>
 			</view>
@@ -25,19 +26,25 @@
 					</view>
 				</view>
 				<view class="flex-between mt-20">
-					<view class="self-start">物流信息</view>
-					<view v-if="info.number" class="ml-20 flex-1 text-info">
-						<view class="">
-							<text>{{ info.number }}</text>
-							<text class="mlr-5">|</text>
-							<text style="color: #1575F6;" @click="$c.copy(info.number)">复制</text>
+					<view class="">物流信息</view>
+					<view v-if="info.number" class="mlr-20 flex-1 text-info">
+						<view class="flex-between">
+							<view class="flex-1 self-start">
+								<text class="">{{ info.number }}</text>
+								<text class="mlr-5">|</text>
+								<text style="color: #1575F6;" @click="$c.copy(info.number)">复制</text>
+							</view>
+							<!-- <u-button class="w-52 h-23 bg-base text-white fs-12 m-0 ml-10 p-0" shape="circle"
+								@click="$c.goto('/pages/index/express', 1, { id: info.id, mode: 2, number: info.number })">查询</u-button> -->
 						</view>
-						<view v-if="express.AcceptStation" class="lh-15 mt-15 fs-12 text-info">
+						<!-- <view v-if="express.AcceptStation" class="lh-15 mt-15 fs-12 text-info">
 							<view class="">{{ express.AcceptTime }}</view>
 							<view class="mt-8" style="word-wrap: break-word;word-break: break-all;">{{ express.AcceptStation }}</view>
-						</view>
+						</view> -->
 					</view>
 					<view v-else class="ml-20 flex-1 text-info">暂无</view>
+					<u-button v-if="info.number" class="w-52 h-23 bg-base text-white fs-12 m-0 ml-10 p-0" shape="circle"
+						@click="$c.goto('/pages/index/express', 1, { id: info.id, mode: 2, number: info.number })">查询</u-button>
 				</view>
 			</view>
 		</view>
@@ -56,7 +63,29 @@
 				event_id: 0,
 				id: 1,
 				load: false,
-				express: {}
+				express: {},
+				items: [{
+						id: 1,
+						event_id: 1,
+						name: '北朝鲜山参',
+						img: '/static/avtivity/new/goods.webp',
+						class: 'i-84'
+					},
+					{
+						id: 2,
+						event_id: 2,
+						name: '北辰优选初生鸡蛋',
+						img: '/static/avtivity/egg/img_egg.webp',
+						class: 'w-121 h-63'
+					},
+					{
+						id: 3,
+						event_id: 3,
+						name: '北辰优选东北大米',
+						img: '/static/avtivity/egg/img_rice.webp',
+						class: 'w-109 h-87'
+					},
+				],
 			}
 		},
 		onLoad(p) {
@@ -70,9 +99,11 @@
 					id: this.id,
 					event_id: this.event_id
 				})
-				if(res) { 
+				if (res) {
 					this.info = res
-					if(res.number) this.express = await this.$c.getExpress(res.id , 2)
+					this.info.goods = res.commodity ? this.items.find(i => i.id == res.commodity.id) : this.items.find(
+						i => i.event_id == this.event_id)
+					// if(res.number) this.express = await this.$c.getExpress(res.id , 2)
 					this.load = true
 				}
 			},

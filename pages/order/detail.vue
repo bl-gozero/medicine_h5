@@ -15,14 +15,18 @@
 						<view class="ml-11 flex-1">
 							<view>物流信息</view>
 							<view v-if="order.waybill_number" class="mt-10 flex-between ">
-								<text class="fs-12 text-info">{{ order.waybill_number }}</text>
-								<image src="/static/order/copy.png" class="i-12" @click="$c.copy(order.waybill_number)"></image>
+								<view class="flex-start" @click="$c.copy(order.waybill_number)">
+									<text class="fs-12 text-info">{{ order.waybill_number }}</text>
+									<image src="/static/order/copy.png" class="i-12 ml-10"></image>
+								</view>
+								<u-button class="w-52 h-23 bg-base text-white fs-12 self-start m-0 ml-10 p-0" shape="circle"
+									@click="$c.goto('/pages/index/express', 1, { id: order.id, mode: 1, number: order.waybill_number })">查询</u-button>
 							</view>
 							<view v-else class="mt-10 fs-12 text-info">暂无信息</view>
-							<view v-if="express.AcceptStation" class="lh-15 mt-15 fs-12 text-info">
+							<!-- <view v-if="express.AcceptStation" class="lh-15 mt-15 fs-12 text-info">
 								<view class="">{{ express.AcceptTime }}</view>
 								<view class="mt-8">{{ express.AcceptStation }}</view>
-							</view>
+							</view> -->
 						</view>
 					</view>
 					<view class="flex-between mt-23">
@@ -228,7 +232,7 @@
 				})
 				if (res) {
 					this.order = res
-					if(res.waybill_number) this.express = await this.$c.getExpress(res.id, 1)
+					// if(res.waybill_number) this.express = await this.$c.getExpress(res.id, 1)
 					this.load = true
 				}
 			},

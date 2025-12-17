@@ -2,7 +2,7 @@ import request from '../request'
 
 export default {
 	goodsList(data = {}, config = {}) {
-		return request.post('/goods/list', { is_integral: 2, ...data }, { auth: false, ...config })
+		return request.post('/goods/list', { is_integral: 2, ...data }, { ...config })
 	},
 	goodsDetail(data) {
 		return request.post('/goods/details', data)

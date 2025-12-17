@@ -449,6 +449,12 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/index/express",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
 		// {
 		// 	"path": "pages/store/detailForTransfer",

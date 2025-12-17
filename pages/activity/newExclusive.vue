@@ -110,7 +110,8 @@
 				this.showAddress = false
 				const res = await this.$c.fetch(this.$api.user.activityAddress, {
 					id: this.event_id,
-					address_id: this.address.id
+					address_id: this.address.id,
+					commodity: 1
 				})
 				if(res) {
 					this.$c.toast('提交成功')

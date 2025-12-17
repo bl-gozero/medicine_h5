@@ -13,7 +13,7 @@
 								<text class="ml-6">{{ item.phone }}</text>
 							</view>
 						</view>
-						<view class="text-center" @click="onPage(item)">
+						<view class="text-center" @click="onPage(item, 2)">
 							<image src="/static/icon/edit.png" class="i-15"></image>
 							<view class="mt-7 text-info">编辑</view>
 						</view>
@@ -44,7 +44,7 @@
 			</view>
 		</view>
 		<view v-else>
-			<Title title="添加地址" :fixed="true" @back="page = 1" />
+			<Title :title="mode == 1 ? '添加地址' : '编辑地址'" :fixed="true" @back="page = 1" />
 			<view class="plr-20">
 				<view class="bg-white rounded-8 plr-14">
 					<view class="ptb-18 border-bottom flex-between">
@@ -104,7 +104,7 @@
 				<u-button
 					class="bg-base fw-7 fs-14 text-white w-224 h-43"
 					shape="circle"
-					text="确定添加"
+					text="确定"
 					@click="doAdd"
 				></u-button>
 			</view>
@@ -129,7 +129,8 @@
 				doDelete: null,
 				load: false,
 				form: { id: 0, name: '', phone: '', district: '', address: '', is_default: 0 },
-				from: ''
+				from: '',
+				mode: 1
 			}
 		},
 		onLoad(p) {
@@ -174,7 +175,8 @@
 				const res = await this.$c.fetch(this.$api.user.addressEdit, item)
 				if(res) this.getList()
 			},
-			onPage(item = null) {
+			onPage(item = null, mode = 1) {
+				this.mode = mode
 				this.form = { name: '', phone: '', district: '', address: '', is_default: 0 }
 				if(item) {
 					this.form = {...this.form, ...item }

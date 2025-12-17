@@ -136,7 +136,7 @@ const common = {
 	/**
 	 * 跳转封装（防止重复点击）
 	 */
-	goto(url, type = 1) {
+	goto(url, type = 1, data = null) {
 		if (!url) return
 		if (type == 2) {
 			// 关闭此页面跳转
@@ -149,7 +149,10 @@ const common = {
 			})
 		} else {
 			uni.navigateTo({
-				url
+				url: url,
+				success(res) {
+				    data && res.eventChannel.emit('pageData', data)
+				}
 			})
 		}
 	},
@@ -555,7 +558,7 @@ const common = {
 			id: id,
 			mode: mode
 		})
-		if (res) return res || {}
+		if (res) return res || []
 	},
 
 	formatTime(timestamp) {

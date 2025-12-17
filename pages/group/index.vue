@@ -36,7 +36,7 @@
 					</swiper-item>
 					<swiper-item v-if="1 || showEgg">
 						<view class="flex-center" @click="$c.goto('/pages/activity/egg')">
-							<PlayImg path="group_activity/egg/2" :interval="50" :length="20" type="webp" />
+							<PlayImg path="group_activity/egg_rice/4" :interval="50" :length="20" type="webp" />
 						</view>
 					</swiper-item>
 					<swiper-item>

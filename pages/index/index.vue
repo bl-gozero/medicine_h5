@@ -132,11 +132,11 @@
 		>
 			<view class="text-center vw-100 relative" >
 				<PlayImg
-					path="index_egg/1/1"
+					path="index_egg_rice/1/1"
 					:interval="40"
 					:length="25"
 					:loop="false"
-					path2="index_egg/2/1"
+					path2="index_egg_rice/2/1"
 					:interval2="40"
 					:length2="25"
 					:start2="25"
