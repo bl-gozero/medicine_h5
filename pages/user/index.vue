@@ -5,7 +5,7 @@
 				<image src="/static/icon/set.webp" class="i-20" @click="$c.goto('/pages/user/settings')"></image>
 				<image src="/static/icon/qr.webp" class="i-20 ml-14" @click="$c.goto('/pages/user/qrcode')"></image>
 			</view>
-			<view class="flex-center">
+			<view v-if="$c.mode()" class="flex-center">
 				<view class="relative mt-30">
 					<image :src="`/static/vip/user_index/bg_level_${$c.calcLv(profile)}.webp`" class="w-351 h-126"
 						mode="widthFix"></image>
@@ -24,8 +24,12 @@
 						style="bottom: 3%;" @click="$c.goto('/pages/user/vip')"></image>
 				</view>
 			</view>
+			<view v-else class="flex-start plr-20">
+				<u-avatar :src="profile.avatar" size="80" :default-url="$c.userAvatar()"></u-avatar>
+				<view class="fs-16 u-line-1 ml-15">{{ profile.account }}</view>
+			</view>
 			<view class="flex-between lh-10 mt-20 plr-40 border-box text-center" style="color: #064144;gap: 15px;">
-				<view class="pw-30" @click="$c.goto('/pages/finance/balance')">
+				<view v-if="$c.mode()" class="pw-30" @click="$c.goto('/pages/finance/balance')">
 					<view class="fw-7 fs-22 flex-start u-line-1" style="line-height: 30px;">{{ profile.balance }}</view>
 					<view class="mt-12 text-name">余额</view>
 				</view>
@@ -67,11 +71,13 @@
 						<image src="/static/user/store.webp" class="w-37 h-41 self-start m-7"></image>
 					</view>
 				</view>
-				<view class="fw-5 mt-34">加入北辰代购</view>
-				<view class="relative" @click="$c.goto('/pages/user/join')">
-					<image src="/static/user/join.png" class="pw-100 mt-10 maxh-110" mode="widthFix"></image>
-					<view class="absolute pw-100 left-0" style="top: 8%">
-						<PlayImgs path="user/index_join/2" :interval="50" :length="40" type="webp"></PlayImgs>
+				<view v-if="$c.mode()" class="">
+					<view class="fw-5 mt-34">加入北辰代购</view>
+					<view class="relative" @click="$c.goto('/pages/user/join')">
+						<image src="/static/user/join.png" class="pw-100 mt-10 maxh-110" mode="widthFix"></image>
+						<view class="absolute pw-100 left-0" style="top: 8%">
+							<PlayImgs path="user/index_join/2" :interval="50" :length="40" type="webp"></PlayImgs>
+						</view>
 					</view>
 				</view>
 				<view class="fw-5 mt-23">其他</view>
@@ -89,17 +95,6 @@
 			</view>
 		</view>
 		<TabBar />
-
-		<u-popup :show="showReward" mode="center" bgColor="transparent" @close="showReward = false;">
-			<view class="w-308 h-280 sign_reward_box rounded-20 text-center">
-				<image src="/static/user/sign_reward.png" class="w-113 h-107" style="margin-top: -53px;"></image>
-				<view class="fw-7 fs-18 mt-20 text-base">签到成功</view>
-				<view class="mt-9 fs-12" style="color: #8B9E9F;">真棒！请保持每天签到哦！</view>
-				<view class="fs-16 mt-10">恭喜您获得<text class="fs-36 fw-7 text-danger">{{ reward }}</text>元</text></view>
-				<button class="bg-black bold fs-16 flex-center text-white w-234 h-51 rounded-x mt-20"
-					@click="showReward = false;">知道了</button>
-			</view>
-		</u-popup>
 	</view>
 </template>
 

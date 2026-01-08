@@ -1,14 +1,17 @@
 <template>
-	<view class="page" style="background: #FFF4E7;">
+	<view class="page" style="background: #E54C32;">
 		<Title title="每月领福利活动" fixed bgColor="#fff" />
 		<view class="relative">
-			<image src="/static/avtivity/egg/top_3.webp" class="pw-100" mode="widthFix"></image>
-			<image src="/static/avtivity/egg/top_4.webp" class="w-375 h-256 absolute left-0 right-0 auto-x" style="top: 72%;"></image>
+			<image src="/static/avtivity/egg/top_1_1.webp" class="pw-100" mode="widthFix"></image>
+			<!-- <image src="/static/avtivity/egg/top_1_2.webp" class="w-375 h-256 absolute left-0 right-0 auto-x" style="top: 72%;"></image> -->
+			<view class="flex-center" style="margin-top: -80rpx;">
+				<image src="/static/avtivity/egg/top_1_2.webp" class="w-375 h-256"></image>
+			</view>
 		</view>
-		<view v-if="load" class="mt-60">
+		<view v-if="load" class="">
 			<view class="flex-center">
 				<view class="relative">
-					<image src="/static/avtivity/egg/box-1.webp" class="w-375 h-257 block"></image>
+					<image src="/static/avtivity/egg/box-2.webp" class="w-375 h-257 block"></image>
 					<image 
 						:src="`/static/avtivity/egg/btn-${done? 2 : 1}.webp`"
 						class="absolute top-130 left-0 right-0 auto-x w-279 h-68"
@@ -17,7 +20,7 @@
 					<view v-if="done" class="absolute top-160 left-0 right-0 auto-x text-center text-info fs-12">时间：{{ profile.first_purchase_at }}</view>
 				</view>
 			</view>
-			<view class="flex-center">
+			<view class="flex-center" style="margin-top: -1px;">
 				<view class="relative w-375">
 					<image src="/static/avtivity/egg/box_2.webp" class="pw-100 block" style="height: 888px;"></image>
 					<view class="full plr-20 border-box">
@@ -27,9 +30,10 @@
 						</view>
 						<view class="">
 							<view class="mt-6 flex-between plr-4 ptb-4 border-box rounded-8" style="background: #E8F1FC;" v-for="(item, i) in list" :key="item.datetime || i">
-								<image src="/static/avtivity/egg/list_1.webp" class="i-47"></image>
+								<image src="/static/avtivity/egg/list_2.webp" class="i-47"></image>
 								<view class="flex-1 mlr-4">
-									<view class="">初生鸡蛋/东北大米一箱</view>
+									<!-- <view class="">初生鸡蛋/东北大米一箱</view> -->
+									<view class="">洗衣液一桶/东北大米一箱</view>
 									<view class="mt-6 text-info fs-12 mt-6">{{ done ? `第${i+1}月` : '待购物' }}</view>
 								</view>
 								<image v-if="item.is_expired" src="/static/avtivity/egg/btn-5.webp" class="w-95 h-54"></image>
@@ -99,7 +103,8 @@
 				list: Array.from({ length: 12 }, () => ({})), //生成12个空对象
 				load: false,
 				items: [
-					{ id: 2, name: '北辰优选初生鸡蛋', img: '/static/avtivity/egg/img_egg.webp', class: 'w-63 h-33' },
+					// { id: 2, name: '北辰优选初生鸡蛋', img: '/static/avtivity/egg/img_egg.webp', class: 'w-63 h-33' },
+					{ id: 4, name: '满婷内衣洗专用洗衣液', img: '/static/avtivity/egg/img_ld.webp', class: 'w-50 h-67' },
 					{ id: 3, name: '北辰优选东北大米', img: '/static/avtivity/egg/img_rice.webp', class: 'w-64 h-51' },
 				],
 				select: null

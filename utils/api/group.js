@@ -21,7 +21,7 @@ export default {
 		return request.post('/im/teams/join_info', data, { loading: true })
 	},
 	config() {
-		return request.post('/im/config/info', {})
+		return request.post('/im/config/info', {}, { auth: false })
 	},
 	login()	{
 		return request.post('/im/user/login', {})

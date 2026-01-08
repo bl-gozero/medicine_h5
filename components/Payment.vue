@@ -73,9 +73,9 @@
 			if(this.list.length > 0) {
 				this.cateList = this.list
 			} else if(this.mode === 2) {
-				this.cateList = [{ id: 4, value: '余额' }]
+				if (this.$c.mode()) this.cateList = [{ id: 4, value: '余额' }]
 			} else {
-				if(this.mode === 1) this.cateList = [{ id: 4, value: '余额' }]
+				if(this.mode === 1 && this.$c.mode()) this.cateList = [{ id: 4, value: '余额' }]
 				this.getCateList()
 			}
 			

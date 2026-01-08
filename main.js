@@ -26,8 +26,6 @@ Vue.prototype.$confirm = function(options) {
 	return UConfirm(options)
 }
 
-Vue.prototype.$nim = null
-
 Vue.use(uView)
 uni.$u.setConfig({
 	// 修改$u.config对象的属性

@@ -10,7 +10,7 @@
 			</view>
 		</view>
 		<view class="relative price_box flex-start plr-20">
-			<view class="absolute top-0 right-0">
+			<view v-if="$c.mode()" class="absolute top-0 right-0">
 				<image src="/static/goods/price_bg.png" class="w-152 h-65"></image>
 				<view class="full flex-center">
 					<image v-if="profile.level.id > 2" src="/static/goods/price_info_2.png" class="w-114 h-34"></image>
@@ -23,7 +23,7 @@
 			</view>
 			<view class="">
 				<view v-if="profile.level.id > 2" class="fs-12">
-					<text class="">VIP价</text>
+					<text v-if="$c.mode()" class="">VIP价</text>
 					<text class="fs-10 fw-7 ml-3">￥</text>
 					<text class="fs-24 fw-7">{{ sku.vip_price }}</text>
 					<text class="mlr-16 line-through">原价 ￥{{ sku.price }}</text>
@@ -32,7 +32,7 @@
 					<text class="">原价</text>
 					<text class="fs-10 fw-7 ml-3">￥</text>
 					<text class="fs-24 fw-7">{{ sku.price }}</text>
-					<text class="mlr-16 line-through">VIP价 ￥{{ sku.vip_price }}</text>
+					<text class="mlr-16 line-through"><text v-if="$c.mode()">VIP价</text> ￥{{ sku.vip_price }}</text>
 				</view>
 				<text class="fs-12 fw-6 bg-white plr-3 ptb-2 rounded-4" style="color: #362826;">会员可享专属折扣</text>
 			</view>

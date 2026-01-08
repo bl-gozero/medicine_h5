@@ -132,14 +132,13 @@
 		>
 			<view class="text-center vw-100 relative" >
 				<PlayImg
-					path="index_egg_rice/1/1"
+					path="index_ld_rice/1/1"
 					:interval="40"
 					:length="25"
 					:loop="false"
-					path2="index_egg_rice/2/1"
+					path2="index_ld_rice/2/2"
 					:interval2="40"
 					:length2="25"
-					:start2="25"
 					type="webp"
 				/>
 				<view class="absolute left-0 right-0 auto-x pw-70 ph-15" style="bottom: 23%;" @click="showEgg = false;$c.goto('/pages/activity/egg')"></view>

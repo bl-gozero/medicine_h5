@@ -215,26 +215,31 @@
 					<view v-else-if="switcher == 4" class="">
 						<view class="plr-20">
 							<view class="pt-10 mb-17">当月数据</view>
-							<view class="flex-between">
-								<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
+							<view class="flex-between flex-wrap fgap-20">
+								<view class="data_bg rounded-8 ptb-11 plr-13 border-box">
 									<image src="/static/vip/data_1.png" class="i-17"></image>
 									<view class="text-info fs-10 mtb-5">销售业绩（元）</view>
 									<view class="fs-16 fw-7 u-line-1">{{ month_sales }}</view>
 								</view>
-								<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
+								<view class="data_bg rounded-8 ptb-11 plr-13 border-box">
 									<image src="/static/vip/data_2.png" class="i-17"></image>
 									<view class="text-info fs-10 mtb-5">绩效分红（元）</view>
 									<view class="fs-16 fw-7 u-line-1">{{ month_bonus }}</view>
 								</view>
+								<view class="data_bg rounded-8 ptb-11 plr-13 border-box">
+									<image src="/static/vip/data_5.webp" class="i-17"></image>
+									<view class="text-info fs-10 mtb-5">平级业绩（元）</view>
+									<view class="fs-16 fw-7 u-line-1">{{ pingji }}</view>
+								</view>
 							</view>
 							<view class="mt-10 mtb-17">累计数据</view>
-							<view class="flex-between">
-								<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
+							<view class="flex-between flex-wrap fgap-20">
+								<view class="data_bg rounded-8 ptb-11 plr-13 border-box">
 									<image src="/static/vip/data_3.png" class="i-17"></image>
 									<view class="text-info fs-10 mtb-5">销售业绩（元）</view>
 									<view class="fs-16 fw-7 u-line-1">{{ total_sales }}</view>
 								</view>
-								<view class="data_bg rounded-8 ptb-11 plr-13 pw-48 border-box">
+								<view class="data_bg rounded-8 ptb-11 plr-13 border-box">
 									<image src="/static/vip/data_4.png" class="i-17"></image>
 									<view class="text-info fs-10 mtb-5">绩效分红（元）</view>
 									<view class="fs-16 fw-7 u-line-1">{{ total_bonus }}</view>
@@ -292,6 +297,7 @@
 				month_bonus: 0,
 				total_sales: 0,
 				total_bonus: 0,
+				pingji: 0,
 				level3: {},
 				level4: {},
 				num1: 0,
@@ -443,6 +449,7 @@
 					this.month_bonus = res.month_dividends || 0
 					this.total_sales = res.total_sales || 0
 					this.total_bonus = res.total_dividends || 0
+					this.pingji = res.pingji || 0
 				}
 			}
 		}

@@ -80,10 +80,17 @@
 					},
 					{
 						id: 3,
-						event_id: 3,
+						event_id: 2,
 						name: '北辰优选东北大米',
 						img: '/static/avtivity/egg/img_rice.webp',
 						class: 'w-109 h-87'
+					},
+					{
+						id: 4,
+						event_id: 2,
+						name: '满婷内衣洗专用洗衣液',
+						img: '/static/avtivity/egg/img_ld.webp',
+						class: 'w-76 h-102'
 					},
 				],
 			}

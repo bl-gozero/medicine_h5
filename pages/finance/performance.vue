@@ -49,6 +49,11 @@
 								</view>
 								<view class="line"></view>
 								<view class="text-center">
+									<view class="fw-7">{{ item.total_sales }}</view>
+									<view class="fs-10 mt-5 text-info">平级回补业绩(元)</view>
+								</view>
+								<view class="line"></view>
+								<view class="text-center">
 									<view class="fw-7">{{ item.total_dividends }}</view>
 									<view class="fs-10 mt-5 text-info">绩效分红(元)</view>
 								</view>

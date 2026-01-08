@@ -14,8 +14,8 @@
 								:key="item.id" @click.stop="onShipItem(index)">{{ item.value }}</view>
 						</view>
 					</view>
-					<view class="relative" :class="nav == 3 && 'nav_active text-black'" @click="onNav(3)">已赠出</view>
-					<view class="relative" :class="nav == 4 && 'nav_active text-black'" @click="onNav(4)">已回购</view>
+					<view v-if="$c.mode()" class="relative" :class="nav == 3 && 'nav_active text-black'" @click="onNav(3)">已赠出</view>
+					<view v-if="$c.mode()" class="relative" :class="nav == 4 && 'nav_active text-black'" @click="onNav(4)">已回购</view>
 				</view>
 			</view>
 		</view>
@@ -39,7 +39,7 @@
 						</view>
 					</view>
 					<view
-						v-if="item.is_buyback && item.is_buyback.id == 1 && item.buyback_status && item.buyback_status.id === 2"
+						v-if="$c.mode() && item.is_buyback && item.is_buyback.id == 1 && item.buyback_status && item.buyback_status.id === 2"
 						class="mt-10 flex-start">
 						<image src="/static/point/buy.webp" class="w-20 h-19 block"></image>
 						<text
@@ -112,8 +112,8 @@
 				<view class="fs-10 text-info mt-6 text-center">已选{{ num }}件</view>
 			</view>
 			<view class="flex-end">
-				<u-button class="btn" shape="circle" text="官方回购" @click="onShowEvent('buy')"></u-button>
-				<u-button class="btn" shape="circle" text="转赠他人" @click="onShowEvent('transfer')"></u-button>
+				<u-button v-if="$c.mode()" class="btn" shape="circle" text="官方回购" @click="onShowEvent('buy')"></u-button>
+				<u-button v-if="$c.mode()" class="btn" shape="circle" text="转赠他人" @click="onShowEvent('transfer')"></u-button>
 				<u-button class="btn fw-7 bg-base-change text-white" shape="circle" text="发货"
 					@click="onShowEvent('ship')"></u-button>
 			</view>

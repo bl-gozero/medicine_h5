@@ -108,7 +108,8 @@
 				<image src="/static/user/sign_reward.png" class="w-113 h-107" style="margin-top: -53px;"></image>
 				<view class="fw-7 fs-18 mt-20 text-base">签到成功</view>
 				<view class="mt-9 fs-12" style="color: #8B9E9F;">真棒！请保持每天签到哦！</view>
-				<view class="fs-16 mt-10">恭喜您获得<text class="fs-36 fw-7 text-danger">{{ reward }}</text>元</text></view>
+				<view v-if="$c.mode()" class="fs-16 mt-10">恭喜您获得<text class="fs-36 fw-7 text-danger">{{ reward }}</text>元</text></view>
+				<view v-else class="fs-16 mt-10">恭喜您签到成功</view>
 				<button class="bg-black bold fs-16 flex-center text-white w-234 h-51 rounded-x mt-20"
 					@click="showReward = false;">知道了</button>
 			</view>
@@ -139,7 +140,7 @@
 					{
 						id: 2,
 						name: '每月领一箱礼品',
-						img: '/static/task/egg_rice.webp',
+						img: '/static/task/ld_rice.webp',
 						text: '做任务',
 						url: '/pages/activity/egg',
 						is_new: false

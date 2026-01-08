@@ -354,6 +354,7 @@ const common = {
 			await this.getProfile()
 			return this.profile()
 		}
+		return true
 	},
 
 	async getProfile() {
@@ -633,6 +634,10 @@ const common = {
 		if(!account) return
 		this.setStorage('sellAccount', { id: Number(id) || 0, account: account })
 		this.goto('/pages/finance/sell')
+	},
+	
+	mode() {
+		return 1
 	}
 }
 

@@ -12,14 +12,14 @@
 						<view class="pt-17" v-for="item in list" :key="item.id">
 							<view class="flex-between">
 								<view class="flex-start">
-									<image :src="`/static/pay/icon/${item.category.id}.png`" class="i-18 mr-10"></image>
+									<image :src="`/static/pay/icon/${item.category.id > 2? 3 : item.category.id}.png`" class="i-18 mr-10"></image>
 									<text>{{ item.category.value }}</text>
 								</view>
 								<view class="text-base" @click="onShowPassword(item.id)">解绑</view>
 							</view>
 							<view class="flex-center">
 								<view class="relative">
-									<image :src="`/static/pay/card/${item.category.id}.png`" class="w-278 h-159"></image>
+									<image :src="`/static/pay/card/${item.category.id > 2? 3 : item.category.id}.png`" class="w-278 h-159"></image>
 									<view class="full border-box plr-40 pt-32 text-white">
 										<view class="flex-between">
 											<text class="fs-16 fw-9">{{ item.full_name }}</text>
@@ -47,20 +47,27 @@
 			</view>
 		</view>
 		<view v-else>
-			<Title :title="(form.category == 3? '' : '绑定') + form.value" :fixed="true" @back="page = 1" />
+			<Title :title="(form.category > 2? '' : '绑定') + form.value" :fixed="true" @back="page = 1" />
 			<view class="plr-20">
 				<view class="">
-					<view class="mt-10">{{ form.category == 3? '持卡人' : '姓名' }}</view>
+					<view class="mt-10">{{ form.category > 2? '持卡人' : '姓名' }}</view>
 					<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
 						<LineInput
 							v-model="form.name"
 							type="text"
-							:placeholder="form.category == 3? '请输入持卡人真实姓名' : `请输入使用${form.value}真实姓名`"
+							:placeholder="form.category > 2? '请输入持卡人真实姓名' : `请输入使用${form.value}真实姓名`"
 							placeholderClass="text-info fs-14"
 						/>
 					</view>
 				</view>
-				<view v-if="form.category == 3" class="mt-13">
+				<view v-if="form.category > 2" class="mt-13">
+					<view class="mt-10">卡类型</view>
+					<view class="mt-7 bg-white rounded-8 ptb-13 plr-16 flex-between" @click="showCates = true">
+						<text :class="form.category? 'fs-12 lh-18' : 'text-info fs-14'">{{ cateName ? cateName : '请选择卡类型' }}</text>
+						<u-icon name="arrow-right" color="#7D7D7D" size="12"></u-icon>
+					</view>
+				</view>
+				<view v-if="form.category > 2" class="mt-13">
 					<view class="mt-10">银行</view>
 					<view class="mt-7 bg-white rounded-8 ptb-13 plr-16 flex-between" @click="showPicker = true">
 						<text :class="form.full_name? 'fs-12 lh-18' : 'text-info fs-14'">{{ form.full_name? form.full_name : '请选择开户行'}}</text>
@@ -68,12 +75,59 @@
 					</view>
 				</view>
 				<view class="mt-13">
-					<view class="mt-10">{{ form.category == 3? '卡号' : `${form.value}手机号` }}</view>
+					<view class="mt-10">{{ form.category > 2? '卡号' : `${form.value}手机号` }}</view>
 					<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
 						<LineInput
 							v-model="form.card_number"
 							type="text"
-							:placeholder="form.category == 3? '请输入银行卡号' : `请输入${form.value}手机号`"
+							:placeholder="form.category > 2? '请输入卡号' : `请输入${form.value}手机号`"
+							placeholderClass="text-info fs-14"
+						/>
+					</view>
+				</view>
+				<view v-if="form.category == 4" class="mt-13">
+					<view class="mt-10">
+						<text>信用卡有效期</text>
+						<text class="text-info fs-12 ml-10">格式：月/年，例：03/33</text>
+					</view>
+					<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
+						<LineInput
+							v-model="form.expired_at"
+							type="text"
+							placeholder="请输入信用卡背面有效期四位数字"
+							placeholderClass="text-info fs-14"
+						/>
+					</view>
+				</view>
+				<view v-if="form.category == 4" class="mt-13">
+					<view class="mt-10">信用卡校验码</view>
+					<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
+						<LineInput
+							v-model="form.cvv2"
+							type="text"
+							placeholder="请输入信用卡背面校验码三位数字"
+							placeholderClass="text-info fs-14"
+						/>
+					</view>
+				</view>
+				<view v-if="form.category > 2" class="mt-13">
+					<view class="mt-10">证件号</view>
+					<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
+						<LineInput
+							v-model="form.identity"
+							type="text"
+							placeholder="请输入持卡人身份证件号"
+							placeholderClass="text-info fs-14"
+						/>
+					</view>
+				</view>
+				<view v-if="form.category > 2" class="mt-13">
+					<view class="mt-10">手机号</view>
+					<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
+						<LineInput
+							v-model="form.phone"
+							type="text"
+							placeholder="请输入持卡人银行预留手机号"
 							placeholderClass="text-info fs-14"
 						/>
 					</view>
@@ -87,6 +141,7 @@
 					@click="doAdd"
 				></u-button>
 			</view>
+			<view class="h-20"></view>
 		</view>
 		
 		<!-- 添加类型 -->
@@ -132,6 +187,15 @@
 			@confirm="onConfirm"
 			@cancel="showPicker = false"
 		></u-picker>
+		
+		<u-picker
+			:show="showCates" 
+			:columns="cates"
+			:confirmColor="$c.baseColor()"
+			keyName="name"
+			@confirm="onConfirmCate"
+			@cancel="showCates = false"
+		></u-picker>
 	</view>
 </template>
 
@@ -155,11 +219,14 @@
 				showCate: false,
 				showPassword: false,
 				showPicker: false,
+				showCates: false,
 				cate: {},
 				cateList: [],
-				form: { name: '', card_number: '', full_name: '', category: 0 },
+				form: { name: '', card_number: '', full_name: '', category: 0, phone: '', identity: '', cvv2: '', expired_at: '' },
 				delForm: { id: 0, password: '' },
-				banks: [['建设银行', '民生银行', '农业银行', '中国银行', '招商银行', '交通银行', '邮政银行']]
+				banks: [['建设银行', '民生银行', '农业银行', '中国银行', '招商银行', '交通银行', '邮政银行']],
+				cates: [[{ id: 3, name: '借记卡' }, { id: 4, name: '信用卡' }]],
+				cateName: ''
 			}
 		},
 		onLoad() {
@@ -172,14 +239,18 @@
 			onConfirm(e) {
 				this.form.full_name = e.value[0]
 				this.showPicker = false
-			}, 
-			onShowCateList() {
-				this.form = { name: '', card_number: '', full_name: '', category: 0, value: '' }
 			},
+			onConfirmCate(e) {
+				this.form.category = e.value[0]?.id
+				this.cateName = e.value[0]?.name
+				this.showCates = false
+			}, 
 			onCate(item) {
+				this.form = { name: '', card_number: '', full_name: '', category: 0, phone: '', identity: '', cvv2: '', expired_at: '' }
 				this.form.category = item.id
 				this.form.value = item.value
 				this.showCate = false;
+				this.cateName = item.id == 3 ? '借记卡' : ''
 				this.page = 2
 			},
 			async getCardList() {
@@ -191,7 +262,12 @@
 				if(res) this.cateList = res
 			},
 			async onBind() {
-				const res = await this.$c.fetch(this.$api.user.cardBind, this.form)
+				const form = {}
+				Object.keys(this.form).forEach(key => {
+					const val = this.form[key]
+					form[key] = typeof val === 'string' ? uni.$u.trim(val) : val
+				})
+				const res = await this.$c.fetch(this.$api.user.cardBind, form)
 				if(res) {
 					this.$c.toast('绑定成功')
 					this.getCardList()
