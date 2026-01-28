@@ -1,10 +1,13 @@
 <template>
-	<view class="page flex-col" style="background: linear-gradient(to bottom,  #519296 0,  #519296 50%, #E7F1FF 50%, #E7F1FF 100%)">
-		<view class="title_box fixed flex-between pb-15 plr-20 pw-100 border-box" :class="`pt-${$c.barHeight()}`" style="z-index: 10;background: #519296;">
+	<view class="page flex-col"
+		style="background: linear-gradient(to bottom,  #519296 0,  #519296 50%, #E7F1FF 50%, #E7F1FF 100%)">
+		<view class="title_box fixed flex-between pb-15 plr-20 pw-100 border-box" :class="`pt-${$c.barHeight()}`"
+			style="z-index: 10;background: #519296;">
 			<image src="/static/common/logo.gif" class="w-73 h-32 mr-11"></image>
 			<view class="flex-end">
 				<view class="w-192">
-					<u-search v-model="name" placeholder="输入药品名称" :searchIconColor="$c.baseColor()" :placeholderColor="$c.baseColor()" bgColor="#fff" :showAction="false"></u-search>
+					<u-search v-model="name" placeholder="输入药品名称" :searchIconColor="$c.baseColor()"
+						:placeholderColor="$c.baseColor()" bgColor="#fff" :showAction="false"></u-search>
 				</view>
 				<text class="fs-14 lh-14 fw-7 text-white ml-8" @click="onSearch()">搜索</text>
 			</view>
@@ -17,15 +20,13 @@
 			<view class="relative mb-30">
 				<image src="/static/index/point_box.webp" class="pw-100" mode="widthFix"></image>
 				<view class="absolute pw-100 top-0 left-0">
-					<PlayImg
-						path="index_point/1"
-						:interval="40"
-						:length="50"
-					/>
+					<PlayImg path="indexpoint/1" :interval="40" :length="50" />
 				</view>
-				<view class="absolute ph-19 pw-50" style="top: 3%;right: 2%" @click="$c.goto('/pages/index/task')"></view>
+				<view class="absolute ph-19 pw-50" style="top: 3%;right: 2%" @click="$c.goto('/pages/index/task')">
+				</view>
 				<view class="absolute left-0 right-0 bottom-0 flex-between plr-14 border-box" style="top: 28%">
-					<view class="self-start" v-for="(item, index) in pointList" :key="item.id" @click="$c.goto(`/pages/point/goodsDetail?id=${item.id}`)">
+					<view class="self-start" v-for="(item, index) in pointList" :key="item.id"
+						@click="$c.goto(`/pages/point/goodsDetail?id=${item.id}`)">
 						<view v-if="index < 3" class="w-70">
 							<view class="bg-white rounded-8 i-70">
 								<image :src="item.picture" class="i-70 rounded-8" mode="aspectFill"></image>
@@ -60,15 +61,11 @@
 				</view>
 			</view>
 			<view class="flex-between flex-wrap" style="gap: 10px;">
-				<view 
-					class="mt-10 bg-white rounded-12"
-					style="width: calc((100% - 10px) / 2);"
-					v-for="(item,index) in list" 
-					:key="item.id" 
-					@click="$c.goto('/pages/goods/detail?id=' + item.id)"
-				>
+				<view class="mt-10 bg-white rounded-12" style="width: calc((100% - 10px) / 2);"
+					v-for="(item,index) in list" :key="item.id" @click="$c.goto('/pages/goods/detail?id=' + item.id)">
 					<view class="img-box flex-center">
-						<image :src="item.picture" class="pw-100 ph-100 roundedTop-12 block" lazy-load mode="aspectFill"></image>
+						<image :src="item.picture" class="pw-100 ph-100 roundedTop-12 block" lazy-load
+							mode="aspectFill"></image>
 					</view>
 					<view class="p-10 border-box">
 						<text class="u-line-1 fs-14 fw-5 border-bo">{{ item.name }}</text>
@@ -96,53 +93,42 @@
 		</view>
 		<TabBar />
 		
-		<!-- new -->
-		<u-popup 
-			:show="showNew"
-			mode="center"
-			bgColor="transparent"
-			overlayStyle="background: 'rgba(0, 0, 0, 0.6)'"
-			:closeOnClickOverlay="false"
-			@close="showNew == false"
-		>
+		<!-- wine -->
+		<u-popup :show="showWine" mode="center" bgColor="transparent"
+			overlayStyle="background: 'rgba(0, 0, 0, 0.6)'" @close="showWine == false">
 			<view class="text-center vw-100 relative">
-				<PlayImg
-					path="index_new/1/1"
-					:interval="40"
-					:length="25"
-					:loop="false"
-					path2="index_new/2/1"
-					:interval2="40"
-					:length2="50"
-					:start2="25"
-					type="webp"
-				/>
-				<view class="absolute left-0 right-0 auto-x pw-55 ph-9" style="bottom: 37%;" @click="$c.goto('/pages/activity/newExclusive')"></view>
-				<image v-if="showClose" src="/static/icon/close.webp" class="i-52 mt-17 absolute left-0 right-0 auto-x" style="bottom: 26%;" @click="onCloseNew()"></image>
+				<PlayImg path="index_wine/1/1" :interval="40" :length="38" :loop="false" path2="index_wine/2/2"
+					:interval2="40" :length2="50" :start2="25" type="webp" imgClass="vh-100 vw-100" />
+				<view class="absolute left-0 right-0 auto-x pw-70 ph-9" style="bottom: 23%;"
+					@click="$c.goto('/pages/activity/wine')"></view>
+				<image v-if="showClose" src="/static/icon/close.webp" class="i-52 mt-17 absolute left-0 right-0 auto-x"
+					style="bottom: 13%;" @click="onClose('wine')"></image>	
 			</view>
 		</u-popup>
 		
+		<!-- new -->
+		<u-popup :show="!showWine && showNew" mode="center" bgColor="transparent" overlayStyle="background: 'rgba(0, 0, 0, 0.6)'"
+			:closeOnClickOverlay="false" @close="showNew == false">
+			<view class="text-center vw-100 relative">
+				<PlayImg path="index_new/1/1" :interval="40" :length="25" :loop="false" path2="index_new/2/1"
+					:interval2="40" :length2="50" :start2="25" type="webp" />
+				<view class="absolute left-0 right-0 auto-x pw-55 ph-9" style="bottom: 37%;"
+					@click="$c.goto('/pages/activity/newExclusive')"></view>
+				<image v-if="showClose" src="/static/icon/close.webp" class="i-52 mt-17 absolute left-0 right-0 auto-x"
+					style="bottom: 26%;" @click="onClose('new')"></image>
+			</view>
+		</u-popup>
+
 		<!-- egg -->
-		<u-popup 
-			:show="!showNew && showEgg"
-			mode="center"
-			bgColor="transparent"
-			overlayStyle="background: 'rgba(0, 0, 0, 0.6)'"
-			@close="showEgg == false"
-		>
-			<view class="text-center vw-100 relative" >
-				<PlayImg
-					path="index_ld_rice/1/1"
-					:interval="40"
-					:length="25"
-					:loop="false"
-					path2="index_ld_rice/2/2"
-					:interval2="40"
-					:length2="25"
-					type="webp"
-				/>
-				<view class="absolute left-0 right-0 auto-x pw-70 ph-15" style="bottom: 23%;" @click="showEgg = false;$c.goto('/pages/activity/egg')"></view>
-				<image src="/static/icon/close.webp" class="i-52" style="margin-top: -10%;" @click="onCloseEgg()"></image>
+		<u-popup :show="!showWine && !showNew && showEgg" mode="center" bgColor="transparent"
+			overlayStyle="background: 'rgba(0, 0, 0, 0.6)'" @close="showEgg == false">
+			<view class="text-center vw-100 relative">
+				<PlayImg path="index_ld_rice/1/1" :interval="40" :length="25" :loop="false" path2="index_ld_rice/2/2"
+					:interval2="40" :length2="25" type="webp" />
+				<view class="absolute left-0 right-0 auto-x pw-70 ph-15" style="bottom: 23%;"
+					@click="showEgg = false;$c.goto('/pages/activity/egg')"></view>
+				<image src="/static/icon/close.webp" class="i-52" style="margin-top: -10%;" @click="onClose('egg')">
+				</image>
 			</view>
 		</u-popup>
 	</view>
@@ -162,7 +148,12 @@
 				banner: [],
 				good: ['海外代购', '快捷发货', '全天服务', '优质精选'],
 				place: '',
-				search: { page: 1, limit: 10, name: '', load: 'more' },
+				search: {
+					page: 1,
+					limit: 10,
+					name: '',
+					load: 'more'
+				},
 				level: 0,
 				height: 0,
 				name: '',
@@ -170,7 +161,8 @@
 				pointList: [],
 				showNew: false,
 				showEgg: false,
-				showClose: false
+				showClose: false,
+				showWine: false,
 			}
 		},
 		async onLoad() {
@@ -178,8 +170,8 @@
 			if (obj && Object.keys(obj).length) {
 				this.level = obj.level.id
 				const index_pop = this.$c.getStorage('index_pop')
-				if(!index_pop) this.getActivity()
-				
+				if (!index_pop) this.getActivity()
+
 				this.searchHistory = this.$c.getStorage('searchHistory') || []
 				this.getBanner()
 				this.getGoods()
@@ -192,28 +184,36 @@
 		},
 		onReady() {
 			this.$nextTick(() => {
-			    this.$nextTick(() => {
+				this.$nextTick(() => {
 					this.$uGetRect('.title_box').then(res => {
 						this.height = res.height
 					})
-			    })
+				})
 			})
 		},
 		onReachBottom() {
 			this.getGoods()
 		},
 		methods: {
-			onCloseNew() {
-				this.showNew = false
-				if(!this.showEgg) this.$c.setStorage('index_pop', true)
-			},
-			onCloseEgg() {
-				this.showEgg = false
-				this.$c.setStorage('index_pop', true)
+			onClose(event) {
+				if(event == 'new') {
+					this.showNew = false
+					if (!this.showEgg) this.$c.setStorage('index_pop', true)
+				} else if(event == 'egg') {
+					this.showEgg = false
+					this.$c.setStorage('index_pop', true)
+				} else if(event == 'wine') {
+					this.showWine = false
+					if (!this.showEgg && !this.showNew) this.$c.setStorage('index_pop', true)
+					setTimeout(() => {
+						this.showClose = true
+					}, 1200)
+				}
 			},
 			async getActivity() {
 				const res = await this.$c.fetch(this.$api.user.activityStatus)
 				if (res) {
+					this.showWine = res.is_ginsend_wine
 					this.showNew = res.is_ginseng
 					this.showEgg = res.is_egg
 					setTimeout(() => {
@@ -223,10 +223,10 @@
 			},
 			onSearch() {
 				this.name = uni.$u.trim(this.name)
-				if(!this.name) {
+				if (!this.name) {
 					this.$c.goto('/pages/goods/search')
 				} else {
-					if(this.searchHistory.indexOf(this.name) == -1) {
+					if (this.searchHistory.indexOf(this.name) == -1) {
 						this.searchHistory.push(this.name)
 						this.$c.setStorage('searchHistory', this.searchHistory)
 					}
@@ -234,19 +234,21 @@
 				}
 			},
 			async getBanner() {
-				const res = await this.$c.fetch(this.$api.config.images, { location: 0 })
-				if(res) this.banner = res
+				const res = await this.$c.fetch(this.$api.config.images, {
+					location: 0
+				})
+				if (res) this.banner = res
 			},
 			async getGoods() {
-				if(this.search.load != 'more') return
+				if (this.search.load != 'more') return
 				this.search.load = 'loading'
 				const res = await this.$c.fetch(this.$api.goods.goodsList, this.search)
-				if(res) {
+				if (res) {
 					this.list = [...this.list, ...res]
 					this.search.load = res.length >= this.search.limit ? 'more' : 'end'
 					this.search.page++
 				}
-				if(this.search.load != 'end') this.search.load = 'more'
+				if (this.search.load != 'end') this.search.load = 'more'
 			},
 			async getPointList() {
 				const res = await this.$c.fetch(this.$api.goods.goodsList, {
@@ -256,7 +258,7 @@
 					is_level_valid: 0,
 					is_integral: 1
 				})
-				if(res) this.pointList = res.slice(0, 3)
+				if (res) this.pointList = res.slice(0, 3)
 			}
 		}
 	}

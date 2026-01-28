@@ -50,7 +50,7 @@
 			<view class="pt-14 pb-30 plr-20 bg lh-10 roundedTop-20">
 				<view class="fs-16 text-center">选择礼品和填写收货地址</view>
 				<view class="border-bottom pb-30">
-					<view class="flex-between item-stretch mt-30 " v-for="item in items" @click="select = item.id">
+					<view class="flex-between item-stretch mt-30 " v-for="item in items" @click="onGoods(item)">
 						<view class="i-76 rounded-8 flex-center" style="background: #F6F6F6;">
 							<image :src="item.img" :class="item.class"></image>
 						</view>
@@ -60,6 +60,7 @@
 								<image :src="$c.checkIcon(select == item.id)" class="i-18"></image>
 							</view>
 							<view class="text-info fs-12 mt-8">第{{ index + 1 }}月</view>
+							<view v-if="!item.stock" class="text-info fs-12 mt-8">库存不足</view>
 							<view v-if="item.id == 2" class="warn_box1 mt-9">
 								<image src="/static/avtivity/egg/warn.webp" class="i-12"></image>
 								<text class="ml-3">温馨提示：部分地区较远，长途运输破损需自行承担损失。请慎重考虑</text>
@@ -103,9 +104,10 @@
 				list: Array.from({ length: 12 }, () => ({})), //生成12个空对象
 				load: false,
 				items: [
+					// { id: 1, name: '人参', img: '/static/avtivity/egg/img_egg.webp', class: 'w-63 h-33' },
 					// { id: 2, name: '北辰优选初生鸡蛋', img: '/static/avtivity/egg/img_egg.webp', class: 'w-63 h-33' },
-					{ id: 4, name: '满婷内衣洗专用洗衣液', img: '/static/avtivity/egg/img_ld.webp', class: 'w-50 h-67' },
-					{ id: 3, name: '北辰优选东北大米', img: '/static/avtivity/egg/img_rice.webp', class: 'w-64 h-51' },
+					{ id: 4, name: '满婷内衣洗专用洗衣液', img: '/static/avtivity/egg/img_ld.webp', class: 'w-50 h-67', stock: 1 },
+					{ id: 3, name: '北辰优选东北大米', img: '/static/avtivity/egg/img_rice.webp', class: 'w-64 h-51', stock: 1 },
 				],
 				select: null
 			}
@@ -122,6 +124,20 @@
 			if(address) this.address = address
 		},
 		methods: {
+			onGoods(item) {
+				if(!item.stock) return this.$c.toast('库存不足')
+				this.select = item.id
+			},
+			async eventGoods() {
+				const res = await this.$c.fetch(this.$api.config.eventGoods)
+				if (res) {
+					this.items.forEach(item => {
+						item.stock = res.find(i => i.id == item.id)?.stock || 0
+					})
+					this.showAddress = true
+				}
+				this.showAddress = true
+			},
 			onAddress(item, i) {
 				if(!this.done) {
 					this.$c.toast('请先完成购买指定商品，获取领取资格')
@@ -132,7 +148,7 @@
 					return
 				}
 				this.index = i
-				this.showAddress = true
+				this.eventGoods()
 			},
 			async getActivity() {
 				const res = await this.$c.fetch(this.$api.user.activity, { id: this.event_id })

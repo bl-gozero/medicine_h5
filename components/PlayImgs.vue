@@ -1,7 +1,8 @@
 <template>
 	<view class="pw-100 text-center" style="z-index: 9;">
 		<image v-if="height && width" :class="'h-' + height + ' w-' + width" :src="imgSrc"></image>
-		<image v-else-if="height" :class="'-' + height" mode="heightFix" :src="imgSrc"></image>
+		<image v-else-if="height" :class="'h-' + height" mode="heightFix" :src="imgSrc"></image>
+		<image v-else-if="imgClass || imgStyle" :class="imgClass" :style="imgClass" :src="imgSrc" :mode="mode"></image>
 		<image v-else class="pw-100" mode="widthFix" :src="imgSrc"></image>
 	</view>
 </template>
@@ -40,6 +41,18 @@
 			width: {
 				type: Number,
 				default: 0
+			},
+			imgClass: {
+				String: '',
+				default: ''
+			},
+			imgStyle: {
+				String: '',
+				default: ''
+			},
+			mode: {
+				String: '',
+				default: 'aspectFill'
 			},
 			height: {
 				type: Number,

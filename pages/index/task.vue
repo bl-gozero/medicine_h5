@@ -16,22 +16,35 @@
 			</view>
 			<view class="bg-white rounded-12 ptb-20 plr-16 mt-20 relative"
 				style="z-index: 5;box-shadow: 0px 0px 15px 0px rgba(216, 216, 216, 0.13);">
-				<text class="fs-16 fw-7">活动任务</text>
-				<view class="flex-between">
-					<view class="mt-25 text-center" v-for="(item, index) in list" :key="item.id">
+				<text class="fs-16 fw-7">活动任务</text>	
+				<view v-if="num < 4" class="flex-between">
+					<view v-if="item.show" class="mt-25 text-center inline-block" v-for="(item, index) in list" :key="item.id">
 						<view class="flex-center">
 							<view class="relative">
 								<image :src="item.img" class="i-70 block"></image>
-								<!-- <view v-if="item.is_new" class="new">新用户专享</view> -->
 								<view v-if="item.is_new" class="new">
 									<PlayImg path="task/new/22" :length="40" :interval="50" type="webp" />
 								</view>
 							</view>
 						</view>
-						<view class="mt-3 mb-10 fs-10">{{ item.name }}</view>
+						<view class="mt-3 mb-10 fs-10 u-line-1">{{ item.name }}</view>
 						<u-button class="btn btn-2" shape="circle" @click="$c.goto(item.url)">{{ item.text }}</u-button>
 					</view>
 				</view>
+				<u-scroll-list v-else indicatorActiveColor="#F3AF67">
+					<view v-if="item.show" class="mt-25 text-center inline-block" v-for="(item, index) in list" :key="item.id">
+						<view class="flex-center">
+							<view class="relative">
+								<image :src="item.img" class="i-70 block"></image>
+								<view v-if="item.is_new" class="new">
+									<PlayImg path="task/new/22" :length="40" :interval="50" type="webp" />
+								</view>
+							</view>
+						</view>
+						<view class="mt-3 mb-10 fs-10 u-line-1">{{ item.name }}</view>
+						<u-button class="btn btn-2" shape="circle" @click="$c.goto(item.url)">{{ item.text }}</u-button>
+					</view>
+				</u-scroll-list>
 			</view>
 			<view class="bg-white rounded-12 ptb-20 plr-16 mt-20 relative"
 				style="z-index: 5;box-shadow: 0px 0px 15px 0px rgba(216, 216, 216, 0.13);">
@@ -135,7 +148,17 @@
 						img: '/static/task/task_new.webp',
 						text: '免费领',
 						url: '/pages/activity/newExclusive',
-						is_new: true
+						is_new: true,
+						show: true
+					},
+					{
+						id: 4,
+						name: '领920元新春礼',
+						img: '/static/task/wine.webp',
+						text: '做任务',
+						url: '/pages/activity/wine',
+						is_new: false,
+						show: true
 					},
 					{
 						id: 2,
@@ -143,7 +166,8 @@
 						img: '/static/task/ld_rice.webp',
 						text: '做任务',
 						url: '/pages/activity/egg',
-						is_new: false
+						is_new: false,
+						show: true
 					},
 					{
 						id: 3,
@@ -151,7 +175,8 @@
 						img: '/static/task/task_invite.webp',
 						text: '去邀请',
 						url: '/pages/user/qrcode',
-						is_new: false
+						is_new: false,
+						show: true
 					},
 				],
 				tasks: [],
@@ -163,14 +188,26 @@
 				point_2: 0
 			}
 		},
+		computed: {
+			num() {
+				return this.list.filter(i => i.show).length
+			}
+		},
 		async onLoad() {
 			this.profile = await this.$c.checkeLogin(1)
 			this.getTask()
 			this.getPoint()
+			// this.getActivity()
 			this.doSign = this.$c.onceRequest(this.onSign)
 		},
 		onShow() {},
 		methods: {
+			async getActivity() {
+				const res = await this.$c.fetch(this.$api.user.activityStatus)
+				if (res) {
+					this.list[1].show = res.is_ginsend_wine
+				}
+			},
 			async getTask() {
 				const res = await this.$c.fetch(this.$api.config.task)
 				if (res) {
@@ -268,5 +305,8 @@
 		bottom: 55px;
 		line-height: 18px;
 		text-align: center;
+	}
+	.inline-block:not(:first-child) {
+		margin-left: 25px;
 	}
 </style>

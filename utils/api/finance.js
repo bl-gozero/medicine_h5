@@ -10,8 +10,8 @@ export default {
 	recharge(data) {
 		return request.post('/user/recharge', { device: 2, ...data }, { loading: true })
 	},
-	withdraw(data) {
-		return request.post('/withdrawals/add', data, { loading: true })
+	withdraw(data = {}, config = {}) {
+		return request.post('/withdrawals/add', data, { loading: true, ...config })
 	},
 	withdrawList(data) {
 		return request.post('/withdrawals/list', data, { loading: true })

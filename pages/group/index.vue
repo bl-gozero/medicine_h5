@@ -29,19 +29,9 @@
 			</view>
 			<view class="">
 				<swiper class="h-90 mt-20" :interval="5000" :duration="500" circular indicator-dots autoplay>
-					<swiper-item v-if="1 || showNew">
-						<view class="" @click="$c.goto('/pages/activity/newExclusive')">
-							<PlayImg path="group_activity/new/1" :interval="50" :length="20" type="webp" />
-						</view>
-					</swiper-item>
-					<swiper-item v-if="1 || showEgg">
-						<view class="flex-center" @click="$c.goto('/pages/activity/egg')">
-							<PlayImg path="group_activity/ld_rice/1" :interval="50" :length="20" type="webp" />
-						</view>
-					</swiper-item>
-					<swiper-item>
-						<view class="flex-center" @click="$c.goto('/pages/index/task')">
-							<PlayImg path="group_activity/daily/3" :interval="50" :length="20" type="webp" />
+					<swiper-item v-if="item.show" v-for="item in events" :key="item.id">
+						<view class="flex-center" @click="$c.goto(item.url)">
+							<PlayImg :path="item.path" :interval="50" :length="20" type="webp" />
 						</view>
 					</swiper-item>
 				</swiper>
@@ -151,27 +141,28 @@
 				groupList: [],
 				showNew: false,
 				showEgg: false,
-				showNick: false
+				showNick: false,
+				events: [
+					{ id: 1, name: '人参', path: 'group_activity/new/1', url: '/pages/activity/newExclusive', show: true },
+					{ id: 2, name: '酒',   path: 'group_activity/wine/1', url: '/pages/activity/wine', show: true },
+					{ id: 3, name: '鸡蛋', path: 'group_activity/ld_rice/1', url: '/pages/activity/egg', show: true },
+					{ id: 4, name: '任务', path: 'group_activity/daily/3', url: '/pages/index/task', show: true },
+				]
 			}
 		},
 		onLoad() {
-			this.$c.checkNim()
-			this.getActivity()
+			process.env.NODE_ENV !== 'development' && this.$c.checkNim()
+			// this.getActivity()
 		},
 		async onShow() {
-			// this.updateUnreadCount()
 			this.profile = await this.$c.checkeLogin(1)
 			if (!this.profile.nickname) this.showNick = true
 		},
 		methods: {
-			// async updateUnreadCount() {
-			// 	this.unreadCount = await teamUnreadCount(this.$nim)
-			// },
 			async getActivity() {
 				const res = await this.$c.fetch(this.$api.user.activityStatus)
 				if (res) {
-					this.showNew = res.is_ginseng
-					this.showEgg = res.is_egg
+					this.events[1].show = res.is_ginsend_wine
 				}
 			},
 			onNav(e) {

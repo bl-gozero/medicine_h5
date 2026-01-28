@@ -85,6 +85,15 @@
 						/>
 					</view>
 				</view>
+				<view class="mt-13">
+					<view class="mt-10">开户行地址</view>
+					<view class="mt-7 bg-white rounded-8 ptb-16 plr-16">
+						<RegionPicker
+							v-model="form.open_address" 
+							placeholder="请选择开户行地址"
+						></RegionPicker>
+					</view>
+				</view>
 				<view v-if="form.category == 4" class="mt-13">
 					<view class="mt-10">
 						<text>信用卡有效期</text>
@@ -202,11 +211,13 @@
 <script>
 	import Title from '../../components/Title.vue';
 	import LineInput from '@/components/LineInput.vue'
+	import RegionPicker from '@/components/RegionPicker.vue'
 	
 	export default {
 		components: {
 			Title,
-			LineInput
+			LineInput,
+			RegionPicker
 		},
 		data() {
 			return {
@@ -222,7 +233,7 @@
 				showCates: false,
 				cate: {},
 				cateList: [],
-				form: { name: '', card_number: '', full_name: '', category: 0, phone: '', identity: '', cvv2: '', expired_at: '' },
+				form: { name: '', card_number: '', full_name: '', category: 0, phone: '', identity: '', cvv2: '', expired_at: '', open_address: '' },
 				delForm: { id: 0, password: '' },
 				banks: [['建设银行', '民生银行', '农业银行', '中国银行', '招商银行', '交通银行', '邮政银行']],
 				cates: [[{ id: 3, name: '借记卡' }, { id: 4, name: '信用卡' }]],
@@ -246,7 +257,7 @@
 				this.showCates = false
 			}, 
 			onCate(item) {
-				this.form = { name: '', card_number: '', full_name: '', category: 0, phone: '', identity: '', cvv2: '', expired_at: '' }
+				this.form = { name: '', card_number: '', full_name: '', category: 0, phone: '', identity: '', cvv2: '', expired_at: '', open_address: '' }
 				this.form.category = item.id
 				this.form.value = item.value
 				this.showCate = false;

@@ -23,7 +23,7 @@
 			v-if="done === 1"
 			class="fs-16 btn bg-base-change"
 			shape="circle"
-			@click="showAddress = true"
+			@click="eventGoods()"
 		>领取福利</u-button>
 		<u-button
 			v-else-if="done === 2"
@@ -37,11 +37,12 @@
 		<u-popup :show="showAddress" mode="bottom" bgColor="transparent" closeable @close="showAddress = false">
 			<view class="pt-14 pb-30 plr-20 bg-address lh-10 roundedTop-20">
 				<view class="fs-16 text-center">收货地址</view>
-				<view class="flex-between ptb-30 border-bottom">
-					<image src="/static/avtivity/new/goods.webp" class="i-76 rounded-8"></image>
+				<view class="flex-between ptb-30 border-bottom" v-for="item in items" :key="item.id">
+					<image :src="item.img" :class="item.class"></image>
 					<view class="flex-1 ml-8 self-start">
-						<view class="">北朝鲜山参</view>
-						<view class="text-info fs-12 mt-30">0元</view>
+						<view class="">{{ item.name }}</view>
+						<view class="text-info fs-12 mt-8">{{ item.price }}元</view>
+						<view v-if="!item.stock" class="text-info fs-12 mt-8">库存不足</view>
 					</view>
 				</view>
 				<view class="flex-between ptb-25 border-bottom" @click="$c.goto('/pages/user/address?from=address')">
@@ -81,7 +82,10 @@
 				event_id: 1,
 				showAddress: false,
 				address: {},
-				showDone: false
+				showDone: false,
+				items: [
+					{ id: 1, name: '北朝鲜山参', img: '/static/avtivity/new/goods.webp', class: 'i-76 rounded-8', price: 0, stock: 1 },
+				],
 			}
 		},
 		onLoad() {
@@ -95,6 +99,16 @@
 			if(address) this.address = address
 		},
 		methods: {
+			async eventGoods() {
+				const res = await this.$c.fetch(this.$api.config.eventGoods)
+				if (res) {
+					this.items.forEach(item => {
+						item.stock = res.find(i => i.id == item.id)?.stock || 0
+					})
+					this.showAddress = true
+				}
+				this.showAddress = true
+			},
 			async addressList() {
 				const res = await this.$c.fetch(this.$api.user.addressList)
 				if(res) { this.address = res.length > 0? res[0] : {} }
@@ -107,6 +121,7 @@
 				}
 			},
 			async onSubmit() {
+				if(!this.items[0].stock) return this.$c.toast('库存不足')
 				this.showAddress = false
 				const res = await this.$c.fetch(this.$api.user.activityAddress, {
 					id: this.event_id,

@@ -455,6 +455,12 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/activity/wine",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
 		// {
 		// 	"path": "pages/store/detailForTransfer",

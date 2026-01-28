@@ -449,7 +449,7 @@
 					this.month_bonus = res.month_dividends || 0
 					this.total_sales = res.total_sales || 0
 					this.total_bonus = res.total_dividends || 0
-					this.pingji = res.pingji || 0
+					this.pingji = res.replenish_sales || 0
 				}
 			}
 		}

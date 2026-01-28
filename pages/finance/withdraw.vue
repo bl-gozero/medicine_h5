@@ -27,7 +27,7 @@
 			</view>
 			<view class="list_box bg-white rounded-8 plr-14 mt-20">
 				<view class="flex-between ptb-19" v-for="item in cardList" :key="item.id" 
-					@click="form.card_holder_id = item.id;form.full_name = item.full_name;form.card_number = item.card_number">
+					@click="form.card_holder_id = item.id;form.full_name = item.full_name;form.card_number = item.card_number; card = item">
 					<view class="flex-start">
 						<image :src="`/static/pay/icon/${item.category.id}.png`" class="i-18 mr-10"></image>
 						<text>{{ item.category.value }}</text>
@@ -93,14 +93,18 @@
 				showPassword: false,
 				cateList: [],
 				pay: {},
-				fee: 0
+				fee: 0,
+				card: {}
 			}
 		},
 		onLoad() {
 			this.getProfile()
-			this.cardCategoryList()
 			this.getConfig()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
+		},
+		onShow() {
+			this.form = { ...this.form, card_holder_id: '', full_name: '',  card_number: '' }
+			this.cardCategoryList()
 		},
 		methods: {
 			async getProfile() {
@@ -137,14 +141,14 @@
 				let match = value.toString().match(/^\d*(\.?\d{0,2})?/);
 				return match ? match[0] : '';
 			},
-			check() {
+			checkInfo() {
 				if(!this.form.amount) {
 					this.$c.toast('请输入想要提现的金额')
-					return
+					return false
 				}
 				if(!this.form.card_holder_id) {
 					this.$c.toast('请选择到账账户')
-					return
+					return false
 				}
 				const result = this.cateList.find(cate =>
 					cate.id === (this.cardList.find(card => card.id === this.form.card_holder_id)?.category.id)
@@ -152,45 +156,55 @@
 				if(result) {
 					if(this.form.amount < result.min_amount) {
 						this.$c.toast(result.value + '最小提现金额' + result.min_amount)
-						return
+						return false
 					}
 					if(this.form.amount > result.max_amount) {
 						this.$c.toast(result.value + '最大提现金额' + result.max_amount)
-						return
+						return false
 					}
 				}
+				return true
+			},
+			check() {
+				if(!this.checkInfo()) return false
 				this.form.password = ''
 				this.showPassword = true
 			},
-			async onSubmit() {
-				if(!this.form.amount) {
-					this.$c.toast('请输入想要提现的金额')
-					return
-				}
-				if(!this.form.card_holder_id) {
-					this.$c.toast('请选择到账账户')
-					return
-				}
-				const result = this.cateList.find(cate => 
-					cate.id === (this.cardList.find(card => card.id === this.form.card_holder_id)?.category.id)
-				)
-				if(result) {
-					if(this.form.amount < result.min_amount) {
-						this.$c.toast(result.value + '最小提现金额' + result.min_amount)
-						return
-					}
-					if(this.form.amount > result.max_amount) {
-						this.$c.toast(result.value + '最大提现金额' + result.max_amount)
-						return
-					}
-				}
-				const res = await this.$c.fetch(this.$api.finance.withdraw, this.form)
-				if(res) {
+			onSubmit() {
+				if(!this.checkInfo()) return false
+				this.$api.finance.withdraw(this.form, { showErr: false }).then(res => {
 					this.$c.toast('提交成功，请等待审核')
 					this.form = { amount: '', card_holder_id: '' }
-				}
-				this.showPassword = false
+				}).catch(res => {
+					if(res.code === 2000) {
+						this.onKnow(res.message || '缺少开户行信息，请解绑后重新填写')
+					} else {
+						this.$c.toast(res.message || '操作失败')
+					}
+				}).finally(() => {
+					this.showPassword = false
+				})
 			},
+			onKnow(msg) {
+				msg && this.$know({
+					bg: 'background: #fff;min-height: 257px;',
+					img: "",
+					title: {
+						text: "提示",
+						class: 'mt-20'
+					},
+					text: {
+						text: msg,
+						class: 'mt-25'
+					},
+					buttons: [
+						{ text: '取消', class: 'bold fs-16 w-127 h-46' },
+						{ text: '去解绑', class: 'bold fs-16 w-127 h-46 bg-base text-white' }
+					]
+				}).then(i => {
+					i === 1 && this.$c.goto('/pages/user/bindCard')
+				})
+			}
 		}
 	}
 </script>

@@ -27,5 +27,8 @@ export default {
 	},
 	config(data = {}, config = {}) {
 		return request.post('/config/list', data, { ...config })
+	},
+	eventGoods(data = {}, config = {}) {
+		return request.post('/event_goods/list', data, { ...config })
 	}
 }

@@ -92,6 +92,13 @@
 						img: '/static/avtivity/egg/img_ld.webp',
 						class: 'w-76 h-102'
 					},
+					{
+						id: 5,
+						event_id: 3,
+						name: '人参鹿鞭酒',
+						img: '/static/avtivity/wine/wine.webp',
+						class: 'w-86 h-83'
+					},
 				],
 			}
 		},

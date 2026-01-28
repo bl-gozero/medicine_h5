@@ -7,7 +7,7 @@
 		onLaunch: function() {
 		},
 		onShow: function() {
-			this.onInitNIM()
+			process.env.NODE_ENV !== 'development' && this.onInitNIM()
 		},
 		onHide: function() {},
 		methods: {
