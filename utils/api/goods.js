@@ -28,8 +28,8 @@ export default {
 	orderAdd(data) {
 		return request.post('/order_form/create', data, { loading: true })
 	},
-	orderPay(data) {
-		return request.post('/order_form/paying', { device: 2, ...data }, { loading: true })
+	orderPay(data = {}, config = {}) {
+		return request.post('/order_form/paying', { device: 2, ...data }, { loading: true, ...config })
 	},
 	orderCancel(data) {
 		return request.post('/order_form/cancel', data, { loading: true })

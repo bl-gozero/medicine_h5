@@ -638,7 +638,12 @@ const common = {
 	
 	mode() {
 		return 1
-	}
+	},
+	
+	safeId(query) {
+		const id = Number(query?.id)
+		return Number.isInteger(id) && id > 0 ? id : null
+	},
 }
 
 export default common

@@ -461,6 +461,12 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/web/pay",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
 		// {
 		// 	"path": "pages/store/detailForTransfer",

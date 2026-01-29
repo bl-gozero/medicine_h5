@@ -29,8 +29,8 @@ export default {
 	quit(data = {}) {
 		return request.post('/im/teams/quit', data, { loading: true })
 	},
-	pay(data = {}) {
-		return request.post('/im/teams/paying', { device: 2, ...data }, { loading: true })
+	pay(data = {}, config = {}) {
+		return request.post('/im/teams/paying', { device: 2, ...data }, { loading: true, ...config })
 	},
 	payingList(data = {}) {
 		return request.post('/im/teams/paying_list', data)

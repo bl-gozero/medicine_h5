@@ -9,9 +9,10 @@ function request({
 	header = {},
 	loading = false,
 	auth = true,
-	showErr = true
+	showErr = true,
+	jwt = null
 }) {
-	const jwt = uni.getStorageSync('jwt')
+	jwt = jwt ? jwt : uni.getStorageSync('jwt')
 	if(auth && !jwt) return false
 	
 	if (loading) uni.showLoading({ mask: true })
