@@ -153,16 +153,16 @@
 				const result = this.cateList.find(cate =>
 					cate.id === (this.cardList.find(card => card.id === this.form.card_holder_id)?.category.id)
 				)
-				// if(result) {
-				// 	if(this.form.amount < result.min_amount) {
-				// 		this.$c.toast(result.value + '最小提现金额' + result.min_amount)
-				// 		return false
-				// 	}
-				// 	if(this.form.amount > result.max_amount) {
-				// 		this.$c.toast(result.value + '最大提现金额' + result.max_amount)
-				// 		return false
-				// 	}
-				// }
+				if(result) {
+					if(this.form.amount < result.min_amount) {
+						this.$c.toast(result.value + '最小提现金额' + result.min_amount)
+						return false
+					}
+					if(this.form.amount > result.max_amount) {
+						this.$c.toast(result.value + '最大提现金额' + result.max_amount)
+						return false
+					}
+				}
 				return true
 			},
 			check() {
