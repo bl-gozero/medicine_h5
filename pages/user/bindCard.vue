@@ -235,7 +235,7 @@
 				cateList: [],
 				form: { name: '', card_number: '', full_name: '', category: 0, phone: '', identity: '', cvv2: '', expired_at: '', open_address: '' },
 				delForm: { id: 0, password: '' },
-				banks: [['建设银行', '民生银行', '农业银行', '中国银行', '招商银行', '交通银行', '邮政银行']],
+				banks: [['建设银行', '民生银行', '农业银行', '中国银行', '招商银行', '交通银行', '邮政银行', '工商银行']],
 				cates: [[{ id: 3, name: '借记卡' }, { id: 4, name: '信用卡' }]],
 				cateName: ''
 			}
