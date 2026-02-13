@@ -51,7 +51,7 @@
 		<u-popup :show="showInfo" mode="bottom" round="8" closeable @close="showInfo = false">
 			<view class="ptb-20 fs-12 info_box lh-10">
 				<view class="text-center fs-18 fw-5">{{ mode == 1? '添加到购物车' : '提交订单'}}</view>
-				<!-- <view class="plr-20 flex justify-between mt-37" style="align-items: flex-start;" @click="$c.goto('/pages/user/address?from=goodsDetail')">
+				<view class="plr-20 flex justify-between mt-37" style="align-items: flex-start;" @click="$c.goto('/pages/user/address?from=goodsDetail')">
 					<image src="/static/goods/place.png" class="w-12 h-14"></image>
 					<view v-if="address.district" class="flex-1 ml-8 mr-20">
 						<view class="">{{ address.district + address.address }}</view>
@@ -62,7 +62,7 @@
 					</view>
 					<view v-else class="flex-1 ml-8 mr-20 text-info">请添加收货地址</view>
 					<u-icon name="arrow-right" size="14" color="#7D7D7D"></u-icon>
-				</view> -->
+				</view>
 				<view class="plr-20 flex-start mt-30 mb-20">
 					<image v-if="sku.picture" :src="sku.picture[0]" class="i-76 rounded-12" mode="aspectFill"></image>
 					<view class="ml-9 flex-1">
@@ -184,35 +184,33 @@
 				password: '',
 				cateList: [{ id: 4, value: '积分支付' }],
 				doCartAdd: null,
-				doBuy: null
+				doBuy: null,
+				orderId: null
 			}
 		},
 		async onLoad(p) {
 			this.$c.removeStorage('address')
-			this.profile = await this.$c.checkeLogin(1)
-			if(p.id && parseInt(p.id)) {
+			const profile = await this.$c.checkeLogin(1)
+			if (profile && p.id && parseInt(p.id)) {
+				this.profile = profile
 				this.id = parseInt(p.id)
 				this.goodsDetail()
-				this.addressList()
 			}
 			this.doCartAdd = this.$c.onceRequest(this.onCartAdd)
 			this.doBuy = this.$c.onceRequest(this.onBuy)
 		},
 		onShow() {
-			const address = this.$c.getStorage('address')
-			if(address) this.address = address
+			this.addressList()
 		},
 		methods: {
-			async getProfile() {
-				const res = await this.$c.fetch(this.$api.user.getProfile)
-				if(res) {
-					this.profile = this.profile
-					this.$c.setStorage('profile', res)
-				}
-			},
 			async addressList() {
 				const res = await this.$c.fetch(this.$api.user.addressList)
-				if(res) { this.address = res.length > 0? res[0] : {} }
+				if (!Array.isArray(res) || res.length === 0) {
+				  this.address = {}
+				  return
+				}
+				const address = this.$c.getStorage('address')
+				this.address = !this.address?.id || !res.some(i => i.id === address.id) ? res[0] : address
 			},
 			async goodsDetail() {
 				const res = await this.$c.fetch(this.$api.goods.goodsDetail, { id: this.id })
@@ -236,16 +234,19 @@
 			},
 			async onBuy() {
 				this.showPassword = false
-				const res = await this.$c.fetch(this.$api.goods.orderAdd, { 
-					goods_sku: [{ id: this.sku.id, quantity: this.quantity, shopping_cart_id: 0 }],
-					user_address_id: this.address.id
-				})
-				if(res) this.onPay(res.id)
+				if (!this.orderId) {
+					const res = await this.$c.fetch(this.$api.goods.orderAdd, {
+						goods_sku: [{ id: this.sku.id, quantity: this.quantity, shopping_cart_id: 0 }],
+						user_address_id: this.address.id
+					})
+					if(res) this.orderId = res.id
+				}
+				if (this.orderId) this.onPay()
 			},
-			async onPay(id) {
+			async onPay() {
 				this.showInfo = false
 				const res = await this.$c.fetch(this.$api.goods.orderPay, {
-					id: id,
+					id: this.orderId,
 					paying_mode: this.paying_mode,
 					password: this.password
 				})
@@ -257,10 +258,6 @@
 					} else {
 						this.$c.goto('/pages/point/order')
 					}
-				} else {
-					setTimeout(() => {
-						this.$c.goto(`/pages/point/pay?id=${id}&from=detail`)
-					}, 1500)
 				}
 			},
 			onNumChange(e) {
@@ -279,6 +276,10 @@
 				if(!this.paying_mode) {
 					this.$c.toast('请选择支付方式')
 					return
+				}
+				if (!this.address?.id) {
+					this.$c.toast('请先添加收货地址')
+					return false
 				}
 				this.password = ''
 				this.showPassword = true

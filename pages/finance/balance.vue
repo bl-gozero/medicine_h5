@@ -1,10 +1,10 @@
 <template>
 	<view class="page bg-page bg">
-		<Title title="我的余额" bgColor="transparent" />
+		<Title title="我的奖励" bgColor="transparent" />
 		<view class="plr-20 mt-40">
 			<view class="balance_box bg-white rounded-8">
 				<view class="pt-44 plr-25 pb-60 border-bottom bg-1 roundedTop-8">
-					<view class="text-info fs-12">钱包余额（元）</view>
+					<view class="text-info fs-12">钱包奖励（元）</view>
 					<view class="mt-20 fs-32 fw-7">{{ profile.balance }}</view>
 				</view>
 				<view class="flex-between h-57">
@@ -52,7 +52,7 @@
 			return {
 				profile: this.$c.profile(),
 				list: [
-					{ id: 1, name: '充值', url: '/pages/finance/recharge', icon: '/static/finance/recharge.webp' },
+					// { id: 1, name: '充值', url: '/pages/finance/recharge', icon: '/static/finance/recharge.webp' },
 					{ id: 2, name: '转账', url: '/pages/finance/transfer', icon: '/static/finance/transfer.webp' },
 					{ id: 3, name: '提现', url: '/pages/finance/withdraw', icon: '/static/finance/withdraw.webp' },
 				]

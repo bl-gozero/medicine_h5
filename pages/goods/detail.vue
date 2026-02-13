@@ -78,18 +78,18 @@
 		<u-popup :show="showInfo" mode="bottom" round="8" closeable @close="showInfo = false">
 			<view class="ptb-20 fs-12 info_box lh-10">
 				<view class="text-center fs-18 fw-5">{{ mode == 1? '添加到购物车' : '提交订单'}}</view>
-				<!-- <view class="plr-20 flex justify-between mt-37" style="align-items: flex-start;" @click="$c.goto('/pages/user/address?from=goodsDetail')">
+				<view class="plr-20 flex justify-between mt-37" style="align-items: flex-start;" @click="$c.goto('/pages/user/address?from=goodsDetail')">
 					<image src="/static/goods/place.png" class="w-12 h-14"></image>
-					<view v-if="address.district" class="">
+					<view v-if="address.district" class="flex-1 ml-8 mr-20">
 						<view class="">{{ address.district + address.address }}</view>
 						<view class="mt-15 fs-12">
 							<text class="text-info">{{ address.name }}</text>
 							<text class="text-info ml-20">{{ address.phone }}</text>
 						</view>
 					</view>
-					<view class="flex-1 ml-8 mr-20 text-info">请添加收货地址</view>
+					<view v-else class="flex-1 ml-8 mr-20 text-info">请添加收货地址</view>
 					<u-icon name="arrow-right" size="14" color="#7D7D7D"></u-icon>
-				</view> -->
+				</view>
 				<view class="plr-20 flex-start mt-30 mb-20">
 					<image v-if="sku.picture" :src="sku.picture[0]" class="i-76 rounded-12" mode="aspectFill"></image>
 					<view class="ml-9 flex-1">
@@ -162,7 +162,7 @@
 		},
 		data() {
 			return {
-				profile: this.$c.getStorage('profile') || {},
+				profile: this.$c.profile(),
 				id: null,
 				goods: {},
 				top: this.$c.barHeight(),
@@ -176,7 +176,7 @@
 				password: '',
 				cateList: [{
 					id: 4,
-					value: '余额'
+					value: '奖励'
 				}],
 				doCartAdd: null,
 				doBuy: null,
@@ -279,25 +279,24 @@
 					},
 				},
 				scrollLeft: 0,
-				priceLog: []
+				priceLog: [],
+				orderId: null
 			}
 		},
-		onLoad(p) {
+		async onLoad(p) {
 			this.$c.removeStorage('address')
-			if (p.id && parseInt(p.id)) {
+			const profile = await this.$c.checkeLogin(1)
+			if (profile && p.id && parseInt(p.id)) {
+				this.profile = profile
 				this.id = parseInt(p.id)
-				this.getProfile()
 				this.goodsDetail()
-				this.addressList()
-				// this.getCateList()
 			}
 			this.doCartAdd = this.$c.onceRequest(this.onCartAdd)
 			this.doBuy = this.$c.onceRequest(this.onBuy)
 			this.onTask()
 		},
 		onShow() {
-			const address = this.$c.getStorage('address')
-			if (address) this.address = address
+			this.addressList()
 		},
 		methods: {
 			getWidth() {
@@ -306,10 +305,8 @@
 			},
 			async initEchart() {
 				await this.$refs.echartRef.init(this.option);
-				// console.log('echart初始化后', this.$refs.echartRef)
 				this.setOption()
 			},
-			// 异步更新数据或配置
 			setOption() {
 				// 执行更新
 				let m = this.priceLog.map(item => item.date) 
@@ -362,7 +359,6 @@
 				const res = await this.$c.fetch(this.$api.goods.priceLog, { goods_sku_id: this.sku.id })
 				if(res.length) {
 					this.priceLog = res
-					// this.setOption()
 				}
 			},
 			onTask() {
@@ -370,22 +366,14 @@
 					id: 2
 				})
 			},
-			async getProfile() {
-				const res = await this.$c.fetch(this.$api.user.getProfile)
-				if (res) {
-					this.profile = this.profile
-					this.$c.setStorage('profile', res)
-				}
-			},
 			async addressList() {
 				const res = await this.$c.fetch(this.$api.user.addressList)
-				if (res) {
-					this.address = res.length > 0 ? res[0] : {}
+				if (!Array.isArray(res) || res.length === 0) {
+				  this.address = {}
+				  return
 				}
-			},
-			async getCateList() {
-				const res = await this.$c.fetch(this.$api.config.payCategoryList)
-				if (res) this.cateList = [...this.cateList, ...(res || [])]
+				const address = this.$c.getStorage('address')
+				this.address = !this.address?.id || !res.some(i => i.id === address.id) ? res[0] : address
 			},
 			async goodsDetail() {
 				const res = await this.$c.fetch(this.$api.goods.goodsDetail, {
@@ -413,20 +401,24 @@
 				}
 			},
 			async onBuy() {
-				const res = await this.$c.fetch(this.$api.goods.orderAdd, {
-					goods_sku: [{
-						id: this.sku.id,
-						quantity: this.quantity,
-						shopping_cart_id: 0
-					}],
-					user_address_id: this.address.id
-				})
-				if (res) this.onPay(res.id)
+				this.showPassword = false
+				if (!this.orderId) {
+					const res = await this.$c.fetch(this.$api.goods.orderAdd, {
+						goods_sku: [{
+							id: this.sku.id,
+							quantity: this.quantity,
+							shopping_cart_id: 0
+						}],
+						user_address_id: this.address.id
+					})
+					if (res) this.orderId = res.id
+				}
+				if (this.orderId) this.onPay()
 			},
 			async onPay(id) {
 				this.showPassword = false
 				const res = await this.$c.fetch(this.$api.goods.orderPay, {
-					id: id,
+					id: this.orderId,
 					paying_mode: this.paying_mode,
 					password: this.password
 				})
@@ -439,10 +431,7 @@
 						await this.$c.toast('购买成功')
 						this.$c.goto('/pages/order/list')
 					}
-				} else {
-					setTimeout(() => {
-						this.$c.goto(`/pages/order/pay?id=${id}`)
-					}, 1500)
+					this.orderId = null
 				}
 			},
 			onNumChange(e) {
@@ -461,6 +450,10 @@
 				if (!this.paying_mode) {
 					this.$c.toast('请选择支付方式')
 					return
+				}
+				if (!this.address?.id) {
+					this.$c.toast('请先添加收货地址')
+					return false
 				}
 				this.password = ''
 				this.showPassword = true

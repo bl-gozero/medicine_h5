@@ -2,7 +2,7 @@
 	<view class="page bg-page lh-10">
 		<Title title="提交订单" fixed></Title>
 		<view class="plr-20 relative">
-			<!-- <view class="mt-10 bg-white rounded-12 plr-13 ptb-18 border-box">
+			<view v-if="order.address" class="mt-10 bg-white rounded-12 plr-13 ptb-18 border-box">
 				<view class="flex-between">
 					<image src="/static/goods/place.png" class="w-12 h-14 self-start mt-2"></image>
 					<view class="mlr-11 flex-1">
@@ -13,7 +13,7 @@
 						</view>
 					</view>
 				</view>
-			</view> -->
+			</view>
 			<view class="mt-20 bg-white rounded-14 plr-16">
 				<view class="pb-20">
 					<view class="flex-between pt-20" v-for="(i, index) in order.details" :key="i.index">
@@ -50,7 +50,7 @@
 					<text class="fw-7">￥{{ order.price }}</text>
 				</view>
 			</view>
-			<view class="mt-12 plr-13 ptb-20 bg-white rounded-12">
+			<view class="mt-12 plr-13 ptb-10 bg-white rounded-12">
 				<!-- <view class="flex-between ptb-13" v-for="item in cateList" :key="item.id" @click="paying_mode = item.id">
 					<view class="flex-start">
 						<image :src="`/static/pay/icon/${item.id}.png`" class="i-18 mr-10"></image>
@@ -100,7 +100,7 @@
 				password: '',
 				cateList: [{
 					id: 4,
-					value: '余额'
+					value: '奖励'
 				}],
 				paying_mode: '',
 				doPay: null

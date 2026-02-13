@@ -1,10 +1,10 @@
 <template>
 	<view class="page bg-page">
-		<Title title="余额充值" />
+		<Title title="奖励充值" />
 		<view class="plr-20 pt-20">
 			<view class="h-61 rounded-16 flex-between plr-16"
 				style="background: linear-gradient(270deg, #92CBCE 4%, #DBEBEB 98%);">
-				<text>钱包余额</text>
+				<text>钱包奖励</text>
 				<text class="fs-18 fw-7" style="color: #064144;">￥{{ profile.balance }}</text>
 			</view>
 			<view class="mt-16 fw-7">充值金额</view>

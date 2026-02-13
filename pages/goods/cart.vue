@@ -93,13 +93,16 @@
 			}
 		},
 		async onLoad() {
+			this.$c.removeStorage('goods_sku')
 			if(!await this.$c.checkeLogin()) return
 			this.getProfile()
-			this.getList()
 			this.addressList()
 			this.doEdit = this.$c.onceRequest(this.onEdit)
 			this.doBuy = this.$c.onceRequest(this.onBuy)
 			this.doDelete = this.$c.onceRequest(this.onDelete)
+		},
+		onShow() {
+			this.getList()
 		},
 		onReady() {
 			this.$nextTick(() => {
@@ -174,20 +177,22 @@
 			async onBuy() {
 				const goods_sku = this.list
 					.filter(item => item.status === true)
-					.map(item => ({
-						id: item.goods_sku_id,
-						quantity: item.quantity,
-						shopping_cart_id: item.id
-					}))
+					// .map(item => ({
+					// 	id: item.goods_sku_id,
+					// 	quantity: item.quantity,
+					// 	shopping_cart_id: item.id
+					// }))
 				if(goods_sku.length == 0) {
 					this.$c.toast('请选择要结算的商品')
 					return
 				}
-				const res = await this.$c.fetch(this.$api.goods.orderAdd, {
-					goods_sku: goods_sku,
-					user_address_id: this.address.id
-				})
-				if (res) this.$c.goto(`/pages/order/pay?id=${res.id}`)
+				this.$c.setStorage('goods_sku', goods_sku)
+				this.$c.goto(`/pages/order/create`)
+				// const res = await this.$c.fetch(this.$api.goods.orderAdd, {
+				// 	goods_sku: goods_sku,
+				// 	user_address_id: this.address.id
+				// })
+				// if (res) this.$c.goto(`/pages/order/pay?id=${res.id}`)
 			},
 		}
 	}

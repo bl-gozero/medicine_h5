@@ -3,7 +3,7 @@
 		<Title :title="title[page]" />
 		<view v-if="page === 0" class="plr-20">
 			<view class="text-center pb-70 border-bottom">
-				<view class="fs-16 fw-7 mt-85">填写对方北辰余额账号</view>
+				<view class="fs-16 fw-7 mt-85">填写对方北辰奖励账号</view>
 				<view class="text-info mt-20">请确认对方账户信息，资金将实时到账</view>
 			</view>
 			<view class="ptb-20 flex-between border-bottom">
@@ -34,7 +34,7 @@
 					<u-input v-model.number="form.amount" placeholder="请输入金额" placeholderClass="fs-14 text-info" type="number"
 						border="none" :formatter="priceFormatter" class="flex-1 ml-10" customStyle="font-size: 28px;font-weight: 700;" clearable></u-input>
 				</view>
-				<view class="mt-15 text-info">当前账户余额{{ profile.balance }}元</view>
+				<view class="mt-15 text-info">当前账户奖励{{ profile.balance }}元</view>
 				<u-button
 					class="bg-base text-white fw-7 w-247 h-47 mt-70"
 					shape="circle"
@@ -56,7 +56,7 @@
 				</view>
 				<view class="flex-between mtb-20">
 					<text>交易方式</text>
-					<text class="text-info">余额</text>
+					<text class="text-info">奖励</text>
 				</view>
 				<view class="flex-between mtb-20">
 					<text>时间</text>
@@ -81,7 +81,7 @@
 			return {
 				profile: this.$c.profile(),
 				form: { avatar: '', to_account: '', password: '', amount: null },
-				title: ['填写账号', '余额转账', '账单详情'],
+				title: ['填写账号', '奖励转账', '账单详情'],
 				page: 0,
 				showPassword: false,
 				doSubmit: null,

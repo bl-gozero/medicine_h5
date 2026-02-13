@@ -273,16 +273,18 @@
 				}
 			},
 			async onAgain(item) {
-				const goods_sku = item.details.map(i => ({
-					id: i.goods_sku_id,
-					quantity: i.quantity,
-					shopping_cart_id: 0
-				}))
-				const res = await this.$c.fetch(this.$api.goods.orderAdd, { 
-					goods_sku: goods_sku,
-					user_address_id: 0
-				})
-				if(res) this.$c.goto(`/pages/order/pay?id=${res.id}`)
+				// const goods_sku = item.details.map(i => ({
+				// 	id: i.goods_sku_id,
+				// 	quantity: i.quantity,
+				// 	shopping_cart_id: 0
+				// }))
+				// const res = await this.$c.fetch(this.$api.goods.orderAdd, { 
+				// 	goods_sku: goods_sku,
+				// 	user_address_id: 0
+				// })
+				// if(res) this.$c.goto(`/pages/order/pay?id=${res.id}`)
+				this.$c.setStorage('goods_sku', item.details)
+				this.$c.goto(`/pages/order/create`)
 			},
 			async onShowShip(item) {
 				const res = await this.$c.fetch(this.$api.goods.orderDetail, {

@@ -25,7 +25,7 @@
 				</view>
 				<view class="flex-between mt-25">
 					<text class="text-info">到账方式</text>
-					<text>余额</text>
+					<text>奖励</text>
 				</view>
 				<view class="flex-between mt-25">
 					<text class="text-info">回购时间</text>

@@ -13,6 +13,9 @@ export default {
 	payCategoryList(data = {}, config = {}) {
 		return request.post('/cashier_counter/list', data, { ...config })
 	},
+	payCategoryList2(data = {}, config = {}) {
+		return request.post('/cashier_counter/list_v2', data, { ...config })
+	},
 	cardCategoryList(data = {}, config = {}) {
 		return request.post('/card_holder/allow', data, { ...config })
 	},

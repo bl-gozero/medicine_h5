@@ -206,7 +206,7 @@
 						<text class="ml-3">温馨提示</text>
 					</view>
 					<view class="">平台提供官方回购服务，用户可按规定将仓库内产品出售给平台以补充库存。回购期结束后，产品价格将上调
-						5%–20%；回购期开放时间将根据货物储备量及市场情况灵活调整。到账方式为账户余额</view>
+						5%–20%；回购期开放时间将根据货物储备量及市场情况灵活调整。到账方式为账户奖励</view>
 				</view>
 				<view class="h-10 bg-page"></view>
 				<view class="mt-20 fw-5">共计{{ num }}件</view>
@@ -512,7 +512,7 @@
 						showErr: false
 					}).then(res => {
 						this.init()
-						this.showPop('success', `本次回购总金额元${total}，<br />已到账，请查看账户余额。`)
+						this.showPop('success', `本次回购总金额元${total}，<br />已到账，请查看账户奖励。`)
 					}).catch(err => {
 						if(err.message == '有商品本期回购已达上线') {
 							this.showPop('finished')
@@ -572,7 +572,7 @@
 						title: "回购成功",
 						text: text,
 						buttons: [{
-								text: '账户余额',
+								text: '账户奖励',
 								class: 'bold fs-16 w-135 h-51'
 							},
 							{

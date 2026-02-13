@@ -1,6 +1,6 @@
 <template>
 	<view class="page bg-page">
-		<Title title="余额提现">
+		<Title title="奖励提现">
 			<template v-slot:right>
 			  <text class="text-base" @click="$c.goto('/pages/finance/withdrawList')">提现明细</text>
 			</template>
@@ -153,15 +153,18 @@
 				const result = this.cateList.find(cate =>
 					cate.id === (this.cardList.find(card => card.id === this.form.card_holder_id)?.category.id)
 				)
-				if(result) {
-					if(this.form.amount < result.min_amount) {
-						this.$c.toast(result.value + '最小提现金额' + result.min_amount)
-						return false
-					}
-					if(this.form.amount > result.max_amount) {
-						this.$c.toast(result.value + '最大提现金额' + result.max_amount)
-						return false
-					}
+				if(result && this.form.amount < result.min_amount || this.form.amount > result.max_amount) {
+					// if(this.form.amount < result.min_amount) {
+					// 	this.$c.toast(result.value + '最小提现金额' + result.min_amount)
+					// 	return false
+					// }
+					// if(this.form.amount > result.max_amount) {
+					// 	this.$c.toast(result.value + '最大提现金额' + result.max_amount)
+					// 	return false
+					// }
+					result.id === 3 ? this.$c.toast(`温馨提示：银行卡提现限额为 ${result.min_amount} 元至 ${result.max_amount} 元，请根据实际情况选择提现金额。`)
+							: this.$c.toast(`温馨提示：提现限额 ${result.min_amount} 元至 ${result.max_amount} 元，超额可选择提现到 银行卡。`)
+					return false
 				}
 				return true
 			},
@@ -174,6 +177,7 @@
 				if(!this.checkInfo()) return false
 				this.$api.finance.withdraw(this.form, { showErr: false }).then(res => {
 					this.$c.toast('提交成功，请等待审核')
+					this.profile.balance = this.profile.balance - this.form.amount
 					this.form = { amount: '', card_holder_id: '' }
 				}).catch(res => {
 					if(res.code === 2000) {

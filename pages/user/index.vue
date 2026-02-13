@@ -31,7 +31,7 @@
 			<view class="flex-between lh-10 mt-20 plr-40 border-box text-center" style="color: #064144;gap: 15px;">
 				<view v-if="$c.mode()" class="pw-30" @click="$c.goto('/pages/finance/balance')">
 					<view class="fw-7 fs-22 flex-start u-line-1" style="line-height: 30px;">{{ profile.balance }}</view>
-					<view class="mt-12 text-name">余额</view>
+					<view class="mt-12 text-name">奖励</view>
 				</view>
 				<view class="pw-30" @click="$c.goto('/pages/point/index')">
 					<view class="fw-7 fs-22 flex-start u-line-1" style="line-height: 30px;">{{ profile.integral }}

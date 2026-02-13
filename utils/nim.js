@@ -127,7 +127,7 @@ export async function logoutNIM() {
 	uni.removeStorageSync('chatInfo')
 	uni.removeStorageSync('frind_id')
 	uni.setStorageSync('jwt', '')
-	uni.setStorageSync('profile', {})
+	uni.removeStorageSync('profile')
 	uni.reLaunch({
 		url: '/pages/index/login'
 	})

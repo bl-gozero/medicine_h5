@@ -1,8 +1,20 @@
 import env from './env'
+import {
+	initDevice
+} from '@/utils/device'
+
+let deviceCache = null
+
+async function getDeviceInfo() {
+	if (!deviceCache) {
+		deviceCache = await initDevice()
+	}
+	return deviceCache
+}
 
 const BASE_URL = env.BASE_URL
 
-function request({
+async function request({
 	url,
 	method = 'POST',
 	data = {},
@@ -13,9 +25,14 @@ function request({
 	jwt = null
 }) {
 	jwt = jwt ? jwt : uni.getStorageSync('jwt')
-	if(auth && !jwt) return false
+	if (auth && !jwt) return false
 	
-	if (loading) uni.showLoading({ mask: true })
+	const { deviceId, fingerprint } = await getDeviceInfo()
+	// console.log(deviceId, fingerprint)
+	
+	if (loading) uni.showLoading({
+		mask: true
+	})
 
 	return new Promise((resolve, reject) => {
 		uni.request({
@@ -23,11 +40,11 @@ function request({
 			method,
 			data,
 			header: {
-				'Content-Type': 'application/json',
-				...(jwt ? {
-					Authorization: `Bearer ${jwt}`
-				} : {}),
-				...header
+			  'Content-Type': 'application/json',
+			  ...(jwt ? { Authorization: `Bearer ${jwt}` } : {}),
+			  'App-ID': deviceId,
+			  'Device-ID': fingerprint,
+			  ...header
 			},
 			success(res) {
 				if (loading) uni.hideLoading()
@@ -54,7 +71,7 @@ function request({
 						}, 1000)
 						reject(res.data)
 					} else {
-						if(showErr) {
+						if (showErr) {
 							uni.showToast({
 								title: message || '操作失败',
 								icon: 'none'
@@ -64,7 +81,7 @@ function request({
 					}
 				} else {
 					uni.showToast({
-						title: '服务器错误',
+						title: '你的网络有点卡顿哦，请稍后再试。',
 						icon: 'none'
 					})
 					reject(res)
@@ -73,7 +90,7 @@ function request({
 			fail(err) {
 				if (loading) uni.hideLoading()
 				uni.showToast({
-					title: '请求失败，请检查您的网络情况或稍后再试',
+					title: '你的网络有点卡顿哦，请稍后再试。',
 					icon: 'none'
 				})
 				reject(err)

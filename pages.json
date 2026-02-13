@@ -192,12 +192,12 @@
 				"navigationStyle": "custom"
 			}
 		},
-		{
-			"path": "pages/finance/recharge",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
+		// {
+		// 	"path": "pages/finance/recharge",
+		// 	"style": {
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
 		{
 			"path": "pages/finance/withdraw",
 			"style": {
@@ -464,6 +464,12 @@
 		},
 		{
 			"path": "pages/web/pay",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/order/create",
 			"style": {
 				"navigationStyle": "custom"
 			}

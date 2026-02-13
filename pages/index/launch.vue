@@ -17,7 +17,7 @@
 				order: {},
 				showPassword: false,
 				password: '',
-				cateList: [{ id: 4, value: '余额' }],
+				cateList: [{ id: 4, value: '奖励' }],
 				paying_mode: '',
 				doPay: null
 			}
