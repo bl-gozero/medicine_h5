@@ -23,6 +23,7 @@
 									<text class="fw-7" :style="{color: getColor(item.status.id)}">{{ item.status.value }}</text>
 								</view>
 							</view>
+							<view v-if="item.reject_remark && item.status.id == 4" class="text-info fs-10 mt-7">{{ item.reject_remark }}</view>
 						</view>
 					</view>
 				</view>

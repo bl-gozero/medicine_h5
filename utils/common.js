@@ -54,6 +54,12 @@ const common = {
 	formatMoney(num) {
 		return parseFloat(num || 0).toFixed(2)
 	},
+	
+	priceFormatter(value) {
+		if (!value) return '';
+		let match = value.toString().match(/^\d*(\.?\d{0,2})?/);
+		return match ? match[0] : '';
+	},
 
 	/**
 	 * 防抖函数
@@ -375,14 +381,15 @@ const common = {
 			medals: {
 				id: 1,
 				value: "无奖牌"
-			},
+			}, 
 			upgrade_at: "",
 			balance: 0,
 			referral_code: "",
 			direct: 0,
 			direct_vip: 0,
 			spread_count: 0,
-			share_url: ''
+			share_url: '',
+			subsidy: 0
 		}
 	},
 

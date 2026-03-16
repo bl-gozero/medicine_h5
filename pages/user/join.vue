@@ -14,7 +14,7 @@
 						<view class="mt-11">
 							每邀请1位好友注册成功后，可获得
 							<text class="money">3元</text>
-							现金,最高可获得
+							购物金,最高可获得
 							<text class="money">30元</text>
 						</view>
 						<image src="/static/join/step_1.png" class="pw-100 mt-17" mode="widthFix"></image>

@@ -84,6 +84,10 @@
 							<text class="text-info">收货时间</text>
 							<text class="">{{ order.receiving_at }}</text>
 						</view>
+						<view v-if="order.subsidy" class="flex-between mt-20">
+							<text class="text-info">购物金抵扣</text>
+							<text class="">-￥{{ order.subsidy }}</text>
+						</view>
 						<view v-if="order.cancel_at" class="flex-between mt-20">
 							<text class="text-info">取消时间</text>
 							<text class="">{{ order.cancel_at }}</text>
@@ -95,7 +99,7 @@
 							</view>
 							<view class="flex-between mt-20">
 								<text class="text-info">{{ order.status > 1 ? '付款' : '应付' }}</text>
-								<text class="">￥{{ order.price }}</text>
+								<text class="">￥{{ order.price - (order.subsidy || 0) }}</text>
 							</view>
 						</view>
 					</view>

@@ -36,8 +36,14 @@
 						<text v-else></text>
 						<view class="">
 							<text class="fs-12">实付</text>
-							<text class="fs-16 fw-7">￥{{ item.price }}</text>
+							<text class="fs-16 fw-7">￥{{ item.price - item.subsidy }}</text>
 						</view>
+					</view>
+					<view v-if="item.subsidy" class="text-right mt-20 fs-10">
+						<text>商品总价</text>
+						<text class="fw-7 mr-16">￥{{ item.price }}</text>
+						<text>购物金抵扣</text>
+						<text class="fw-7" style="color: #FF8F1F;">-￥{{ item.subsidy }}</text>
 					</view>
 				</view>
 				<view class="mt-20 flex-between">

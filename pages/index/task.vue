@@ -28,7 +28,7 @@
 							</view>
 						</view>
 						<view class="mt-3 mb-10 fs-10 u-line-1">{{ item.name }}</view>
-						<u-button class="btn btn-2" shape="circle" @click="$c.goto(item.url)">{{ item.text }}</u-button>
+						<u-button class="btn btn-2 p-0" :class="item.end && 'btn-1'" shape="circle" @click="$c.goto(item.url)">{{ item.text }}</u-button>
 					</view>
 				</view>
 				<u-scroll-list v-else indicatorActiveColor="#F3AF67">
@@ -42,7 +42,7 @@
 							</view>
 						</view>
 						<view class="mt-3 mb-10 fs-10 u-line-1">{{ item.name }}</view>
-						<u-button class="btn btn-2" shape="circle" @click="$c.goto(item.url)">{{ item.text }}</u-button>
+						<u-button class="btn btn-2 p-0" :class="item.end && 'btn-1'" shape="circle" @click="$c.goto(item.url)">{{ item.text }}</u-button>
 					</view>
 				</u-scroll-list>
 			</view>
@@ -84,7 +84,7 @@
 				</view>
 				<view class="mt-24 flex-between item-stretch">
 					<image src="/static/task/invite.webp" class="i-24"></image>
-					<view class="ml-3 mr-30 flex-1">
+					<view class="ml-3 mr-20 flex-1">
 						<view class="fw-5">邀请好友</view>
 						<view v-if="point_2" class="all h-20 rounded-x flex-start plr-5 mt-6">
 							<image src="/static/point/coin.webp" class="w-17 h-18"></image>
@@ -121,7 +121,7 @@
 				<image src="/static/user/sign_reward.png" class="w-113 h-107" style="margin-top: -53px;"></image>
 				<view class="fw-7 fs-18 mt-20 text-base">签到成功</view>
 				<view class="mt-9 fs-12" style="color: #8B9E9F;">真棒！请保持每天签到哦！</view>
-				<view v-if="$c.mode()" class="fs-16 mt-10">恭喜您获得<text class="fs-36 fw-7 text-danger">{{ reward }}</text>元</text></view>
+				<view v-if="$c.mode()" class="fs-16 mt-10">恭喜您获得<text class="fs-36 fw-7 text-danger">{{ reward }}</text>元购物金</text></view>
 				<view v-else class="fs-16 mt-10">恭喜您签到成功</view>
 				<button class="bg-black bold fs-16 flex-center text-white w-234 h-51 rounded-x mt-20"
 					@click="showReward = false;">知道了</button>
@@ -152,12 +152,13 @@
 						show: true
 					},
 					{
-						id: 4,
-						name: '领920元新春礼',
-						img: '/static/task/wine.webp',
-						text: '做任务',
-						url: '/pages/activity/wine',
+						id: 5,
+						name: '5天4晚海南行',
+						img: '/static/task/trip_hn.webp',
+						text: '去参与',
+						url: '/pages/activity/trip',
 						is_new: false,
+						end: false,
 						show: true
 					},
 					{
@@ -171,11 +172,21 @@
 					},
 					{
 						id: 3,
-						name: '邀好友得现金',
+						name: '邀好友得购物金',
 						img: '/static/task/task_invite.webp',
 						text: '去邀请',
 						url: '/pages/user/qrcode',
 						is_new: false,
+						show: true
+					},
+					{
+						id: 4,
+						name: '领920元新春礼',
+						img: '/static/task/wine.webp',
+						text: '已结束',
+						url: '/pages/activity/wine',
+						is_new: false,
+						end: true,
 						show: true
 					},
 				],
@@ -284,7 +295,7 @@
 	}
 
 	.btn-1 {
-		background: #CBCBCB;
+		background: #CBCBCB !important;
 		box-shadow: none;
 	}
 

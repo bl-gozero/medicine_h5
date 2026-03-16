@@ -5,13 +5,13 @@
 			<image src="/static/avtivity/egg/top_1_1.webp" class="pw-100" mode="widthFix"></image>
 			<!-- <image src="/static/avtivity/egg/top_1_2.webp" class="w-375 h-256 absolute left-0 right-0 auto-x" style="top: 72%;"></image> -->
 			<view class="flex-center" style="margin-top: -80rpx;">
-				<image src="/static/avtivity/egg/top_1_2.webp" class="w-375 h-256"></image>
+				<image src="/static/avtivity/egg/rule.webp" class="w-375 h-511"></image>
 			</view>
 		</view>
 		<view v-if="load" class="">
 			<view class="flex-center">
 				<view class="relative">
-					<image src="/static/avtivity/egg/box-2.webp" class="w-375 h-257 block"></image>
+					<image src="/static/avtivity/egg/box-2.webp" class="w-360 h-257 block"></image>
 					<image 
 						:src="`/static/avtivity/egg/btn-${done? 2 : 1}.webp`"
 						class="absolute top-130 left-0 right-0 auto-x w-279 h-68"
@@ -21,9 +21,9 @@
 				</view>
 			</view>
 			<view class="flex-center" style="margin-top: -1px;">
-				<view class="relative w-375">
-					<image src="/static/avtivity/egg/box_2.webp" class="pw-100 block" style="height: 888px;"></image>
-					<view class="full plr-20 border-box">
+				<view class="relative w-343">
+					<!-- <image src="/static/avtivity/egg/box_2.webp" class="pw-100 block" style="height: 888px;"></image> -->
+					<view class="w-343 bg-white plr-20 pb-30 border-box" style="border-radius: 0 0 20px 20px;">
 						<view class="warn_box">
 							<image src="/static/avtivity/egg/warn.webp" class="i-12"></image>
 							<text class="ml-3">礼品若遇缺货，公司将以同等级别其它品牌作为平替，确保您的权益不受影响。</text>
@@ -44,6 +44,7 @@
 					</view>
 				</view>
 			</view>
+			<view class="h-30"></view>
 		</view>
 		
 		<u-popup :show="showAddress" mode="bottom" bgColor="transparent" closeable @close="showAddress = false">
@@ -84,6 +85,38 @@
 				<u-button class="btn mt-10" shape="circle" text="确认地址并领取" @click="doSubmit"></u-button>
 			</view>
 		</u-popup>
+		
+		<u-popup :show="showActive" mode="center" bgColor="transparent" :closeOnClickOverlay="false" @close="close">
+			<view class="w-308 h-354 rounded-20 plr-14 border-box" style="background: linear-gradient(180deg, #FFEFCE 3%, #FFFFFF 49%);">
+				<view class="text-center" style="margin-top: -50px;">
+					<image src="/static/avtivity/egg/active.webp" class="w-95 h-89" />
+				</view>
+				<view class="fs-18 fw-7 text-center text-base">活跃度提醒</view>
+				<view class="text-center mt-10" style="line-height: 20px;">
+					<view class="">很抱歉！您的活跃度不足</view>
+					<view class="">目前无法领取，请激活您的活跃度</view>
+				</view>
+				<view class="rounded-8 p-10 fs-12 mt-25" style="background: #F7F2E8;color: #817968;">
+					<view class="fw-7">激活活跃度，获取持续领取资格：</view>
+					<scroll-view class="h-82 mt-10" scroll-y>
+						<view class="lh-15">
+							1、用户需要保持账户拥有“有效购买记录的商品”（已邮寄或选择平台存储均可），才可以持续领取相关礼品权益。<br />
+							2、如果商品 转赠给他人 或 被平台回购，导致账户内已经没有任何商品，则系统会判定为 “活跃度不足”，该账户将暂时无法继续领取。<br />
+							3、若想恢复领取资格，需重新购买商品，并选择 邮寄 或 存储在平台，即可恢复领取。<br />
+							4、注意：转赠获得的商品不计入有效资格。<br />
+						</view>
+					</scroll-view>
+				</view>
+				<view class="flex-center fgap-10 mt-20">
+					<view class="">
+						<u-button class="w-135 h-51 fw-7 fs-16" shape="circle" @click="showActive = false">取消</u-button>
+					</view>
+					<view class="">
+						<u-button class="w-135 h-51 bg-base text-white fw-7 fs-16" shape="circle" @click="$c.goto('/pages/goods/searchResult?is_level_valid=1')">去购买</u-button>
+					</view>
+				</view>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -109,7 +142,8 @@
 					{ id: 4, name: '满婷内衣洗专用洗衣液', img: '/static/avtivity/egg/img_ld.webp', class: 'w-50 h-67', stock: 1 },
 					{ id: 3, name: '北辰优选东北大米', img: '/static/avtivity/egg/img_rice.webp', class: 'w-64 h-51', stock: 1 },
 				],
-				select: null
+				select: null,
+				showActive: false
 			}
 		},
 		async onLoad() {
@@ -172,15 +206,30 @@
 					return this.$c.toast('请选择收货地址')
 				}
 				this.showAddress = false
-				const res = await this.$c.fetch(this.$api.user.activityAddress, {
+				// const res = await this.$c.fetch(this.$api.user.activityAddress, {
+				// 	id: this.event_id,
+				// 	address_id: this.address.id,
+				// 	commodity: this.select
+				// })
+				// if(res) {
+				// 	this.$c.toast('提交成功')
+				// 	this.getActivity()
+				// }
+				this.$api.user.activityAddress({
 					id: this.event_id,
 					address_id: this.address.id,
 					commodity: this.select
-				})
-				if(res) {
-					this.$c.toast('提交成功')
-					this.getActivity()
-				}
+				}, { showErr: false })
+					.then(res => {
+						this.$c.toast('提交成功')
+						this.getActivity()
+					}).catch(res => {
+						if (res.code == 2001) {
+							this.showActive = true
+						} else {
+							this.$c.toast(res.message || '领取失败')
+						}
+					})
 			},
 			onDetail(item) {
 				this.$c.goto(`/pages/activity/detail?event_id=${this.event_id}&id=${item.id}`)
@@ -194,7 +243,7 @@
 				const currentMonth = now.getMonth() + 1 // getMonth 从 0 开始
 
 				return year === currentYear && month === currentMonth
-			}
+			},
 		}
 	}
 </script>

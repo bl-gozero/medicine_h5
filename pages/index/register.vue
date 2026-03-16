@@ -54,20 +54,45 @@
 						/>
 					</view>
 				</view>
+				<view class="flex-start mt-20">
+					<view class="i-18 mr-7 self-start">
+						<image src="/static/icon/code.png" class="i-18"></image>
+					</view>
+					<view class="flex-1">
+						<view>图形验证码</view>
+						<LineInput 
+							v-model="form.captcha_code"
+							placeholder="请输入图形验证码"
+							placeholderClass="text-info fs-14 fw-5"
+							:showLine="true"
+							:maxlength="6"
+						>
+							<template #suffix>
+							    <image v-if="!showCodeBtn1 && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix" @click="getCode()"></image>
+								<u-button
+									v-if="showCodeBtn1"
+									class="bg-base-change fw-7 fs-12 text-white plr-20 h-40"
+									shape="circle"
+									text="点击获取"
+									@click="getCode()"
+								></u-button>
+							</template>
+						</LineInput>
+					</view>
+				</view>
 				<view class="flex-start mt-30">
 					<view class="i-18 mr-7 self-start">
 						<image src="/static/icon/code.png" class="i-18"></image>
 					</view>
 					<view class="flex-1">
-						<view>验证码</view>
+						<view>短信验证码</view>
 						<LineInput 
 							v-model="form.captcha"
-							placeholder="请输入验证码"
+							placeholder="请输入短信验证码"
 							placeholderClass="text-info fs-14 fw-5"
 							:showLine="true"
 						>
 							<template #suffix>
-							    <!-- <image v-if="!showCodeBtn && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix" @click="getCode()"></image> -->
 							    <u-button
 							    	v-if="showCodeBtn"
 							    	class="bg-base-change fw-7 fs-12 text-white w-107 h-40"
@@ -136,28 +161,29 @@
 		components: { LineInput },
 		data() {
 			return {
-				form: { account: '', password: '', captcha: '', referral_code: '', re_password: '' },
+				form: { account: '', password: '', captcha: '', referral_code: '', re_password: '', captcha_id: null, captcha_code: '' },
 				agreed: [],
 				captcha: '',
 				showCodeBtn: true,
+				showCodeBtn1: true,
 				doSubmit: null,
 			}
 		},
 		onLoad() {
 			this.$c.removeStorage('jwt')
 			this.$c.removeStorage('profile')
-			// this.getCode()
+			this.getCode()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},
 		methods: {
 			async getCode() {
 				const res = await this.$c.fetch(this.$api.config.captcha)
 				if(res) {
-					this.showCodeBtn = false
+					this.showCodeBtn1 = false
 					this.form.captcha_id = res.id
 					this.captcha = res.base64_image
 				} else {
-					this.showCodeBtn = true
+					this.showCodeBtn1 = true
 				}
 			},
 			async getMobileCode() {
@@ -196,8 +222,12 @@
 					this.$c.toast('两次密码不一致')
 					return
 				}
+				if(!this.form.captcha_code) {
+					this.$c.toast('请输入图形验证码')
+					return
+				}
 				if(!this.form.captcha) {
-					this.$c.toast('请输入验证码')
+					this.$c.toast('请输入短信验证码')
 					return
 				}
 				if(!this.form.referral_code) {
@@ -208,14 +238,22 @@
 					this.$c.toast('阅读并同意《APP用户协议》')
 					return
 				}
-				const res = await this.$c.fetch(this.$api.user.register, this.form)
-				if(res) {
+				// const res = await this.$c.fetch(this.$api.user.register, this.form)
+				// if(res) {
+				// 	this.$c.setStorage('jwt', res.jwt)
+				// 	this.$c.setStorage('index_pop', false)
+				// 	await this.$c.toast('注册成功')
+				// 	this.intIm()
+				// 	// this.getProfile()
+				// }
+				this.$api.user.register(this.form).then(res => {
 					this.$c.setStorage('jwt', res.jwt)
 					this.$c.setStorage('index_pop', false)
-					await this.$c.toast('注册成功')
+					this.$c.toast('注册成功')
 					this.intIm()
-					// this.getProfile()
-				}
+				}).catch(res => {
+					this.getCode()
+				})
 			},
 			async intIm(account) {
 				this.$c.removeStorage('chatInfo')

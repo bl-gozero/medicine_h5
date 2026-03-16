@@ -119,6 +119,18 @@
 								{{ item.name }}
 							</view>
 						</view>
+						<view v-if="subsidy.amount && subsidy.pay" class="mt-20 flex-between">
+							<text>购物金抵扣</text>
+							<text class="fw-7" style="color: #FF8F1F;">-￥{{ subsidy.amount }}</text>
+						</view>
+						<view v-else-if="mode == 2 && goods.is_subsidy == 1 && profile.subsidy >= 1" class="mt-20">
+							<view class="flex-between fgap-20">
+								<text>可用{{ profile.subsidy }}购物金抵扣</text>
+								<u-input v-model.number="subsidy.amount" placeholder="输入抵扣金额" inputAlign="right" 
+									border="none" type="number" :formatter="priceFormatter"></u-input>
+							</view>
+							<view class="mt-10 text-info fs-12">购物金使用后，无法退还</view>
+						</view>
 					</view>
 					<view class="h-6 bg-page"></view>
 					<view v-if="mode == 2" class="plr-20">
@@ -126,7 +138,8 @@
 					</view>
 					<u-button v-if="mode == 1" class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30" shape="circle"
 						text="添加到购物车" @click="doCartAdd"></u-button>
-					<u-button v-else class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-50" shape="circle" text="提交订单"
+					<u-button v-else class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30" shape="circle" 
+						:text="`提交订单（￥${(profile.level.id > 2? sku.vip_price : sku.price) * quantity - (subsidy.amount || 0)}）`"
 						@click="onShowPasswrod()"></u-button>
 					<view class="h-30"></view>
 				</view>
@@ -139,7 +152,7 @@
 				<view class="">需支付</view>
 				<view class="fw-7 pb-36 mt-20" style="border-bottom: 1px solid #F6F6F6;">
 					<text class="fs-20">￥</text>
-					<text class="fs-28">{{ (profile.level.id > 2? sku.vip_price : sku.price) * quantity }}</text>
+					<text class="fs-28">{{ (profile.level.id > 2? sku.vip_price : sku.price) * quantity - (subsidy.amount || 0) }}</text>
 				</view>
 				<view class="mt-28 fw-7 text-left">请输入交易密码</view>
 				<view class="mt-20">
@@ -280,7 +293,12 @@
 				},
 				scrollLeft: 0,
 				priceLog: [],
-				orderId: null
+				orderId: null,
+				subsidy: {
+					show: false,
+					amount : null,
+					pay: 0
+				}
 			}
 		},
 		async onLoad(p) {
@@ -288,6 +306,7 @@
 			const profile = await this.$c.checkeLogin(1)
 			if (profile && p.id && parseInt(p.id)) {
 				this.profile = profile
+				// this.profile.subsidy = 50.5
 				this.id = parseInt(p.id)
 				this.goodsDetail()
 			}
@@ -302,6 +321,24 @@
 			getWidth() {
 				let len = this.priceLog.length
 				return `${len * 16}%`
+			},
+			priceFormatter(value) {
+				if (!value) return '';
+				let max = Math.min(this.profile.level.id > 2?  this.sku.vip_price : this.sku.price, this.profile.subsidy)
+				let v = Math.min(max, value)
+				v =  v < 1 ? 1 : v
+				let match = v.toString().match(/^[1-9]\d*/)
+				return match ? match[0] : ''
+				
+				// let match = value.toString().match(/^\d*(\.?\d{0,2})?/);
+				// let match = value.toString().match(/^[1-9]\d*/)
+				// let max = Math.min(this.profile.level.id > 2?  this.sku.vip_price : this.sku.price, this.profile.subsidy)
+				// if(match) {
+				// 	let v = Math.min(max, parseFloat(match[0]))
+				// 	return v < 1 ? 1 : v
+				// } 
+				// return ''
+				// return match ? Math.min(max, parseFloat(match[0])) : '';
 			},
 			async initEchart() {
 				await this.$refs.echartRef.init(this.option);
@@ -415,8 +452,17 @@
 				}
 				if (this.orderId) this.onPay()
 			},
-			async onPay(id) {
+			async onPay() {
 				this.showPassword = false
+				if (!this.subsidy.pay && this.subsidy.amount) {
+					const res1 = await this.$c.fetch(this.$api.goods.orderSubsidy, {
+						id: this.orderId,
+						amount: this.subsidy.amount,
+					})
+					if (!res1) return false
+					this.subsidy.pay = 1
+					// this.profile = await this.$c.getProfile()
+				}
 				const res = await this.$c.fetch(this.$api.goods.orderPay, {
 					id: this.orderId,
 					paying_mode: this.paying_mode,

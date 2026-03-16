@@ -38,7 +38,12 @@
 					</view>
 					<view class="mt-12 text-name">积分</view>
 				</view>
-				<view class="w-98" @click="$c.goto('/pages/index/task')">
+				<view class="pw-30" @click="$c.goto('/pages/finance/subsidy')">
+					<view class="fw-7 fs-22 flex-start u-line-1" style="line-height: 30px;">{{ profile.subsidy }}
+					</view>
+					<view class="mt-12 text-name">购物金</view>
+				</view>
+				<!-- <view class="w-98" @click="$c.goto('/pages/index/task')">
 					<view class="w-98 h-30">
 						<image v-if="is_sign === true" :src="`/static/user/signed_0.webp`" class="w-98 h-30"></image>
 						<view v-if="is_sign === false" class="relative h-30">
@@ -49,7 +54,7 @@
 						</view>
 					</view>
 					<view class="mt-12 text-name">任务中心</view>
-				</view>
+				</view> -->
 			</view>
 			<view class="h-120"></view>
 		</view>
@@ -69,6 +74,19 @@
 							<view class="mt-6 text-info fs-12">查看全部</view>
 						</view>
 						<image src="/static/user/store.webp" class="w-37 h-41 self-start m-7"></image>
+					</view>
+				</view>
+				<view class="rounded-8 mt-15 ptb-7 plr-10 flex-between fgap-5" style="background: linear-gradient(264deg, #FFD0B7 6%, #F9EBDB 44%, #FFEDE5 98%);" @click="$c.goto('/pages/index/task')">
+					<view class="fw-7 fs-14" style="color: #733C14;">任务中心</view>
+					<view class="fs-10 flex-1 u-line-1" style="color: #F68330;">参与更多活动任务，奖励多多</view>
+					<view class="w-98 h-30">
+						<image v-if="is_sign === true" :src="`/static/user/signed_0.webp`" class="w-98 h-30"></image>
+						<view v-if="is_sign === false" class="relative h-30">
+							<view class="w-76 h-29" style="transform: scale(1.4) translate(10%, -1px);">
+								<PlayImgs path="sign/1" :interval="70" :length="15" :width="76" type="webp"></PlayImgs>
+							</view>
+							<view class="sign_box full">签到领购物金</view>
+						</view>
 					</view>
 				</view>
 				<view v-if="$c.mode()" class="">
@@ -162,11 +180,17 @@
 						icon: '/static/icon/address.png',
 						url: '/pages/user/address'
 					},
+					// {
+					// 	id: 4,
+					// 	name: '设置',
+					// 	icon: '/static/icon/settings.png',
+					// 	url: '/pages/user/settings'
+					// },
 					{
 						id: 4,
-						name: '设置',
-						icon: '/static/icon/settings.png',
-						url: '/pages/user/settings'
+						name: '关于北辰',
+						icon: '/static/icon/about.webp',
+						url: '/pages/index/protocols?type=6'
 					},
 				],
 				is_sign: 'no-load',
@@ -233,11 +257,11 @@
 	}
 
 	.sign_box {
-		width: 98px;
-		height: 30px;
+		/* width: 98px;
+		height: 30px; */
 		/* background-image: url('/static/user/sign.png');
 		background-size: 100% 100%; */
-		font-size: 12px;
+		font-size: 10px;
 		line-height: 30px;
 		text-align: right;
 		padding-right: 8px;

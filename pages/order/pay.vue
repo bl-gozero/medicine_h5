@@ -49,6 +49,25 @@
 					<text>商品总价</text>
 					<text class="fw-7">￥{{ order.price }}</text>
 				</view>
+				<view v-if="order.subsidy" class="mt-20 flex-between">
+					<text>购物金抵扣</text>
+					<text class="fw-7" style="color: #FF8F1F;">-￥{{ order.subsidy }}</text>
+				</view>
+				<view v-else-if="subsidy.pay" class="mt-20 flex-between">
+					<text>购物金抵扣</text>
+					<text class="fw-7" style="color: #FF8F1F;">-￥{{ subsidy.amount }}</text>
+				</view>
+				<view v-else-if="subsidy.show && profile.subsidy >= 1" class="mt-20">
+					<view class="flex-between fgap-20">
+						<text>可用{{ profile.subsidy }}购物金抵扣</text>
+						<u-input v-model.number="subsidy.amount" placeholder="输入抵扣金额" inputAlign="right" border="none" type="number" :formatter="priceFormatter"></u-input>
+					</view>
+					<view class="mt-10 text-info fs-12">购物金使用后，无法退还</view>
+				</view>
+				<view class="flex-between mt-20">
+					<text>合计</text>
+					<text class="fw-7">￥{{ total }}</text>
+				</view>
 			</view>
 			<view class="mt-12 plr-13 ptb-10 bg-white rounded-12">
 				<!-- <view class="flex-between ptb-13" v-for="item in cateList" :key="item.id" @click="paying_mode = item.id">
@@ -62,7 +81,7 @@
 				<Payment v-model="paying_mode"></Payment>
 			</view>
 		</view>
-		<u-button class="w-279 h-41 bg-base-change fw-7 text-white mt-10" shape="circle" text="立即支付"
+		<u-button class="w-279 h-41 bg-base-change fw-7 text-white mt-10" shape="circle" :text="total ? `立即支付（￥${total}）` : '立即支付'"
 			@click="onShowPassword()"></u-button>
 
 		<!-- 密码 -->
@@ -71,7 +90,7 @@
 				<view class="">需支付</view>
 				<view class="fw-7 pb-36 mt-20" style="border-bottom: 1px solid #F6F6F6;">
 					<text class="fs-20">￥</text>
-					<text class="fs-28">{{ order.price }}</text>
+					<text class="fs-28">{{ total }}</text>
 				</view>
 				<view class="mt-28 fw-7 text-left">请输入交易密码</view>
 				<view class="mt-20">
@@ -103,15 +122,27 @@
 					value: '奖励'
 				}],
 				paying_mode: '',
-				doPay: null
+				doPay: null,
+				subsidy: {
+					show: false,
+					amount : null,
+					pay: 0
+				},
+				profile: this.$c.profile()
 			}
 		},
-		onLoad(p) {
+		computed: {
+			total() {
+				return this.order.price - this.order.subsidy - (this.subsidy.amount || 0)
+			}
+		},
+		async onLoad(p) {
 			this.$c.removeStorage('address')
-			if (p.id) {
-				this.id = parseInt(p.id)
-				this.getDetail()
-				// this.getCateList()
+			const profile = await this.$c.checkeLogin(1)
+			if(profile) {
+				this.profile = profile
+				this.id = this.$c.safeId(p)
+				this.id && this.getDetail()
 			}
 			this.doPay = this.$c.onceRequest(this.onPay)
 		},
@@ -133,12 +164,32 @@
 				this.password = '';
 				this.showPassword = true;
 			},
+			priceFormatter(value) {
+				if (!value) return '';
+				let max = Math.min(this.total, this.profile.subsidy)
+				let v = Math.min(max, value)
+				v =  v < 1 ? 1 : v
+				let match = v.toString().match(/^[1-9]\d*/)
+				return match ? match[0] : ''
+				
+				// let match = value.toString().match(/^\d*(\.?\d{0,2})?/);
+				// return match ? match[0] : '';
+				// let match = value.toString().match(/^[1-9]\d*/)
+				// let max = Math.min(this.total, this.profile.subsidy)
+				// if(match) {
+				// 	let v = Math.min(max, parseFloat(match[0]))
+				// 	return v < 1 ? 1 : V
+				// } 
+				// return ''
+				// return match ? Math.min(max, parseFloat(match[0])) : '';
+			},
 			async getDetail() {
 				const res = await this.$c.fetch(this.$api.goods.orderDetail, {
 					id: this.id
 				})
 				if (res) {
 					this.order = res
+					this.subsidy.show = (res?.details || []).some(i => i.is_subsidy == 1)
 				}
 			},
 			async getCateList() {
@@ -147,6 +198,15 @@
 			},
 			async onPay() {
 				this.showPassword = false
+				if (!this.subsidy.pay && this.subsidy.amount) {
+					const res1 = await this.$c.fetch(this.$api.goods.orderSubsidy, {
+						id: this.id,
+						amount: this.subsidy.amount,
+					})
+					// this.profile = await this.$c.getProfile()
+					if (!res1) return false
+					this.subsidy.pay = 1
+				}
 				const res = await this.$c.fetch(this.$api.goods.orderPay, {
 					id: this.id,
 					paying_mode: this.paying_mode,

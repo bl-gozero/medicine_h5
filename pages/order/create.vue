@@ -41,16 +41,31 @@
 					<text>商品总价</text>
 					<text class="fw-7">￥{{ total }}</text>
 				</view>
+				<view v-if="subsidy.amount && subsidy.pay" class="mt-20 flex-between">
+					<text>购物金抵扣</text>
+					<text class="fw-7" style="color: #FF8F1F;">-￥{{ subsidy.amount }}</text>
+				</view>
+				<view v-else-if="subsidy.show && profile.subsidy >= 1" class="mt-20">
+					<view class="flex-between fgap-20">
+						<text>可用{{ profile.subsidy }}购物金抵扣</text>
+						<u-input v-model.number="subsidy.amount" placeholder="输入抵扣金额" inputAlign="right" border="none" type="number" :formatter="priceFormatter"></u-input>
+					</view>
+					<view class="mt-10 text-info fs-12">购物金使用后，无法退还</view>
+				</view>
+				<view class="flex-between mt-20">
+					<text>合计</text>
+					<text class="fw-7">￥{{ total - subsidy.amount || 0 }}</text>
+				</view>
 			</view>
 			<view class="mt-12 plr-13 ptb-10 bg-white rounded-12">
 				<Payment v-model="paying_mode"></Payment>
 			</view>
 		</view>
-		<u-button class="w-279 h-41 bg-base-change fw-7 text-white mt-20" shape="circle" text="立即支付"
+		<u-button class="w-279 h-41 bg-base-change fw-7 text-white mt-20" shape="circle" :text="`立即支付（￥${total - subsidy.amount || 0}）`"
 			@click="onShowPassword()"></u-button>
 
 		<!-- 密码 -->
-		<payPassword v-model="password" :show.sync="showPassword" :amount="total" @finish="doPay"></payPassword>
+		<payPassword v-model="password" :show.sync="showPassword" :amount="total - (subsidy.amount || 0)" @finish="doPay"></payPassword>
 	</view>
 </template>
 
@@ -79,7 +94,12 @@
 				doPay: null,
 				address: {},
 				profile: this.$c.profile(),
-				total: 0
+				total: 0,
+				subsidy: {
+					show: false,
+					amount : null,
+					pay: 0
+				}
 			}
 		},
 		async onLoad(p) {
@@ -106,6 +126,25 @@
 				this.password = '';
 				this.showPassword = true;
 			},
+			priceFormatter(value) {
+				if (!value) return '';
+				let max = Math.min(this.total, this.profile.subsidy)
+				let v = Math.min(max, value)
+				v =  v < 1 ? 1 : v
+				let match = v.toString().match(/^[1-9]\d*/)
+				return match ? match[0] : ''
+				
+				// let match = value.toString().match(/^\d*(\.?\d{0,2})?/);
+				// let match = value.toString().match(/^[1-9]\d*/)
+				// let max = Math.min(this.total, this.profile.subsidy)
+				// if(match) {
+				// 	let v = Math.min(max, parseFloat(match[0]))
+				// 	return v < 1 ? 1 : V
+				// } 
+				// return ''
+				// return match ? Math.min(max, parseFloat(match[0])) : '';
+				// return match ? match[0] : '';
+			},
 			async addressList() {
 				const res = await this.$c.fetch(this.$api.user.addressList)
 				if (!Array.isArray(res) || res.length === 0) {
@@ -119,11 +158,12 @@
 				const goods_sku = this.$c.getStorage('goods_sku')
 				if(goods_sku) {
 					this.order.details = goods_sku
+					this.subsidy.show = goods_sku.some(i => i.is_subsidy == 1)
 					this.total =  (this.order.details || []).reduce(
 					    (sum, item) => sum + (this.profile.level?.id > 2 ? item.vip_price : item.price) * item.quantity,
 					    0
 					)
-					// console.log(this.order.details)
+					// console.log(this.order.details, )
 				} else {
 					this.$c.goBack()
 				}
@@ -147,6 +187,15 @@
 			},
 			async onPay(id) {
 				this.showPassword = false
+				if (!this.subsidy.pay && this.subsidy.amount) {
+					const res1 = await this.$c.fetch(this.$api.goods.orderSubsidy, {
+						id: this.id,
+						amount: this.subsidy.amount,
+					})
+					// this.profile = await this.$c.getProfile()
+					if (!res1) return false
+					this.subsidy.pay = 1
+				}
 				const res = await this.$c.fetch(this.$api.goods.orderPay, {
 					id: this.id,
 					paying_mode: this.paying_mode,

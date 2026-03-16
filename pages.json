@@ -473,6 +473,18 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/finance/subsidy",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/activity/trip",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
 		// {
 		// 	"path": "pages/store/detailForTransfer",

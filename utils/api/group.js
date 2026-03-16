@@ -80,4 +80,7 @@ export default {
 	account_id_profile(data = {}, config = {}) {
 		return request.post('/im/user/account_id_profile', data, { ...config })
 	},
+	partnerGroup(data = {}, config = {}) {
+		return request.post('/im/teams/partners_add', data, { ...config })
+	}
 }

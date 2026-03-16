@@ -52,6 +52,9 @@ export default {
 	orderStore(data = {}, config = {}) {
 		return request.post('/order_form/save', data, { loading: true, ...config })
 	},
+	orderSubsidy(data = {}, config = {}) {
+		return request.post('/order_form/subsidy', data, { loading: true, ...config })
+	},
 	orderExpress(data = {}, config = {}) {
 		return request.post('/order_form/courier', data, { ...config })
 	},
