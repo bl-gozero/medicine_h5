@@ -29,7 +29,7 @@
 							<text class="ml-3">礼品若遇缺货，公司将以同等级别其它品牌作为平替，确保您的权益不受影响。</text>
 						</view>
 						<view class="">
-							<view class="mt-6 flex-between plr-4 ptb-4 border-box rounded-8" style="background: #E8F1FC;" v-for="(item, i) in list" :key="item.datetime || i">
+							<view class="mt-6 flex-between plr-4 ptb-4 border-box rounded-8" style="background: #E8F1FC;" v-for="(item, i) in list" :key="item.datetime">
 								<image src="/static/avtivity/egg/list_2.webp" class="i-47"></image>
 								<view class="flex-1 mlr-4">
 									<!-- <view class="">初生鸡蛋/东北大米一箱</view> -->

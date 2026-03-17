@@ -1,6 +1,6 @@
 <template>
 	<view class="page" style="background: #4F87D6;">
-		<Title title="我的二维码" :fixed="true" />
+		<Title title="我的二维码" fixed bgColor="#4F87D6" />
 		<view class="">
 			<image src="/static/user/qr_top.webp" class="pw-100 block" mode="widthFix"></image>
 		</view>
@@ -40,7 +40,7 @@
 		</view>
 		<view class="h-40"></view>
 		
-		<u-popup :show="showQr" mode="center" bgColor="transparent" @close="showQr = false">
+		<u-popup :show="showQr" mode="center" bgColor="transparent" zIndex="20000" @close="showQr = false">
 			<view class="">
 				<view class="relative">
 					<image :src="path" mode="widthFix"></image>

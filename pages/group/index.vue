@@ -1,6 +1,6 @@
 <template>
 	<view class="page bg-page">
-		<view class="title_bg pb-18 plr-20" :class="`pt-${$c.barHeight()}`">
+		<view class="title_bg pb-18 plr-20" :class="'pt-' + $c.barHeight()">
 			<view class="flex-between">
 				<text class="fw-7 fs-18">群聊</text>
 				<view class="relative">
@@ -227,10 +227,8 @@
 		box-shadow: none;
 	}
 
-	.group {
-		.list_box {
-			background: linear-gradient(180deg, #FFF2C9 4%, rgba(255, 242, 201, 0.34) 46%, rgba(255, 246, 216, 0) 98%);
-		}
+	.group .list_box {
+		background: linear-gradient(180deg, #FFF2C9 4%, rgba(255, 242, 201, 0.34) 46%, rgba(255, 246, 216, 0) 98%);
 	}
 
 	.lv_box {
@@ -278,32 +276,31 @@
 		z-index: 10;
 		border-radius: 10px;
 		transition: all 0.3s ease;
-
-		&::after {
-			content: "";
-			position: absolute;
-			top: -6px;
-			/* 调整露出的高度 */
-			right: 20px;
-			/* 位置微调 */
-			width: 14px;
-			height: 14px;
-			background: #4C4C4C;
-			/* 和气泡框背景一致 */
-			border-radius: 3px;
-			/* 倒角柔和程度 */
-			transform: rotate(45deg);
-			box-shadow: -1px -1px 2px rgba(0, 0, 0, 0.08);
-			/* 轻微阴影更立体 */
-			z-index: 1;
-			// border-left: 10px solid transparent;
-			// border-right: 10px solid transparent;
-			// border-bottom: 10px solid #4C4C4C; /* 内层：跟对话框背景相同 */
-			// clip-path: path('M2,12 Q0,2 10,2 L12,2 Q22,2 20,12 Z');
-		}
-
-		&> :last-child {
-			border-top: 1px solid #616161;
-		}
+	}
+	.plus_box::after {
+		content: "";
+		position: absolute;
+		top: -6px;
+		/* 调整露出的高度 */
+		right: 20px;
+		/* 位置微调 */
+		width: 14px;
+		height: 14px;
+		background: #4C4C4C;
+		/* 和气泡框背景一致 */
+		border-radius: 3px;
+		/* 倒角柔和程度 */
+		transform: rotate(45deg);
+		box-shadow: -1px -1px 2px rgba(0, 0, 0, 0.08);
+		/* 轻微阴影更立体 */
+		z-index: 1;
+		// border-left: 10px solid transparent;
+		// border-right: 10px solid transparent;
+		// border-bottom: 10px solid #4C4C4C; /* 内层：跟对话框背景相同 */
+		// clip-path: path('M2,12 Q0,2 10,2 L12,2 Q22,2 20,12 Z');
+	}
+	
+	.plus_box > view:last-child {
+		border-top: 1px solid #616161;
 	}
 </style>

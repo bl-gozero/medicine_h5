@@ -3,7 +3,8 @@
 		<view class="relative">
 			<u-swiper :list="goods.picture" height="375"></u-swiper>
 			<view class="">
-				<image src="/static/goods/back.png" class="i-24 absolute left-20" :class="`top-${top}`" @click="$c.goBack()"></image>
+				<image src="/static/goods/back.png" class="i-24 absolute left-20" :class="'top-' + top"
+					@click="$c.goBack()"></image>
 				<!-- <image src="/static/goods/cart.png" class="i-24 absolute right-20" :class="`top-${top}`" @click="$c.goto('/pages/goods/cart')"></image> -->
 			</view>
 		</view>
@@ -25,10 +26,11 @@
 		</view>
 		<view class="mt-14 bg-white">
 			<view class="text-center fw-5 ptb-18">商品详情</view>
-			<u--image :src="item" v-for="(item, index) in goods.details" :key="index" width="100%" height="auto" bgColor="transparent" mode="widthFix">
-			  <template v-slot:loading>
-			    <u-loading-icon color="#9F9F9F" class="mtb-100"></u-loading-icon>
-			  </template>
+			<u--image :src="item" v-for="(item, index) in goods.details" :key="index" width="100%" height="auto"
+				bgColor="transparent" mode="widthFix">
+				<template v-slot:loading>
+					<u-loading-icon color="#9F9F9F" class="mtb-100"></u-loading-icon>
+				</template>
 			</u--image>
 		</view>
 		<view class="h-100"></view>
@@ -38,20 +40,17 @@
 				<view class="fs-10 text-base mt-1">客服</view>
 			</view>
 			<view class="flex-start">
-				<u-button
-					class="bg-base-change fw-7 text-white w-200 h-41"
-					shape="circle"
-					text="兑换"
-					@click="onChooseMode(2)"
-				></u-button>
+				<u-button class="bg-base-change fw-7 text-white w-200 h-41" shape="circle" text="兑换"
+					@click="onChooseMode(2)"></u-button>
 			</view>
 		</view>
-		
+
 		<!-- 选购 -->
 		<u-popup :show="showInfo" mode="bottom" round="8" closeable @close="showInfo = false">
 			<view class="ptb-20 fs-12 info_box lh-10">
 				<view class="text-center fs-18 fw-5">{{ mode == 1? '添加到购物车' : '提交订单'}}</view>
-				<view class="plr-20 flex justify-between mt-37" style="align-items: flex-start;" @click="$c.goto('/pages/user/address?from=goodsDetail')">
+				<view class="plr-20 flex justify-between mt-37" style="align-items: flex-start;"
+					@click="$c.goto('/pages/user/address?from=goodsDetail')">
 					<image src="/static/goods/place.png" class="w-12 h-14"></image>
 					<view v-if="address.district" class="flex-1 ml-8 mr-20">
 						<view class="">{{ address.district + address.address }}</view>
@@ -71,16 +70,9 @@
 							<text class="fs-12">积分</text>
 						</view>
 						<view class="flex-between mt-20">
-							<u-number-box
-								v-model="quantity" 
-								name="quantity"
-								bgColor="#fff" 
-								iconStyle="font-size: 10px;" 
-								inputWidth="29"
-								:integer="true"
-								:asyncChange="true"
-								@change="onNumChange"
-							></u-number-box>
+							<u-number-box v-model="quantity" name="quantity" bgColor="#fff" iconStyle="font-size: 10px;"
+								inputWidth="29" :integer="true" :asyncChange="true"
+								@change="onNumChange"></u-number-box>
 							<!-- <view class="text-info fs-12">
 								<text>已售{{ sku.sales }}</text>
 								<text class="ml-10">库存{{ sku.stock }}</text>
@@ -94,13 +86,9 @@
 					<view class="ptb-20 plr-20">
 						<view class="fs-14 fw-7">规格</view>
 						<view class="flex-start mt-10 flex-wrap">
-							<view
-								class="sku_name mt-10 mr-10"
-								:class="sku.id == item.id && 'sku_name_1'"
-								v-for="(item, index) in goods.goods_sku"
-								:key="item.id"
-								@click="sku = item"
-							>{{ item.name }}</view>
+							<view class="sku_name mt-10 mr-10" :class="sku.id == item.id && 'sku_name_1'"
+								v-for="(item, index) in goods.goods_sku" :key="item.id" @click="sku = item">
+								{{ item.name }}</view>
 						</view>
 					</view>
 					<view class="h-6 bg-page"></view>
@@ -118,25 +106,15 @@
 						</view>
 						<!-- <Payment v-model="paying_mode"></Payment> -->
 					</view>
-					<u-button
-						v-if="mode == 1"
-						class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30"
-						shape="circle"
-						text="添加到购物车"
-						@click="doCartAdd"
-					></u-button>
-					<u-button
-						v-else
-						class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30"
-						shape="circle"
-						text="提交订单"
-						@click="onShowPasswrod()"
-					></u-button>
+					<u-button v-if="mode == 1" class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30" shape="circle"
+						text="添加到购物车" @click="doCartAdd"></u-button>
+					<u-button v-else class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30" shape="circle" text="提交订单"
+						@click="onShowPasswrod()"></u-button>
 					<view class="h-30"></view>
 				</view>
 			</view>
 		</u-popup>
-		
+
 		<!-- 密码 -->
 		<u-popup :show="showPassword" mode="bottom" round="20" closeable @close="showPassword = false">
 			<view class="plr-20 pt-50 pb-70 text-center">
@@ -147,15 +125,8 @@
 				</view>
 				<view class="mt-28 fw-7 text-left">请输入交易密码</view>
 				<view class="mt-20">
-					<u-code-input 
-						v-model="password" 
-						:maxlength="6" 
-						:focus="true"
-						:color="$c.baseColor()"
-						borderColor="#EAEAEA"
-						dot 
-						@finish="doBuy"
-					></u-code-input>
+					<u-code-input v-model="password" :maxlength="6" :focus="true" :color="$c.baseColor()"
+						borderColor="#EAEAEA" dot @finish="doBuy"></u-code-input>
 				</view>
 			</view>
 		</u-popup>
@@ -165,9 +136,12 @@
 <script>
 	import Title from '../../components/Title.vue'
 	import Payment from '../../components/Payment.vue'
-	
+
 	export default {
-		components: { Title,Payment },
+		components: {
+			Title,
+			Payment
+		},
 		data() {
 			return {
 				profile: {},
@@ -182,7 +156,10 @@
 				quantity: 1,
 				paying_mode: 4,
 				password: '',
-				cateList: [{ id: 4, value: '积分支付' }],
+				cateList: [{
+					id: 4,
+					value: '积分支付'
+				}],
 				doCartAdd: null,
 				doBuy: null,
 				orderId: null
@@ -206,20 +183,25 @@
 			async addressList() {
 				const res = await this.$c.fetch(this.$api.user.addressList)
 				if (!Array.isArray(res) || res.length === 0) {
-				  this.address = {}
-				  return
+					this.address = {}
+					return
 				}
 				const address = this.$c.getStorage('address')
 				this.address = !this.address?.id || !res.some(i => i.id === address.id) ? res[0] : address
 			},
 			async goodsDetail() {
-				const res = await this.$c.fetch(this.$api.goods.goodsDetail, { id: this.id })
-				if(res) { this.goods = res; this.sku = res.goods_sku[0] }
+				const res = await this.$c.fetch(this.$api.goods.goodsDetail, {
+					id: this.id
+				})
+				if (res) {
+					this.goods = res;
+					this.sku = res.goods_sku[0]
+				}
 			},
 			onChooseMode(n) {
 				this.mode = n
-				if(!this.goods_sku_id) this.goods_sku_id = this.sku.id
-				if(this.profile.integral < this.sku.price) {
+				if (!this.goods_sku_id) this.goods_sku_id = this.sku.id
+				if (this.profile.integral < this.sku.price) {
 					this.$c.toast('积分不足')
 					return
 				}
@@ -230,16 +212,23 @@
 					goods_sku_id: this.sku.id,
 					quantity: this.quantity
 				})
-				if(res) { this.$c.toast('添加成功');this.showInfo = false }
+				if (res) {
+					this.$c.toast('添加成功');
+					this.showInfo = false
+				}
 			},
 			async onBuy() {
 				this.showPassword = false
 				if (!this.orderId) {
 					const res = await this.$c.fetch(this.$api.goods.orderAdd, {
-						goods_sku: [{ id: this.sku.id, quantity: this.quantity, shopping_cart_id: 0 }],
+						goods_sku: [{
+							id: this.sku.id,
+							quantity: this.quantity,
+							shopping_cart_id: 0
+						}],
 						user_address_id: this.address.id
 					})
-					if(res) this.orderId = res.id
+					if (res) this.orderId = res.id
 				}
 				if (this.orderId) this.onPay()
 			},
@@ -250,8 +239,8 @@
 					paying_mode: this.paying_mode,
 					password: this.password
 				})
-				if(res) {
-					if(res.jump_url) {
+				if (res) {
+					if (res.jump_url) {
 						// this.$c.setStorage('web', { title: '支付', src: res.jump_url })
 						// this.$c.goto('/pages/index/web?type=pay')
 						this.$c.quickPay(res.jump_url)
@@ -273,7 +262,7 @@
 				this.quantity = e.value
 			},
 			onShowPasswrod() {
-				if(!this.paying_mode) {
+				if (!this.paying_mode) {
 					this.$c.toast('请选择支付方式')
 					return
 				}
@@ -294,27 +283,33 @@
 		background: linear-gradient(90deg, #6C5B47 0%, #312323 100%);
 		color: #F7E7CD;
 	}
+
 	image {
 		display: block;
 	}
+
 	.btn_left {
 		border-radius: 999px 0 0 999px;
 	}
+
 	.btn_right {
 		border-radius: 0 999px 999px 0;
 		margin-left: -2px;
 		border-left: 1px solid #1A7E84;
 	}
+
 	.info_box {
 		background: linear-gradient(180deg, #CDEAEB 2%, #FFFFFF 95%);
 		background-size: 100% 32px;
 		background-repeat: no-repeat;
 	}
+
 	.sku_name {
 		background: #F5F5F5;
 		padding: 10px;
 		border-radius: 4px;
 	}
+
 	.sku_name_1 {
 		border: 1px solid #1A7E84;
 		color: #1A7E84;

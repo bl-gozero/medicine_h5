@@ -45,7 +45,7 @@
 							<view class="flex-between">
 								<view class="flex-start">
 									<text class="u-line-1 fs-14">{{ item.account }}</text>
-									<view class="level flex-center ml-4" :style="$c.calcLvBg(item)">{{ $c.calcLvName(item) }}</view>
+									<view class="level flex-center ml-4" :style="item._style">{{ $c.calcLvName(item) }}</view>
 								</view>
 								<text class="num">他邀请的好友</text>
 							</view>
@@ -103,6 +103,10 @@
 				const res = await this.$c.fetch(this.$api.user.friend, this.form)
 				if(res) {
 					this.list = res.user_list
+					this.list = this.list.map(item => ({
+						...item,
+						_style: this.$c.calcLvBg(item)
+					}))
 					for (let key in res) {
 						if (key != 'user_list') {
 							const item = this.nums.find(item => item.code == key)

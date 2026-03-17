@@ -15,7 +15,7 @@
 									<view class="relative">
 										<image src="/static/avtivity/wine/out.webp" class="w-260 h-15 block"></image>
 										<view class="full border-box ptb-5 plr-4">
-											<view class="process rounded-x h-5" :class="`pw-${process}`">
+											<view class="process rounded-x h-5" :class="'pw-' + process">
 												<view v-if="![0, 10, 15].includes(num)" class="circle"></view>
 											</view>
 										</view>

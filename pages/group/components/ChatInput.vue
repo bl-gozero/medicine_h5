@@ -4,15 +4,17 @@
 			<!-- 语音相关 -->
 			<!-- <image :src="showRecord? '/static/chat/text.png' : '/static/chat/sound.png'" class="i-27" @click="showRecord = !showRecord"></image> -->
 			<image src="/static/chat/more.png" class="i-27" @click="showFunc = !showFunc"></image>
-			
+
 			<!-- 输入框 -->
 			<view class="flex-1 ml-10">
 				<view v-if="teamInfo.chatBannedMode === 1" class="" style="color: #C0C4CC">群禁言中...</view>
 				<u-input v-else-if="!showRecord" v-model="inputValue" placeholder="请输入您想说的..." border="none"
 					@confirm="sendMessage"></u-input>
-				<view v-else class="text-center flex-1 ml-10" @touchstart="startRecord" @touchend="stopRecord">按住说话</view>
+				<view v-else class="text-center flex-1 ml-10" @touchstart="startRecord" @touchend="stopRecord">按住说话
+				</view>
 				<view v-if="reply" class="flex-between mt-6 p-6 rounded-4" style="background: #E1E1E1;">
-					<text class="text-10 text-info u-line-1 mr-10">回复 {{ reply.fromNick || reply.senderId }} {{ $c.formatMessage(reply) }}</text>
+					<text class="text-10 text-info u-line-1 mr-10">回复 {{ reply.fromNick || reply.senderId }}
+						{{ $c.formatMessage(reply) }}</text>
 					<u-icon name="close-circle-fill" size="18" @click="clearRepay()"></u-icon>
 				</view>
 			</view>
@@ -21,13 +23,9 @@
 			<!-- <view class="i-27 ml-10 flex-center" @click="toggleEmoji">😊</view> -->
 
 			<!-- <image src="/static/chat/more.png" class="i-27 ml-10" @click="showFunc = !showFunc"></image> -->
-			
-			<u-button
-				v-if="!showRecord"
-				class="bg-base text-white fw-5 w-60 h-32 flex-center"
-				shape="circle"
-				@click="sendMessage()"
-			>发送</u-button>
+
+			<u-button v-if="!showRecord" class="bg-base text-white fw-5 w-60 h-32 flex-center" shape="circle"
+				@click="sendMessage()">发送</u-button>
 		</view>
 
 		<!-- 表情面板 -->
@@ -53,7 +51,7 @@
 		teamInfo,
 		friendInfo
 	} from '@/utils/nim.js'
-	
+
 	export default {
 		name: "ChatInput",
 		props: {
@@ -76,34 +74,63 @@
 				voiceStartTime: 0,
 				recording: false,
 				emojis: ['😀', '😁', '😂', '🤣', '😃', '😄', '😅', '😆', '😉', '😊'],
-				funcs: [
-					{ id: 1, name: '相册', icon: '/static/chat/picture.png', code: 'album', type: [1, 2] },
-					{ id: 2, name: '拍照', icon: '/static/chat/photo.png', code: 'camera', type: [1, 2] },
-					{ id: 3, name: '文件', icon: '/static/chat/file.png', code: 'file', type: [1, 2] },
+				funcs: [{
+						id: 1,
+						name: '相册',
+						icon: '/static/chat/picture.png',
+						code: 'album',
+						type: [1, 2]
+					},
+					{
+						id: 2,
+						name: '拍照',
+						icon: '/static/chat/photo.png',
+						code: 'camera',
+						type: [1, 2]
+					},
+					{
+						id: 3,
+						name: '文件',
+						icon: '/static/chat/file.png',
+						code: 'file',
+						type: [1, 2]
+					},
 					// { id: 4, name: '发起语音', icon: '/static/chat/phone.png', code: 'phone', type: [1] },
-					{ id: 5, name: '转账', icon: '/static/chat/transfer.webp', code: 'transfer', type: [1] },
+					{
+						id: 5,
+						name: '转账',
+						icon: '/static/chat/transfer.webp',
+						code: 'transfer',
+						type: [1]
+					},
 				]
 			}
 		},
 		methods: {
 			onFuncs(item) {
-				if(item.code == 'album') this.pickImage('album')
-				if(item.code == 'camera') this.pickImage('camera')
-				if(item.code == 'file') this.pickFile()
-				if(item.code == 'phone') {}
-				if(item.code == 'transfer') {
+				if (item.code == 'album') this.pickImage('album')
+				if (item.code == 'camera') this.pickImage('camera')
+				if (item.code == 'file') this.pickFile()
+				if (item.code == 'phone') {}
+				if (item.code == 'transfer') {
 					this.$c.goto(`/pages/finance/transfer?to_account=${friendInfo.accountId}`)
 					this.showFunc = false
 				}
 			},
 			replyMsg(reply) {
-				switch(reply.messageType) {
-					case 0: return reply.text || ''
-					case 1: return '[图片消息]'
-					case 2: return '[语音消息]'
-					case 3: return '[视频消息]'
-					case 6: return '[文件消息]'
-					default: return '消息'
+				switch (reply.messageType) {
+					case 0:
+						return reply.text || ''
+					case 1:
+						return '[图片消息]'
+					case 2:
+						return '[语音消息]'
+					case 3:
+						return '[视频消息]'
+					case 6:
+						return '[文件消息]'
+					default:
+						return '消息'
 				}
 			},
 			clearRepay() {
@@ -213,12 +240,12 @@
 		font-size: 20px;
 		margin: 4px;
 	}
-	
+
 	.func_box {
-	  display: grid;
-	  grid-template-columns: repeat(4, 63px);
-	  justify-content: space-between;
-	  row-gap: 10px;
+		display: grid;
+		grid-template-columns: repeat(4, 63px);
+		justify-content: space-between;
+		row-gap: 10px;
 	}
 
 	::v-deep .uni-input-input {

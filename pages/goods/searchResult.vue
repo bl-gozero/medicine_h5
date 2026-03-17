@@ -8,7 +8,7 @@
 					@focus="$c.goBack()"></u-search>
 			</view>
 		</view>
-		<view :class="`pt-${height}`">
+		<view :class="'pt-' + height">
 			<view class="rounded-12 bg-white ptb-13 plr-16 border-box flex-between mb-12" v-for="item in list"
 				:key="item.id" @click="$c.goto('/pages/goods/detail?id=' + item.id)">
 				<image :src="item.picture" class="i-76 rounded-12" mode="aspectFill"></image>

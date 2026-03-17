@@ -229,7 +229,12 @@ const common = {
 	},
 
 	barHeight() {
-		return uni.$u.sys().statusBarHeight + 20
+		let height = uni.$u.sys().statusBarHeight
+		// #ifdef MP-WEIXIN
+		const menu = uni.getMenuButtonBoundingClientRect()
+		height += menu.height
+		// #endif
+		return height + 20
 	},
 
 	baseColor() {

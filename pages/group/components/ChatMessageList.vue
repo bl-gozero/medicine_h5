@@ -2,7 +2,7 @@
 	<view class="chat-list relative">
 		<scroll-view class="absolute top-0 left-0 right-0 bottom-0 plr-20 border-box" scroll-y :scroll-top="scrollTop"
 			:scroll-with-animation="true">
-			<view :id="`msg-${index}`" v-for="(item, index) in messages" :key="item.messageClientId || index">
+			<view :id="`msg-${index}`" v-for="(item, index) in messages" :key="item.messageClientId">
 				<!-- 通知类消息居中显示 -->
 				<view v-if="item.messageType == 5" class="">
 					<view 
@@ -55,7 +55,7 @@
 							</view>
 							<!-- 语音信息 -->
 							<view v-if="item.messageType === 2" class="bubble" @click="playAudio(item)">
-								<view :class="`flex-between w-${voiceWidth(item)}`">
+								<view :class="'flex-between w-' + voiceWidth(item)">
 									<text v-if="item.isSelf"
 										class="">{{ item.attachment ? parseInt(item.attachment.duration / 1000) : 0 }}''</text>
 									<view class="flex-center" :class="item.messageClientId === playingId && 'playing'">

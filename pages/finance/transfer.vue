@@ -8,16 +8,13 @@
 			</view>
 			<view class="ptb-20 flex-between border-bottom">
 				<view class="">对方账户</view>
-				<u-input v-model="form.to_account" placeholder="手机号/账号" placeholderClass="fs-14 text-info"
-					border="none" class="flex-1 mlr-24"></u-input>
-				<image src="/static/finance/account.webp" class="i-23" @click="$c.goto('/pages/group/myGroup?mode=select')"></image>
+				<u-input v-model="form.to_account" placeholder="手机号/账号" placeholderClass="fs-14 text-info" border="none"
+					class="flex-1 mlr-24"></u-input>
+				<image src="/static/finance/account.webp" class="i-23"
+					@click="$c.goto('/pages/group/myGroup?mode=select')"></image>
 			</view>
-			<u-button
-				class="bg-base text-white fw-7 w-247 h-47 mt-70"
-				shape="circle"
-				text="确认"
-				@click="onCheck()"
-			></u-button>
+			<u-button class="bg-base text-white fw-7 w-247 h-47 mt-70" shape="circle" text="确认"
+				@click="onCheck()"></u-button>
 		</view>
 		<view v-if="page === 1" class="flex-1 flex-col">
 			<view class="plr-20">
@@ -31,17 +28,15 @@
 				<view class="">转账金额</view>
 				<view class="border-bottom flex-between ptb-15 mt-10">
 					<text class="fs-20 fw-7">￥</text>
-					<u-input v-model.number="form.amount" placeholder="请输入金额" placeholderClass="fs-14 text-info" type="number"
-						border="none" :formatter="priceFormatter" class="flex-1 ml-10" customStyle="font-size: 28px;font-weight: 700;" clearable></u-input>
+					<u-input v-model.number="form.amount" placeholder="请输入金额" placeholderClass="fs-14 text-info"
+						type="number" border="none" :formatter="priceFormatter" class="flex-1 ml-10"
+						customStyle="font-size: 28px;font-weight: 700;" clearable></u-input>
 				</view>
 				<view class="mt-15 text-info">当前账户奖励{{ profile.balance }}元</view>
-				<u-button
-					class="bg-base text-white fw-7 w-247 h-47 mt-70"
-					shape="circle"
-					text="确认"
-					@click="onCheck2()"
-				></u-button>
-				<payPassword v-model="form.password" :show.sync="showPassword" :amount="form.amount" @finish="doSubmit"></payPassword>
+				<u-button class="bg-base text-white fw-7 w-247 h-47 mt-70" shape="circle" text="确认"
+					@click="onCheck2()"></u-button>
+				<payPassword v-model="form.password" :show.sync="showPassword" :amount="form.amount" @finish="doSubmit">
+				</payPassword>
 			</view>
 		</view>
 		<!-- <view v-if="page === 2" class="">
@@ -70,8 +65,11 @@
 <script>
 	import Title from '../../components/Title.vue'
 	import payPassword from '../../components/payPassword.vue'
-	import { checkFriend, sendMessage  } from '../../utils/nim'
-	
+	import {
+		checkFriend,
+		sendMessage
+	} from '../../utils/nim'
+
 	export default {
 		components: {
 			Title,
@@ -80,7 +78,12 @@
 		data() {
 			return {
 				profile: this.$c.profile(),
-				form: { avatar: '', to_account: '', password: '', amount: null },
+				form: {
+					avatar: '',
+					to_account: '',
+					password: '',
+					amount: null
+				},
 				title: ['填写账号', '奖励转账', '账单详情'],
 				page: 0,
 				showPassword: false,
@@ -100,7 +103,7 @@
 		},
 		onShow() {
 			const account = this.$c.getStorage('friendAccount')
-			if(account.account) {
+			if (account.account) {
 				this.form.to_account = account.account
 				this.form.avatar = account.avatar
 				this.onCheck(0)
@@ -146,20 +149,27 @@
 				}
 			},
 			async getInfos(amount) {
-				const res = await this.$c.fetch(this.$api.group.searchUser, { name: this.form.to_account })
+				const res = await this.$c.fetch(this.$api.group.searchUser, {
+					name: this.form.to_account
+				})
 				// console.log(this.form.to_account, res)
 				if (res) {
 					// const res1 = await checkFriend([res.account_id])
-					if(1 || res1 && res1[res.account_id]) {
+					if (1 || res1 && res1[res.account_id]) {
 						const text = `${this.profile.account}向${this.form.to_account}转账了${amount}元`
 						const cid = this.$c.getCid(res.account_id, 1)
-						sendMessage({ type: 'hint', value: text }, cid)
+						sendMessage({
+							type: 'hint',
+							value: text
+						}, cid)
 					}
 				}
 			},
 			async getAccount() {
-				const res = await this.$c.fetch(this.$api.user.accountInfo, { account: this.form.to_account })
-				if(res) {
+				const res = await this.$c.fetch(this.$api.user.accountInfo, {
+					account: this.form.to_account
+				})
+				if (res) {
 					this.form.to_account = res.account
 					this.form.avatar = res.avatar
 					return true
@@ -167,8 +177,10 @@
 				return false
 			},
 			async getAccountByIM(account_id) {
-				const res = await this.$c.fetch(this.$api.group.account_id_profile, { account_id: account_id })
-				if(res) {
+				const res = await this.$c.fetch(this.$api.group.account_id_profile, {
+					account_id: account_id
+				})
+				if (res) {
 					this.form.to_account = res.account
 					this.form.avatar = res.avatar
 					this.onCheck(0)
@@ -182,6 +194,7 @@
 	.border-bottom {
 		border-bottom: 1px solid #F0F0F0;
 	}
+
 	.amount {
 		::v-deep .uni-input-input {
 			font-size: 28px !important;

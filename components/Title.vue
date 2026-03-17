@@ -1,52 +1,61 @@
 <template>
-	<view class="">
-		<view v-if="isBlank" style="height: calc(var(--status-bar-height, 0px) + 20px);"></view>
-		<view v-else ref="bar" class="title-bar" :class="{ fixed }" :style="mergedBarStyle">
-			<!-- 左侧返回 -->
-			<image src="/static/icon/back.png" class="icon-24" @click="goUrl()" />
+	<view v-if="isBlank" :class="'h-' + $c.barHeight()"></view>
+	<view v-else class="navbar-wrapper">
 
-			<!-- 中间标题区域 -->
-			<view class="center-title">
-				<text class="title-text" :style="titleStyle">{{ title }}</text>
-				<text v-if="subtitle" class="subtitle-text" :style="subtitleStyle">{{ subtitle }}</text>
-			</view>
+		<!-- 占位 -->
+		<view v-if="fixed && ph" :style="{ height: totalHeight + 'px' }"></view>
 
-			<!-- 右侧插槽 -->
-			<view class="right-slot relative" @click="handleRightClick">
-				<view class="absolute top-0 right-0 ph-100 flex-end w-100">
-					<slot name="right"></slot>
+		<!-- navbar -->
+		<view class="navbar" :class="{ fixed }" :style="{ height: totalHeight + 'px' }">
+
+			<!-- 背景层 -->
+			<view class="navbar-bg" :style="bgStyle"></view>
+
+			<!-- 状态栏 -->
+			<view class="status-bar" :style="{ height: statusBarHeight + 'px' }"></view>
+
+			<!-- 导航内容 -->
+			<view class="nav-content" :style="{ height: navHeight + 'px' }">
+
+				<!-- 左侧 -->
+				<view class="nav-left">
+					<image v-if="showBack" src="/static/icon/back.png" class="icon" @click="goUrl" />
+				</view>
+
+				<!-- 标题（绝对居中） -->
+				<view class="nav-title">
+					<text class="title-text" :style="titleStyle">
+						{{ title }}
+					</text>
+
+					<text v-if="subtitle" class="subtitle-text" :style="subtitleStyle">
+						{{ subtitle }}
+					</text>
+				</view>
+
+				<!-- 右侧 -->
+				<view class="right-slot relative" :class="hasRightSlot ? ('mr-' + rightSafe) : ''" @click="handleRightClick">
+					<view class="absolute top-0 right-0 ph-100 flex-end" style="white-space: nowrap;">
+						<slot name="right"></slot>
+					</view>
 				</view>
 			</view>
-		</view>
-		<view v-if="fixed && ph" :style="{ height: barHeight }"></view>
-	</view>
 
-	<!-- 插槽设置例子 -->
-	<!-- <title-bar
-	  title="订单列表"
-	  @rightClick="handleRightClick"
-	>
-	  <template v-slot:right>
-	    <image src="/static/icon/filter.png" class="icon-24" />
-	  </template>
-	</title-bar> -->
+		</view>
+
+	</view>
 </template>
 
 <script>
 	export default {
-		name: 'titleBar',
+		name: "titleBar",
+
 		props: {
-			isBlank: {
-				type: Boolean,
-				default: false
-			},
-			title: {
+			title: String,
+			subtitle: String,
+			bgColor: {
 				type: String,
-				default: ''
-			},
-			subtitle: {
-				type: String,
-				default: ''
+				default: "transparent"
 			},
 			titleStyle: {
 				type: Object,
@@ -60,98 +69,146 @@
 				type: Object,
 				default: () => ({})
 			},
-			url: {
-				type: String,
-				default: ''
-			},
-			fixed: {
-				type: Boolean,
-				default: false
-			},
-			bgColor: {
-				type: String,
-				default: ''
-			},
+			url: String,
+			fixed: Boolean,
 			showBack: {
 				type: Boolean,
-				default: true,
+				default: true
 			},
 			ph: {
 				type: Boolean,
-				default: true,
+				default: true
+			},
+			isBlank: {
+				type: Boolean,
+				default: false
 			}
 		},
+
 		data() {
 			return {
-				barHeight: '0px'
+				statusBarHeight: 0,
+				navHeight: 44,
+				rightSafe: 0
 			}
 		},
+
 		computed: {
-			mergedBarStyle() {
-				return {
-					paddingTop: 'calc(var(--status-bar-height, 0px) + 20px)',
-					backgroundColor: this.bgColor || '#F8F8F8', // 增加这一行，优先 bgColor
-					...this.barStyle // 外部传 style 可覆盖全部
-				}
+			totalHeight() {
+				return this.statusBarHeight + this.navHeight
+			},
+
+			bgStyle() {
+				return 'background-color: ' + this.bgColor + ';height: ' + this.totalHeight + "px"
+			},
+			
+			hasRightSlot() {
+				return !!this.$slots.right
 			}
 		},
-		mounted() {
-			this.$nextTick(() => {
-				if (this.$refs.bar) {
-					this.$uGetRect('.title-bar').then(res => {
-						this.barHeight = res.height + 'px'
-					})
-				}
-			})
+
+		created() {
+			const sys = uni.getSystemInfoSync()
+
+			this.statusBarHeight = sys.statusBarHeight || 20
+
+			// 微信小程序胶囊适配
+			// #ifdef MP-WEIXIN
+			const menu = uni.getMenuButtonBoundingClientRect()
+
+			this.navHeight =
+				menu.height +
+				(menu.top - this.statusBarHeight) * 2
+				
+			this.rightSafe = menu.width + 16
+			// #endif
 		},
+
 		methods: {
 			goUrl() {
 				if (this.$listeners.back) {
-					this.$emit('back')
+					this.$emit("back")
 				} else if (this.url) {
 					this.$c.goto(this.url)
 				} else {
 					this.$c.goBack()
 				}
 			},
+
 			handleRightClick() {
-				this.$emit('rightClick')
-				this.$emit('right')
+				this.$emit("rightClick")
+				this.$emit("right")
 			}
 		}
 	}
 </script>
 
 <style scoped>
-	.title-bar {
+	.navbar-wrapper {
+		width: 100%;
+	}
+
+	.navbar {
+		width: 100%;
+		left: 0;
+		top: 0;
+		position: relative;
+		z-index: 100;
+	}
+
+	.navbar.fixed {
+		position: fixed;
+	}
+
+	.navbar-bg {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	.status-bar {
+		width: 100%;
+	}
+
+	.nav-content {
+		position: relative;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 28px 20px 11px 20px;
-		position: relative;
-		z-index: 10;
+		padding: 0 20rpx;
+		box-sizing: border-box;
 	}
 
-	.title-bar.fixed {
-		position: fixed;
-		top: 0;
+	.nav-left {
+		width: 80rpx;
+		display: flex;
+		align-items: center;
+	}
+
+	.nav-right {
+		width: 80rpx;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+	}
+
+	.nav-title {
+		/* position: absolute;
 		left: 0;
-		right: 0;
-	}
-
-	.center-title {
-		flex: 1;
+		right: 0; */
 		text-align: center;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		line-height: 1;
+		pointer-events: none;
 	}
 
 	.title-text {
 		font-size: 18px;
-		line-height: 18px;
-		color: #3d3d3d;
+		color: #333;
+		font-weight: 500;
 	}
 
 	.subtitle-text {
@@ -160,11 +217,11 @@
 		margin-top: 4rpx;
 	}
 
-	.icon-24 {
+	.icon {
 		width: 48rpx;
 		height: 48rpx;
 	}
-
+	
 	.right-slot {
 		width: 24px;
 		height: 24px;

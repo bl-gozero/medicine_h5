@@ -3,7 +3,8 @@
 		<Title title="群聊设置" fixed />
 		<view class="list_box plr-15 bg-white mt-12 rounded-8">
 			<view class="ptb-14 flex-between" @click="$c.goto('/pages/group/info/baseInfo')">
-				<u-avatar :src="$c.formatImgUrl(teamInfo.avatar)" size="47" :default-url="$c.groupAvatar()" class="" mode="aspectFill"></u-avatar>
+				<u-avatar :src="$c.formatImgUrl(teamInfo.avatar)" size="47" :default-url="$c.groupAvatar()" class=""
+					mode="aspectFill"></u-avatar>
 				<view class="flex-1 mlr-9">
 					<view class="u-line-1">{{ teamInfo.name }}</view>
 					<view class="text-info fs-12 mt-9">{{ teamInfo.intro }}</view>
@@ -20,17 +21,14 @@
 				</view>
 				<view class="">
 					<u-grid col="5">
-						<u-grid-item
-							v-for="(item, index) in members"
-							:key="item.account_id"
-						>
+						<u-grid-item v-for="(item, index) in members" :key="item.account_id">
 							<view class="pt-14 text-center">
 								<view class="relative flex-center">
-									<u-avatar :src="item.avatar" size="42" :default-url="$c.userAvatar()" mode="aspectFill"></u-avatar>
-									<view 
-										v-if="item.role && (item.role.id == 1 || item.role.id == 2)" 
-										:class="item.role.id == 1? 'group-owner' : 'group-admin'"
-									>{{ item.role.value }}</view>
+									<u-avatar :src="item.avatar" size="42" :default-url="$c.userAvatar()"
+										mode="aspectFill"></u-avatar>
+									<view v-if="item.role && (item.role.id == 1 || item.role.id == 2)"
+										:class="item.role.id == 1? 'group-owner' : 'group-admin'">{{ item.role.value }}
+									</view>
 								</view>
 								<text class="u-line-1 text-info fs-10 mt-7">{{ item.name }}</text>
 							</view>
@@ -57,38 +55,25 @@
 					<u-icon name="arrow-right" size="14" color="#7d7d7d"></u-icon>
 				</view>
 			</view>
-			<view v-if="memberInfo.memberRole === 1" class="flex-between ptb-18" @click="$c.goto('/pages/group/info/manage')">
+			<view v-if="memberInfo.memberRole === 1" class="flex-between ptb-18"
+				@click="$c.goto('/pages/group/info/manage')">
 				<text>群管理</text>
 				<u-icon name="arrow-right" size="14" color="#7d7d7d"></u-icon>
 			</view>
-			<view v-model="typeof teamInfo.stickTop === 'boolean'" class="flex-between ptb-18">
+			<view class="flex-between ptb-18">
 				<text>置顶聊天</text>
-				<u-switch
-					v-model="teamInfo.stickTop"
-					:activeColor="$c.baseColor()"
-					inactiveColor="#DFDFDF"
-					:activeValue="true"
-					:inactiveValue="false"
-					size="20"
-					asyncChange
-					@change="pinConversation"
-				></u-switch>
+				<u-switch v-model="teamInfo.stickTop" :activeColor="$c.baseColor()" inactiveColor="#DFDFDF"
+					:activeValue="true" :inactiveValue="false" size="20" asyncChange
+					@change="pinConversation"></u-switch>
 			</view>
-			<view  v-if="memberInfo.memberRole > 0 && (teamInfo.chatBannedMode == 1 || teamInfo.chatBannedMode == 0)" class="flex-between ptb-18">
+			<view v-if="memberInfo.memberRole > 0 && (teamInfo.chatBannedMode == 1 || teamInfo.chatBannedMode == 0)"
+				class="flex-between ptb-18">
 				<text>群禁言</text>
-				<u-switch
-					v-model="teamInfo.chatBannedMode"
-					:activeColor="$c.baseColor()"
-					inactiveColor="#DFDFDF"
-					:activeValue="1"
-					:inactiveValue="0"
-					size="20"
-					asyncChange
-					@change="onMute"
-				></u-switch>
+				<u-switch v-model="teamInfo.chatBannedMode" :activeColor="$c.baseColor()" inactiveColor="#DFDFDF"
+					:activeValue="1" :inactiveValue="0" size="20" asyncChange @change="onMute"></u-switch>
 			</view>
 		</view>
-		
+
 		<view class="plr-15 bg-white mt-12 rounded-8 list_box">
 			<view class="flex-between ptb-18">
 				<text>举报</text>
@@ -102,43 +87,36 @@
 				<u-icon name="arrow-right" size="14" color="#7d7d7d"></u-icon>
 			</view>
 		</view>
-		
-		<u-button
-			v-if="memberInfo.memberRole === 1"
-			class="bg-white pw-100 re rounded-8 text-danger flex-center mt-11 border-0 ptb-18"
-			text="解散群聊"
-			@click="showDelete = true"
-		></u-button>
-		<u-button
-			v-else
-			class="bg-white pw-100 re rounded-8 text-danger flex-center mt-11 border-0 ptb-18"
-			text="删除并退出"
-			@click="showQuit = true"
-		></u-button>
-		
+
+		<u-button v-if="memberInfo.memberRole === 1"
+			class="bg-white pw-100 re rounded-8 text-danger flex-center mt-11 border-0 ptb-18" text="解散群聊"
+			@click="showDelete = true"></u-button>
+		<u-button v-else class="bg-white pw-100 re rounded-8 text-danger flex-center mt-11 border-0 ptb-18" text="删除并退出"
+			@click="showQuit = true"></u-button>
+
 		<view class="h-20"></view>
-		
-		<u-modal :show="showQuit" title="退出群聊" content='是否确定退出该群聊？' confirmColor="#3D3D3D" cancelColor="#9F9F9F" showCancelButton
-			@cancel="showQuit = false" @confirm="doQuit"></u-modal>
-		
-		<u-modal :show="showDelete" title="解散群聊" content='是否确定解散该群聊？' confirmColor="#3D3D3D" cancelColor="#9F9F9F" showCancelButton
-			@cancel="showDelete = false" @confirm="doDelete"></u-modal>
-	</view> 
+
+		<u-modal :show="showQuit" title="退出群聊" content='是否确定退出该群聊？' confirmColor="#3D3D3D" cancelColor="#9F9F9F"
+			showCancelButton @cancel="showQuit = false" @confirm="doQuit"></u-modal>
+
+		<u-modal :show="showDelete" title="解散群聊" content='是否确定解散该群聊？' confirmColor="#3D3D3D" cancelColor="#9F9F9F"
+			showCancelButton @cancel="showDelete = false" @confirm="doDelete"></u-modal>
+	</view>
 </template>
 
 <script>
 	import Title from '../../components/Title.vue'
-	import { 
-		teamInfo, 
-		setTopConversations, 
-		setTeamMute, 
-		clearHistoryMessage, 
-		memberInfo, 
+	import {
+		teamInfo,
+		setTopConversations,
+		setTeamMute,
+		clearHistoryMessage,
+		memberInfo,
 		leaveTeam,
 		deleteConversation,
 		dismissTeam
 	} from '@/utils/nim.js'
-	
+
 	export default {
 		components: {
 			Title
@@ -147,7 +125,14 @@
 			return {
 				teamInfo,
 				memberInfo,
-				memberSearch: { page: 1, limit: 10, team_id: null, search: { name: '' } },
+				memberSearch: {
+					page: 1,
+					limit: 10,
+					team_id: null,
+					search: {
+						name: ''
+					}
+				},
 				members: [],
 				doDelete: null,
 				doQuit: null,
@@ -158,14 +143,14 @@
 		},
 		watch: {
 			teamInfo(newValue) {
-			    this.info = newValue;
+				this.info = newValue;
 			}
 		},
 		onLoad() {
 			this.$c.checkeLogin()
 			this.$c.checkNim()
 			const info = this.$c.getStorage('chatInfo') || {}
-			if(!info || Object.keys(info).length === 0 || !info.team_id) {
+			if (!info || Object.keys(info).length === 0 || !info.team_id) {
 				this.$c.toast('参数有误')
 				this.$c.goto('/pages/group/index')
 				return
@@ -179,31 +164,33 @@
 		methods: {
 			async getMembers() {
 				const res = await this.$c.fetch(this.$api.group.memberList, this.memberSearch)
-				if(res) {
+				if (res) {
 					this.members = res.list
-				} 
+				}
 			},
 			async pinConversation(e) {
 				const nimInfo = this.$c.getStorage('nimInfo')
-				if(!nimInfo.account) {
+				if (!nimInfo.account) {
 					this.$c.toast('操作失败')
 					return
 				}
 				const id = `${nimInfo.account}|2|${this.info.teamId}`
 				const res = await setTopConversations(id)
-				if(res) this.teamInfo.stickTop = e
+				if (res) this.teamInfo.stickTop = e
 			},
 			async onMute(e) {
 				const res = await setTeamMute(this.info, e)
-				if(res) this.teamInfo.chatBannedMode = e
+				if (res) this.teamInfo.chatBannedMode = e
 			},
 			async onDelete() {
 				this.showDelete = false
 				const team_id = parseInt(this.teamInfo.teamId)
-				if(!team_id) return
+				if (!team_id) return
 				this.onDeleteConversation()
-				const res = await this.$c.fetch(this.$api.group.teamDelete, { team_id: team_id })
-				if(res) {
+				const res = await this.$c.fetch(this.$api.group.teamDelete, {
+					team_id: team_id
+				})
+				if (res) {
 					this.$c.removeStorage('chatInfo')
 					setTimeout(() => {
 						this.$c.goto('/pages/group/index')
@@ -213,12 +200,14 @@
 			async onQuit() {
 				this.showQuit = false
 				const team_id = parseInt(this.teamInfo.teamId)
-				if(!team_id) return
+				if (!team_id) return
 				this.onDeleteConversation()
-				const res1 = await leaveTeam() 
-				if(res1) {
-					const res = await this.$c.fetch(this.$api.group.quit, { team_id: team_id })
-					if(res) {
+				const res1 = await leaveTeam()
+				if (res1) {
+					const res = await this.$c.fetch(this.$api.group.quit, {
+						team_id: team_id
+					})
+					if (res) {
 						this.$c.removeStorage('chatInfo')
 						this.$c.toast('退出成功')
 						setTimeout(() => {
@@ -229,11 +218,11 @@
 			},
 			async onDeleteConversation() {
 				const cid = this.$c.getStorage('conversationId')
-				if(cid) await deleteConversation(cid)
+				if (cid) await deleteConversation(cid)
 			},
- 			async onClearConversation() {
+			async onClearConversation() {
 				const res = await clearHistoryMessage()
-				if(res) this.$c.toast('清除成功')
+				if (res) this.$c.toast('清除成功')
 			}
 		}
 	}
@@ -243,18 +232,21 @@
 	.u-textarea {
 		padding: 0 !important;
 	}
+
 	.placeholderClass {
 		font-size: 14px !important;
 		color: #989898 !important;
 	}
+
 	::v-deep .u-textarea__field {
 		font-size: 14px !important;
 		color: #3d3d3d !important;
 	}
+
 	.lv_box {
 		width: 308px;
 		height: 280px;
-		border-radius: 20px;		
+		border-radius: 20px;
 		background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);
 	}
 </style>

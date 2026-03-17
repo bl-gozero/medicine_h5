@@ -38,7 +38,7 @@ $color-orange:  #EE6F2E;
 .bg-owner 	{ background: #B3E5E8 ; }
 .bg-admin 	{ background: #FFF3D3 ; }
 .bg-test 	{ background: rgba(0, 0, 0, .3) ; }
-.bg-base-change  { background: linear-gradient(270deg, #1A7E84 0%, #72ADB0 100%); }
+.bg-base-change  { background: linear-gradient(270deg, #1A7E84 0%, #72ADB0 100%) !important; }
 /* ========== 文本对齐 ========== */
 .text-left   { text-align: left; }
 .text-center { text-align: center; }

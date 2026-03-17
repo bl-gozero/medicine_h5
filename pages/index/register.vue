@@ -12,14 +12,8 @@
 					</view>
 					<view class="flex-1">
 						<view>账号</view>
-						<LineInput 
-							v-model="form.account"
-							placeholder="请输入手机号"
-							type="number"
-							:maxlength="11"
-							placeholderClass="text-info fs-14 fw-5"
-							:showLine="true"
-						/>
+						<LineInput v-model="form.account" placeholder="请输入手机号" type="number" :maxlength="11"
+							placeholderClass="text-info fs-14 fw-5" :showLine="true" />
 					</view>
 				</view>
 				<view class="flex-start mt-30">
@@ -28,14 +22,8 @@
 					</view>
 					<view class="flex-1">
 						<view>密码</view>
-						<LineInput
-							v-model="form.password"
-							type="password"
-							placeholder="请输入密码(6-20位)"
-							placeholderClass="text-info fs-14 fw-5"
-							:showLine="true"
-							:maxlength="20"
-						/>
+						<LineInput v-model="form.password" type="password" placeholder="请输入密码(6-20位)"
+							placeholderClass="text-info fs-14 fw-5" :showLine="true" :maxlength="20" />
 					</view>
 				</view>
 				<view class="flex-start mt-30">
@@ -44,14 +32,8 @@
 					</view>
 					<view class="flex-1">
 						<view>再次确认密码</view>
-						<LineInput
-							v-model="form.re_password"
-							type="password"
-							placeholder="请再次输入密码(6-20位)"
-							placeholderClass="text-info fs-14 fw-5"
-							:showLine="true"
-							:maxlength="20"
-						/>
+						<LineInput v-model="form.re_password" type="password" placeholder="请再次输入密码(6-20位)"
+							placeholderClass="text-info fs-14 fw-5" :showLine="true" :maxlength="20" />
 					</view>
 				</view>
 				<view class="flex-start mt-20">
@@ -60,22 +42,13 @@
 					</view>
 					<view class="flex-1">
 						<view>图形验证码</view>
-						<LineInput 
-							v-model="form.captcha_code"
-							placeholder="请输入图形验证码"
-							placeholderClass="text-info fs-14 fw-5"
-							:showLine="true"
-							:maxlength="6"
-						>
+						<LineInput v-model="form.captcha_code" placeholder="请输入图形验证码"
+							placeholderClass="text-info fs-14 fw-5" :showLine="true" :maxlength="6">
 							<template #suffix>
-							    <image v-if="!showCodeBtn1 && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix" @click="getCode()"></image>
-								<u-button
-									v-if="showCodeBtn1"
-									class="bg-base-change fw-7 fs-12 text-white plr-20 h-40"
-									shape="circle"
-									text="点击获取"
-									@click="getCode()"
-								></u-button>
+								<image v-if="!showCodeBtn1 && captcha" :src="captcha" class="h-29 ml-10"
+									mode="heightFix" @click="getCode()"></image>
+								<u-button v-if="showCodeBtn1" class="bg-base-change fw-7 fs-12 text-white plr-20 h-40"
+									shape="circle" text="点击获取" @click="getCode()"></u-button>
 							</template>
 						</LineInput>
 					</view>
@@ -86,27 +59,14 @@
 					</view>
 					<view class="flex-1">
 						<view>短信验证码</view>
-						<LineInput 
-							v-model="form.captcha"
-							placeholder="请输入短信验证码"
-							placeholderClass="text-info fs-14 fw-5"
-							:showLine="true"
-						>
+						<LineInput v-model="form.captcha" placeholder="请输入短信验证码" placeholderClass="text-info fs-14 fw-5"
+							:showLine="true">
 							<template #suffix>
-							    <u-button
-							    	v-if="showCodeBtn"
-							    	class="bg-base-change fw-7 fs-12 text-white w-107 h-40"
-							    	shape="circle"
-							    	text="发送"
-							    	@click="getMobileCode()"
-							    ></u-button>
+								<u-button v-if="showCodeBtn" class="bg-base-change fw-7 fs-12 text-white w-107 h-40"
+									shape="circle" text="发送" @click="getMobileCode()"></u-button>
 								<div v-else class="text-info flex-start h-40">
-									<u-count-down 
-										ref="countDown" 
-										:time="$c.codeLimitTime()" 
-										format="ss"
-										@finish="showCodeBtn = true"
-									></u-count-down>
+									<u-count-down ref="countDown" :time="$c.codeLimitTime()" format="ss"
+										@finish="showCodeBtn = true"></u-count-down>
 									<text>s</text>
 								</div>
 							</template>
@@ -119,30 +79,22 @@
 					</view>
 					<view class="flex-1">
 						<view>推荐人</view>
-						<LineInput 
-							v-model="form.referral_code"
-							placeholder="请输入推荐人邀请码"
-							placeholderClass="text-info fs-14 fw-5"
-							:showLine="true"
-						/>
+						<LineInput v-model="form.referral_code" placeholder="请输入推荐人邀请码"
+							placeholderClass="text-info fs-14 fw-5" :showLine="true" />
 					</view>
 				</view>
-				<view class="mt-47 flex-center">		
+				<view class="mt-47 flex-center">
 					<u-checkbox-group v-model="agreed">
 						<u-checkbox name="agreed" size="16" activeColor="#1A7E84" inactiveColor="#1A7E84" />
 					</u-checkbox-group>
 					<text class="fs-10">
-					    <text>阅读并同意</text>
-					    <text class="text-base" @click="$c.goto('/pages/index/userAgreement')">《APP用户协议》</text>
+						<text>阅读并同意</text>
+						<text class="text-base" @click="$c.goto('/pages/index/userAgreement')">《APP用户协议》</text>
 					</text>
 				</view>
 				<view class="mt-14 text-center">
-					<u-button 
-						class="bg-base-change fw-7 fs-14 text-white w-278 h-49"
-						shape="circle"
-						text="注册"
-						@click="onSubmit()"
-					></u-button>
+					<u-button class="bg-base-change fw-7 fs-14 text-white w-278 h-49" shape="circle" text="注册"
+						@click="onSubmit()"></u-button>
 				</view>
 				<view class="text-center mt-23">
 					<text class="text-base fw-4" @click="$c.goto('/pages/index/login')">已有账号？去登录</text>
@@ -155,13 +107,27 @@
 
 <script>
 	import LineInput from '@/components/LineInput.vue'
-	import { initNIM, loginNIM, addFriend } from '@/utils/nim.js'
-	
+	import {
+		initNIM,
+		loginNIM,
+		addFriend
+	} from '@/utils/nim.js'
+
 	export default {
-		components: { LineInput },
+		components: {
+			LineInput
+		},
 		data() {
 			return {
-				form: { account: '', password: '', captcha: '', referral_code: '', re_password: '', captcha_id: null, captcha_code: '' },
+				form: {
+					account: '',
+					password: '',
+					captcha: '',
+					referral_code: '',
+					re_password: '',
+					captcha_id: null,
+					captcha_code: ''
+				},
 				agreed: [],
 				captcha: '',
 				showCodeBtn: true,
@@ -178,7 +144,7 @@
 		methods: {
 			async getCode() {
 				const res = await this.$c.fetch(this.$api.config.captcha)
-				if(res) {
+				if (res) {
 					this.showCodeBtn1 = false
 					this.form.captcha_id = res.id
 					this.captcha = res.base64_image
@@ -187,54 +153,54 @@
 				}
 			},
 			async getMobileCode() {
-				if(!this.form.account) {
+				if (!this.form.account) {
 					this.$c.toast('请输入手机号')
 					return
-				} 
+				}
 				const res = await this.$c.fetch(this.$api.config.mobile_captcha, {
 					phone: this.form.account,
 					mode: 'register'
 				})
-				if(res) {
+				if (res) {
 					// this.showCodeBtn = false
 					// this.form.captcha_id = res.id
 					// this.captcha = res.base64_image
 					// this.$refs.countDown.reset();
 					// this.$refs.countDown.start();
 					this.$c.toast('发送成功')
-					if(res.captcha) this.form.captcha = res.captcha
+					if (res.captcha) this.form.captcha = res.captcha
 				}
 			},
 			async onSubmit() {
-				if(!this.form.account) {
+				if (!this.form.account) {
 					this.$c.toast('请输入手机号')
 					return
 				}
-				if(!this.form.password) {
+				if (!this.form.password) {
 					this.$c.toast('请输入密码')
 					return
 				}
-				if(!this.form.re_password) {
+				if (!this.form.re_password) {
 					this.$c.toast('请输入确认密码')
 					return
 				}
-				if(this.form.re_password != this.form.password) {
+				if (this.form.re_password != this.form.password) {
 					this.$c.toast('两次密码不一致')
 					return
 				}
-				if(!this.form.captcha_code) {
+				if (!this.form.captcha_code) {
 					this.$c.toast('请输入图形验证码')
 					return
 				}
-				if(!this.form.captcha) {
+				if (!this.form.captcha) {
 					this.$c.toast('请输入短信验证码')
 					return
 				}
-				if(!this.form.referral_code) {
+				if (!this.form.referral_code) {
 					this.$c.toast('请输入推荐人邀请码')
 					return
 				}
-				if(this.agreed.indexOf('agreed') == -1) {
+				if (this.agreed.indexOf('agreed') == -1) {
 					this.$c.toast('阅读并同意《APP用户协议》')
 					return
 				}
@@ -258,13 +224,14 @@
 			async intIm(account) {
 				this.$c.removeStorage('chatInfo')
 				let nimInfo = this.$c.getStorage('nimInfo') || {}
-				if(!nimInfo.appkey) {
+				if (!nimInfo.appkey) {
 					const res1 = await this.$c.fetch(this.$api.group.config)
-					if(res1?.app_key) nimInfo.appkey = res1.app_key
+					if (res1?.app_key) nimInfo.appkey = res1.app_key
 				}
 				const res2 = await this.$c.fetch(this.$api.group.login)
-				if(res2?.account_id) {
-					this.$c.setStorage('nimInfo', { ...nimInfo,
+				if (res2?.account_id) {
+					this.$c.setStorage('nimInfo', {
+						...nimInfo,
 						account: res2.account_id,
 						token: res2.token,
 					})
@@ -274,7 +241,7 @@
 			},
 			async getProfile() {
 				const res = await this.$c.fetch(this.$api.user.getProfile)
-				if(res) {
+				if (res) {
 					this.$c.setStorage('profile', res)
 					this.$c.goto('/pages/user/payPassword?type=1')
 				}

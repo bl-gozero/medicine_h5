@@ -2,14 +2,14 @@
 	<view class="page bg-page plr-20">
 		<Title :isBlank="true"></Title>
 		<view class="flex-between">
-			<image src="/static/icon/back.png" class="i-24 mr-23" @click="$c.goto('/pages/index/index')"></image>
-			<u-search v-model="search.name" placeholder="商品名称" bgColor="#fff" :showAction="false"></u-search>
-			<u-button
-				class="bg-base fs-12 text-white w-62 h-32 ml-12"
-				shape="circle"
-				text="搜索"
-				@click="onSearch()"
-			></u-button>
+			<image src="/static/icon/back.png" class="i-24 mr-23 block" @click="$c.goto('/pages/index/index')"></image>
+			<view class="flex-1">
+				<u-search v-model="search.name" placeholder="商品名称" bgColor="#fff" :showAction="false"></u-search>
+			</view>
+			<view class="">
+				<u-button class="bg-base fs-12 text-white w-62 h-32 ml-12" shape="circle" text="搜索"
+					@click="onSearch()"></u-button>
+			</view>
 		</view>
 		<view v-if="searchHistory.length > 0" class="mt-32">
 			<view class="flex-between">
@@ -17,7 +17,8 @@
 				<image src="/static/icon/del.png" class="i-16" @click="onClear()"></image>
 			</view>
 			<view class="flex-start flex-wrap">
-				<view class="history mt-13" v-for="(item, index) in searchHistory" :key="index" @click="onSearchItem(item)">{{ item }}</view>
+				<view class="history mt-13" v-for="(item, index) in searchHistory" :key="index"
+					@click="onSearchItem(item)">{{ item }}</view>
 			</view>
 		</view>
 	</view>
@@ -26,10 +27,17 @@
 <script>
 	import Title from '../../components/Title.vue'
 	export default {
-		components: { Title },
+		components: {
+			Title
+		},
 		data() {
 			return {
-				search: { page: 1, limit: 10, name: '', load: 'more' },
+				search: {
+					page: 1,
+					limit: 10,
+					name: '',
+					load: 'more'
+				},
 				list: [],
 				searchHistory: []
 			}
@@ -43,8 +51,8 @@
 		methods: {
 			onSearch() {
 				this.search.name = uni.$u.trim(this.search.name)
-				if(!this.search.name) return
-				if(this.searchHistory.indexOf(this.search.name) == -1) {
+				if (!this.search.name) return
+				if (this.searchHistory.indexOf(this.search.name) == -1) {
 					this.searchHistory.push(this.search.name)
 					this.$c.setStorage('searchHistory', this.searchHistory)
 				}

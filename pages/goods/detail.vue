@@ -3,9 +3,9 @@
 		<view class="relative">
 			<u-swiper :list="goods.picture" height="375"></u-swiper>
 			<view class="">
-				<image src="/static/goods/back.png" class="i-24 absolute left-20" :class="`top-${top}`"
+				<image src="/static/goods/back.png" class="i-24 absolute left-20" :class="'top-' + top"
 					@click="$c.goBack()"></image>
-				<image src="/static/goods/cart.png" class="i-24 absolute right-20" :class="`top-${top}`"
+				<image src="/static/goods/cart.png" class="i-24 absolute right-20" :class="'top-' + top"
 					@click="$c.goto('/pages/goods/cart')"></image>
 			</view>
 		</view>

@@ -6,19 +6,13 @@
 			<view class="flex-between item-stretch" v-for="item in admins" :key="item.account_id">
 				<view class="relative mtb-10">
 					<u-avatar :src="item.avatar" size="42" :default-url="$c.userAvatar()" mode="aspectFill"></u-avatar>
-					<view 
-						v-if="item.role && (item.role.id == 1 || item.role.id == 2)" 
-						:class="item.role.id == 1? 'group-owner' : 'group-admin'"
-					>{{ item.role.value }}</view>
+					<view v-if="item.role && (item.role.id == 1 || item.role.id == 2)"
+						:class="item.role.id == 1? 'group-owner' : 'group-admin'">{{ item.role.value }}</view>
 				</view>
 				<view class="flex-1 flex-between ml-8 border-bottom">
 					<text class="u-line-1">{{ item.name }}</text>
 					<view v-if="memberInfo.memberRole === 1 && item.role.id === 2" class="">
-						<u-button
-							class="w-47 h-20 fs-10"
-							shape="circle"
-							@click="onRemove(item)"
-						>解除</u-button>
+						<u-button class="w-47 h-20 fs-10" shape="circle" @click="onRemove(item)">解除</u-button>
 					</view>
 				</view>
 			</view>
@@ -36,8 +30,8 @@
 					@click="$c.goto('/pages/group/info/addAdmins')"></u-button>
 			</view>
 		</view>
-		<u-modal :show="show" title="是否移除" content='移除后该成员将无管理权限？' confirmColor="#3D3D3D" cancelColor="#9F9F9F" showCancelButton
-			@cancel="show = false" @confirm="doSubmit"></u-modal>
+		<u-modal :show="show" title="是否移除" content='移除后该成员将无管理权限？' confirmColor="#3D3D3D" cancelColor="#9F9F9F"
+			showCancelButton @cancel="show = false" @confirm="doSubmit"></u-modal>
 	</view>
 </template>
 
@@ -77,7 +71,7 @@
 			this.team_id = info.team_id
 			this.onRoleInfo(info.team_id, this.$c.getStorage('profile').account)
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
-		}, 
+		},
 		onShow() {
 			this.getAdmins()
 		},
@@ -87,7 +81,9 @@
 					team_id: this.team_id,
 					page: 1,
 					limit: 500,
-					search: { name: '' }
+					search: {
+						name: ''
+					}
 				})
 				if (res.list && res.list.length > 0) {
 					this.admins = res.list.filter(m => m.role.id < 3)
@@ -111,7 +107,7 @@
 			async onSubmit() {
 				this.show = false
 				const res1 = await updateTeamMemberRole(this.account_id, 0)
-				if(res1) {
+				if (res1) {
 					const res = await this.$c.fetch(this.$api.group.role, {
 						team_id: this.team_id,
 						account_id: this.account_id,

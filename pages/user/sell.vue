@@ -1,6 +1,6 @@
 <template>
 	<view class="page flex-col">
-		<view class="bg plr-20 pb-47" :class="`pt-${$c.barHeight()}`">
+		<view class="bg plr-20 pb-47" :class="'pt-' + $c.barHeight()">
 			<view class="flex-between gap-20">
 				<view class="flex-start" @click="$c.goBack()">
 					<image src="/static/icon/back.png" class="i-24"></image>
@@ -57,7 +57,7 @@
 											<view class="relative">
 												<u-avatar :src="item.avatar" :defaultUrl="$c.userAvatar()" size="36" mode="aspectFill"></u-avatar>
 												<view class="flex-center w-36" style="margin-top: -3px;">
-													<view class="level" :style="$c.calcLvBg(item)">{{ $c.calcLvName(item) }}</view>
+													<view class="level" :style="item._style">{{ $c.calcLvName(item) }}</view>
 												</view>
 											</view>
 										</view>
@@ -155,6 +155,10 @@
 				if(res) {
 					// res.forEach(item => { item.level = { id: 4, value: '合伙人' }; item.medals = { id: 3, value: '金牌合伙人' } })
 					this.list = [...this.list, ...res]
+					this.list = this.list.map(item => ({
+						...item,
+						_style: this.$c.calcLvBg(item)
+					}))
 					this.listStatus = res.length < this.limit ? 'end' : 'more'
 					this.page++
 				}

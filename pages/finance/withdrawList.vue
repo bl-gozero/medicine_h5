@@ -14,16 +14,15 @@
 							<view class="flex-between text-info fs-10 mt-7">
 								<text class="">{{ item.created_at }}</text>
 								<view class="flex-start">
-									<u-button
-										v-if="item.status.id == 2"
-										class="bg-base-change fw-7 fs-8 text-white w-41 h-16 plr-0 mr-13"
-										shape="circle"
-										@click="doSubmit(item.id)"
-									>更新状态</u-button>
-									<text class="fw-7" :style="{color: getColor(item.status.id)}">{{ item.status.value }}</text>
+									<u-button v-if="item.status.id == 2"
+										class="bg-base-change fw-7 fs-8 text-white w-41 h-16 plr-0 mr-13" shape="circle"
+										@click="doSubmit(item.id)">更新状态</u-button>
+									<text class="fw-7"
+										:style="{color: getColor(item.status.id)}">{{ item.status.value }}</text>
 								</view>
 							</view>
-							<view v-if="item.reject_remark && item.status.id == 4" class="text-info fs-10 mt-7">{{ item.reject_remark }}</view>
+							<view v-if="item.reject_remark && item.status.id == 4" class="text-info fs-10 mt-7">
+								{{ item.reject_remark }}</view>
 						</view>
 					</view>
 				</view>
@@ -43,7 +42,11 @@
 			return {
 				height: 0,
 				list: [],
-				form: { page: 1, limit: 15, status: 'more' },
+				form: {
+					page: 1,
+					limit: 15,
+					status: 'more'
+				},
 				doSubmit: null
 			}
 		},
@@ -56,32 +59,39 @@
 		},
 		methods: {
 			async getList() {
-				if(this.form.status != 'more')
-				this.form.status = 'loading'
+				if (this.form.status != 'more')
+					this.form.status = 'loading'
 				const res = await this.$c.fetch(this.$api.finance.withdrawList, this.form)
 				if (res) {
 					this.list = [...this.list, ...(res || [])]
 					this.form.status = res.length > this.form.limit ? 'more' : 'end'
 					this.form.page++
 				}
-				if(this.form.status != 'end') this.form.status = 'more'
+				if (this.form.status != 'end') this.form.status = 'more'
 			},
 			async onSubmit(id) {
-				const res = await this.$c.fetch(this.$api.finance.withdrawCheck, { id: id })
-				if(res) {
+				const res = await this.$c.fetch(this.$api.finance.withdrawCheck, {
+					id: id
+				})
+				if (res) {
 					this.$c.toast('更新成功')
 					const item = this.list.filter(item => item.id === id)
-					if(item) item.status = res.status
+					if (item) item.status = res.status
 				}
 				this.showPassword = false
 			},
 			getColor(id) {
-				switch(id) {
-					case 1: return '#FF8F1F'
-					case 2: return '#FF8F1F'
-					case 3: return '#5DAF59'
-					case 4: return '#9F9F9F'
-					default: return '#9F9F9F'
+				switch (id) {
+					case 1:
+						return '#FF8F1F'
+					case 2:
+						return '#FF8F1F'
+					case 3:
+						return '#5DAF59'
+					case 4:
+						return '#9F9F9F'
+					default:
+						return '#9F9F9F'
 				}
 			}
 		}

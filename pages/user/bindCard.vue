@@ -12,18 +12,20 @@
 						<view class="pt-17" v-for="item in list" :key="item.id">
 							<view class="flex-between">
 								<view class="flex-start">
-									<image :src="`/static/pay/icon/${item.category.id > 2? 3 : item.category.id}.png`" class="i-18 mr-10"></image>
+									<image :src="`/static/pay/icon/${item.category.id > 2? 3 : item.category.id}.png`"
+										class="i-18 mr-10"></image>
 									<text>{{ item.category.value }}</text>
 								</view>
 								<view class="text-base" @click="onShowPassword(item.id)">解绑</view>
 							</view>
 							<view class="flex-center">
 								<view class="relative">
-									<image :src="`/static/pay/card/${item.category.id > 2? 3 : item.category.id}.png`" class="w-278 h-159"></image>
+									<image :src="`/static/pay/card/${item.category.id > 2? 3 : item.category.id}.png`"
+										class="w-278 h-159"></image>
 									<view class="full border-box plr-40 pt-32 text-white">
 										<view class="flex-between">
 											<text class="fs-16 fw-9">{{ item.full_name }}</text>
-											<text :class="`category-${ item.category.id }`">已绑定</text>
+											<text :class="['category-' + item.category.id]">已绑定</text>
 										</view>
 										<view class="mt-8 fs-12 fw-7">{{ item.name }}</view>
 										<view class="mt-30 fs-12 fw-7">{{ item.card_number }}</view>
@@ -36,14 +38,8 @@
 				</view>
 			</view>
 			<view class="fixed left-0 bottom-0 pw-100 bg-white pt-20 pb-40">
-				<u-button
-					class="bg-base fw-7 fs-14 text-white w-247 h-47"
-					shape="circle"
-					icon="plus"
-					iconColor="#fff"
-					text="新增绑定账户"
-					@click="showCate = true"
-				></u-button>
+				<u-button class="bg-base fw-7 fs-14 text-white w-247 h-47" shape="circle" icon="plus" iconColor="#fff"
+					text="新增绑定账户" @click="showCate = true"></u-button>
 			</view>
 		</view>
 		<view v-else>
@@ -52,46 +48,39 @@
 				<view class="">
 					<view class="mt-10">{{ form.category > 2? '持卡人' : '姓名' }}</view>
 					<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
-						<LineInput
-							v-model="form.name"
-							type="text"
+						<LineInput v-model="form.name" type="text"
 							:placeholder="form.category > 2? '请输入持卡人真实姓名' : `请输入使用${form.value}真实姓名`"
-							placeholderClass="text-info fs-14"
-						/>
+							placeholderClass="text-info fs-14" />
 					</view>
 				</view>
 				<view v-if="form.category > 2" class="mt-13">
 					<view class="mt-10">卡类型</view>
 					<view class="mt-7 bg-white rounded-8 ptb-13 plr-16 flex-between" @click="showCates = true">
-						<text :class="form.category? 'fs-12 lh-18' : 'text-info fs-14'">{{ cateName ? cateName : '请选择卡类型' }}</text>
+						<text
+							:class="form.category? 'fs-12 lh-18' : 'text-info fs-14'">{{ cateName ? cateName : '请选择卡类型' }}</text>
 						<u-icon name="arrow-right" color="#7D7D7D" size="12"></u-icon>
 					</view>
 				</view>
 				<view v-if="form.category > 2" class="mt-13">
 					<view class="mt-10">银行</view>
 					<view class="mt-7 bg-white rounded-8 ptb-13 plr-16 flex-between" @click="showPicker = true">
-						<text :class="form.full_name? 'fs-12 lh-18' : 'text-info fs-14'">{{ form.full_name? form.full_name : '请选择开户行'}}</text>
+						<text
+							:class="form.full_name? 'fs-12 lh-18' : 'text-info fs-14'">{{ form.full_name? form.full_name : '请选择开户行'}}</text>
 						<u-icon name="arrow-right" color="#7D7D7D" size="12"></u-icon>
 					</view>
 				</view>
 				<view class="mt-13">
 					<view class="mt-10">{{ form.category > 2? '卡号' : `${form.value}手机号` }}</view>
 					<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
-						<LineInput
-							v-model="form.card_number"
-							type="text"
+						<LineInput v-model="form.card_number" type="text"
 							:placeholder="form.category > 2? '请输入卡号' : `请输入${form.value}手机号`"
-							placeholderClass="text-info fs-14"
-						/>
+							placeholderClass="text-info fs-14" />
 					</view>
 				</view>
 				<view class="mt-13">
 					<view class="mt-10">开户行地址</view>
 					<view class="mt-7 bg-white rounded-8 ptb-16 plr-16">
-						<RegionPicker
-							v-model="form.open_address" 
-							placeholder="请选择开户行地址"
-						></RegionPicker>
+						<RegionPicker v-model="form.open_address" placeholder="请选择开户行地址"></RegionPicker>
 					</view>
 				</view>
 				<view v-if="form.category == 4" class="mt-13">
@@ -100,59 +89,39 @@
 						<text class="text-info fs-12 ml-10">格式：月/年，例：03/33</text>
 					</view>
 					<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
-						<LineInput
-							v-model="form.expired_at"
-							type="text"
-							placeholder="请输入信用卡背面有效期四位数字"
-							placeholderClass="text-info fs-14"
-						/>
+						<LineInput v-model="form.expired_at" type="text" placeholder="请输入信用卡背面有效期四位数字"
+							placeholderClass="text-info fs-14" />
 					</view>
 				</view>
 				<view v-if="form.category == 4" class="mt-13">
 					<view class="mt-10">信用卡校验码</view>
 					<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
-						<LineInput
-							v-model="form.cvv2"
-							type="text"
-							placeholder="请输入信用卡背面校验码三位数字"
-							placeholderClass="text-info fs-14"
-						/>
+						<LineInput v-model="form.cvv2" type="text" placeholder="请输入信用卡背面校验码三位数字"
+							placeholderClass="text-info fs-14" />
 					</view>
 				</view>
 				<view v-if="form.category > 2" class="mt-13">
 					<view class="mt-10">证件号</view>
 					<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
-						<LineInput
-							v-model="form.identity"
-							type="text"
-							placeholder="请输入持卡人身份证件号"
-							placeholderClass="text-info fs-14"
-						/>
+						<LineInput v-model="form.identity" type="text" placeholder="请输入持卡人身份证件号"
+							placeholderClass="text-info fs-14" />
 					</view>
 				</view>
 				<view v-if="form.category > 2" class="mt-13">
 					<view class="mt-10">手机号</view>
 					<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
-						<LineInput
-							v-model="form.phone"
-							type="text"
-							placeholder="请输入持卡人银行预留手机号"
-							placeholderClass="text-info fs-14"
-						/>
+						<LineInput v-model="form.phone" type="text" placeholder="请输入持卡人银行预留手机号"
+							placeholderClass="text-info fs-14" />
 					</view>
 				</view>
 			</view>
 			<view class="mt-40">
-				<u-button
-					class="bg-base fw-7 fs-14 text-white w-224 h-43"
-					shape="circle"
-					text="绑定"
-					@click="doAdd"
-				></u-button>
+				<u-button class="bg-base fw-7 fs-14 text-white w-224 h-43" shape="circle" text="绑定"
+					@click="doAdd"></u-button>
 			</view>
 			<view class="h-20"></view>
 		</view>
-		
+
 		<!-- 添加类型 -->
 		<u-popup :show="showCate" mode="bottom" round="20" closeable @close="showCate = false">
 			<view class="p-20">
@@ -166,45 +135,26 @@
 				<view class="h-40"></view>
 			</view>
 		</u-popup>
-	
+
 		<!-- 密码 -->
 		<u-popup :show="showPassword" mode="bottom" round="20" closeable @close="showPassword = false">
 			<view class="p-20">
 				<view class="text-center fs-18">解绑</view>
 				<view class="mt-40 pb-7 border-bottom">
-					<LineInput
-						v-model="delForm.password"
-						type="password"
-						placeholder="请输入交易密码"
-						placeholderClass="text-info fs-14 fw-7"
-					/>
+					<LineInput v-model="delForm.password" type="password" placeholder="请输入交易密码"
+						placeholderClass="text-info fs-14 fw-7" />
 				</view>
-				<u-button
-					class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-60"
-					shape="circle"
-					text="解绑"
-					@click="doDelete"
-				></u-button>
+				<u-button class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-60" shape="circle" text="解绑"
+					@click="doDelete"></u-button>
 				<view class="h-30"></view>
 			</view>
 		</u-popup>
-		
-		<u-picker 
-			:show="showPicker" 
-			:columns="banks"
-			:confirmColor="$c.baseColor()"
-			@confirm="onConfirm"
-			@cancel="showPicker = false"
-		></u-picker>
-		
-		<u-picker
-			:show="showCates" 
-			:columns="cates"
-			:confirmColor="$c.baseColor()"
-			keyName="name"
-			@confirm="onConfirmCate"
-			@cancel="showCates = false"
-		></u-picker>
+
+		<u-picker :show="showPicker" :columns="banks" :confirmColor="$c.baseColor()" @confirm="onConfirm"
+			@cancel="showPicker = false"></u-picker>
+
+		<u-picker :show="showCates" :columns="cates" :confirmColor="$c.baseColor()" keyName="name"
+			@confirm="onConfirmCate" @cancel="showCates = false"></u-picker>
 	</view>
 </template>
 
@@ -212,7 +162,7 @@
 	import Title from '../../components/Title.vue';
 	import LineInput from '@/components/LineInput.vue'
 	import RegionPicker from '@/components/RegionPicker.vue'
-	
+
 	export default {
 		components: {
 			Title,
@@ -233,10 +183,33 @@
 				showCates: false,
 				cate: {},
 				cateList: [],
-				form: { name: '', card_number: '', full_name: '', category: 0, phone: '', identity: '', cvv2: '', expired_at: '', open_address: '' },
-				delForm: { id: 0, password: '' },
-				banks: [['建设银行', '民生银行', '农业银行', '中国银行', '招商银行', '交通银行', '邮政银行', '工商银行']],
-				cates: [[{ id: 3, name: '借记卡' }, { id: 4, name: '信用卡' }]],
+				form: {
+					name: '',
+					card_number: '',
+					full_name: '',
+					category: 0,
+					phone: '',
+					identity: '',
+					cvv2: '',
+					expired_at: '',
+					open_address: ''
+				},
+				delForm: {
+					id: 0,
+					password: ''
+				},
+				banks: [
+					['建设银行', '民生银行', '农业银行', '中国银行', '招商银行', '交通银行', '邮政银行', '工商银行']
+				],
+				cates: [
+					[{
+						id: 3,
+						name: '借记卡'
+					}, {
+						id: 4,
+						name: '信用卡'
+					}]
+				],
 				cateName: ''
 			}
 		},
@@ -255,9 +228,19 @@
 				this.form.category = e.value[0]?.id
 				this.cateName = e.value[0]?.name
 				this.showCates = false
-			}, 
+			},
 			onCate(item) {
-				this.form = { name: '', card_number: '', full_name: '', category: 0, phone: '', identity: '', cvv2: '', expired_at: '', open_address: '' }
+				this.form = {
+					name: '',
+					card_number: '',
+					full_name: '',
+					category: 0,
+					phone: '',
+					identity: '',
+					cvv2: '',
+					expired_at: '',
+					open_address: ''
+				}
 				this.form.category = item.id
 				this.form.value = item.value
 				this.showCate = false;
@@ -265,12 +248,17 @@
 				this.page = 2
 			},
 			async getCardList() {
-				const res = await this.$c.fetch(this.$api.user.cardList, { category: this.category })
-				if(res) { this.list = res;this.load = true; }
+				const res = await this.$c.fetch(this.$api.user.cardList, {
+					category: this.category
+				})
+				if (res) {
+					this.list = res;
+					this.load = true;
+				}
 			},
-			async getCateList () {
+			async getCateList() {
 				const res = await this.$c.fetch(this.$api.config.cardCategoryList)
-				if(res) this.cateList = res
+				if (res) this.cateList = res
 			},
 			async onBind() {
 				const form = {}
@@ -279,7 +267,7 @@
 					form[key] = typeof val === 'string' ? uni.$u.trim(val) : val
 				})
 				const res = await this.$c.fetch(this.$api.user.cardBind, form)
-				if(res) {
+				if (res) {
 					this.$c.toast('绑定成功')
 					this.getCardList()
 					setTimeout(() => {
@@ -295,7 +283,7 @@
 			async onDelete(id) {
 				this.showPassword = false
 				const res = await this.$c.fetch(this.$api.user.cardDelete, this.delForm)
-				if(res) {
+				if (res) {
 					this.$c.toast('解绑成功')
 					this.getCardList()
 				}
@@ -308,9 +296,11 @@
 	.category-1 {
 		color: #1357C2;
 	}
+
 	.category-2 {
 		color: #088908;
 	}
+
 	.category-3 {
 		color: #9ADAEB;
 	}

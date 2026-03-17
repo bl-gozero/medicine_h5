@@ -26,14 +26,10 @@
 			<Payment v-model="form.pay_mode"></Payment>
 		</view>
 		<view class="absolute left-0 bottom-25 pw-100">
-			<u-button
-				class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white"
-				shape="circle"
-				:text="`立即支付￥${ price }`"
-				@click="onCheck()"
-			></u-button>
+			<u-button class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white" shape="circle" :text="`立即支付￥${ price }`"
+				@click="onCheck()"></u-button>
 		</view>
-		
+
 		<!-- 密码 -->
 		<u-popup :show="showPassword" mode="bottom" round="20" closeable @close="showPassword = false">
 			<view class="plr-20 pt-50 pb-70 text-center">
@@ -44,14 +40,8 @@
 				</view>
 				<view class="mt-28 fw-7 text-left">请输入交易密码</view>
 				<view class="mt-20">
-					<u-code-input 
-						v-model="form.password" 
-						:maxlength="6" 
-						:focus="true"
-						:color="$c.baseColor()"
-						borderColor="#EAEAEA"
-						dot 
-						@finish="doSubmit"></u-code-input>
+					<u-code-input v-model="form.password" :maxlength="6" :focus="true" :color="$c.baseColor()"
+						borderColor="#EAEAEA" dot @finish="doSubmit"></u-code-input>
 				</view>
 			</view>
 		</u-popup>
@@ -61,7 +51,7 @@
 <script>
 	import Title from '../../components/Title.vue'
 	import Payment from '../../components/Payment.vue'
-	
+
 	export default {
 		components: {
 			Title,
@@ -69,12 +59,19 @@
 		},
 		data() {
 			return {
-				cateList: [{ id: 4, value: '奖励' }],
+				cateList: [{
+					id: 4,
+					value: '奖励'
+				}],
 				price: '',
 				id: 0,
 				doSubmit: null,
 				showPassword: false,
-				form: { id: null, password: '', pay_mode: 0}
+				form: {
+					id: null,
+					password: '',
+					pay_mode: 0
+				}
 			}
 		},
 		onLoad(p) {
@@ -85,7 +82,7 @@
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},
 		onShow() {
-			
+
 		},
 		methods: {
 			async getInfo() {
@@ -97,9 +94,9 @@
 			async getCateList() {
 				const res = await this.$c.fetch(this.$api.config.payCategoryList)
 				if (res) this.cateList = [...this.cateList, ...res]
-			},	
+			},
 			onCheck() {
-				if(!this.form.pay_mode) {
+				if (!this.form.pay_mode) {
 					this.$c.toast('请选择支付方式')
 					return
 				}
@@ -110,7 +107,7 @@
 				this.showPassword = false
 				const res = await this.$c.fetch(this.$api.group.pay, this.form)
 				if (res) {
-					if(res.jump_url) {
+					if (res.jump_url) {
 						// this.$c.setStorage('web', { title: '支付', src: res.jump_url })
 						// this.$c.goto('/pages/index/web?type=pay')
 						this.$c.quickPay(res.jump_url)

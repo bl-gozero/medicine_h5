@@ -72,20 +72,20 @@
 
 	.nav_active {
 		position: relative;
-
-		&::after {
-			content: '';
-			display: block;
-			width: 10px;
-			height: 2px;
-			background: #1A7E84;
-			position: absolute;
-			bottom: -4px;
-			left: 0;
-			right: 0;
-			margin: auto;
-			border-radius: 2px;
-		}
+	}
+	
+	.nav_active::after {
+		content: '';
+		display: block;
+		width: 10px;
+		height: 2px;
+		background: #1A7E84;
+		position: absolute;
+		bottom: -4px;
+		left: 0;
+		right: 0;
+		margin: auto;
+		border-radius: 2px;
 	}
 
 	.more_box {
@@ -95,20 +95,20 @@
 		border-radius: 12px;
 		position: relative;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-
-		/* 小三角形 */
-		&::before {
-			content: '';
-			position: absolute;
-			top: -10px;
-			left: 20px;
-			width: 0;
-			height: 0;
-			border-left: 10px solid transparent;
-			border-right: 10px solid transparent;
-			border-bottom: 10px solid #fff;
-			// filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15)); 
-		}
+	}
+	
+	/* 小三角形 */
+	.more_box::before {
+		content: '';
+		position: absolute;
+		top: -10px;
+		left: 20px;
+		width: 0;
+		height: 0;
+		border-left: 10px solid transparent;
+		border-right: 10px solid transparent;
+		border-bottom: 10px solid #fff;
+		// filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15)); 
 	}
 
 	.group-owner {

@@ -12,12 +12,8 @@
 					</view>
 					<view class="flex-1">
 						<view>账号</view>
-						<LineInput 
-							v-model="form.account"
-							placeholder="请输入账号"
-							placeholderClass="text-info fs-14 fw-5"
-							:showLine="true"
-						/>
+						<LineInput v-model="form.account" placeholder="请输入账号" placeholderClass="text-info fs-14 fw-5"
+							:showLine="true" />
 					</view>
 				</view>
 				<view class="flex-start mt-30">
@@ -26,14 +22,8 @@
 					</view>
 					<view class="flex-1">
 						<view>密码</view>
-						<LineInput
-							v-model="form.password"
-							type="password"
-							placeholder="请输入密码"
-							placeholderClass="text-info fs-14 fw-5"
-							:showLine="true"
-							:maxlength="20"
-						/>
+						<LineInput v-model="form.password" type="password" placeholder="请输入密码"
+							placeholderClass="text-info fs-14 fw-5" :showLine="true" :maxlength="20" />
 					</view>
 				</view>
 				<view class="text-right mt-13">
@@ -45,43 +35,30 @@
 					</view>
 					<view class="flex-1">
 						<view>验证码</view>
-						<LineInput 
-							v-model="form.captcha_code"
-							placeholder="请输入验证码"
-							placeholderClass="text-info fs-14 fw-5"
-							:showLine="true"
-							:maxlength="6"
-						>
+						<LineInput v-model="form.captcha_code" placeholder="请输入验证码"
+							placeholderClass="text-info fs-14 fw-5" :showLine="true" :maxlength="6">
 							<template #suffix>
-							    <image v-if="!showCodeBtn && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix" @click="getCode()"></image>
-								<u-button
-									v-if="showCodeBtn"
-									class="bg-base-change fw-7 fs-12 text-white plr-20 h-40"
-									shape="circle"
-									text="点击获取"
-									@click="getCode()"
-								></u-button>
+								<image v-if="!showCodeBtn && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix"
+									@click="getCode()"></image>
+								<u-button v-if="showCodeBtn" class="bg-base-change fw-7 fs-12 text-white plr-20 h-40"
+									shape="circle" text="点击获取" @click="getCode()"></u-button>
 							</template>
 						</LineInput>
 					</view>
 				</view>
 				<view class="mt-47 flex-center">
-					<!-- <u-checkbox v-model="agreed" label="我已阅读并同意《用户协议》" /> -->				
+					<!-- <u-checkbox v-model="agreed" label="我已阅读并同意《用户协议》" /> -->
 					<u-checkbox-group v-model="agreed">
 						<u-checkbox name="agreed" size="16" activeColor="#1A7E84" inactiveColor="#1A7E84" />
 					</u-checkbox-group>
 					<text class="fs-10">
-					    <text>阅读并同意</text>
-					    <text class="text-base" @click="$c.goto('/pages/index/userAgreement')">《APP用户协议》</text>
+						<text>阅读并同意</text>
+						<text class="text-base" @click="$c.goto('/pages/index/userAgreement')">《APP用户协议》</text>
 					</text>
 				</view>
-				<view class="mt-14 text-center">
-					<u-button 
-						class="bg-base-change fw-7 fs-14 text-white w-278 h-49"
-						shape="circle"
-						text="登录"
-						@click="onSubmit()"
-					></u-button>
+				<view class="mt-14">
+					<u-button class="bg-base-change fw-7 fs-14 text-white w-278 h-49" shape="circle" text="登录"
+						@click="onSubmit()"></u-button>
 				</view>
 				<view class="text-center mt-23">
 					<text class="text-base fw-4" @click="$c.goto('/pages/index/login_p')">验证码登录</text>
@@ -97,13 +74,23 @@
 
 <script>
 	import LineInput from '@/components/LineInput.vue'
-	import { initNIM, loginNIM } from '@/utils/nim.js'
-	
+	import {
+		initNIM,
+		loginNIM
+	} from '@/utils/nim.js'
+
 	export default {
-		components: { LineInput },
+		components: {
+			LineInput
+		},
 		data() {
 			return {
-				form: { account: '', password: '', captcha_id: '', captcha_code: '' },
+				form: {
+					account: '',
+					password: '',
+					captcha_id: '',
+					captcha_code: ''
+				},
 				agreed: [],
 				captcha: '',
 				showCodeBtn: false,
@@ -119,7 +106,7 @@
 		methods: {
 			async getCode() {
 				const res = await this.$c.fetch(this.$api.config.captcha)
-				if(res) {
+				if (res) {
 					this.showCodeBtn = false
 					this.form.captcha_id = res.id
 					this.captcha = res.base64_image
@@ -128,24 +115,24 @@
 				}
 			},
 			async onSubmit() {
-				if(!this.form.account) {
+				if (!this.form.account) {
 					this.$c.toast('请输入账号')
 					return
 				}
-				if(!this.form.password) {
+				if (!this.form.password) {
 					this.$c.toast('请输入密码')
 					return
 				}
-				if(!this.form.captcha_code) {
+				if (!this.form.captcha_code) {
 					this.$c.toast('请输入验证码')
 					return
 				}
-				if(this.agreed.indexOf('agreed') == -1) {
+				if (this.agreed.indexOf('agreed') == -1) {
 					this.$c.toast('阅读并同意《APP用户协议》')
 					return
 				}
 				const res = await this.$c.fetch(this.$api.user.login, this.form)
-				if(res) {
+				if (res) {
 					this.$c.toast('登录成功')
 					this.$c.setStorage('jwt', res.jwt)
 					this.$c.setStorage('index_pop', false)
@@ -157,13 +144,14 @@
 			async intIm() {
 				this.$c.removeStorage('chatInfo')
 				let nimInfo = this.$c.getStorage('nimInfo') || {}
-				if(!nimInfo.appkey) {
+				if (!nimInfo.appkey) {
 					const res1 = await this.$c.fetch(this.$api.group.config)
-					if(res1?.app_key) nimInfo.appkey = res1.app_key
+					if (res1?.app_key) nimInfo.appkey = res1.app_key
 				}
 				const res2 = await this.$c.fetch(this.$api.group.login)
-				if(res2?.account_id) {
-					this.$c.setStorage('nimInfo', { ...nimInfo,
+				if (res2?.account_id) {
+					this.$c.setStorage('nimInfo', {
+						...nimInfo,
 						account: res2.account_id,
 						token: res2.token,
 					})
@@ -173,7 +161,7 @@
 			},
 			async getProfile() {
 				const res = await this.$c.fetch(this.$api.user.getProfile)
-				if(res) {
+				if (res) {
 					this.$c.setStorage('profile', res)
 					this.$c.goto('/pages/index/index')
 				}

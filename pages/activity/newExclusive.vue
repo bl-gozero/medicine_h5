@@ -14,26 +14,18 @@
 		<view class="p-20">价值135元的北朝鲜山参 福利领取 你有一份免费北朝鲜山参领取资格</view>
 		<view class="h-10 bg-page"></view>
 		<view class="ptb-18 text-center">商品详情</view>
-		<u--image src="/static/avtivity/new/detail.webp"  width="100%" height="auto" bgColor="transparent" mode="widthFix">
-		  <template v-slot:loading>
-		    <u-loading-icon color="#9F9F9F" class="mtb-100"></u-loading-icon>
-		  </template>
+		<u--image src="/static/avtivity/new/detail.webp" width="100%" height="auto" bgColor="transparent"
+			mode="widthFix">
+			<template v-slot:loading>
+				<u-loading-icon color="#9F9F9F" class="mtb-100"></u-loading-icon>
+			</template>
 		</u--image>
-		<u-button
-			v-if="done === 1"
-			class="fs-16 btn bg-base-change"
-			shape="circle"
-			@click="eventGoods()"
-		>领取福利</u-button>
-		<u-button
-			v-else-if="done === 2"
-			class="fs-14 btn"
-			style="background: #739A9C;"
-			shape="circle"
-			@click="onDetail()"
-		>已领取   查看领取详情</u-button>
+		<u-button v-if="done === 1" class="fs-16 btn bg-base-change" shape="circle"
+			@click="eventGoods()">领取福利</u-button>
+		<u-button v-else-if="done === 2" class="fs-14 btn" style="background: #739A9C;" shape="circle"
+			@click="onDetail()">已领取 查看领取详情</u-button>
 		<view class="h-20"></view>
-		
+
 		<u-popup :show="showAddress" mode="bottom" bgColor="transparent" closeable @close="showAddress = false">
 			<view class="pt-14 pb-30 plr-20 bg-address lh-10 roundedTop-20">
 				<view class="fs-16 text-center">收货地址</view>
@@ -60,8 +52,9 @@
 				<u-button class="btn-submit bg-base mt-80" shape="circle" text="确认地址并领取" @click="doSubmit"></u-button>
 			</view>
 		</u-popup>
-		
-		<u-popup :show="showDone" mode="center" bgColor="transparent" :closeOnClickOverlay="false" @close="showDone = false">
+
+		<u-popup :show="showDone" mode="center" bgColor="transparent" :closeOnClickOverlay="false"
+			@close="showDone = false">
 			<view class="w-336 text-center">
 				<image src="/static/avtivity/new/done.webp" class="w-336 h-364" @click="onDetail()"></image>
 				<image src="/static/icon/close.webp" class="i-52 mt-25" @click="showDone = false"></image>
@@ -83,9 +76,14 @@
 				showAddress: false,
 				address: {},
 				showDone: false,
-				items: [
-					{ id: 1, name: '北朝鲜山参', img: '/static/avtivity/new/goods.webp', class: 'i-76 rounded-8', price: 0, stock: 1 },
-				],
+				items: [{
+					id: 1,
+					name: '北朝鲜山参',
+					img: '/static/avtivity/new/goods.webp',
+					class: 'i-76 rounded-8',
+					price: 0,
+					stock: 1
+				}, ],
 			}
 		},
 		onLoad() {
@@ -96,7 +94,7 @@
 		},
 		onShow() {
 			const address = this.$c.getStorage('address')
-			if(address) this.address = address
+			if (address) this.address = address
 		},
 		methods: {
 			async eventGoods() {
@@ -111,24 +109,28 @@
 			},
 			async addressList() {
 				const res = await this.$c.fetch(this.$api.user.addressList)
-				if(res) { this.address = res.length > 0? res[0] : {} }
+				if (res) {
+					this.address = res.length > 0 ? res[0] : {}
+				}
 			},
 			async getActivity() {
-				const res = await this.$c.fetch(this.$api.user.activity, { id: this.event_id })
+				const res = await this.$c.fetch(this.$api.user.activity, {
+					id: this.event_id
+				})
 				if (res) {
-					this.done = res.is_participate ? 2 : 1 
-					if(this.done === 2) this.showDone = true
+					this.done = res.is_participate ? 2 : 1
+					if (this.done === 2) this.showDone = true
 				}
 			},
 			async onSubmit() {
-				if(!this.items[0].stock) return this.$c.toast('库存不足')
+				if (!this.items[0].stock) return this.$c.toast('库存不足')
 				this.showAddress = false
 				const res = await this.$c.fetch(this.$api.user.activityAddress, {
 					id: this.event_id,
 					address_id: this.address.id,
 					commodity: 1
 				})
-				if(res) {
+				if (res) {
 					this.$c.toast('提交成功')
 					this.getActivity()
 				}
@@ -144,6 +146,7 @@
 	.price-box {
 		background: linear-gradient(90deg, #6C5B47 0%, #312323 100%);
 	}
+
 	.btn {
 		width: 260px;
 		height: 45px;
@@ -151,6 +154,7 @@
 		margin-top: 10px;
 		color: #fff;
 	}
+
 	.bg-address {
 		background: linear-gradient(180deg, #CDEAEB 2%, #FFFFFF 32px);
 	}

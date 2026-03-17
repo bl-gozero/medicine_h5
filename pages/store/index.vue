@@ -5,6 +5,7 @@
 			<view class="plr-30">
 				<view class="flex-start fs-12 text-info nav_box pl-10" style="gap: 5%;">
 					<view class="relative" :class="nav == 1 && 'nav_active text-black'" @click="onNav(1)">已寄存</view>
+					<!-- #ifndef MP -->
 					<view class="relative w-80 flex-center" :class="nav == 2 && 'nav_active text-black'"
 						@click="onNav(2)">
 						<text>发货 - {{ ships[shipIndex]? ships[shipIndex].value : '' }}</text>
@@ -16,14 +17,17 @@
 					</view>
 					<view v-if="$c.mode()" class="relative" :class="nav == 3 && 'nav_active text-black'" @click="onNav(3)">已赠出</view>
 					<view v-if="$c.mode()" class="relative" :class="nav == 4 && 'nav_active text-black'" @click="onNav(4)">已回购</view>
+					<!-- #endif -->
 				</view>
 			</view>
 		</view>
 		<view :class="['plr-20', `pt-${top}`]">
 			<view v-if="nav == 1" class="ptb-14 plr-12 rounded-12 flex-start bg-white mt-12" v-for="item in list"
 				:key="item.id">
+				<!-- #ifndef MP -->
 				<image :src="$c.checkIcon(item.selected)" class="i-18 self-start"
 					@click="item.selected = !item.selected"></image>
+				<!-- #endif -->
 				<view class="flex-1 ml-8">
 					<view class="flex-between">
 						<!-- <text class="fs-12 fw-5">自购存入</text> -->
@@ -101,6 +105,7 @@
 			</view>
 		</view>
 		<view class="h-70"></view>
+		<!-- #ifndef MP -->
 		<view v-if="nav == 1"
 			class="total_box fixed pw-100 bottom-0 left-0 plr-20 ptb-9 flex-between fs-10 border-box bg-white"
 			style="z-index: 10;">
@@ -118,6 +123,7 @@
 					@click="onShowEvent('ship')"></u-button>
 			</view>
 		</view>
+		<!-- #endif -->
 
 		<u-modal :show="show" title="提示" content='确定要删除？' confirmColor="#3D3D3D" cancelColor="#9F9F9F" showCancelButton
 			@cancel="show = false" @confirm="onDelete()"></u-modal>

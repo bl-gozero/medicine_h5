@@ -1,6 +1,6 @@
 <template>
 	<view class="page bg-page">
-		<view class="title_bg pb-18 plr-20" :class="`pt-${$c.barHeight()}`">
+		<view class="title_bg pb-18 plr-20" :class="'pt-' + $c.barHeight()">
 			<view class="flex-between">
 				<text class="fw-7 fs-18">购物车</text>
 				<text v-if="mode == 1" class="" @click="mode = 2">管理</text>
@@ -9,7 +9,7 @@
 		</view>
 		<view class="pt-11 plr-8">
 			<view class="ptb-14 plr-12 rounded-12 flex-start bg-white mt-12" v-for="item in list" :key="item.id">
-				<image :src="$c.checkIcon(item.status)" class="i-18" @click="item.status = !item.status"></image>
+				<image :src="$c.checkIcon(item.status)" class="i-18" @click="onGoods(item)"></image>
 				<image :src="item.picture" class="i-76 rounded-12 plr-9" mode="aspectFill"></image>
 				<view class="flex-1">
 					<view class="u-line-1 fw-5">{{ item.goods_name }}</view>
@@ -31,7 +31,7 @@
 				</view>
 			</view>
 		</view>
-		<view :class="`h-${height}`"></view>
+		<view :class="'h-' + height"></view>
 		<view class="total_box fixed pw-100 bottom-48 left-0 plr-20 ptb-9 flex-between fs-10 border-box bg-white"
 			style="z-index: 10;">
 			<view class="flex-start">
@@ -117,6 +117,9 @@
 				this.list.forEach(item => {
 					item.status = this.all;
 				});
+			},
+			onGoods(item) {
+				this.$set(item, 'status', !item.status)
 			},
 			async getList() {
 				const res = await this.$c.fetch(this.$api.goods.cartList)

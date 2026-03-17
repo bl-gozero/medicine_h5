@@ -1,7 +1,7 @@
 <template>
 	<view class="page flex-col"
 		style="background: linear-gradient(to bottom,  #519296 0,  #519296 50%, #E7F1FF 50%, #E7F1FF 100%)">
-		<view class="title_box fixed flex-between pb-15 plr-20 pw-100 border-box" :class="`pt-${$c.barHeight()}`"
+		<view class="title_box fixed flex-between pb-15 plr-20 pw-100 border-box" :class="'pt-' + $c.barHeight()"
 			style="z-index: 10;background: #519296;">
 			<image src="/static/common/logo.gif" class="w-73 h-32 mr-11"></image>
 			<view class="flex-end">
@@ -12,7 +12,7 @@
 				<text class="fs-14 lh-14 fw-7 text-white ml-8" @click="onSearch()">搜索</text>
 			</view>
 		</view>
-		<view :class="`h-${height}`"></view>
+		<view :class="'h-' + height"></view>
 		<view class="plr-20 h-105">
 			<u-swiper :list="banner" keyName="src" :height="105"></u-swiper>
 		</view>

@@ -1,7 +1,7 @@
 <template>
 	<view class="page bg-page">
 		<view class="level_box">
-			<view class="" :class="`bg-${level_index}`">
+			<view class="" :class="['bg-' + level_index]">
 				<Title title="会员中心" bgColor="transparent">
 					<template v-if="profile.level.id < 3" v-slot:right>
 						<text @click="$c.goto('/pages/user/team')">邀请的好友</text>
@@ -27,7 +27,7 @@
 											</view>
 										</view>
 										<view class="text-white fw-7 fs-12 pw-100 mt-10">升级进度</view>
-										<view :class="`requirement_${item.id}`">
+										<view :class="'requirement_' + item.id">
 											<view class="flex-start mt-2">
 												<view class="w-97">
 													<u-line-progress :percentage="getPercent(item)" :showText="false"

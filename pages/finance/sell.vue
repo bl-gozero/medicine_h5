@@ -145,18 +145,19 @@
 		position: relative;
 		font-weight: 700;
 		color: #1C77FE;
-		&::after {
-			content: '';
-			display: block;
-			width: 10px;
-			height: 2px;
-			background: #1C77FE;
-			position: absolute;
-			bottom: -4px;
-			left: 0;
-			right: 0;
-			margin: auto;
-			border-radius: 2px;
-		}
+		
+	}
+	.active::after {
+		content: '';
+		display: block;
+		width: 10px;
+		height: 2px;
+		background: #1C77FE;
+		position: absolute;
+		bottom: -4px;
+		left: 0;
+		right: 0;
+		margin: auto;
+		border-radius: 2px;
 	}
 </style>
