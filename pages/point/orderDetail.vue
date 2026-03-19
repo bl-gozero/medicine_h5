@@ -6,7 +6,8 @@
 		<view class="pt-10 plr-20 relative" style="z-index: 2;">
 			<view class="text-center" style="color: #064144;">
 				<view class="fs-18 fw-7">{{ $c.formatPointStatus(order.status).text }}</view>
-				<view class="fs-12 mt-14 lh-15 border-box" style="padding: 0 10%;">{{ $c.formatPointStatus(order.status, $c.calcTime(order.created_at, 30 * 60)).hint }}</view>
+				<view class="fs-12 mt-14 lh-15 border-box" style="padding: 0 10%;">
+					{{ $c.formatPointStatus(order.status, $c.calcTime(order.created_at, 30 * 60)).hint }}</view>
 			</view>
 			<view v-if="order.address" class="mt-20 bg-white rounded-12 plr-16 ptb-20 border-box">
 				<view class="flex-between">
@@ -18,8 +19,9 @@
 								<text class="fs-12 text-info">{{ order.waybill_number }}</text>
 								<image src="/static/order/copy.png" class="i-12 ml-10"></image>
 							</view>
-							<u-button class="w-52 h-23 bg-base text-white fs-12 self-start m-0 ml-10 p-0" shape="circle"
-								@click="$c.goto('/pages/index/express', 1, { id: order.id, mode: 1, number: order.waybill_number })">查询</u-button>
+							<button
+								class="w-52 h-23 bg-base text-white fs-12 self-start m-0 ml-10 p-0 flex-center rounded-x"
+								@click="$c.goto('/pages/index/express', 1, { id: order.id, mode: 1, number: order.waybill_number })">查询</button>
 						</view>
 						<view v-else class="mt-10 fs-12 text-info">暂无信息</view>
 						<!-- <view v-if="express.AcceptStation" class="lh-15 mt-15 fs-12 text-info">
@@ -110,14 +112,14 @@
 				</view>
 			</view>
 			<view class="flex-start">
-				<u-button v-if="order.status == 1" class="btn btn-black" shape="circle" plain
-					text="取消订单" @click="showCancel = true"></u-button>
-				<u-button v-if="order.status == 2" class="btn bg-base text-white" shape="circle" plain
-					text="申请发货" @click="showShip = true"></u-button>
-				<u-button v-if="order.status == 3" class="btn bg-base text-white" shape="circle" text="确认收货"
-					@click="showReceive = true"></u-button>
-				<u-button v-if="order.status == 1" class="btn bg-base text-white" shape="circle" plain text="去付款"
-					@click="$c.goto(`/pages/point/pay?id=${order.id}`)"></u-button>
+				<button v-if="order.status == 1" class="btn btn-black border-plain" plain
+					@click="showCancel = true">取消订单</button>
+				<button v-if="order.status == 2" class="btn bg-base text-white"
+					@click="showShip = true">申请发货</button>
+				<button v-if="order.status == 3" class="btn bg-base text-white"
+					@click="showReceive = true">确认收货</button>
+				<button v-if="order.status == 1" class="btn bg-base text-white"
+					@click="$c.goto(`/pages/point/pay?id=${order.id}`)">去付款</button>
 			</view>
 		</view>
 
@@ -127,8 +129,8 @@
 			showCancelButton @cancel="showDelete = false" @confirm="doDelete"></u-modal>
 		<u-modal :show="showReceive" title="提示" content='确定该订单已收货？' confirmColor="#3D3D3D" cancelColor="#9F9F9F"
 			showCancelButton @cancel="showReceive = false" @confirm="doReceive"></u-modal>
-			
-		<u-popup :show="showShip" mode="bottom" bgColor="transparent" closeable @close="showShip = false">
+
+		<u-popup :show="showShip" mode="bottom" :round="20" closeable @close="showShip = false">
 			<view class="pt-14 pb-30 plr-20 bg-address lh-10 roundedTop-20">
 				<view class="fs-18 fw-5 text-center">申请发货</view>
 				<view class="flex-between ptb-30 fs-12" @click="$c.goto('/pages/user/address?from=address')">
@@ -160,7 +162,7 @@
 						</view>
 					</view>
 				</scroll-view>
-				<u-button class="btn-submit bg-base mt-40" shape="circle" text="确认地址并领取" @click="doShip"></u-button>
+				<button class="btn-submit bg-base mt-40" @click="doShip">确认地址并领取</button>
 			</view>
 		</u-popup>
 	</view>
@@ -204,7 +206,7 @@
 		},
 		onShow() {
 			const address = this.$c.getStorage('address')
-			if(address) this.address = address
+			if (address) this.address = address
 			this.getDetail()
 		},
 		methods: {
@@ -254,11 +256,11 @@
 					quantity: i.quantity,
 					shopping_cart_id: 0
 				}))
-				const res = await this.$c.fetch(this.$api.goods.orderAdd, { 
+				const res = await this.$c.fetch(this.$api.goods.orderAdd, {
 					goods_sku: goods_sku,
 					user_address_id: 0
 				})
-				if(res) this.$c.goto(`/pages/order/pay?id=${res.id}`)
+				if (res) this.$c.goto(`/pages/order/pay?id=${res.id}`)
 			},
 			cancelShow() {
 				this.showCancel = false
@@ -269,7 +271,9 @@
 			},
 			async addressList() {
 				const res = await this.$c.fetch(this.$api.user.addressList)
-				if(res) { this.address = res.length > 0? res[0] : {} }
+				if (res) {
+					this.address = res.length > 0 ? res[0] : {}
+				}
 			},
 			async onShip() {
 				this.cancelShow()
@@ -301,6 +305,7 @@
 		width: 95px;
 		height: 40px;
 		margin-left: 5px;
+		font-size: 14px;
 	}
 
 	.more_box {

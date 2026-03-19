@@ -54,11 +54,13 @@
 							type: 'link',
 							url: '/pages/user/loginPassword'
 						},
+						// #ifndef MP
 						{
 							name: '更改交易密码',
 							type: 'link',
 							url: '/pages/user/payPassword'
 						}
+						// #endif
 					],
 					[{
 							name: '账户绑定管理',

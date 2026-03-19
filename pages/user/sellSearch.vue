@@ -4,8 +4,8 @@
 		<view class="flex-between">
 			<image src="/static/icon/back.png" class="i-24 mr-23" @click="$c.goBack()"></image>
 			<u-search v-model="search.name" placeholder="输入账号搜索成员" bgColor="#fff" :showAction="false"></u-search>
-			<u-button class="bg-base fs-12 text-white w-62 h-32 ml-12" shape="circle" text="搜索"
-				@click="onSearch()"></u-button>
+			<button class="bg-base fs-12 text-white w-62 h-32 ml-12 flex-center rounded-x"
+				@click="onSearch()">搜索</button>
 		</view>
 		<view v-if="searchHistory.length > 0" class="mt-32">
 			<view class="flex-between">

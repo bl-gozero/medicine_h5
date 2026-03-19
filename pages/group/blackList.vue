@@ -14,8 +14,8 @@
 				</view>
 				<view class="border-bottom ml-8 flex-between flex-1">
 					<view class="u-line-1 flex-1">{{ item.userProfile? item.userProfile.name : '' }}</view>
-					<u-button class="text-base border-1 fs-10 lh-8 w-47 h-20 ml-10"
-						shape="circle" @click="onRemove(item)">移除</u-button>
+					<button class="text-base border-1 fs-10 lh-8 w-47 h-20 ml-10 flex-center rounded-x"
+						@click="onRemove(item)">移除</button>
 				</view>
 			</view>
 		</view>

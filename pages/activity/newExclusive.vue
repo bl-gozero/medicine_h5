@@ -20,13 +20,13 @@
 				<u-loading-icon color="#9F9F9F" class="mtb-100"></u-loading-icon>
 			</template>
 		</u--image>
-		<u-button v-if="done === 1" class="fs-16 btn bg-base-change" shape="circle"
-			@click="eventGoods()">领取福利</u-button>
-		<u-button v-else-if="done === 2" class="fs-14 btn" style="background: #739A9C;" shape="circle"
-			@click="onDetail()">已领取 查看领取详情</u-button>
+		<button v-if="done === 1" class="fs-16 btn bg-base-change rounded-x flex-center"
+			@click="eventGoods()">领取福利</button>
+		<button v-else-if="done === 2" class="fs-14 btn rounded-x flex-center" style="background: #739A9C;"
+			@click="onDetail()">已领取 查看领取详情</button>
 		<view class="h-20"></view>
 
-		<u-popup :show="showAddress" mode="bottom" bgColor="transparent" closeable @close="showAddress = false">
+		<u-popup :show="showAddress" mode="bottom" :round="20" closeable @close="showAddress = false">
 			<view class="pt-14 pb-30 plr-20 bg-address lh-10 roundedTop-20">
 				<view class="fs-16 text-center">收货地址</view>
 				<view class="flex-between ptb-30 border-bottom" v-for="item in items" :key="item.id">
@@ -49,7 +49,7 @@
 					<view v-else class="flex-1 ml-8 mr-20 text-info">请添加收货地址</view>
 					<u-icon name="arrow-right" size="14" color="#7D7D7D" class="self-start"></u-icon>
 				</view>
-				<u-button class="btn-submit bg-base mt-80" shape="circle" text="确认地址并领取" @click="doSubmit"></u-button>
+				<button class="btn-submit bg-base mt-80 rounded-x flex-center" @click="doSubmit">确认地址并领取</button>
 			</view>
 		</u-popup>
 

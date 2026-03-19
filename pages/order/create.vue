@@ -61,8 +61,8 @@
 				<Payment v-model="paying_mode"></Payment>
 			</view>
 		</view>
-		<u-button class="w-279 h-41 bg-base-change fw-7 text-white mt-20" shape="circle" :text="`立即支付（￥${total - subsidy.amount || 0}）`"
-			@click="onShowPassword()"></u-button>
+		<button class="w-279 h-41 bg-base-change fw-7 text-white mt-20 flex-center rounded-x fs-14"
+			@click="onShowPassword()">{{ `立即支付（￥${total - subsidy.amount || 0}）` }}</button>
 
 		<!-- 密码 -->
 		<payPassword v-model="password" :show.sync="showPassword" :amount="total - (subsidy.amount || 0)" @finish="doPay"></payPassword>

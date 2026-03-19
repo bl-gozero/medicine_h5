@@ -45,7 +45,7 @@
 				<text class="ml-16">库存{{ sku.stock }}</text>
 			</view> -->
 		</view>
-		<view v-if="priceLog.length" class="" style="background: linear-gradient(78deg, #FCFFF0 0%, #FFE0C3 99%);">
+		<view v-if="!showInfo && priceLog.length" class="" style="background: linear-gradient(78deg, #FCFFF0 0%, #FFE0C3 99%);">
 			<scroll-view ref="scrollView" :scroll-left="scrollLeft" scroll-x class="scroll-view_H"
 				scroll-with-animation>
 				<e-chart ref="echartRef" @ready="initEchart" :width="getWidth()" height="77px" />
@@ -67,10 +67,10 @@
 				<view class="fs-10 text-base mt-1">客服</view>
 			</view>
 			<view class="flex-start">
-				<u-button class="border-1 fw-7 text-base w-100 h-39 btn_left" text="加入购物车"
-					@click="onChooseMode(1)"></u-button>
-				<u-button class="bg-base-change fw-7 text-white w-100 h-41 btn_right" text="提交订单"
-					@click="onChooseMode(2)"></u-button>
+				<button class="border-1 fw-7 fs-14 text-base w-100 h-39 btn_left flex-center p-0"
+					@click="onChooseMode(1)">加入购物车</button>
+				<button class="bg-base-change fw-7 fs-14 text-white w-100 h-41 btn_right flex-center p-0"
+					@click="onChooseMode(2)">提交订单</button>
 			</view>
 		</view>
 
@@ -136,11 +136,10 @@
 					<view v-if="mode == 2" class="plr-20">
 						<Payment v-model="paying_mode"></Payment>
 					</view>
-					<u-button v-if="mode == 1" class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30" shape="circle"
-						text="添加到购物车" @click="doCartAdd"></u-button>
-					<u-button v-else class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30" shape="circle" 
-						:text="`提交订单（￥${(profile.level.id > 2? sku.vip_price : sku.price) * quantity - (subsidy.amount || 0)}）`"
-						@click="onShowPasswrod()"></u-button>
+					<button v-if="mode == 1" class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30 flex-center rounded-x"
+						@click="doCartAdd">添加到购物车</button>
+					<button v-else class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30 flex-center rounded-x" @click="onShowPasswrod()"
+						>{{ `提交订单（￥${(profile.level.id > 2? sku.vip_price : sku.price) * quantity - (subsidy.amount || 0)}）` }}</button>
 					<view class="h-30"></view>
 				</view>
 			</view>

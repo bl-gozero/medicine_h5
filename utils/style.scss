@@ -97,6 +97,7 @@ $color-orange:  #EE6F2E;
 .circle { border: 1px solid #DBDBDB;width: 18px;height: 18px;border-radius: 50%;box-sizing: border-box; }
 .border-0 { border: 0 !important; }
 .border-1 { border: 1px solid $color-base !important; }
+.border-plain { border: 1px solid #EAEAEA !important; }
 .border-danger { border: 1px solid $color-danger !important; }
 .border-bottom { border-bottom: 1px solid #F5F5F5; }
 .border-top { border-top: 1px solid #F5F5F5; }

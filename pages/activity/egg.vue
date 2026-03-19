@@ -47,7 +47,7 @@
 			<view class="h-30"></view>
 		</view>
 		
-		<u-popup :show="showAddress" mode="bottom" bgColor="transparent" closeable @close="showAddress = false">
+		<u-popup :show="showAddress" mode="bottom" :round="20" closeable @close="showAddress = false">
 			<view class="pt-14 pb-30 plr-20 bg lh-10 roundedTop-20">
 				<view class="fs-16 text-center">选择礼品和填写收货地址</view>
 				<view class="border-bottom pb-30">
@@ -82,7 +82,7 @@
 					<u-icon name="arrow-right" size="14" color="#7D7D7D" class="self-start"></u-icon>
 				</view>
 				<view class="text-center fs-12 mt-60" style="color: #F36E25;">下单后将于10日内按照订单先后顺序排队发出</view>
-				<u-button class="btn mt-10" shape="circle" text="确认地址并领取" @click="doSubmit"></u-button>
+				<button class="btn mt-10 rounded-x flex-center" @click="doSubmit">确认地址并领取</button>
 			</view>
 		</u-popup>
 		
@@ -109,10 +109,10 @@
 				</view>
 				<view class="flex-center fgap-10 mt-20">
 					<view class="">
-						<u-button class="w-135 h-51 fw-7 fs-16" shape="circle" @click="showActive = false">取消</u-button>
+						<button class="w-135 h-51 fw-7 fs-16 rounded-x flex-center" @click="showActive = false">取消</button>
 					</view>
 					<view class="">
-						<u-button class="w-135 h-51 bg-base text-white fw-7 fs-16" shape="circle" @click="$c.goto('/pages/goods/searchResult?is_level_valid=1')">去购买</u-button>
+						<button class="w-135 h-51 bg-base text-white fw-7 fs-16 rounded-x flex-center" @click="$c.goto('/pages/goods/searchResult?is_level_valid=1')">去购买</button>
 					</view>
 				</view>
 			</view>

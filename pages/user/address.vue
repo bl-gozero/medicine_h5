@@ -34,12 +34,14 @@
 				<view class="h-130"></view>
 			</view>
 			<view class="fixed left-0 bottom-0 pw-100 bg-page pt-20 pb-40">
-				<u-button class="bg-base fw-7 fs-14 text-white w-247 h-47" shape="circle" icon="plus" iconColor="#fff"
-					text="添加地址" @click="onPage()"></u-button>
+				<view class="bg-base fw-7 fs-14 text-white w-247 h-47 flex-center rounded-x auto-x" @click="onPage()">
+					<u-icon name="plus" color="#fff"></u-icon>
+					<text class="ml-5">添加地址</text>
+				</view>
 			</view>
 		</view>
 		<view v-else>
-			<Title :title="mode == 1 ? '添加地址' : '编辑地址'" :fixed="true" @back="page = 1" />
+			<Title :title="mode == 1 ? '添加地址' : '编辑地址'" :fixed="true" isBack @back="page = 1" />
 			<view class="plr-20">
 				<view class="bg-white rounded-8 plr-14">
 					<view class="ptb-18 border-bottom flex-between">
@@ -73,8 +75,8 @@
 				</view>
 			</view>
 			<view class="mt-40">
-				<u-button class="bg-base fw-7 fs-14 text-white w-224 h-43" shape="circle" text="确定"
-					@click="doAdd"></u-button>
+				<button class="bg-base fw-7 fs-14 text-white w-224 h-43 flex-center rounded-x"
+					@click="doAdd">确定</button>
 			</view>
 		</view>
 	</view>

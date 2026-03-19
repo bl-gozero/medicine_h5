@@ -67,7 +67,7 @@
 												<view class="fs-12 text-info mt-9">{{ item.created_at }}</view>
 												<view v-if="item.p_account" class="fs-12 text-info mt-9">他的推荐人:{{ item.p_account }}</view>
 											</view>
-											<u-button class="btn-check" shape="circle" @click="$c.goto(`/pages/user/sellDetail?id=${item.id}`)">查看</u-button>
+											<button class="btn-check flex-center rounded-x" @click="$c.goto(`/pages/user/sellDetail?id=${item.id}`)">查看</button>
 										</view>
 									</view>
 									<view class="flex-end mt-13 lh-10">
@@ -94,8 +94,8 @@
 					<view class="">手指滑动屏幕切换</view>
 					<image src="/static/user/level/action_2.webp" class="w-140 h-51 mt-20"></image>
 					<view class="mt-100">两种方式查看各层级成员</view>
-					<u-button class="bg-base text-white w-135 h-51 fs-16 fw-7 mt-35 border-0" shape="circle"
-						@click="onCloseAction()">知道了</u-button>
+					<button class="bg-base text-white w-135 h-51 fs-16 fw-7 mt-35 border-0 flex-center rounded-x"
+						@click="onCloseAction()">知道了</button>
 				</view>
 			</u-popup>
 		</view>

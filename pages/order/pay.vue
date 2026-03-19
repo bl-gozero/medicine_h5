@@ -81,8 +81,8 @@
 				<Payment v-model="paying_mode"></Payment>
 			</view>
 		</view>
-		<u-button class="w-279 h-41 bg-base-change fw-7 text-white mt-10" shape="circle" :text="total ? `立即支付（￥${total}）` : '立即支付'"
-			@click="onShowPassword()"></u-button>
+		<button class="w-279 h-41 bg-base-change fw-7 text-white mt-10 flex-center rounded-x"
+			@click="onShowPassword()">{{ total ? `立即支付（￥${total}）` : '立即支付' }}</button>
 
 		<!-- 密码 -->
 		<u-popup :show="showPassword" mode="bottom" round="20" closeable @close="showPassword = false">

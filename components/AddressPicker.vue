@@ -1,5 +1,5 @@
 <template>
-	<u-popup :show="show" mode="bottom" bgColor="transparent" closeable @close="handleClose" @open="getAddressList">
+	<u-popup :show="show" mode="bottom" :round="20" closeable @close="handleClose" @open="getAddressList">
 		<view class="pt-14 pb-30 plr-20 bg-address lh-10 roundedTop-20">
 			<!-- 标题 -->
 			<view class="fs-18 fw-5 text-center">{{ title1 }}</view>
@@ -48,7 +48,7 @@
 			</slot>
 
 			<!-- 提交按钮 -->
-			<u-button class="btn-submit bg-base mt-40" shape="circle" text="确认地址并领取" @click="handleFinish"></u-button>
+			<button class="btn-submit bg-base mt-40 rounded-x flex-center" @click="handleFinish">确认地址并领取</button>
 		</view>
 	</u-popup>
 </template>

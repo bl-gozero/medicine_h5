@@ -87,7 +87,7 @@
 		</view>
 		
 		<view v-if="page == 2" class="page" style="background: #fff;">
-			<Title title="旅游计划详情" fixed bgColor="#fff" @back="page = 1" />
+			<Title title="旅游计划详情" fixed bgColor="#fff" isBack @back="page = 1" />
 			<u-image :src="`/static/avtivity/trip/detail.webp`" width="100%" height="auto"
 				bgColor="transparent" mode="widthFix">
 			  <template v-slot:loading>
@@ -104,7 +104,7 @@
 		</view>
 		
 		<view v-if="page == 3" class="page bg-page plr-20">
-			<Title title="购买记录" fixed bgColor="#F8F8F8" @back="page = 1" />
+			<Title title="购买记录" fixed bgColor="#F8F8F8" isBack @back="page = 1" />
 			<view class="bg-white p-12 rounded-8 flex-between mt-10 fgap-10" v-for="item in logs" :key="item.id">
 				<view class="fw-5 u-line-1">购买指定商品</view>
 				<view class="text-right text-info fs-12">
@@ -116,7 +116,7 @@
 		
 		<!-- registe -->
 		<view v-if="page == 4" class="page bg-page plr-20">
-			<Title title="报名" fixed bgColor="#F8F8F8" @back="page = 1" />
+			<Title title="报名" fixed bgColor="#F8F8F8" isBack @back="page = 1" />
 			<view class="flex-start mt-20">
 				<image src="/static/avtivity/trip/user.webp" class="i-17"></image>
 				<view class="fs-16 fw-5 ml-3">本人</view>
@@ -171,9 +171,28 @@
 				</view>
 			</view>
 			<view v-if="stat.quota > stat.record_num" class="absolute bottom-30 left-0 pw-100">
-				<u-button class="fs-14 fw-7 bg-base text-white w-247 h-47" shape="circle" @click="doSubmit">提交</u-button>
+				<button class="fs-14 fw-7 bg-base text-white w-247 h-47 rounded-x flex-center" @click="doSubmit">提交</button>
 			</view>
 		</view>
+		
+		<!-- 弹窗 -->
+		<u-popup :show="showReward" mode="center" bgColor="transparent" @close="showReward = false;">
+			<view class="popup-box" style="background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);">
+				<image src="/static/avtivity/trip/know.webp" class="popup-img" mode="heightFix"></image>
+				<view class="popup-title">提交成功</view>
+				<view class="popup-text flex-1">您已提交成功，请联系在线客服领取旅游资料及相关说明</view>
+				<view class="popup-buttons">
+					<view class="">
+						<button class="bold fs-16 w-135 h-51 flex-center text-black rounded-x bg-white" style="border: 1px solid #9F9F9F;"
+							@click="showReward = false;">取消</button>
+					</view>
+					<view class="">
+						<button class="bold fs-16 w-135 h-51 bg-base text-white flex-center rounded-x"
+							@click="$c.goto('/pages/index/web'); showReward = false;">联系客服</button>
+					</view>
+				</view>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -201,7 +220,8 @@
 				],
 				info1: { name: '', identity: '', mobile: '', is_vassal: 2, done: false },
 				info2: { name: '', identity: '', mobile: '', is_vassal: 1, done: false },
-				stat: { quota: 0, record_num: 0, pur_quan: 0 }
+				stat: { quota: 0, record_num: 0, pur_quan: 0 },
+				showReward: false
 			}
 		},
 		computed: {
@@ -279,22 +299,7 @@
 				}
 			},
 			onKnow() {
-				this.$know({
-					bg: 'background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);',
-					img: "/static/avtivity/trip/know.webp",
-					title: "提交成功",
-					text: {
-						text: "您已提交成功，请联系在线客服领取旅游资料及相关说明",
-						class: "text-center"
-					},
-					buttons: [
-						{ text: '取消', class: 'bold fs-16 w-135 h-51' },
-						{ text: '联系客服', class: 'bold fs-16 w-135 h-51 bg-base text-white' }
-					]
-				}).then(i => {
-					i === 0 && (this.page = 1)
-					i === 1 && this.$c.goto('/pages/index/web')
-				})
+				this.showReward = true
 			},
 			async onLog() {
 				this.page = 3

@@ -10,8 +10,8 @@
 				<view class="flex-1 mlr-10">{{ info.name }}</view>
 				<view class="">
 					<view v-if="added" class="h-30 text-info fs-12 flex-end">{{ added == 1? '等待对方验证' : '已添加' }}</view>
-					<u-button v-else class="bg-base fs-10 w-68 h-25 text-white plr-0" shape="circle"
-						@click="onAdd()">添加好友</u-button>
+					<button v-else class="bg-base fs-10 w-68 h-25 text-white plr-0 flex-center rounded-x"
+						@click="onAdd()">添加好友</button>
 				</view>
 			</view>
 			<view v-else class="text-info text-center h-300 flex-center">未找到用户</view>

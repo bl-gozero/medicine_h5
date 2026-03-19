@@ -7,8 +7,8 @@
 				<u-search v-model="search.name" placeholder="商品名称" bgColor="#fff" :showAction="false"></u-search>
 			</view>
 			<view class="">
-				<u-button class="bg-base fs-12 text-white w-62 h-32 ml-12" shape="circle" text="搜索"
-					@click="onSearch()"></u-button>
+				<button class="bg-base fs-12 text-white w-62 h-32 ml-12 flex-center rounded-x"
+					@click="onSearch()">搜索</button>
 			</view>
 		</view>
 		<view v-if="searchHistory.length > 0" class="mt-32">

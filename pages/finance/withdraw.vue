@@ -1,8 +1,8 @@
 <template>
 	<view class="page bg-page">
-		<Title title="奖励提现">
+		<Title title="奖励提现" @right="$c.goto('/pages/finance/withdrawList')">
 			<template v-slot:right>
-			  <text class="text-base" @click="$c.goto('/pages/finance/withdrawList')">提现明细</text>
+			  <text class="text-base">提现明细</text>
 			</template>
 		</Title>
 		<view class="plr-20 pt-20">
@@ -52,6 +52,25 @@
 		</view>
 		<view class="h-60"></view>
 		
+		<u-popup :show="errorInfo.show" mode="center" bgColor="transparent" @close="errorInfo.show = false">
+			<view class="popup-box" style="background: #fff;min-height: 257px;">
+				<view class="popup-title mt-20">提示</view>
+				<view class="popup-text flex-1 mt-25">{{ errorInfo.text }}</view>
+				<view class="popup-buttons">
+					<view class="popup-buttons">
+						<view class="">
+							<button class="bold fs-16 w-127 h-46 border-plain rounded-x" plain
+								@click="errorInfo.show = false;">取消</button>
+						</view>
+						<view class="">
+							<button class="bold fs-16 w-127 h-46 bg-base text-white flex-center rounded-x"
+								@click="$c.goto('/pages/user/bindCard'); errorInfo.show = false;">去解绑</button>
+						</view>
+					</view>
+				</view>
+			</view>
+		</u-popup>
+		
 		<!-- 密码 -->
 		<u-popup :show="showPassword" mode="bottom" round="20" closeable @close="showPassword = false">
 			<view class="plr-20 pt-50 pb-70 text-center">
@@ -94,7 +113,11 @@
 				cateList: [],
 				pay: {},
 				fee: 0,
-				card: {}
+				card: {},
+				errorInfo: {
+					show: false,
+					text: ''
+				}
 			}
 		},
 		onLoad() {
@@ -190,24 +213,8 @@
 				})
 			},
 			onKnow(msg) {
-				msg && this.$know({
-					bg: 'background: #fff;min-height: 257px;',
-					img: "",
-					title: {
-						text: "提示",
-						class: 'mt-20'
-					},
-					text: {
-						text: msg,
-						class: 'mt-25'
-					},
-					buttons: [
-						{ text: '取消', class: 'bold fs-16 w-127 h-46' },
-						{ text: '去解绑', class: 'bold fs-16 w-127 h-46 bg-base text-white' }
-					]
-				}).then(i => {
-					i === 1 && this.$c.goto('/pages/user/bindCard')
-				})
+				this.errorInfo.text = msg
+				this.errorInfo.show = true
 			}
 		}
 	}

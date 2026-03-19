@@ -42,8 +42,8 @@
 							:showLine="true">
 							<template #suffix>
 								<!-- <image v-if="!showCodeBtn && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix" @click="getCode()"></image> -->
-								<u-button v-if="showCodeBtn" class="bg-base-change fw-7 fs-12 text-white plr-20 h-40"
-									shape="circle" text="点击获取" @click="getMobileCode()"></u-button>
+								<button v-if="showCodeBtn" class="bg-base-change fw-7 fs-12 text-white plr-20 h-40 flex-center rounded-x"
+									@click="getMobileCode()">点击获取</button>
 								<div v-else class="text-info flex-start h-40">
 									<u-count-down ref="countDown" :time="$c.codeLimitTime()" format="ss"
 										@finish="showCodeBtn = true"></u-count-down>
@@ -64,8 +64,8 @@
 					</text>
 				</view>
 				<view class="mt-14 text-center">
-					<u-button class="bg-base-change fw-7 fs-14 text-white w-278 h-49" shape="circle" text="登录"
-						@click="onSubmit()"></u-button>
+					<button class="bg-base-change fw-7 fs-14 text-white w-278 h-49 flex-center rounded-x"
+						@click="onSubmit()">登录</button>
 				</view>
 				<view class="text-center mt-23">
 					<text class="text-base fw-4" @click="$c.goto('/pages/index/login')">密码登录</text>

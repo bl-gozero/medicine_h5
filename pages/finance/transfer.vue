@@ -13,8 +13,8 @@
 				<image src="/static/finance/account.webp" class="i-23"
 					@click="$c.goto('/pages/group/myGroup?mode=select')"></image>
 			</view>
-			<u-button class="bg-base text-white fw-7 w-247 h-47 mt-70" shape="circle" text="确认"
-				@click="onCheck()"></u-button>
+			<button class="bg-base text-white fw-7 w-247 h-47 mt-70 flex-center rounded-x"
+				@click="onCheck()">确认</button>
 		</view>
 		<view v-if="page === 1" class="flex-1 flex-col">
 			<view class="plr-20">
@@ -33,8 +33,8 @@
 						customStyle="font-size: 28px;font-weight: 700;" clearable></u-input>
 				</view>
 				<view class="mt-15 text-info">当前账户奖励{{ profile.balance }}元</view>
-				<u-button class="bg-base text-white fw-7 w-247 h-47 mt-70" shape="circle" text="确认"
-					@click="onCheck2()"></u-button>
+				<button class="bg-base text-white fw-7 w-247 h-47 mt-70 flex-center rounded-x"
+					@click="onCheck2()">确认</button>
 				<payPassword v-model="form.password" :show.sync="showPassword" :amount="form.amount" @finish="doSubmit">
 				</payPassword>
 			</view>

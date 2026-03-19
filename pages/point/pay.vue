@@ -41,8 +41,8 @@
 					</view>
 				</view>
 			</view>
-			<u-button class="w-279 h-41 bg-base-change fw-7 text-white mt-50" shape="circle"
-				text="立即支付" @click="onShowPassword()"></u-button>
+			<button class="w-279 h-41 bg-base-change fw-7 text-white mt-50 flex-center rounded-x"
+				@click="onShowPassword()">立即支付</button>
 		</view>
 			
 		<!-- 密码 -->

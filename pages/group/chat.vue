@@ -1,6 +1,6 @@
 <template>
 	<view class="page bg-white flex-col">
-		<Title :title="title" bgColor="#fff" @back="$c.goto('/pages/group/index')" @right="onDetail()">
+		<Title :title="title" bgColor="#fff" isBack @back="$c.goto('/pages/group/index')" @right="onDetail()">
 			<template v-slot:right>
 				<u-icon name="more-dot-fill" size="18" color="#676C74"></u-icon>
 			</template>
@@ -18,7 +18,7 @@
 			<view class="status-text mt-20">{{ voiceStatus }}</view>
 					
 			<view class="flex justify-center mt-50">
-				<u-button type="error" class="w-247" shape="circle" size="large" @click="endVoiceCall">挂断</u-button>
+				<button type="error" class="w-247 flex-center rounded-x" size="large" @click="endVoiceCall">挂断</button>
 			</view>
 		</view>
 		

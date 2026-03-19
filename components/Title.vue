@@ -55,7 +55,7 @@
 			subtitle: String,
 			bgColor: {
 				type: String,
-				default: "transparent"
+				default: "#F8F8F8"
 			},
 			titleStyle: {
 				type: Object,
@@ -82,7 +82,11 @@
 			isBlank: {
 				type: Boolean,
 				default: false
-			}
+			},
+			isBack: {
+				type: Boolean,
+				default: false
+			},
 		},
 
 		data() {
@@ -126,7 +130,8 @@
 
 		methods: {
 			goUrl() {
-				if (this.$listeners.back) {
+				// console.log(this.$listeners)
+				if (this.isBack) {
 					this.$emit("back")
 				} else if (this.url) {
 					this.$c.goto(this.url)

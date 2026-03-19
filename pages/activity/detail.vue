@@ -34,17 +34,11 @@
 								<text class="mlr-5">|</text>
 								<text style="color: #1575F6;" @click="$c.copy(info.number)">复制</text>
 							</view>
-							<!-- <u-button class="w-52 h-23 bg-base text-white fs-12 m-0 ml-10 p-0" shape="circle"
-								@click="$c.goto('/pages/index/express', 1, { id: info.id, mode: 2, number: info.number })">查询</u-button> -->
 						</view>
-						<!-- <view v-if="express.AcceptStation" class="lh-15 mt-15 fs-12 text-info">
-							<view class="">{{ express.AcceptTime }}</view>
-							<view class="mt-8" style="word-wrap: break-word;word-break: break-all;">{{ express.AcceptStation }}</view>
-						</view> -->
 					</view>
 					<view v-else class="ml-20 flex-1 text-info">暂无</view>
-					<u-button v-if="info.number" class="w-52 h-23 bg-base text-white fs-12 m-0 ml-10 p-0" shape="circle"
-						@click="$c.goto('/pages/index/express', 1, { id: info.id, mode: 2, number: info.number })">查询</u-button>
+					<button v-if="info.number" class="w-52 h-23 bg-base text-white fs-12 m-0 ml-10 p-0 rounded-x flex-center"
+						@click="$c.goto('/pages/index/express', 1, { id: info.id, mode: 2, number: info.number })">查询</button>
 				</view>
 			</view>
 		</view>

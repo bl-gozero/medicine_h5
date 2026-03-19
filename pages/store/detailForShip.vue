@@ -16,8 +16,8 @@
 								<text class="fs-12 text-info">{{ order.courier_number }}</text>
 								<image src="/static/order/copy.png" class="i-12 ml-10"></image>
 							</view>
-							<u-button class="w-52 h-23 bg-base text-white fs-12 self-start m-0 ml-10 p-0" shape="circle"
-								@click="$c.goto('/pages/index/express', 1, { id: order.id, mode: 3, number: order.courier_number })">查询</u-button>
+							<button class="w-52 h-23 bg-base text-white fs-12 self-start m-0 ml-10 p-0 flex-center rounded-x"
+								@click="$c.goto('/pages/index/express', 1, { id: order.id, mode: 3, number: order.courier_number })">查询</button>
 						</view>
 						<view v-else class="mt-10 fs-12 text-info">暂无信息</view>
 						<!-- <view v-if="express.AcceptStation" class="lh-15 mt-15 fs-12 text-info">
@@ -69,8 +69,8 @@
 				</view> -->
 			</view>
 			<view class="flex-start">
-				<u-button v-if="order.status == 2" class="btn bg-base text-white" shape="circle" plain
-					text="确认收货" @click="onReceive()"></u-button>
+				<button v-if="order.status == 2" class="btn bg-base text-white flex-center rounded-x"
+					text="确认收货" @click="onReceive()"></button>
 			</view>
 		</view>
 	</view>

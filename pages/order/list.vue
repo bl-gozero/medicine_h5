@@ -2,12 +2,12 @@
 	<view class="page bg-page">
 		<view class="title_box fixed top-0 left-0 pw-100 bg-page" style="z-index: 300;">
 			<Title title="我的订单" url="/pages/user/index"></Title>
-			<view class="pt-10 pb-20 plr-20 fs-12 flex-between">
+			<view class="pt-10 pb-10 plr-20 fs-12 flex-between">
 				<view class="relative" :class="search.status == item.id ? 'nav_active' : 'text-info'"
 					v-for="item in navList" :key="item.id" @click="onNav(item.id)">{{ item.value }}</view>
 			</view>
 		</view>
-		<view class="plr-20 pt-110">
+		<view class="plr-20 pt-120">
 			<view class="p-13 bg-white rounded-18 mt-10" v-for="item in list" :key="item.id">
 				<view class="" @click="$c.goto(`/pages/order/detail?id=${item.id}`)">
 					<view class="flex-between mb-15" v-for="(i, index) in item.details" :key="i.index">
@@ -29,10 +29,8 @@
 						</view>
 					</view>
 					<view class="flex-between">
-						<text 
-							v-if="item.status == 1"
-							class="fs-10 self-end lh-18" style="color: #FF8F1F;"
-						>{{ $c.calcTime(item.created_at, 30 * 60)}}后将自动取消订单</text>
+						<text v-if="item.status == 1" class="fs-10 self-end lh-18"
+							style="color: #FF8F1F;">{{ $c.calcTime(item.created_at, 30 * 60)}}后将自动取消订单</text>
 						<text v-else></text>
 						<view class="">
 							<text class="fs-12">实付</text>
@@ -48,29 +46,29 @@
 				</view>
 				<view class="mt-20 flex-between">
 					<view class="relative w-40 h-20">
-						<text class="fs-12 text-info" @click="item.more = !item.more">更多</text>
+						<text class="fs-12 text-info" @click="onMore(item)">更多</text>
 						<view v-if="item.more" class="absolute left-0 bottom-0 more_box flex-center"
 							style="z-index: 10;transform: translate(-13px, 22%);">
 							<view class="fs-12" @click="id = item.id;item.more = false;showDelete = true">删除订单</view>
 						</view>
 					</view>
 					<view class="flex-start">
-						<u-button v-if="item.status == 1" class="btn btn-black" shape="circle" plain
-							text="取消订单" @click="id = item.id; showCancel = true"></u-button>
-						<u-button v-if="item.status == 4 || item.status == 6" class="btn btn-black" shape="circle" plain
-							text="再来一单" @click="onAgain(item)" ></u-button>
-						<u-button v-if="item.status == 3" class="btn border-1 text-base" shape="circle" plain
-							text="确认收货" @click="id = item.id; showReceive = true"></u-button>
-						<u-button v-if="item.status == 1" class="btn border-1 text-base" shape="circle" plain text="去付款"
-							@click="$c.goto(`/pages/order/pay?id=${item.id}`)"></u-button>
-						
-						<u-button v-if="item.status == 2" class="btn btn-black" shape="circle" plain
-							text="寄存仓库" @click="id = item.id; showStore = true"></u-button>
-						<u-button v-if="item.status == 2" class="btn border-1 text-base" shape="circle" plain
-							text="申请发货" @click="onShowShip(item)"></u-button>
-							
-						<u-button v-if="item.status == 9" class="btn btn-black" shape="circle" plain
-							text="我的仓库" @click="$c.goto('/pages/store/index')"></u-button>
+						<button v-if="item.status == 1" class="btn btn-black border-plain" plain
+							@click="id = item.id; showCancel = true">取消订单</button>
+						<button v-if="item.status == 4 || item.status == 6" class="btn btn-black border-plain" plain
+							@click="onAgain(item)">再来一单</button>
+						<button v-if="item.status == 3" class="btn border-1 text-base border-plain" plain
+							@click="id = item.id; showReceive = true">确认收货</button>
+						<button v-if="item.status == 1" class="btn border-1 text-base border-plain" plain
+							@click="$c.goto(`/pages/order/pay?id=${item.id}`)">去付款</button>
+
+						<button v-if="item.status == 2" class="btn btn-black border-plain" plain
+							@click="id = item.id; showStore = true">寄存仓库</button>
+						<button v-if="item.status == 2" class="btn border-1 text-base border-plain" plain
+							@click="onShowShip(item)">申请发货</button>
+
+						<button v-if="item.status == 9" class="btn btn-black border-plain" plain
+							@click="$c.goto('/pages/store/index')">我的仓库</button>
 					</view>
 				</view>
 			</view>
@@ -84,8 +82,8 @@
 			showCancelButton @cancel="showReceive = false" @confirm="doReceive"></u-modal>
 		<u-modal :show="showStore" title="提示" content='确定寄存该订单商品？' confirmColor="#3D3D3D" cancelColor="#9F9F9F"
 			showCancelButton @cancel="showStore = false" @confirm="doStore"></u-modal>
-			
-		<u-popup :show="showShip" mode="bottom" bgColor="transparent" closeable @close="showShip = false">
+
+		<u-popup :show="showShip" mode="bottom" :round="20" closeable @close="showShip = false">
 			<view class="pt-14 pb-30 plr-20 bg-address lh-10 roundedTop-20">
 				<view class="fs-18 fw-5 text-center">申请发货</view>
 				<view class="flex-between ptb-30 fs-12" @click="$c.goto('/pages/user/address?from=address')">
@@ -117,7 +115,7 @@
 						</view>
 					</view>
 				</scroll-view>
-				<u-button class="btn-submit bg-base mt-40" shape="circle" text="确认地址并领取" @click="doShip"></u-button>
+				<button class="btn-submit bg-base mt-40" @click="doShip">确认地址并领取</button>
 			</view>
 		</u-popup>
 	</view>
@@ -191,8 +189,8 @@
 		},
 		onShow() {
 			const address = this.$c.getStorage('address')
-			if(address) this.address = address
-			if(!this.showShip) this.int()
+			if (address) this.address = address
+			if (!this.showShip) this.int()
 		},
 		onReachBottom() {
 			this.getList()
@@ -208,6 +206,9 @@
 				}
 				this.list = []
 				this.getList()
+			},
+			onMore(item) {
+				this.$set(item, 'more', !item.more)
 			},
 			cancelShow() {
 				this.showCancel = false
@@ -232,7 +233,9 @@
 			},
 			async addressList() {
 				const res = await this.$c.fetch(this.$api.user.addressList)
-				if(res) { this.address = res.length > 0? res[0] : {} }
+				if (res) {
+					this.address = res.length > 0 ? res[0] : {}
+				}
 			},
 			async getList() {
 				if (this.search.load != 'more') return
@@ -279,16 +282,6 @@
 				}
 			},
 			async onAgain(item) {
-				// const goods_sku = item.details.map(i => ({
-				// 	id: i.goods_sku_id,
-				// 	quantity: i.quantity,
-				// 	shopping_cart_id: 0
-				// }))
-				// const res = await this.$c.fetch(this.$api.goods.orderAdd, { 
-				// 	goods_sku: goods_sku,
-				// 	user_address_id: 0
-				// })
-				// if(res) this.$c.goto(`/pages/order/pay?id=${res.id}`)
 				this.$c.setStorage('goods_sku', item.details)
 				this.$c.goto(`/pages/order/create`)
 			},
@@ -296,7 +289,7 @@
 				const res = await this.$c.fetch(this.$api.goods.orderDetail, {
 					id: item.id
 				})
-				if(res) {
+				if (res) {
 					this.order = res
 					this.showShip = true
 				}
@@ -331,8 +324,6 @@
 		width: 65px;
 		height: 26px;
 		margin-left: 5px;
-	}
-	::v-deep .u-button__text {
-		font-size: 12px !important;
+		font-size: 12px;
 	}
 </style>

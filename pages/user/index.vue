@@ -16,25 +16,30 @@
 							</view>
 							<view class="relative">
 								<view class="fs-16 u-line-1">{{ profile.account }}</view>
+								
 								<!-- #ifdef MP -->
 								<image :src="`/static/vip/name_level_${$c.calcLv(profile)}.webp`"
 									class="h-10 block absolute" style="top: 120%;" mode="heightFix"></image>
 								<!-- #endif -->
+								
 							</view>
 						</view>
+						
 						<!-- #ifndef MP -->
 						<image :src="`/static/vip/name_level_${$c.calcLv(profile)}.webp`" class="h-14 mt-10 block"
 							mode="heightFix"></image>
 						<view class="fs-12 mt-10">升级成为合伙人，享永久绩效分红</view>
 						<!-- #endif -->
+						
 					</view>
+					
 					<!-- #ifdef MP -->
 					<view class="flex-between absolute left-20 right-20 bottom-26">
 						<view class="flex-start" @click="$c.goto('/pages/user/address')">
 							<image src="/static/icon/address.png" class="i-16 mr-8 block"></image>
 							<text class="fs-12">我的地址</text>
 						</view>
-						<view class="w-98 h-30">
+						<view class="w-98 h-30" @click="$c.goto('/pages/index/task')">
 							<image v-if="is_sign === true" :src="`/static/user/signed_0.webp`" class="w-98 h-30"></image>
 							<view v-if="is_sign === false" class="relative h-30">
 								<view class="w-76 h-29" style="transform: scale(1.4) translate(10%, -1px);">
@@ -45,6 +50,7 @@
 						</view>
 					</view>
 					<!-- #endif -->
+					
 					<!-- #ifndef MP -->
 					<image src="/static/vip/user_index/center.webp" class="w-111 h-55 absolute right-0"
 						style="bottom: 3%;" @click="$c.goto('/pages/user/vip')"></image>
@@ -56,12 +62,14 @@
 				<view class="fs-16 u-line-1 ml-15">{{ profile.account }}</view>
 			</view>
 			<view class="flex-between lh-10 mt-20 plr-40 border-box text-center" style="color: #064144;gap: 15px;">
+				
 				<!-- #ifndef MP -->
 				<view v-if="$c.mode()" class="pw-30" @click="$c.goto('/pages/finance/balance')">
 					<view class="fw-7 fs-22 flex-start u-line-1" style="line-height: 30px;">{{ profile.balance }}</view>
 					<view class="mt-12 text-name">奖励</view>
 				</view>
 				<!-- #endif -->
+				
 				<view class="pw-30" @click="$c.goto('/pages/point/index')">
 					<view class="fw-7 fs-22 flex-start u-line-1" style="line-height: 30px;">{{ profile.integral }}
 					</view>
@@ -72,6 +80,7 @@
 					</view>
 					<view class="mt-12 text-name">购物金</view>
 				</view>
+				
 				<!-- #ifdef MP -->
 				<view class="pw-30" @click="$c.goto('/pages/store/index')">
 					<view class="fw-7 fs-22 flex-start u-line-1" style="line-height: 30px;">
@@ -80,10 +89,13 @@
 					<view class="mt-12 text-name">已寄存</view>
 				</view>
 				<!-- #endif -->
+				
 			</view>
+			
 			<!-- #ifndef MP -->
 			<view class="h-120"></view>
 			<!-- #endif -->
+			
 			<!-- #ifdef MP -->
 			<view class="plr-20 mt-25">
 				<view class="bg-white rounded-14 ptb-20 plr-14 border-box">
@@ -223,7 +235,7 @@
 					{
 						id: 2,
 						name: '待发货',
-						value: 2,
+						value: 8,
 						count: 0
 					},
 					{
@@ -279,7 +291,7 @@
 							id: 2,
 							name: '创客平台',
 							icon: '/static/icon/chuangke.webp',
-							url: '/pages/index/recruit',
+							url: '/pages/index/maker',
 							type: 1
 						},
 						{

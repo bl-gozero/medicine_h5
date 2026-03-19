@@ -7,8 +7,8 @@
 			</view>
 		</view>
 		<view class="fixed left-0 bottom-20 pw-100 ptb-20">
-			<u-button class="fw-7 lh-10 fs-14 bg-base text-white w-247 h-47 flex-center" shape="circle" text="保存"
-				@click="onSave()"></u-button>
+			<button class="fw-7 lh-10 fs-14 bg-base text-white w-247 h-47 flex-center rounded-x"
+				@click="onSave()">保存</button>
 		</view>
 	</view>
 </template>

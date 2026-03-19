@@ -20,8 +20,8 @@
 					placeholderClass="text-info fs-14 fw-7" :maxlength="20" />
 			</view>
 			<view class=" mt-47">
-				<u-button class="bg-base-change fw-7 fs-14 text-white w-247 h-47" shape="circle" text="完成"
-					@click="onSubmit()"></u-button>
+				<button class="bg-base-change fw-7 fs-14 text-white w-247 h-47 flex-center rounded-x"
+					@click="onSubmit()">完成</button>
 			</view>
 		</view>
 	</view>

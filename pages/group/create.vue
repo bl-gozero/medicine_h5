@@ -44,8 +44,8 @@
 			<view class="h-120"></view>
 		</view>
 		<view class="fixed left-0 bottom-0 pw-100 ptb-20">
-			<u-button class="fw-7 lh-10 fs-14 bg-base text-white w-247 h-47 flex-center" shape="circle"
-				@click="doSubmit">创建</u-button>
+			<button class="fw-7 lh-10 fs-14 bg-base text-white w-247 h-47 flex-center rounded-x"
+				@click="doSubmit">创建</button>
 			<view class="text-center fs-10 mt-10">
 				<text class="text-info">维护群内生态健康，请遵守</text>
 				<text class="text-base" @click="$c.goto('/pages/index/userAgreement')">《群聊公约》</text>
@@ -59,8 +59,8 @@
 					<view class="">需要成为合伙人</view>
 					<view class="">才可以创建群聊哦~</view>
 				</view>
-				<u-button class="bg-black fw-7 fs-14 w-234 h-51 mt-80 text-white" shape="circle" text="知道了"
-					@click="showLv = false"></u-button>
+				<button class="bg-black fw-7 fs-14 w-234 h-51 mt-80 text-white rounded-x flex-center"
+					@click="showLv = false">知道了</button>
 			</view>
 		</u-popup>
 
@@ -76,8 +76,8 @@
 						2，创建群聊需达到合伙人身份
 					</view>
 				</view>
-				<u-button class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white" shape="circle" :text="`支付${price}元并创建`"
-					@click="doSubmit"></u-button>
+				<button class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white rounded-x flex-center"
+					@click="doSubmit">{{ `支付${price}元并创建` }}</button>
 			</view>
 		</u-popup>
 

@@ -47,8 +47,8 @@
 							<template #suffix>
 								<image v-if="!showCodeBtn1 && captcha" :src="captcha" class="h-29 ml-10"
 									mode="heightFix" @click="getCode()"></image>
-								<u-button v-if="showCodeBtn1" class="bg-base-change fw-7 fs-12 text-white plr-20 h-40"
-									shape="circle" text="点击获取" @click="getCode()"></u-button>
+								<button v-if="showCodeBtn1" class="bg-base-change fw-7 fs-12 text-white plr-20 h-40 flex-center rounded-x"
+									@click="getCode()">点击获取</button>
 							</template>
 						</LineInput>
 					</view>
@@ -62,8 +62,8 @@
 						<LineInput v-model="form.captcha" placeholder="请输入短信验证码" placeholderClass="text-info fs-14 fw-5"
 							:showLine="true">
 							<template #suffix>
-								<u-button v-if="showCodeBtn" class="bg-base-change fw-7 fs-12 text-white w-107 h-40"
-									shape="circle" text="发送" @click="getMobileCode()"></u-button>
+								<button v-if="showCodeBtn" class="bg-base-change fw-7 fs-12 text-white w-107 h-40 flex-center rounded-x"
+									@click="getMobileCode()">发送</button>
 								<div v-else class="text-info flex-start h-40">
 									<u-count-down ref="countDown" :time="$c.codeLimitTime()" format="ss"
 										@finish="showCodeBtn = true"></u-count-down>
@@ -93,8 +93,8 @@
 					</text>
 				</view>
 				<view class="mt-14 text-center">
-					<u-button class="bg-base-change fw-7 fs-14 text-white w-278 h-49" shape="circle" text="注册"
-						@click="onSubmit()"></u-button>
+					<button class="bg-base-change fw-7 fs-14 text-white w-278 h-49 flex-center rounded-x"
+						@click="onSubmit()">注册</button>
 				</view>
 				<view class="text-center mt-23">
 					<text class="text-base fw-4" @click="$c.goto('/pages/index/login')">已有账号？去登录</text>

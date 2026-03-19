@@ -30,7 +30,7 @@
 			<view class="">
 				<swiper class="h-90 mt-20" :interval="5000" :duration="500" circular indicator-dots autoplay>
 					<swiper-item v-if="item.show" v-for="item in events" :key="item.id">
-						<view class="flex-center" @click="$c.goto(item.url)">
+						<view @click="$c.goto(item.url)">
 							<PlayImg :path="item.path" :interval="50" :length="20" type="webp" />
 						</view>
 					</swiper-item>
@@ -50,8 +50,8 @@
 					<view class="">需要成为合伙人</view>
 					<view class="">才可以创建群聊哦~</view>
 				</view>
-				<u-button class="bg-black fw-7 fs-14 w-234 h-51 mt-80 text-white" shape="circle" text="知道了"
-					@click="showLv = false"></u-button>
+				<button class="bg-black fw-7 fs-14 w-234 h-51 mt-80 text-white flex-center rounded-x"
+					@click="showLv = false">知道了</button>
 			</view>
 		</u-popup>
 
@@ -67,8 +67,8 @@
 						2，创建群聊需达到合伙人身份
 					</view>
 				</view>
-				<u-button class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white" shape="circle" text="支付99元并创建"
-					@click="toCreate()"></u-button>
+				<button class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white flex-center rounded-x"
+					@click="toCreate()">支付99元并创建</button>
 			</view>
 		</u-popup>
 		

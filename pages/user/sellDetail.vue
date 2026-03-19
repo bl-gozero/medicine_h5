@@ -1,8 +1,8 @@
 <template>
 	<view class="page bg-page flex-col">
-		<Title title="他的销售数据" fixed>
+		<Title title="他的销售数据" fixed @right="$c.sellData(info.id, info.account)">
 			<template v-slot:right>
-				<view v-if="info.id" class="lh-10 fs-12" @click="$c.sellData(info.id, info.account)">历史数据</view>
+				<view v-if="info.id" class="lh-10 fs-12">历史数据</view>
 			</template>
 		</Title>
 		<view v-if="info.account" class="flex-1 mt-50 bg-white roundedTop-20 plr-20">

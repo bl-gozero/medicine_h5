@@ -1,7 +1,7 @@
 <template>
 	<view class="page bg-page">
 		<view v-if="page == 1" class="">
-			<Title title="账户绑定管理" :fixed="true" />
+			<Title title="账户绑定管理" fixed />
 			<view class="page bg-white border-box">
 				<view v-if="load" class="">
 					<view v-if="list.length == 0" class="pt-100 text-center">
@@ -38,12 +38,14 @@
 				</view>
 			</view>
 			<view class="fixed left-0 bottom-0 pw-100 bg-white pt-20 pb-40">
-				<u-button class="bg-base fw-7 fs-14 text-white w-247 h-47" shape="circle" icon="plus" iconColor="#fff"
-					text="新增绑定账户" @click="showCate = true"></u-button>
+				<view class="bg-base fw-7 fs-14 text-white w-247 h-47 flex-center rounded-x auto-x" @click="showCate = true">
+					<u-icon name="plus" color="#fff"></u-icon>
+					<text class="ml-5">新增绑定账户</text>
+				</view>
 			</view>
 		</view>
 		<view v-else>
-			<Title :title="(form.category > 2? '' : '绑定') + form.value" :fixed="true" @back="page = 1" />
+			<Title :title="(form.category > 2? '' : '绑定') + form.value" :fixed="true" isBack @back="page = 1" />
 			<view class="plr-20">
 				<view class="">
 					<view class="mt-10">{{ form.category > 2? '持卡人' : '姓名' }}</view>
@@ -77,7 +79,7 @@
 							placeholderClass="text-info fs-14" />
 					</view>
 				</view>
-				<view class="mt-13">
+				<view v-if="form.category > 2" class="mt-13">
 					<view class="mt-10">开户行地址</view>
 					<view class="mt-7 bg-white rounded-8 ptb-16 plr-16">
 						<RegionPicker v-model="form.open_address" placeholder="请选择开户行地址"></RegionPicker>
@@ -116,8 +118,8 @@
 				</view>
 			</view>
 			<view class="mt-40">
-				<u-button class="bg-base fw-7 fs-14 text-white w-224 h-43" shape="circle" text="绑定"
-					@click="doAdd"></u-button>
+				<button class="bg-base fw-7 fs-14 text-white w-224 h-43 flex-center rounded-x"
+					@click="doAdd">绑定</button>
 			</view>
 			<view class="h-20"></view>
 		</view>
@@ -144,8 +146,8 @@
 					<LineInput v-model="delForm.password" type="password" placeholder="请输入交易密码"
 						placeholderClass="text-info fs-14 fw-7" />
 				</view>
-				<u-button class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-60" shape="circle" text="解绑"
-					@click="doDelete"></u-button>
+				<button class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-60 flex-center rounded-x"
+					@click="doDelete">解绑</button>
 				<view class="h-30"></view>
 			</view>
 		</u-popup>

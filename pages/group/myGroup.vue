@@ -69,8 +69,8 @@
 						@click="$c.goto(`/pages/group/pay?id=${group.id}`);showOperation = false">去支付</view>
 					<view class="ptb-20 text-danger border-bottom" @click="doDelete">删除</view>
 				</view>
-				<u-button class="fw-7 fs-14 w-224 h-43 mt-20 border-0" style="background-color: #f8f8f8;" shape="circle"
-					text="取消" @click="showOperation = false"></u-button>
+				<button class="fw-7 fs-14 w-224 h-43 mt-20 border-0 flex-center rounded-x" style="background-color: #f8f8f8;"
+					@click="showOperation = false">取消</button>
 			</view>
 		</u-popup>
 
@@ -82,8 +82,8 @@
 					<view class="ptb-20 border-bottom" @click="onFriendBlack()">加入黑名单</view>
 					<view class="ptb-20 text-danger border-bottom" @click="onClose();showDeleteConfirm = true">删除</view>
 				</view>
-				<u-button class="fw-7 fs-14 w-224 h-43 mt-40 border-0" style="background-color: #f8f8f8;" shape="circle"
-					text="取消" @click="showOperation2 = false"></u-button>
+				<button class="fw-7 fs-14 w-224 h-43 mt-40 border-0 flex-center rounded-x" style="background-color: #f8f8f8;"
+					@click="showOperation2 = false">取消</button>
 			</view>
 		</u-popup>
 

@@ -1,10 +1,6 @@
 <template>
 	<view class="page bg-white plr-20">
-		<Title title="收到的进群申请" fixed bgColor="#fff" @back="$c.goto('/pages/group/index')" @right="show = true">
-			<!-- <template v-slot:right>
-				<text class="text-info fs-12" style="text-wrap: nowrap;">全部清除</text>
-			</template> -->
-		</Title>
+		<Title title="收到的进群申请" fixed bgColor="#fff" isBack @back="$c.goto('/pages/group/index')"></Title>
 		<view class="mt-10 flex-start fs-16">
 			<view class="" :class="type == 1 && 'nav_active'" @click="type = 1">群聊</view>
 			<view class="ml-43" :class="type == 2 && 'nav_active'" @click="type = 2">好友</view>
@@ -24,10 +20,10 @@
 							<view class="text-info fs-12 mt-6">申请加入群 {{ item.team? item.team.name : '' }}</view>
 						</view>
 						<view v-if="item.actionStatus === 0" class="flex-end ml-10">
-							<u-button class="bg-white fs-10 lh-8 w-47 h-20 text-base flex-center border-1 plr-0"
-								shape="circle" @click="doReject(item)">忽略</u-button>
-							<u-button class="bg-base fs-10 lh-8 w-47 h-20 text-white flex-center border-1 ml-10"
-								shape="circle" @click="doPass(item)">同意</u-button>
+							<button class="bg-white fs-10 lh-8 w-47 h-20 text-base flex-center border-1 plr-0 flex-center rounded-x"
+								@click="doReject(item)">忽略</button>
+							<button class="bg-base fs-10 lh-8 w-47 h-20 text-white flex-center border-1 ml-10 flex-center rounded-x"
+								@click="doPass(item)">同意</button>
 						</view>
 						<view v-else-if="item.actionStatus === 1" class="text-base fs-12">已通过</view>
 						<view v-else-if="item.actionStatus === 2" class="text-danger fs-12">已拒绝</view>
@@ -50,10 +46,10 @@
 							<view class="text-info fs-12 mt-6">添加您为好友</view>
 						</view>
 						<view v-if="item.status === 0" class="flex-end ml-10">
-							<u-button class="bg-white fs-10 lh-8 w-47 h-20 text-base flex-center border-1 plr-0"
-								shape="circle" @click="doReject(item)">拒绝</u-button>
-							<u-button class="bg-base fs-10 lh-8 w-47 h-20 text-white flex-center border-1 ml-10"
-								shape="circle" @click="doPass(item)">同意</u-button>
+							<button class="bg-white fs-10 lh-8 w-47 h-20 text-base flex-center border-1 plr-0 flex-center rounded-x"
+								shape="circle" @click="doReject(item)">拒绝</button>
+							<button class="bg-base fs-10 lh-8 w-47 h-20 text-white flex-center border-1 ml-10 flex-center rounded-x"
+								shape="circle" @click="doPass(item)">同意</button>
 						</view>
 						<view v-else-if="item.status === 1 || item.status === 4" class="text-base fs-12">已通过</view>
 						<view v-else-if="item.status === 2" class="text-danger fs-12">已拒绝</view>

@@ -36,6 +36,15 @@
 		font-size: 14px;
 		color: $color-black;
 	}
+	
+	.btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 999px;
+		padding: 0;
+		font-size: 14px;
+	}
 
 	.btn-black {
 		color: #3D3D3D !important;
@@ -46,6 +55,12 @@
 		height: 47px !important;
 		font-weight: 700 !important;
 		color: #fff !important;
+		font-size: 14px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 999px;
+		padding: 0;
 	}
 
 	.sign_reward_box {
@@ -168,6 +183,42 @@
 	.u-text__value {
 		line-height: 1;
 		align-items: center;
+	}
+	
+	.popup-box {
+		width: 310px;
+		min-height: 280px;
+		border-radius: 20px;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		box-sizing: border-box;
+		padding-bottom: 26px;
+	}
+	
+	.popup-img {
+		height: 100px;
+		margin: -50px auto 0;
+	}
+	
+	.popup-title {
+		font-size: 18px;
+		font-weight: bold;
+		line-height: 28px;
+		color: #1A7E84;
+	}
+	
+	.popup-text {
+		line-height: 28px;
+		font-size: 14px;
+		padding: 20px;
+	}
+	
+	.popup-buttons {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
 	}
 
 	// 密码

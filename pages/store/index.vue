@@ -68,8 +68,8 @@
 				</view>
 				<view class="flex-end" @click.stop>
 					<view class="">
-						<u-button v-if="item.status == 2" class="btn-list btn-black fs-12 p-0" shape="circle" plain
-							@click="onReceive(item)">确认收货</u-button>
+						<button v-if="item.status && item.status.id == 2" class="btn-list btn-black fs-12 p-0 border-plain" plain
+							@click="onReceive(item)">确认收货</button>
 					</view>
 				</view>
 			</view>
@@ -117,10 +117,9 @@
 				<view class="fs-10 text-info mt-6 text-center">已选{{ num }}件</view>
 			</view>
 			<view class="flex-end">
-				<u-button v-if="$c.mode()" class="btn" shape="circle" text="官方回购" @click="onShowEvent('buy')"></u-button>
-				<u-button v-if="$c.mode()" class="btn" shape="circle" text="转赠他人" @click="onShowEvent('transfer')"></u-button>
-				<u-button class="btn fw-7 bg-base-change text-white" shape="circle" text="发货"
-					@click="onShowEvent('ship')"></u-button>
+				<button v-if="$c.mode()" class="btn border-plain" plain @click="onShowEvent('buy')">官方回购</button>
+				<button v-if="$c.mode()" class="btn border-plain" plain @click="onShowEvent('transfer')">转赠他人</button>
+				<button class="btn fw-7 bg-base-change text-white" @click="onShowEvent('ship')">发货</button>
 			</view>
 		</view>
 		<!-- #endif -->
@@ -129,7 +128,7 @@
 			@cancel="show = false" @confirm="onDelete()"></u-modal>
 
 		<!-- 发货 -->
-		<u-popup :show="showShip" mode="bottom" bgColor="transparent" closeable @close="showShip = false">
+		<u-popup :show="showShip" mode="bottom" :round="20" closeable @close="showShip = false">
 			<view class="pt-14 pb-30 plr-20 bg-address lh-10 roundedTop-20">
 				<view class="fs-18 fw-5 text-center">仓库发货</view>
 				<view class="flex-between ptb-30 fs-12" @click="$c.goto('/pages/user/address?from=address')">
@@ -157,13 +156,12 @@
 						</view>
 					</view>
 				</scroll-view>
-				<u-button class="btn-submit bg-base mt-40" shape="circle" text="确认地址并领取"
-					@click="doSubmit('ship')"></u-button>
+				<button class="btn-submit bg-base mt-40" @click="doSubmit('ship')">确认地址并领取</button>
 			</view>
 		</u-popup>
 
 		<!-- 转增 -->
-		<u-popup :show="showTransfer" mode="bottom" bgColor="transparent" closeable @close="showTransfer = false">
+		<u-popup :show="showTransfer" mode="bottom" :round="20" closeable @close="showTransfer = false">
 			<view class="pt-14 pb-30 plr-20 bg-address lh-10 roundedTop-20">
 				<view class="fs-18 fw-5 text-center">转赠他人</view>
 				<view class="ptb-20 flex-between border-bottom border-top mt-20">
@@ -196,13 +194,12 @@
 						</view>
 					</view>
 				</scroll-view>
-				<u-button class="btn-submit bg-base mt-40" shape="circle" text="填写账号并转赠"
-					@click="doSubmit('transfer')"></u-button>
+				<button class="btn-submit bg-base mt-40" @click="doSubmit('transfer')">填写账号并转赠</button>
 			</view>
 		</u-popup>
 
 		<!-- 回购 -->
-		<u-popup :show="showBuy" mode="bottom" bgColor="transparent" closeable @close="showBuy = false">
+		<u-popup :show="showBuy" mode="bottom" :round="20" closeable @close="showBuy = false">
 			<view class="pt-14 pb-30 plr-20 bg-address lh-10 roundedTop-20">
 				<view class="fs-18 fw-5 text-center">官方回购</view>
 				<view class="mt-30">回购总价：￥{{ buyTotal }}</view>
@@ -230,8 +227,7 @@
 						</view>
 					</view>
 				</scroll-view>
-				<u-button class="btn-submit bg-base mt-40" shape="circle" text="申请回购"
-					@click="onClose();showPop('rule')"></u-button>
+				<button class="btn-submit bg-base mt-40" @click="onClose();showPop('rule')">申请回购</button>
 			</view>
 		</u-popup>
 	</view>

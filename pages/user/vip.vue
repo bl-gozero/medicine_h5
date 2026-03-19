@@ -108,9 +108,9 @@
 						<view class="">成为推广员</view>
 						<view class="text-info">购买1件指定商品即可</view>
 					</view>
-					<u-button v-if="profile.level.id < 2" class="btn bg-0 text-0" shape="circle" text="去完成"
-						@click="$c.goto('/pages/goods/searchResult?is_level_valid=1')"></u-button>
-					<u-button v-else class="btn bg-1 text-1" shape="circle" text="已完成"></u-button>
+					<button v-if="profile.level.id < 2" class="btn bg-0 text-0"
+						@click="$c.goto('/pages/goods/searchResult?is_level_valid=1')">去完成</button>
+					<button v-else class="btn bg-1 text-1">已完成</button>
 				</view>
 				<view class="step_box flex-between">
 					<view class="i-35 relative flex-center bg-white rounded">
@@ -121,9 +121,8 @@
 						<view class="">升级为VIP</view>
 						<view class="text-info">邀请{{ level3.upgrade_count || 3 }}位好友成为推广员</view>
 					</view>
-					<u-button v-if="profile.level.id < 3" class="btn bg-0 text-0" shape="circle"
-						:text="num1 > 0? `还需${num1}人` : '去完成'" @click="$c.goto('/pages/user/qrcode')"></u-button>
-					<u-button v-else class="btn bg-1 text-1" shape="circle" text="已完成"></u-button>
+					<button v-if="profile.level.id < 3" class="btn bg-0 text-0" @click="$c.goto('/pages/user/qrcode')">{{ num1 > 0? `还需${num1}人` : '去完成' }}</button>
+					<button v-else class="btn bg-1 text-1">已完成</button>
 				</view>
 				<view class="step_box flex-between step_3">
 					<view class="i-35 relative flex-center bg-white rounded">
@@ -135,9 +134,8 @@
 						<view class="">升级为合伙人</view>
 						<view class="text-info">邀请{{ level4.upgrade_count || 5 }}位好友成为VIP会员</view>
 					</view>
-					<u-button v-if="profile.direct_vip < 5" class="btn bg-0 text-0" shape="circle"
-						:text="num2 > 0? `还需${num2}人` : '去完成'" @click="$c.goto('/pages/user/qrcode')"></u-button>
-					<u-button v-else class="btn bg-1 text-1" shape="circle" text="已完成"></u-button>
+					<button v-if="profile.direct_vip < 5" class="btn bg-0 text-0" @click="$c.goto('/pages/user/qrcode')">{{ num2 > 0? `还需${num2}人` : '去完成' }}</button>
+					<button v-else class="btn bg-1 text-1">已完成</button>
 				</view>
 			</view>
 		</view>
@@ -207,10 +205,10 @@
 								<view class="fs-16 fw-7 u-line-1">{{ sell.save_count || 0 }}</view>
 							</view>
 						</view>
-						<u-button class="fw-7 btn-search" shape="circle" @click="$c.goto('/pages/user/sell')">
+						<button class="fw-7 btn-search flex-center rounded-x" @click="$c.goto('/pages/user/sell')">
 							<image src="/static/vip/search.webp" class="i-22 mr-3"></image>
 							<text class="text-white">查询销售数据</text>
-						</u-button>
+						</button>
 					</view>
 					<view v-else-if="switcher == 4" class="">
 						<view class="plr-20">
@@ -265,8 +263,8 @@
 				<view v-if="switcher == 4" class="mt-34 lh-17 fs-14">
 					“团队绩效”同合伙人级别用户团队业绩将不纳入“团队绩效”统计范围。每月完成“团队绩效”考核可获得对应“绩效分红”。“绩效分红”每月1日自动重置，不做累计计算。
 				</view>
-				<u-button class="bg-base text-white w-234 h-51 fs-16 fw-7 mt-68" shape="circle"
-					@click="showHint = false">知道了</u-button>
+				<button class="bg-base text-white w-234 h-51 fs-16 fw-7 mt-68 flex-center rounded-x"
+					@click="showHint = false">知道了</button>
 			</view>
 		</u-popup>
 	</view>
@@ -651,5 +649,6 @@
 		width: 180px;
 		height: 38px;
 		margin-top: 30px;
+		font-size: 14px;
 	}
 </style>

@@ -40,8 +40,8 @@
 							<template #suffix>
 								<image v-if="!showCodeBtn && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix"
 									@click="getCode()"></image>
-								<u-button v-if="showCodeBtn" class="bg-base-change fw-7 fs-12 text-white plr-20 h-40"
-									shape="circle" text="点击获取" @click="getCode()"></u-button>
+								<button v-if="showCodeBtn" class="bg-base-change fw-7 fs-12 text-white plr-20 h-40 flex-center rounded-x"
+									@click="getCode()">点击获取</button>
 							</template>
 						</LineInput>
 					</view>
@@ -57,8 +57,8 @@
 					</text>
 				</view>
 				<view class="mt-14">
-					<u-button class="bg-base-change fw-7 fs-14 text-white w-278 h-49" shape="circle" text="登录"
-						@click="onSubmit()"></u-button>
+					<button class="bg-base-change fw-7 fs-14 text-white w-278 h-49 rounded-x flex-center"
+						@click="onSubmit()">登录</button>
 				</view>
 				<view class="text-center mt-23">
 					<text class="text-base fw-4" @click="$c.goto('/pages/index/login_p')">验证码登录</text>

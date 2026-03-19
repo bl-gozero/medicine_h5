@@ -72,7 +72,7 @@
 		</view>
 		
 		<view v-if="page == 2" class="page" style="background: #010101;">
-			<Title title="礼品详细说明" fixed bgColor="#fff" @back="page = 1" />
+			<Title title="礼品详细说明" fixed bgColor="#fff" isBack @back="page = 1" />
 			<u-image :src="`/static/avtivity/wine/rule/${index}.webp`" v-for="index in 5" :key="index" width="100%" height="auto"
 				bgColor="transparent" mode="widthFix">
 			  <template v-slot:loading>
@@ -89,7 +89,7 @@
 		</view>
 		
 		<view v-if="page == 3" class="page bg-page plr-20">
-			<Title title="购买记录" fixed bgColor="#F8F8F8" @back="page = 1" />
+			<Title title="购买记录" fixed bgColor="#F8F8F8" isBack @back="page = 1" />
 			<view class="bg-white p-12 rounded-8 flex-between mt-10 fgap-10" v-for="item in logs" :key="item.id">
 				<view class="fw-5 u-line-1">购买指定商品</view>
 				<view class="text-right text-info fs-12">
@@ -100,7 +100,7 @@
 		</view>
 		
 		<!-- address -->
-		<u-popup :show="showAddress" mode="bottom" bgColor="transparent" closeable @close="showAddress = false">
+		<u-popup :show="showAddress" mode="bottom" :round="20" closeable @close="showAddress = false">
 			<view class="pt-14 pb-30 plr-20 bg lh-10 roundedTop-20">
 				<view class="fs-16 text-center">收货地址</view>
 				<view class="border-bottom pb-30">
@@ -127,7 +127,7 @@
 					<view v-else class="flex-1 ml-8 mr-20 text-info">请添加收货地址</view>
 					<u-icon name="arrow-right" size="14" color="#7D7D7D" class="self-start"></u-icon>
 				</view>
-				<u-button class="w-247 h-47 bg-base text-white fw-7 mt-60" shape="circle" text="确认地址并领取" @click="doSubmit"></u-button>
+				<button class="w-247 h-47 bg-base text-white fw-7 mt-60 rounded-x flex-center" @click="doSubmit">确认地址并领取</button>
 			</view>
 		</u-popup>
 	</view>

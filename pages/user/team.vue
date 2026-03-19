@@ -1,7 +1,7 @@
 <template>
 	<view class="page bg-page flex-col">
 		<view v-if="link.length == 1" class="bg">
-			<Title title="我邀请的好友" bgColor="transparent" @back="onBack()" />
+			<Title title="我邀请的好友" bgColor="transparent" isBack @back="onBack()" />
 			<view class="minh-76 plr-20">
 				<view v-if="nums.length > 0" class="relative mt-20">
 					<image src="/static/user/level/sell_top.webp" class="pw-100 maxh-100 block" mode="widthFix"></image>
@@ -30,7 +30,7 @@
 			</view>
 		</view>
 		<view v-else class="">
-			<Title title="他邀请的好友" @back="onBack()" />
+			<Title title="他邀请的好友" isBack @back="onBack()" />
 		</view>
 		<view v-if="link.length > 1" class="plr-20 pt-10 pb-20 text-info text-wrap">
 			<text class="name" v-for="(item, index) in link" :key="item.id" :class="{ 'fw-7 text-black': index == link.length - 1 }">{{ item.account }}</text>

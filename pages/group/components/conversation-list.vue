@@ -102,14 +102,14 @@
 				</view>
 				<view class="fs-12 text-info mtb-15">群介绍</view>
 				<view class="">{{ group.intro }}</view>
-				<u-button v-if="group.join_state && group.join_state.id == 2"
-					class="fw-7 fs-14 w-224 h-43 mt-20 text-danger mt-70 border-0" style="background: #f8f8f8;"
-					shape="circle" text="退出该群聊" @click="doQuit"></u-button>
-				<u-button v-else-if="group.join_state && group.join_state.id == 1"
-					class="fw-7 fs-14 w-224 h-43 mt-20 text-white mt-70" style="background: #9DC7CA;" shape="circle"
-					:text="group.join_state.value"></u-button>
-				<u-button v-else class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white mt-70" shape="circle" text="申请加入"
-					@click="doJoin"></u-button>
+				<button v-if="group.join_state && group.join_state.id == 2"
+					class="fw-7 fs-14 w-224 h-43 mt-20 text-danger mt-70 border-0 flex-center rounded-x" style="background: #f8f8f8;"
+					@click="doQuit">退出该群聊</button>
+				<button v-else-if="group.join_state && group.join_state.id == 1"
+					class="fw-7 fs-14 w-224 h-43 mt-20 text-white mt-70 flex-center rounded-x" style="background: #9DC7CA;"
+					:text="group.join_state.value">申请中</button>
+				<button v-else class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white mt-70 flex-center rounded-x"
+					@click="doJoin">申请加入</button>
 				<view class="text-center fs-10 mt-10">
 					<text class="text-info">维护群内生态健康，请遵守</text>
 					<text class="text-base" @click="$c.goto('/pages/index/userAgreement')">《群聊公约》</text>

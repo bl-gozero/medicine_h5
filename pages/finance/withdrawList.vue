@@ -14,9 +14,9 @@
 							<view class="flex-between text-info fs-10 mt-7">
 								<text class="">{{ item.created_at }}</text>
 								<view class="flex-start">
-									<u-button v-if="item.status.id == 2"
-										class="bg-base-change fw-7 fs-8 text-white w-41 h-16 plr-0 mr-13" shape="circle"
-										@click="doSubmit(item.id)">更新状态</u-button>
+									<button v-if="item.status.id == 2"
+										class="bg-base-change fw-7 fs-8 text-white w-41 h-16 plr-0 mr-13 flex-center rounded-x"
+										@click="doSubmit(item.id)">更新状态</button>
 									<text class="fw-7"
 										:style="{color: getColor(item.status.id)}">{{ item.status.value }}</text>
 								</view>

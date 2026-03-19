@@ -88,11 +88,11 @@
 			</view>
 		</view>
 
-		<u-button v-if="memberInfo.memberRole === 1"
-			class="bg-white pw-100 re rounded-8 text-danger flex-center mt-11 border-0 ptb-18" text="解散群聊"
-			@click="showDelete = true"></u-button>
-		<u-button v-else class="bg-white pw-100 re rounded-8 text-danger flex-center mt-11 border-0 ptb-18" text="删除并退出"
-			@click="showQuit = true"></u-button>
+		<button v-if="memberInfo.memberRole === 1"
+			class="bg-white pw-100 re rounded-8 text-danger flex-center mt-11 border-0 ptb-18"
+			@click="showDelete = true">解散群聊</button>
+		<button v-else class="bg-white pw-100 re rounded-8 text-danger flex-center mt-11 border-0 ptb-18"
+			@click="showQuit = true">删除并退出</button>
 
 		<view class="h-20"></view>
 

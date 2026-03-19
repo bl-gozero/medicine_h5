@@ -26,8 +26,8 @@
 			<Payment v-model="form.pay_mode"></Payment>
 		</view>
 		<view class="absolute left-0 bottom-25 pw-100">
-			<u-button class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white" shape="circle" :text="`立即支付￥${ price }`"
-				@click="onCheck()"></u-button>
+			<button class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white flex-center rounded-x"
+				@click="onCheck()">{{ `立即支付￥${ price }` }}</button>
 		</view>
 
 		<!-- 密码 -->

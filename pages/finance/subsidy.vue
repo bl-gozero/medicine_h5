@@ -1,9 +1,9 @@
 <template>
 	<view class="page bg-page flex-col" >
 		<view class="" style="background: linear-gradient(to bottom, #C1E4E5 -1%, #f8f8f8 100%);">
-			<Title title="购物金" bgColor="transparent">
+			<Title title="购物金" bgColor="transparent" @right="onRule()">
 				<template v-slot:right>
-					<text @click="onRule()">使用规则</text>
+					<text>使用规则</text>
 				</template>
 			</Title>
 			<view class=" plr-20 mt-10">
@@ -19,8 +19,8 @@
 				<view class="relative flex-between bg-white rounded-8 p-15" style="margin-top: -120rpx;z-index: 2;">
 					<view class="fw-7">参与活动任务得购物金</view>
 					<view class="">
-						<u-button class="w-83 h-30 text-white fs-12 p-0 border-0" style="background: linear-gradient(270deg, #F59857 0%, #F3B36A 99%);line-height: 26px;"
-							shape="circle" @click="$c.goto('/pages/index/task')">去任务中心</u-button>
+						<button class="w-83 h-30 text-white fs-12 p-0 border-0 rounded-x flex-center" style="background: linear-gradient(270deg, #F59857 0%, #F3B36A 99%);line-height: 26px;"
+							shape="circle" @click="$c.goto('/pages/index/task')">去任务中心</button>
 					</view>
 				</view>
 				<view class="fs-16 mt-30">购物金明细</view>
@@ -67,6 +67,20 @@
 			</scroll-view>
 		</view>
 		
+		<u-popup :show="showInfo" mode="center" bgColor="transparent" :closeOnClickOverlay="false"
+			@close="showInfo = false;">
+			<view class="w-308 rounded-20 p-20 border-box bg-white" style="min-height: 257px;">
+				<view class="text-black text-center fs-18 fw-7">购物金使用规则</view>
+				<view class="lh-20 mt-20 text-black">
+					1. 参与签到 、推荐好友等活动获得；<br />
+					2. 不可转赠或提现；<br />
+					3. 只用于购买商品时，部分或全部抵扣。
+				</view>
+				<button class="bg-base fs-16 flex-center text-white w-234 h-51 mt-34 flex-center rounded-x"
+					@click="showInfo = false;">知道了</button>
+			</view>
+		</u-popup>
+		
 		<view class="">
 			<u-datetime-picker
 				:show="showTimePicker"
@@ -97,7 +111,8 @@
 				income: 0,
 				expense: 0,
 				showTimePicker: false,
-				profile: this.$c.profile()
+				profile: this.$c.profile(),
+				showInfo: false
 			}
 		},
 		async onLoad() {
@@ -110,21 +125,7 @@
 		},
 		methods: {
 			onRule() {
-				this.$know({
-					bg: 'background: #fff;min-height: 257px;',
-					img: "",
-					title: {
-						text: "购物金使用规则",
-						class: 'mt-20 text-black'
-					},
-					text: {
-						text: "1. 参与签到 、推荐好友等活动获得；<br />2. 不可转赠或提现；<br />3. 只用于购买商品时，部分或全部抵扣。<br />",
-						class: 'text-left'
-					},
-					buttons: [
-						{ text: '知道了', class: 'bg-base bold fs-16 text-white w-234 h-51' }
-					]
-				})
+				this.showInfo = true
 			},
 			async getList() {
 				if(this.form.status != 'more') return

@@ -12,8 +12,9 @@
 			<view class="mt-7 bg-white rounded-x plr-16 code">
 				<LineInput v-model="form.captcha_code" placeholder="请输入验证码" placeholderClass="text-info fs-14 fw-7">
 					<template #suffix>
-						<u-button v-if="showCodeBtn" class="bg-base-change fw-7 fs-12 text-white h-35 w-82"
-							shape="circle" text="" @click="getMobileCode()">点击获取</u-button>
+						<button v-if="showCodeBtn"
+							class="bg-base-change fw-7 fs-12 text-white h-35 w-82 flex-center rounded-x"
+							@click="getMobileCode()">点击获取</button>
 						<div v-else class="text-info flex-start h-35">
 							<u-count-down ref="countDown" :time="$c.codeLimitTime()" format="ss"
 								@finish="showCodeBtn = true"></u-count-down>
@@ -35,8 +36,8 @@
 					placeholderClass="text-info fs-14 fw-7" :maxlength="20" />
 			</view>
 			<view class=" mt-47">
-				<u-button class="bg-base-change fw-7 fs-14 text-white w-247 h-47" shape="circle" text="完成"
-					@click="onSubmit()"></u-button>
+				<button class="bg-base-change fw-7 fs-14 text-white w-247 h-47 flex-center rounded-x"
+					@click="onSubmit()">完成</button>
 			</view>
 		</view>
 	</view>

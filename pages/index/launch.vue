@@ -1,7 +1,12 @@
 <template>
+	<!-- #ifndef MP -->
 	<view class="page bg flex-center">
 		<image src="/static/launch/launch_logo.png" class="i-150"></image>
 	</view>
+	<!-- #endif -->
+	<!-- #ifdef MP -->
+	<image src="/static/launch/mp.webp" class="pw-100" mode="widthFix"></image>
+	<!-- #endif -->
 </template>
 
 <script>

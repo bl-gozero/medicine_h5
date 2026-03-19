@@ -7,8 +7,8 @@
 		<view class="plr-20 mt-10">
 			<view class="out_box">
 				<view class="flex-center">
-					<view class="qrbox">
-						<uqrcode class="auto-x rounded-22" ref="qrcode" canvas-id="uqrcode" :value="link" size="148">
+					<view  class="qrbox i-148">
+						<uqrcode v-show="!showQr" class="auto-x rounded-22" ref="qrcode" canvas-id="uqrcode" :value="link" size="148">
 						</uqrcode>
 					</view>
 				</view>
@@ -31,26 +31,27 @@
 					</view>
 				</view>
 				<view class="flex-between mt-15">
-					<u-button class="w-126 h-47 fw-7 text-white" shape="circle" style="background: #F36E25;"
-						text="保存二维码" @click="showQr = true"></u-button>
-					<u-button class="w-170 h-47 fw-7 bg-base text-white" shape="circle" text="分享注册链接"
-						@click="$c.copy(link)"></u-button>
+					<button class="w-126 h-47 fw-7 text-white flex-center rounded-x fs-14" style="background: #F36E25;"
+						@click="showQr = true">保存二维码</button>
+					<button class="w-170 h-47 fw-7 bg-base text-white flex-center rounded-x fs-14"
+						@click="$c.copy(link)">分享注册链接</button>
 				</view>
 			</view>
 		</view>
 		<view class="h-40"></view>
-		
+
 		<u-popup :show="showQr" mode="center" bgColor="transparent" zIndex="20000" @close="showQr = false">
 			<view class="">
 				<view class="relative">
 					<image :src="path" mode="widthFix"></image>
-					<view class="text-info fs-12 mt-20 absolute left-0 pw-100 bottom-20 text-center">如果保存无效请长按图片保存</view>
+					<view class="text-info fs-12 mt-20 absolute left-0 pw-100 bottom-20 text-center">如果保存无效请长按图片保存
+					</view>
 				</view>
-				<u-button class="bg-base fw-7 fs-14 text-white w-169 h-47 mt-15 border-0" shape="circle"
-					text="保存" @click="onSave()"></u-button>
+				<button class="bg-base fw-7 fs-14 text-white w-169 h-47 mt-15 border-0 flex-center rounded-x"
+					@click="onSave()">保存</button>
 			</view>
 		</u-popup>
-		
+
 		<!-- <image :src="path" mode="widthFix" @click="onSave()"></image> -->
 		<l-painter ref="painter" :board="poster" isCanvasToTempFilePath @success="path = $event" hidden />
 	</view>
@@ -74,8 +75,7 @@
 						width: "376px",
 						position: "relative"
 					},
-					views: [
-						{
+					views: [{
 							src: "/static/user/poster.webp",
 							type: "image",
 							css: {
@@ -100,8 +100,7 @@
 				}
 			}
 		},
-		onLoad() {
-		},
+		onLoad() {},
 		methods: {
 			onSave() {
 				this.$refs.painter.canvasToTempFilePathSync({
@@ -115,7 +114,8 @@
 						// H5 端：自动触发下载
 						const link = document.createElement('a')
 						link.href = res.tempFilePath
-						link.download = '我的二维码_' +  new Date().toISOString().replace(/[:.-]/g, '') + '.jpg' //'image.jpg'
+						link.download = '我的二维码_' + new Date().toISOString().replace(/[:.-]/g, '') +
+							'.jpg' //'image.jpg'
 						link.click()
 						// this.$c.toast('如果保存失败请长按图片保存')
 						// #endif

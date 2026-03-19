@@ -29,6 +29,19 @@
 			</view>
 		</view>
 		
+		<u-popup :show="errorInfo.show" mode="center" bgColor="transparent" @close="errorInfo.show = false;">
+			<view class="popup-box" style="background: #fff;min-height: 257px;box-shadow: 0px -6px 20px 0px rgba(0, 0, 0, 0.3);">
+				<view class="popup-title mt-20 text-black">支付提示</view>
+				<view class="popup-text flex-1">{{ errorInfo.text }}</view>
+				<view class="popup-buttons">
+					<view class="">
+						<button class="bg-base bold fs-16 text-white w-234 h-51 flex-center rounded-x"
+							@click="errorInfo.show = false;">知道了</button>
+					</view>
+				</view>
+			</view>
+		</u-popup>
+		
 		<u-modal 
 			:show="show"
 			title="提示"
@@ -64,7 +77,12 @@
 				iconCate: { '奖励支付': '/static/pay/cate/1.png', '北辰支付': '/static/pay/cate/2.png', '三方支付': '/static/pay/cate/3.png' },
 				iconItem: { "支付宝": '/static/pay/icon/1.png', "微信": '/static/pay/icon/2.png', "银联": '/static/pay/icon/3.png', "聚合支付": '/static/pay/icon/3.png', '奖励支付': '/static/pay/cate/1.png', },
 				defaultIcon: '/static/pay/icon/3.png',
-				profile: this.$c.profile()
+				profile: this.$c.profile(),
+				errorInfo: {
+					show: false,
+					text: ''
+				}
+				
 			}
 		},
 		watch: {
@@ -90,21 +108,8 @@
 					msg = '北辰支付通道繁忙，建议选择三方支付付款，体验更顺畅。'
 				}
 				if (msg) {
-					this.$know({
-						bg: 'background: #fff;min-height: 257px;box-shadow: 0px -6px 20px 0px rgba(0, 0, 0, 0.3);',
-						img: "",
-						title: {
-							text: "支付提示",
-							class: 'mt-20 text-black'
-						},
-						text: {
-							text: msg,
-							class: 'mt-20'
-						},
-						buttons: [
-							{ text: '知道了', class: 'bg-base bold fs-16 text-white w-234 h-51' }
-						]
-					})
+					this.errorInfo.text = msg
+					this.errorInfo.show = true
 					return
 				}
 				this.payingMode = id
@@ -116,23 +121,6 @@
 					this.cateList = res.list.map(i => ({ ...i, open: false }))
 				} 
 			},
-			// async getCateList() {
-			// 	const res = [
-			// 		{
-			// 			cate: 2, value: '北辰支付', icon: '', open: false, list: [
-			// 				{ id: 1, value: '支付宝支付', icon: '' },
-			// 				{ id: 2, value: '微信支付', icon: '' },
-			// 				{ id: 3, value: '银行卡支付', icon: '' }
-			// 			],
-			// 		},
-			// 		{
-			// 			cate: 3, value: '三方支付', icon: '', open: false, list: [
-			// 				{ id: 3, value: '聚合支付', icon: '' }
-			// 			]
-			// 		}
-			// 	]
-			// 	this.cateList = this.mode? [...this.cateList, ...res] : res
-			// }
 		},
 		mounted() {
 			if(this.list.length > 0) {

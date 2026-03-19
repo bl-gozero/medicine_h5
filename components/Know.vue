@@ -2,14 +2,13 @@
 	<u-popup :show="visible" mode="center" bgColor="transparent" :closeOnClickOverlay="false" @close="close">
 		<view class="popup-box" :style="bg">
 			<image v-if="imgObj.src" :src="imgObj.src" :class="['popup-img', imgObj.class]" mode="heightFix" />
-			<view v-if="title.text" :class="['popup-title', title.class]" v-html="title.text"></view>
+			<view v-if="title.text" :class="['popup-title', title.class]">{{ title.text }}</view>
 			<view v-if="text.text" :class="['popup-text flex-1', text.class]" v-html="text.text"></view>
 			<view class="popup-buttons">
 				<view class="" v-for="(btn, i) in buttons" :key="i">
-					<u-button  :class="['popup-btn', btn.class]" :style="btn.style"
-						shape="circle" @click="clickBtn(i)">
+					<button :class="['popup-btn rounded-x flex-center', btn.class]" :style="btn.style" @click="clickBtn(i)">
 						{{ btn.text }}
-					</u-button>
+					</button>
 				</view>
 			</view>
 		</view>
@@ -120,39 +119,4 @@
 </script>
 
 <style>
-	.popup-box {
-		width: 310px;
-		min-height: 280px;
-		border-radius: 20px;
-		text-align: center;
-		display: flex;
-		flex-direction: column;
-		box-sizing: border-box;
-		padding-bottom: 26px;
-	}
-
-	.popup-img {
-		height: 100px;
-		margin: -50px auto 0;
-	}
-
-	.popup-title {
-		font-size: 18px;
-		font-weight: bold;
-		line-height: 28px;
-		color: #1A7E84;
-	}
-
-	.popup-text {
-		line-height: 28px;
-		font-size: 14px;
-		padding: 20px;
-	}
-	
-	.popup-buttons {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 10px;
-	}
 </style>

@@ -28,7 +28,7 @@
 							</view>
 						</view>
 						<view class="mt-3 mb-10 fs-10 u-line-1">{{ item.name }}</view>
-						<u-button class="btn btn-2 p-0" :class="item.end && 'btn-1'" shape="circle" @click="$c.goto(item.url)">{{ item.text }}</u-button>
+						<button class="btn btn-2 p-0" :class="item.end && 'btn-1'" @click="$c.goto(item.url)">{{ item.text }}</button>
 					</view>
 				</view>
 				<u-scroll-list v-else indicatorActiveColor="#F3AF67">
@@ -42,7 +42,7 @@
 							</view>
 						</view>
 						<view class="mt-3 mb-10 fs-10 u-line-1">{{ item.name }}</view>
-						<u-button class="btn btn-2 p-0" :class="item.end && 'btn-1'" shape="circle" @click="$c.goto(item.url)">{{ item.text }}</u-button>
+						<button class="btn btn-2 p-0" :class="item.end && 'btn-1'" @click="$c.goto(item.url)">{{ item.text }}</button>
 					</view>
 				</u-scroll-list>
 			</view>
@@ -70,10 +70,9 @@
 						<view class="text-info mt-5 fs-10">{{ item.intor }}</view>
 					</view>
 					<view class="w-70">
-						<u-button v-if="item.number >= item.count" class="btn btn-1" shape="circle">今日完成</u-button>
-						<u-button v-else-if="item.id == 1" class="btn" shape="circle" @click="doSign">立即签到</u-button>
-						<u-button v-else class="btn" shape="circle" @click="onTask(item)">去完成</u-button>
-						<!-- <u-button v-else class="btn" shape="circle">去完成</u-button> -->
+						<button v-if="item.number >= item.count" class="btn btn-1">今日完成</button>
+						<button v-else-if="item.id == 1" class="btn" @click="doSign">立即签到</button>
+						<button v-else class="btn" @click="onTask(item)">去完成</button>
 					</view>
 				</view>
 			</view>
@@ -93,7 +92,7 @@
 						<view class="text-info mt-5 fs-10">邀请好友注册并完成首次登录，您将获得丰厚奖励！推荐越多，赚得越多！</view>
 					</view>
 					<view class="w-70">
-						<u-button class="btn" shape="circle" @click="$c.goto('/pages/user/qrcode')">去邀请</u-button>
+						<button class="btn" @click="$c.goto('/pages/user/qrcode')">去邀请</button>
 					</view>
 				</view>
 			</view>
@@ -110,8 +109,8 @@
 					2. 每日任务将在次日0点重置；<br />
 					3. 请确保任务完成后APP已联网以便正确记录进度<br />
 				</view>
-				<u-button class="bg-base bold fs-16 flex-center text-white w-234 h-51 mt-34" shape="circle"
-					@click="showInfo = false;">知道了</u-button>
+				<button class="bg-base bold fs-16 flex-center text-white w-234 h-51 mt-34 flex-center rounded-x"
+					@click="showInfo = false;">知道了</button>
 			</view>
 		</u-popup>
 

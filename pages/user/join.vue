@@ -93,13 +93,14 @@
 			<view class="">
 				<view class="relative">
 					<image :src="path" mode="widthFix"></image>
-					<view class="text-info fs-12 mt-20 absolute left-0 pw-100 bottom-20 text-center">如果保存无效请长按图片保存</view>
+					<view class="text-info fs-12 mt-20 absolute left-0 pw-100 bottom-20 text-center">如果保存无效请长按图片保存
+					</view>
 				</view>
-				<u-button class="bg-base fw-7 fs-14 text-white w-169 h-47 mt-15 border-0" shape="circle"
-					text="保存" @click="onSave()"></u-button>
+				<button class="bg-base fw-7 fs-14 text-white w-169 h-47 mt-15 border-0 flex-center rounded-x"
+					@click="onSave()">保存</button>
 			</view>
 		</u-popup>
-		
+
 		<!-- <image :src="path" mode="widthFix" @click="onSave()"></image> -->
 		<l-painter ref="painter" :board="poster" isCanvasToTempFilePath @success="path = $event" hidden />
 	</view>
@@ -126,8 +127,7 @@
 						width: "376px",
 						position: "relative"
 					},
-					views: [
-						{
+					views: [{
 							src: "/static/user/poster.webp",
 							type: "image",
 							css: {
@@ -189,15 +189,16 @@
 					quality: 1,
 					success: (res) => {
 						console.log(res.tempFilePath);
-						
+
 						// #ifdef H5
 						// H5 端：自动触发下载
 						const link = document.createElement('a')
 						link.href = res.tempFilePath
-						link.download = link.download = '我的二维码_' +  new Date().toISOString().replace(/[:.-]/g, '') + '.jpg' //'image.jpg'
+						link.download = link.download = '我的二维码_' + new Date().toISOString().replace(/[:.-]/g,
+							'') + '.jpg' //'image.jpg'
 						link.click()
 						// #endif
-			
+
 						// #ifndef H5
 						// 非 H5 端：保存到相册
 						uni.saveImageToPhotosAlbum({

@@ -28,8 +28,9 @@
 					<template #suffix>
 						<image v-if="!showCodeBtn1 && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix"
 							@click="getCode()"></image>
-						<u-button v-if="showCodeBtn1" class="bg-base-change fw-7 fs-12 text-white plr-20 h-40"
-							shape="circle" text="点击获取" @click="getCode()"></u-button>
+						<button v-if="showCodeBtn1"
+							class="bg-base-change fw-7 fs-12 text-white plr-20 h-40 flex-center rounded-x"
+							@click="getCode()">点击获取</button>
 					</template>
 				</LineInput>
 			</view>
@@ -38,9 +39,9 @@
 				<LineInput class="flex-1 ml-7" v-model="form.captcha" placeholder="请输入短信验证码"
 					placeholderClass="text-info fs-14 fw-5">
 					<template #suffix>
-						<!-- <image v-if="!showCodeBtn && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix" @click="getCode()"></image> -->
-						<u-button v-if="showCodeBtn" class="bg-base-change fw-7 text-white w-95 h-30" shape="circle"
-							text="发送" @click="getMobileCode()"></u-button>
+						<button v-if="showCodeBtn"
+							class="bg-base-change fw-7 text-white w-95 h-30 fs-14 flex-center rounded-x"
+							@click="getMobileCode()">发送</button>
 						<div v-else class="text-info flex-start h-30">
 							<u-count-down ref="countDown" :time="$c.codeLimitTime()" format="ss"
 								@finish="showCodeBtn = true"></u-count-down>
@@ -64,16 +65,16 @@
 				<text class="text-base" @click="$c.goto('/pages/index/userAgreement')">《APP用户协议》</text>
 			</text>
 		</view>
-		<u-button class="bg-base-change fw-7 text-white w-278 h-49 mt-20" shape="circle" text="注册"
-			@click="onSubmit()"></u-button>
+		<button class="bg-base-change fw-7 text-white w-278 h-49 mt-20 fs-14 flex-center rounded-x"
+			@click="onSubmit()">注册</button>
 		<view class="mt-50 download_box flex-between">
 			<image src="/static/common/logo_white.png" class="logo"></image>
 			<view class="flex-1 ml-4">
 				<view class="fw-7" style="color: #E77F1E;">APP下载</view>
 				<view class="fs-10 mt-3">成为北辰代购全球合伙人共享福利</view>
 			</view>
-			<u-button class="bg-base-change fw-7 text-white w-77 h-36" shape="circle" text="去下载"
-				@click="$c.goto('/pages/web/download')"></u-button>
+			<button class="bg-base-change fw-7 text-white w-77 h-36 fs-14 flex-center rounded-x"
+				@click="$c.goto('/pages/web/download')">去下载</button>
 		</view>
 		<view class="h-30"></view>
 	</view>

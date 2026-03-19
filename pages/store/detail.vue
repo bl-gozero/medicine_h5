@@ -76,12 +76,12 @@
 			class="fixed bottom-0 left-0 pw-100 flex-end ptb-15 plr-20 bg-white border-box"
 			style="z-index: 100;box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.09);"
 		>
-			<view><u-button class="btn" shape="circle" text="官方回购" @click="doSubmit('buy')"></u-button></view>
-			<view><u-button class="btn" shape="circle" text="转赠他人" @click="doSubmit('transfer')"></u-button></view>
-			<view><u-button class="btn fw-7 bg-base-change text-white" shape="circle" text="发货" @click="onShowShip()"></u-button></view>
+			<view><button class="btn" @click="doSubmit('buy')">官方回购</button></view>
+			<view><button class="btn" @click="doSubmit('transfer')">转赠他人</button></view>
+			<view><button class="btn fw-7 bg-base-change text-white" @click="onShowShip()">发货</button></view>
 		</view>
 
-		<u-popup :show="showShip" mode="bottom" bgColor="transparent" closeable @close="showShip = false">
+		<u-popup :show="showShip" mode="bottom" :round="20" closeable @close="showShip = false">
 			<view class="pt-14 pb-30 plr-20 bg-address lh-10 roundedTop-20">
 				<view class="fs-18 fw-5 text-center">申请发货</view>
 				<view class="flex-between ptb-30 fs-12" @click="$c.goto('/pages/user/address?from=address')">
@@ -112,12 +112,12 @@
 						</view>
 					</view>
 				</scroll-view>
-				<u-button class="btn-submit bg-base mt-40" shape="circle" text="确认地址并领取" @click="doSubmit('ship')"></u-button>
+				<button class="btn-submit bg-base mt-40" @click="doSubmit('ship')">确认地址并领取</button>
 			</view>
 		</u-popup>
 		
 		<!-- 发货 -->
-		<u-popup :show="showShip" mode="bottom" bgColor="transparent" closeable @close="showShip = false">
+		<u-popup :show="showShip" mode="bottom" :round="20" closeable @close="showShip = false">
 			<view class="pt-14 pb-30 plr-20 bg-address lh-10 roundedTop-20">
 				<view class="fs-18 fw-5 text-center">仓库发货</view>
 				<view class="flex-between ptb-30 fs-12" @click="$c.goto('/pages/user/address?from=address')">
@@ -142,18 +142,15 @@
 								<text class="u-line-1 fw-5">{{ i.goods_name }}</text>
 							</view>
 							<view class="mt-10 fs-12 text-info">{{ i.goods_sku_name }}</view>
-							<!-- <view class="flex-end mt-10 fs-12 text-info">
-								<text class="">×{{ i.quantity }}</text>
-							</view> -->
 						</view>
 					</view>
 				</scroll-view>
-				<u-button class="btn-submit bg-base mt-40" shape="circle" text="确认地址并领取" @click="doSubmit('ship')"></u-button>
+				<button class="btn-submit bg-base mt-40" @click="doSubmit('ship')">确认地址并领取</button>
 			</view>
 		</u-popup>
 		
 		<!-- 转增 -->
-		<u-popup :show="showTransfer" mode="bottom" bgColor="transparent" closeable @close="showTransfer = false">
+		<u-popup :show="showTransfer" mode="bottom" :round="20" closeable @close="showTransfer = false">
 			<view class="pt-14 pb-30 plr-20 bg-address lh-10 roundedTop-20">
 				<view class="fs-18 fw-5 text-center">转赠他人</view>
 				<view class="ptb-20 flex-between border-bottom border-top mt-20">
@@ -179,18 +176,15 @@
 								<text class="u-line-1 fw-5">{{ i.goods_name }}</text>
 							</view>
 							<view class="mt-10 fs-12 text-info">{{ i.goods_sku_name }}</view>
-							<!-- <view class="flex-end mt-10 fs-12 text-info">
-								<text class="">×{{ i.quantity }}</text>
-							</view> -->
 						</view>
 					</view>
 				</scroll-view>
-				<u-button class="btn-submit bg-base mt-40" shape="circle" text="填写账号并转赠" @click="doSubmit('transfer')"></u-button>
+				<button class="btn-submit bg-base mt-40" @click="doSubmit('transfer')">填写账号并转赠</button>
 			</view>
 		</u-popup>
 		
 		<!-- 回购 -->
-		<u-popup :show="showBuy" mode="bottom" bgColor="transparent" closeable @close="showBuy = false">
+		<u-popup :show="showBuy" mode="bottom" :round="20" closeable @close="showBuy = false">
 			<view class="pt-14 pb-30 plr-20 bg-address lh-10 roundedTop-20">
 				<view class="fs-18 fw-5 text-center">官方回购</view>
 				<view class="mt-30">回购总价：￥345.88</view>
@@ -217,7 +211,7 @@
 						</view>
 					</view>
 				</scroll-view>
-				<u-button class="btn-submit bg-base mt-40" shape="circle" text="申请回购" @click="onClose();showBuyConfirm = true"></u-button>
+				<button class="btn-submit bg-base mt-40" @click="onClose();showBuyConfirm = true">申请回购</button>
 			</view>
 		</u-popup>
 		
@@ -244,8 +238,8 @@
 				<view class="fw-7 fs-18 text-base">回购提醒</view>
 				<view class="mt-25 fs-14 plr-7 lh-15">平台数据显示，未来几天产品价格预计将<text class="fw-7">上涨约 10</text>%，请谨慎操作！</view>
 				<view class="flex-between mt-60" style="gap: 10px;">
-					<u-button class="fs-16 fw-7 w-135 h-51" shape="circle" @click="doSubmit('buy')">我已确认</u-button>
-					<u-button class="fs-16 fw-7 w-135 h-51 bg-base text-white" shape="circle" @click="showBuyConfirm = false">暂时取消</u-button>
+					<button class="fs-16 fw-7 w-135 h-51 flex-center rounded-x" @click="doSubmit('buy')">我已确认</button>
+					<button class="fs-16 fw-7 w-135 h-51 bg-base text-white flex-center rounded-x" @click="showBuyConfirm = false">暂时取消</button>
 				</view>
 			</view>
 		</u-popup>

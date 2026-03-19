@@ -19,14 +19,10 @@
 									<text class="fs-12 text-info">{{ order.waybill_number }}</text>
 									<image src="/static/order/copy.png" class="i-12 ml-10"></image>
 								</view>
-								<u-button class="w-52 h-23 bg-base text-white fs-12 self-start m-0 ml-10 p-0" shape="circle"
-									@click="$c.goto('/pages/index/express', 1, { id: order.id, mode: 1, number: order.waybill_number })">查询</u-button>
+								<button class="w-52 h-23 bg-base text-white fs-12 self-start m-0 ml-10 p-0 flex-center rounded-x"
+									@click="$c.goto('/pages/index/express', 1, { id: order.id, mode: 1, number: order.waybill_number })">查询</button>
 							</view>
 							<view v-else class="mt-10 fs-12 text-info">暂无信息</view>
-							<!-- <view v-if="express.AcceptStation" class="lh-15 mt-15 fs-12 text-info">
-								<view class="">{{ express.AcceptTime }}</view>
-								<view class="mt-8">{{ express.AcceptStation }}</view>
-							</view> -->
 						</view>
 					</view>
 					<view class="flex-between mt-23">
@@ -116,26 +112,26 @@
 				</view>
 			</view>
 			<view class="flex-start">
-				<u-button v-if="order.status == 1" class="btn btn-black" shape="circle" plain
-					text="取消订单" @click="showCancel = true"></u-button>
-				<u-button v-if="order.status == 4 || order.status == 6" class="btn btn-black" shape="circle" plain text="再来一单"
-					@click="onAgain()"></u-button>
+				<button v-if="order.status == 1" class="btn btn-black border-plain" plain
+					@click="showCancel = true">取消订单</button>
+				<button v-if="order.status == 4 || order.status == 6" class="btn btn-black border-plain" plain
+					@click="onAgain()">再来一单</button>
 					
-				<!-- <u-button v-if="order.status == 3" class="btn btn-black" shape="circle" plain text="查看物流" 
-					@click="$c.goto(`/pages/order/express?id=${order.id}`)"></u-button> -->
-				<u-button v-if="order.status == 3" class="btn bg-base text-white" shape="circle" plain text="确认收货"
-					@click="showReceive = true"></u-button>
+				<!-- <button v-if="order.status == 3" class="btn btn-black" plain
+					@click="$c.goto(`/pages/order/express?id=${order.id}`)">查看物流</button> -->
+				<button v-if="order.status == 3" class="btn bg-base text-white"
+					@click="showReceive = true">确认收货</button>
 					
-				<u-button v-if="order.status == 1" class="btn bg-base text-white" shape="circle" plain text="去付款"
-					@click="$c.goto(`/pages/order/pay?id=${order.id}`)"></u-button>
+				<button v-if="order.status == 1" class="btn bg-base text-white"
+					@click="$c.goto(`/pages/order/pay?id=${order.id}`)">去付款</button>
 					
-				<u-button v-if="order.status == 2" class="btn btn-black" shape="circle" plain
-					text="寄存仓库" @click="showStore = true"></u-button>
-				<u-button v-if="order.status == 2" class="btn bg-base text-white" shape="circle" plain
-					text="申请发货" @click="showShip = true"></u-button>
+				<button v-if="order.status == 2" class="btn btn-black border-plain" plain
+					@click="showStore = true">寄存仓库</button>
+				<button v-if="order.status == 2" class="btn bg-base text-white"
+					@click="showShip = true">申请发货</button>
 					
-				<u-button v-if="order.status == 9" class="btn btn-black" shape="circle" plain
-					text="我的仓库" @click="$c.goto('/pages/store/index')"></u-button>
+				<button v-if="order.status == 9" class="btn btn-black" plain
+					@click="$c.goto('/pages/store/index')">我的仓库</button>
 			</view>
 		</view>
 
@@ -148,7 +144,7 @@
 		<u-modal :show="showStore" title="提示" content='确定寄存该订单商品？' confirmColor="#3D3D3D" cancelColor="#9F9F9F"
 			showCancelButton @cancel="showStore = false" @confirm="doStore"></u-modal>
 		
-		<u-popup :show="showShip" mode="bottom" bgColor="transparent" closeable @close="showShip = false">
+		<u-popup :show="showShip" mode="bottom" :round="20" closeable @close="showShip = false">
 			<view class="pt-14 pb-30 plr-20 bg-address lh-10 roundedTop-20">
 				<view class="fs-18 fw-5 text-center">申请发货</view>
 				<view class="flex-between ptb-30 fs-12" @click="$c.goto('/pages/user/address?from=address')">
@@ -180,7 +176,7 @@
 						</view>
 					</view>
 				</scroll-view>
-				<u-button class="btn-submit bg-base mt-40" shape="circle" text="确认地址并领取" @click="doShip"></u-button>
+				<button class="btn-submit bg-base mt-40" @click="doShip">确认地址并领取</button>
 			</view>
 		</u-popup>
 	</view>
@@ -271,16 +267,6 @@
 				}
 			},
 			async onAgain() {
-				// const goods_sku = this.order.details.map(i => ({
-				// 	id: i.goods_sku_id,
-				// 	quantity: i.quantity,
-				// 	shopping_cart_id: 0
-				// }))
-				// const res = await this.$c.fetch(this.$api.goods.orderAdd, { 
-				// 	goods_sku: goods_sku,
-				// 	user_address_id: 0
-				// })
-				// if(res) this.$c.goto(`/pages/order/pay?id=${res.id}`)
 				this.$c.setStorage('goods_sku', this.order.details)
 				this.$c.goto(`/pages/order/create`)
 			},
@@ -325,6 +311,7 @@
 		width: 95px;
 		height: 40px;
 		margin-left: 5px;
+		font-size: 14px;
 	}
 
 	.more_box {

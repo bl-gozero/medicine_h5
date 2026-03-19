@@ -6,8 +6,8 @@
 				<image src="/static/icon/back.png" class="i-24 mr-23" @click="$c.goBack()"></image>
 				<u-search v-model="search.search.account" placeholder="输入账号搜索成员" bgColor="#F8F8F8" :showAction="false"
 					@search="init()"></u-search>
-				<u-button class="bg-base fs-12 text-white w-62 h-32 ml-12" shape="circle" text="搜索"
-					@click="init()"></u-button>
+				<button class="bg-base fs-12 text-white w-62 h-32 ml-12 flex-center rounded-x"
+					@click="init()">搜索</button>
 			</view>
 		</view>
 		<view class="pt-70">
@@ -30,8 +30,7 @@
 							<view class="fs-12 text-info mt-9">{{ item.created_at }}</view>
 							<view v-if="item.p_account" class="fs-12 text-info mt-9">他的推荐人:{{ item.p_account }}</view>
 						</view>
-						<u-button class="btn-check" shape="circle"
-							@click="$c.goto(`/pages/user/sellDetail?id=${item.id}`)">查看</u-button>
+						<button class="btn-check flex-center rounded-x" @click="$c.goto(`/pages/user/sellDetail?id=${item.id}`)">查看</button>
 					</view>
 				</view>
 				<view class="flex-end mt-13 lh-10">

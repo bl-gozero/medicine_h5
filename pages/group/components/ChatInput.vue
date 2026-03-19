@@ -24,8 +24,8 @@
 
 			<!-- <image src="/static/chat/more.png" class="i-27 ml-10" @click="showFunc = !showFunc"></image> -->
 
-			<u-button v-if="!showRecord" class="bg-base text-white fw-5 w-60 h-32 flex-center" shape="circle"
-				@click="sendMessage()">发送</u-button>
+			<button v-if="!showRecord" class="bg-base text-white fw-5 w-60 h-32 flex-center rounded-x"
+				@click="sendMessage()">发送</button>
 		</view>
 
 		<!-- 表情面板 -->

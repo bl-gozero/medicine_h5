@@ -1,6 +1,6 @@
 <template>
-	<view class="">
-		<Title :title="title" fixed />
+	<view class="page">
+		<Title :title="title" fixed bgColor="#fff" />
 		<view v-if="Array.isArray(img)" class="">
 			<u--image :src="item.src" v-for="(item, index) in img" :key="index" width="100%" height="auto" bgColor="transparent" mode="widthFix">
 			  <template v-slot:loading>

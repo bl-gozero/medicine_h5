@@ -40,8 +40,8 @@
 				<view class="fs-10 text-base mt-1">客服</view>
 			</view>
 			<view class="flex-start">
-				<u-button class="bg-base-change fw-7 text-white w-200 h-41" shape="circle" text="兑换"
-					@click="onChooseMode(2)"></u-button>
+				<button class="bg-base-change fw-7 fs-14 text-white w-200 h-41 flex-center rounded-x"
+					@click="onChooseMode(2)">兑换</button>
 			</view>
 		</view>
 
@@ -106,10 +106,10 @@
 						</view>
 						<!-- <Payment v-model="paying_mode"></Payment> -->
 					</view>
-					<u-button v-if="mode == 1" class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30" shape="circle"
-						text="添加到购物车" @click="doCartAdd"></u-button>
-					<u-button v-else class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30" shape="circle" text="提交订单"
-						@click="onShowPasswrod()"></u-button>
+					<button v-if="mode == 1" class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30 flex-center rounded-x"
+						@click="doCartAdd">添加到购物车</button>
+					<button v-else class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30 flex-center rounded-x"
+						@click="onShowPasswrod()">提交订单</button>
 					<view class="h-30"></view>
 				</view>
 			</view>

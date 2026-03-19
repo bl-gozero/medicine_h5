@@ -21,15 +21,15 @@
 					<view class="flex-1 flex-between border-bottom ml-8">
 						<view class="">{{ item.name }}</view>
 						<view v-if="memberInfo.memberRole > 0 && item.role.id > 1" class="flex-end">
-							<u-button class="w-47 h-20 fs-10 plr-0 text-danger border-danger ml-8" shape="circle"
-								@click="onShowRemove(item)">移除</u-button>
+							<button class="w-47 h-20 fs-10 plr-0 text-danger border-danger ml-8  flex-center rounded-x"
+								@click="onShowRemove(item)">移除</button>
 
-							<u-button v-if="item.chat_banned.id == 1" class="w-47 h-20 fs-10 plr-0 ml-8" shape="circle"
-								@click="doBanned(item)">解除禁言</u-button>
+							<button v-if="item.chat_banned.id == 1" class="w-47 h-20 fs-10 plr-0 ml-8  flex-center rounded-x"
+								@click="doBanned(item)">解除禁言</button>
 
-							<u-button v-if="item.chat_banned.id == 2"
-								class="w-47 h-20 fs-10 plr-0 border-1 text-base ml-8" shape="circle"
-								@click="doBanned(item)">禁言</u-button>
+							<button v-if="item.chat_banned.id == 2"
+								class="w-47 h-20 fs-10 plr-0 border-1 text-base ml-8  flex-center rounded-x"
+								@click="doBanned(item)">禁言</button>
 						</view>
 					</view>
 				</view>
