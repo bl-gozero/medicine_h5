@@ -108,13 +108,21 @@
 			async loadImages() {
 
 				if (this.imagesLoaded) return;
+				
+				// #ifndef MP
+				const path = 'anime'
+				// #endif
+				
+				// #ifdef MP
+				const path = 'anime_mp'
+				// #endif
 
 				// 第一段动画
 				for (let i = 0; i < this.length; i++) {
 
 					const tmpi = (this.start + i).toString().padStart(5, '0');
 
-					const src = `/static/anime/${this.path}_${tmpi}.${this.type}`;
+					const src = `/static/${path}/${this.path}_${tmpi}.${this.type}`;
 
 					this.diceAnimationImages[i] = src;
 
@@ -128,7 +136,7 @@
 
 						const tmpi = (this.start2 + i).toString().padStart(5, '0');
 
-						const src = `/static/anime/${this.path2}_${tmpi}.${this.type}`;
+						const src = `/static/${path}/${this.path2}_${tmpi}.${this.type}`;
 
 						if (this.loopAll) {
 

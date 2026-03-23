@@ -5,7 +5,7 @@
 	</view>
 	<!-- #endif -->
 	<!-- #ifdef MP -->
-	<image src="/static/launch/mp.webp" class="pw-100" mode="widthFix"></image>
+	<image src="/static/mp/launch/mp.webp" class="pw-100" mode="widthFix"></image>
 	<!-- #endif -->
 </template>
 

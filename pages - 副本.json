@@ -1,518 +1,115 @@
 {
-	"pages": [
-		{
-			"path": "pages/index/launch",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/login",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/login_p",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/register",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/vipRule",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/web",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/userAgreement",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/protocols",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/userService",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/task",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/goods/search",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/goods/searchResult",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/goods/cart",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/goods/detail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/order/list",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/order/pay",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/order/detail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/user/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/user/qrcode",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/user/address",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/user/settings",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/user/loginPassword",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/user/forgotPassword",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/user/payPassword",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/user/bindCard",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/user/join",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/user/team",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/user/vip",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/finance/transfer",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/finance/balance",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/finance/list",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		// {
-		// 	"path": "pages/finance/recharge",
-		// 	"style": {
-		// 		"navigationStyle": "custom"
-		// 	}
-		// },
-		{
-			"path": "pages/finance/withdraw",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/finance/withdrawList",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/finance/performance",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/web/register",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/web/download",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/pay",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/myGroup",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/create",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/find",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/chat",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/apply",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/detail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/info/baseInfo",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/info/announcement",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/info/manage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/info/admins",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/info/addAdmins",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/info/member",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/info/qrcode",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/point/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/point/goodsDetail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/point/list",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/point/order",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/point/orderDetail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/point/pay",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/activity/egg",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/activity/detail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/activity/newExclusive",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/store/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/store/detail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/addFriend",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/blackList",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/group/friendDetail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/user/baseInfo",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/store/detailForShip",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/user/sell",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/user/sellDetail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/user/sellSearch",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/user/sellSearchResult",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/recruit",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/finance/sell",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/express",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/activity/wine",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/web/pay",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/order/create",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/finance/subsidy",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/activity/trip",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/maker",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/goods/category",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		}
-		// {
-		// 	"path": "pages/activity/subside",
-		// 	"style": {
-		// 		"navigationStyle": "custom"
-		// 	}
-		// }
-	],
-	"easycom": {
-		"^u-(.*)": "@/uni_modules/uview-ui/components/u-$1/u-$1.vue"
-	},
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
-	},
-	"uniIdRouter": {}
+  "pages": [
+    { "path": "pages/index/launch" },
+    { "path": "pages/index/index" },
+    { "path": "pages/index/login" },
+    { "path": "pages/index/login_p" },
+    { "path": "pages/index/register" },
+    { "path": "pages/index/vipRule" },
+    { "path": "pages/index/web" },
+    { "path": "pages/index/userAgreement" },
+    { "path": "pages/index/protocols" },
+    { "path": "pages/index/userService" },
+    { "path": "pages/index/task" },
+	{ "path": "pages/index/recruit" },
+	{ "path": "pages/index/express" },
+	{ "path": "pages/index/maker" },
+
+    { "path": "pages/goods/search" },
+    { "path": "pages/goods/searchResult" },
+    { "path": "pages/goods/cart" },
+    { "path": "pages/goods/detail" },
+    { "path": "pages/goods/category" },
+
+    { "path": "pages/order/list" },
+    { "path": "pages/order/pay" },
+    { "path": "pages/order/detail" },
+    { "path": "pages/order/create" },
+
+    { "path": "pages/user/index" },
+    { "path": "pages/user/qrcode" },
+    { "path": "pages/user/address" },
+    { "path": "pages/user/settings" },
+    { "path": "pages/user/loginPassword" },
+    { "path": "pages/user/forgotPassword" },
+    { "path": "pages/user/payPassword" },
+    { "path": "pages/user/bindCard" },
+    { "path": "pages/user/join" },
+    { "path": "pages/user/baseInfo" },
+	
+    { "path": "pages/finance/subsidy" },
+
+    { "path": "pages/group/index" },
+    { "path": "pages/group/pay" },
+    { "path": "pages/group/myGroup" },
+    { "path": "pages/group/create" },
+    { "path": "pages/group/find" },
+    { "path": "pages/group/chat" },
+    { "path": "pages/group/apply" },
+    { "path": "pages/group/detail" },
+    { "path": "pages/group/addFriend" },
+    { "path": "pages/group/blackList" },
+    { "path": "pages/group/friendDetail" },
+
+    { "path": "pages/group/info/baseInfo" },
+    { "path": "pages/group/info/announcement" },
+    { "path": "pages/group/info/manage" },
+    { "path": "pages/group/info/admins" },
+    { "path": "pages/group/info/addAdmins" },
+    { "path": "pages/group/info/member" },
+    { "path": "pages/group/info/qrcode" },
+
+    { "path": "pages/point/index" },
+    { "path": "pages/point/goodsDetail" },
+    { "path": "pages/point/list" },
+    { "path": "pages/point/order" },
+    { "path": "pages/point/orderDetail" },
+    { "path": "pages/point/pay" },
+
+    { "path": "pages/activity/egg" },
+    { "path": "pages/activity/detail" },
+    { "path": "pages/activity/newExclusive" },
+    { "path": "pages/activity/wine" },
+    { "path": "pages/activity/trip" },
+	
+	// #ifndef MP
+	{ "path": "pages/finance/transfer" },
+	{ "path": "pages/finance/balance" },
+	{ "path": "pages/finance/list" },
+	{ "path": "pages/finance/withdraw" },
+	{ "path": "pages/finance/withdrawList" },
+	{ "path": "pages/finance/performance" },
+	{ "path": "pages/finance/sell" },
+	
+	{ "path": "pages/store/detail" },
+	{ "path": "pages/store/detailForShip" },
+	
+	{ "path": "pages/web/register" },
+	{ "path": "pages/web/download" },
+	{ "path": "pages/web/pay" },
+	
+	{ "path": "pages/user/team" },
+	{ "path": "pages/user/vip" },
+	{ "path": "pages/user/sell" },
+	{ "path": "pages/user/sellDetail" },
+	{ "path": "pages/user/sellSearch" },
+	{ "path": "pages/user/sellSearchResult" },
+	// #endif 
+
+    { "path": "pages/store/index" }
+  ],
+
+  "easycom": {
+    "^u-(.*)": "@/uni_modules/uview-ui/components/u-$1/u-$1.vue"
+  },
+
+  "globalStyle": {
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+
+  "uniIdRouter": {}
 }

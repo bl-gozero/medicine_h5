@@ -11,7 +11,7 @@
 								<view class="fs-16 fw-7 u-line-1">{{ all.count }}</view>
 								<view class="text_top_name">{{ all.level_name }}</view>
 							</view>
-							<view class="line w-1 h-43" style="background: rgba(169, 115, 67, 0.2;"></view>
+							<view class="line w-1 h-43" style="background: rgba(169, 115, 67, 0.2);"></view>
 							<view class="flex-1 overflow-hide">
 								<u-scroll-list indicatorActiveColor="#B88854">
 									<view class="nums text-center" v-for="item in nums">
