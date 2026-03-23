@@ -118,7 +118,7 @@
 		<view v-if="page == 4" class="page bg-page plr-20">
 			<Title title="报名" fixed bgColor="#F8F8F8" isBack @back="page = 1" />
 			<view class="flex-start mt-20">
-				<image src="/static/avtivity/trip/user.webp" class="i-17"></image>
+				<view class="icon-trip-user"></view>
 				<view class="fs-16 fw-5 ml-3">本人</view>
 			</view>
 			<view v-if="info1.done" class="bg-white p-16 rounded-14 mt-20 flex-between">
@@ -145,7 +145,7 @@
 			
 			<view  v-if="stat.quota == 2" class="">
 				<view class="flex-start mt-30">
-					<image src="/static/avtivity/trip/user.webp" class="i-17"></image>
+					<view class="icon-trip-user"></view>
 					<view class="fs-16 fw-5 ml-3">同行人</view>
 				</view>
 				<view v-if="info2.done" class="bg-white p-16 rounded-14 mt-20 flex-between">
@@ -177,7 +177,7 @@
 		
 		<!-- 弹窗 -->
 		<u-popup :show="showReward" mode="center" bgColor="transparent" @close="showReward = false;">
-			<view class="popup-box" style="background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);">
+			<view class="popup-box sign_reward_box">
 				<image src="/static/avtivity/trip/know.webp" class="popup-img" mode="heightFix"></image>
 				<view class="popup-title">提交成功</view>
 				<view class="popup-text flex-1">您已提交成功，请联系在线客服领取旅游资料及相关说明</view>

@@ -238,7 +238,12 @@ const common = {
 	},
 
 	baseColor() {
+		// #ifdef MP
+		return '#EB5433'
+		// #endif
+		// #ifndef MP
 		return '#1A7E84'
+		// #endif
 	},
 
 	arrowColor() {
@@ -405,7 +410,12 @@ const common = {
 	},
 
 	userAvatar() {
+		// #ifdef MP
+		return '/static/mp/user/icon_user_default.webp'
+		// #endif
+		// #ifndef MP
 		return '/static/user/icon_user_default.png'
+		// #endif
 	},
 
 	groupAvatar() {
@@ -473,8 +483,14 @@ const common = {
 	},
 
 	checkIcon(res) {
+		// #ifdef MP
+		return res ? '/static/icon/check_1_mp.webp' :
+			'/static/icon/check_0.webp'
+		// #endif
+		// #ifndef MP
 		return res ? '/static/icon/check_1.webp' :
 			'/static/icon/check_0.webp'
+		// #endif
 	},
 
 	codeLimitTime() {
@@ -652,9 +668,9 @@ const common = {
 		return 1
 	},
 	
-	safeId(query) {
-		const id = Number(query?.id)
-		return Number.isInteger(id) && id > 0 ? id : null
+	safeId(query, q = 'id') {
+		const id = Number(query?.[q])
+		return Number.isInteger(id) && id >= 0 ? id : null
 	},
 }
 

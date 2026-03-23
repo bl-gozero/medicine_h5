@@ -62,15 +62,193 @@
 		border-radius: 999px;
 		padding: 0;
 	}
-
-	.sign_reward_box {
-		background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);
+	
+	.sku_name {
+		background: #F5F5F5;
+		padding: 10px;
+		border-radius: 4px;
 	}
 
+	/* #ifndef MP */
+	.goods_price_box {
+		width: 111px;
+		height: 25px;
+		background-image: url('/static/index/price.png');
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+	}
+	.goods_cart {
+		width: 35px;
+		height: 25px;
+		background-image: url('/static/index/cart.png');
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+	}
+	.text-welcome {
+		color: #75A3A5;
+	}
+	.text-login {
+		color: #2E4E50;
+	}
 	.bg-address {
 		background: linear-gradient(180deg, #CDEAEB 2%, #FFFFFF 32px);
 	}
-
+	.sku_name_1 {
+		border: 1px solid #1A7E84;
+		color: #1A7E84;
+		background: #EFFEFF;
+	}
+	.message-item.self .bubble {
+		background-color: #1DAFB8;
+		border-radius: 10px 2px 10px 10px;
+		color: #fff;
+	}
+	.order_detail_bg {
+		background: linear-gradient(180deg, #92CBCE 4%, #DBEBEB 85%, rgba(219, 235, 235, 0) 100%);
+	}
+	.order_detail_text {
+		text-align: center;
+		color: #064144;
+	}
+	.login-bg {
+		background-image: url('/static/login/bg.png');
+		background-color: linear-gradient(270deg, #92CBCE 4%, #DBEBEB 98%);
+		background-repeat: no-repeat;
+		background-size: 100% auto;
+	}
+	.time_bg {
+	    background: linear-gradient(180deg, #FFFFFF 35%, #E7F7F5 100%);
+	}
+	.bg-audit {
+		background: #9DC7CA;
+	}
+	.sign_reward_box {
+		background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);
+	}
+	.icon-car {
+		background-image: url('/static/order/car.png');
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		width: 18px;
+		height: 18px;
+	}
+	.icon-address {
+		background-image: url('/static/order/address.png');
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		width: 18px;
+		height: 18px;
+	}
+	.icon-trip-user {
+		background-image: url('/static/avtivity/trip/user.webp');
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		width: 17px;
+		height: 17px;
+	}
+	/* #endif */
+	
+	/* #ifdef MP */
+	.goods_price_box {
+		width: 111px;
+		height: 25px;
+		background-image: url('/static/mp/index/price.webp');
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+	}
+	.goods_cart {
+		width: 35px;
+		height: 25px;
+		background-image: url('/static/mp/index/cart.webp');
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+	}
+	.text-base.line-through {
+		color: #F4A418 !important;
+	}
+	.text-welcome {
+		color: #AA9264;
+	}
+	.text-login {
+		color: #57482C;
+	}
+	.bg-address {
+		background: linear-gradient(180deg, #FBE2C0 2%, #FFFFFF 32px);
+	}
+	.sku_name_1 {
+		border: 1px solid #EB5433;
+		color: #EB5433;
+		background: #FFF1EF;
+	}
+	.message-item.self .bubble {
+		background-color: #FFE1CC;
+		border-radius: 10px 2px 10px 10px;
+		color: #3D3D3D;
+	}
+	.order_detail_bg {
+		background: linear-gradient(180deg, #FFDFA8 0%, rgba(255, 255, 255, 0) 100%);
+	}
+	.order_detail_text {
+		border-radius: 14px;
+		background: linear-gradient(to top, #FFDFD5 0%, rgba(255, 255, 255, 1) 10px, rgba(255, 255, 255, 1) 100%);
+		box-sizing: border-box;
+		border: 1px solid #FFFFFF;
+		backdrop-filter: blur(10px);
+		padding: 18px;
+		color: #745646;
+	}
+	.login-bg {
+		background-image: url('/static/mp/login/bg.webp');
+		// background-color: linear-gradient(270deg, #92CBCE 4%, #DBEBEB 98%);
+		background-repeat: no-repeat;
+		background-size: 100% auto;
+	}
+	.time_bg {
+	    background: linear-gradient(180deg, #FFFFFF 35%, #FBE2C0 99%);
+	}
+	.bg-audit {
+		background: #ECB4A8;
+	}
+	.sign_reward_box {
+		background: linear-gradient(180deg, #FFEFCE 3%, #FFFFFF 49%);
+	}
+	.icon-car {
+		background-image: url('/static/mp/order/car.webp');
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		width: 18px;
+		height: 18px;
+	}
+	.icon-address {
+		background-image: url('/static/mp/order/address.webp');
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		width: 18px;
+		height: 18px;
+	}
+	.icon-trip-user {
+		background-image: url('/static/avtivity/trip/user_mp.webp');
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		width: 17px;
+		height: 17px;
+	}
+	/* #endif */
+	
+	.login-left {
+		background-image: url('/static/mp/login/1.webp');
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		color: #958B8A;
+	}
+	
+	.login-right {
+		background-image: url('/static/mp/login/2.webp');
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		color: #958B8A;
+	}
+	
 	.img-box {
 		width: 100%;
 		aspect-ratio: 1 / 1;
@@ -83,24 +261,6 @@
 		background-image: url('/static/icon/info.webp');
 		background-size: 100% 100%;
 		display: inline-block;
-	}
-
-	.nav_active {
-		position: relative;
-	}
-	
-	.nav_active::after {
-		content: '';
-		display: block;
-		width: 10px;
-		height: 2px;
-		background: #1A7E84;
-		position: absolute;
-		bottom: -4px;
-		left: 0;
-		right: 0;
-		margin: auto;
-		border-radius: 2px;
 	}
 
 	.more_box {
@@ -175,11 +335,6 @@
 		text-align: center;
 	}
 
-	.scroll-view_H {
-		white-space: nowrap;
-		width: 100%;
-	}
-
 	.u-text__value {
 		line-height: 1;
 		align-items: center;
@@ -220,7 +375,6 @@
 		justify-content: center;
 		gap: 10px;
 	}
-
 	// 密码
 	.u-code-input {
 		width: 100%;

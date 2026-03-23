@@ -1,12 +1,11 @@
 <template>
 	<view class="page bg-page lh-10">
-		<view class="absolute top-0 left-0 pw-100 h-218"
-			style="background: linear-gradient(180deg, #92CBCE 4%, #DBEBEB 85%, rgba(219, 235, 235, 0) 100%);"></view>
+		<view class="absolute top-0 left-0 pw-100 h-218 order_detail_bg"></view>
 		<Title title="订单详情" bgColor="tetransparent"></Title>
 		<view class="pt-10 plr-20 relative" style="z-index: 2;">
-			<view class="text-center" style="color: #064144;">
+			<view class="order_detail_text">
 				<view class="fs-18 fw-7">{{ $c.formatPointStatus(order.status).text }}</view>
-				<view class="fs-12 mt-14 lh-15 border-box" style="padding: 0 10%;">
+				<view class="fs-12 mt-14 lh-15 border-box">
 					{{ $c.formatPointStatus(order.status, $c.calcTime(order.created_at, 30 * 60)).hint }}</view>
 			</view>
 			<view v-if="order.address" class="mt-20 bg-white rounded-12 plr-16 ptb-20 border-box">

@@ -13,7 +13,7 @@
 		</u-input>
 
 		<!-- 下划线 -->
-		<view v-if="showLine" class="underline" :style="{ backgroundColor: isFocused ? activeColor : lineColor }" />
+		<view v-if="showLine" class="underline" :style="{ backgroundColor: isFocused ? finalActiveColor : lineColor }" />
 	</view>
 </template>
 
@@ -46,7 +46,7 @@
 			},
 			activeColor: {
 				type: String,
-				default: "#1A7E84"
+				default: ''
 			},
 			maxlength: {
 				type: Number,
@@ -97,6 +97,9 @@
 					}
 				}
 				return val => val;
+			},
+			finalActiveColor() {
+				return this.activeColor || this.$c.baseColor()
 			}
 		},
 		watch: {

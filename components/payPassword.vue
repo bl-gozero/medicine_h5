@@ -16,8 +16,8 @@
 			</view>
 
 			<!-- <view class="mt-30 text-right">
-        <text class="text-info fs-14" @click="handleForget">忘记密码？</text>
-      </view> -->
+				<text class="text-info fs-14" @click="handleForget">忘记密码？</text>
+			</view> -->
 		</view>
 	</u-popup>
 </template>

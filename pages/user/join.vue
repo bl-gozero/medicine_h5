@@ -2,7 +2,12 @@
 	<view class="page" style="background: #E9EAEA;">
 		<Title title="加入北辰代购" :fixed="true" />
 		<view>
+			<!-- #ifndef MP -->
 			<image src="/static/join/top.jpg" class="pw-100 block" mode="widthFix"></image>
+			<!-- #endif -->
+			<!-- #ifdef MP -->
+			<image src="/static/mp/join/top.webp" class="pw-100 block" mode="widthFix"></image>
+			<!-- #endif -->
 			<view class="plr-8">
 				<view class="box text-center">
 					<image src="/static/join/title_1.png" class="w-181 h-21"></image>
@@ -128,7 +133,12 @@
 						position: "relative"
 					},
 					views: [{
+							// #ifdef MP
+							src: "/static/mp/user/poster.webp",
+							// #endif
+							// #ifndef MP
 							src: "/static/user/poster.webp",
+							// #endif
 							type: "image",
 							css: {
 								background: "#fff",

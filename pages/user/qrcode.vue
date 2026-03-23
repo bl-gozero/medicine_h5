@@ -2,7 +2,12 @@
 	<view class="page" style="background: #4F87D6;">
 		<Title title="我的二维码" fixed bgColor="#4F87D6" />
 		<view class="">
+			<!-- #ifdef MP -->
+			<image src="/static/mp/user/qr_top.webp" class="pw-100 block" mode="widthFix"></image>
+			<!-- #endif -->
+			<!-- #ifndef MP -->
 			<image src="/static/user/qr_top.webp" class="pw-100 block" mode="widthFix"></image>
+			<!-- #endif -->
 		</view>
 		<view class="plr-20 mt-10">
 			<view class="out_box">
@@ -76,7 +81,12 @@
 						position: "relative"
 					},
 					views: [{
+							// #ifdef MP
+							src: "/static/mp/user/poster.webp",
+							// #endif
+							// #ifndef MP
 							src: "/static/user/poster.webp",
+							// #endif
 							type: "image",
 							css: {
 								background: "#fff",
@@ -108,8 +118,6 @@
 					pathType: 'url',
 					quality: 1,
 					success: (res) => {
-						console.log(res.tempFilePath);
-
 						// #ifdef H5
 						// H5 端：自动触发下载
 						const link = document.createElement('a')

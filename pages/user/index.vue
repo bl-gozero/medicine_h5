@@ -36,7 +36,7 @@
 					<!-- #ifdef MP -->
 					<view class="flex-between absolute left-20 right-20 bottom-26">
 						<view class="flex-start" @click="$c.goto('/pages/user/address')">
-							<image src="/static/icon/address.png" class="i-16 mr-8 block"></image>
+							<image src="/static/mp/icon/address.webp" class="i-16 mr-8 block"></image>
 							<text class="fs-12">我的地址</text>
 						</view>
 						<view class="w-98 h-30" @click="$c.goto('/pages/index/task')">
@@ -103,7 +103,7 @@
 					<view class="flex-between mt-33 border-box">
 						<view v-if="index < 3" class="text-center relative flex-1" v-for="(item, index) in orders"
 							:key="index" @click="$c.goto(`/pages/order/list?status=${item.value}`)">
-							<image :src="'/static/user/order-' +  (index + 1) + '.png'" class="i-26"></image>
+							<image :src="'/static/mp/icon/order-' +  (index + 1) + '.webp'" class="i-26"></image>
 							<view class="mt-10 fs-12">{{ item.name }}</view>
 							<u-badge :value="item.count" :absolute="true" bgColor="#FF2A40" color="#fff" max="99"
 								:offset="[-5, 15]"></u-badge>
@@ -111,7 +111,7 @@
 						<view class="line"></view>
 						<view v-if="index == 3" class="text-center relative flex-1" v-for="(item, index) in orders"
 							:key="index" @click="$c.goto(`/pages/order/list?status=${item.value}`)">
-							<image :src="'/static/user/order-' +  (index + 1) + '.png'" class="i-26"></image>
+							<image :src="'/static/mp/icon/order-' +  (index + 1) + '.webp'" class="i-26"></image>
 							<view class="mt-10 fs-12">{{ item.name }}</view>
 						</view>
 					</view>
@@ -283,28 +283,28 @@
 						list: [{
 							id: 1,
 							name: '积分商城',
-							icon: '/static/icon/mall.webp',
+							icon: '/static/mp/icon/mall.webp',
 							url: '/pages/point/index',
 							type: 1
 						},
 						{
 							id: 2,
 							name: '创客平台',
-							icon: '/static/icon/chuangke.webp',
+							icon: '/static/mp/icon/maker.webp',
 							url: '/pages/index/maker',
 							type: 1
 						},
 						{
 							id: 3,
 							name: '招募计划',
-							icon: '/static/icon/recruit.webp',
+							icon: '/static/mp/icon/recruit.webp',
 							url: '/pages/index/recruit',
 							type: 1
 						},
 						{
 							id: 4,
 							name: '关于北辰',
-							icon: '/static/icon/about.webp',
+							icon: '/static/mp/icon/about.webp',
 							url: '/pages/index/protocols?type=6',
 							type: 1
 						}]
@@ -315,7 +315,7 @@
 						list: [{
 							id: 5,
 							name: '在线客服',
-							icon: '/static/icon/cs.png',
+							icon: '/static/mp/icon/cs.webp',
 							url: '/pages/index/web',
 							type: 2
 						}]
@@ -380,16 +380,21 @@
 </script>
 
 <style>
-	/* .user_box {
-		background-image: url('/static/user/bg.png');
-		background-size: 100% 100%;
-	} */
-
+	/* #ifndef MP */
 	.user_box {
 		background:
 			linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 40%, #f8f8f8 100%),
 			linear-gradient(270deg, #92CBCE 4%, #DBEBEB 98%);
 	}
+	/* #endif */
+	/* #ifdef MP */
+	.user_box {
+		background:
+			linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 40%, #f8f8f8 100%),
+			linear-gradient(270deg, #FFE5C6 4%, #F9F6F4 98%);
+			
+	}
+	/* #endif */
 
 	.sign_box {
 		font-size: 10px;

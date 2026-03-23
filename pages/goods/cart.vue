@@ -202,9 +202,16 @@
 </script>
 
 <style lang="scss" scoped>
+	/* #ifndef MP */
 	.title_bg {
 		background: linear-gradient(180deg, #95C6C8 0%, #F7FAFF 99%);
 	}
+	/* #endif */
+	/* #ifdef MP */
+	.title_bg {
+		background: linear-gradient(180deg, #FBE3C2 0%, #F8F8F8 99%);
+	}
+	/* #endif */
 
 	.tabbar {
 		box-shadow: none;

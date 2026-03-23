@@ -2,7 +2,7 @@
 	<view>
 		<view v-if="cateList.length > 0" class="list_box">
 			<view class="ptb-20" v-for="(item, index) in cateList" :key="index">
-				<view v-if="index == 0 && item.value.length == 1" class="flex-between" @click="selectPayCate(item, index)">
+				<view v-if="item.value.length == 1 && item.value[0].value == '奖励支付'" class="flex-between" @click="selectPayCate(item, index)">
 					<view class="flex-start">
 						<image :src="iconItem[item.value[0].value] || defaultIcon" class="i-18 mr-8" />
 						<text class="fs-14">{{ item.value[0].value }}</text>
@@ -73,8 +73,14 @@
 				cateList: [],
 				show: false,
 				payingMode: this.modelValue,
+				// #ifdef MP
+				yue: { },
+				iconCate: { '奖励支付': '/static/pay/cate/1.png', '北辰支付': '/static/pay/cate/mp_2.webp', '三方支付': '/static/pay/cate/mp_3.webp' },
+				// #endif
+				// #ifndef MP
 				yue: { cate: 1, id: 4, value: '奖励支付' },
 				iconCate: { '奖励支付': '/static/pay/cate/1.png', '北辰支付': '/static/pay/cate/2.png', '三方支付': '/static/pay/cate/3.png' },
+				// #endif
 				iconItem: { "支付宝": '/static/pay/icon/1.png', "微信": '/static/pay/icon/2.png', "银联": '/static/pay/icon/3.png', "聚合支付": '/static/pay/icon/3.png', '奖励支付': '/static/pay/cate/1.png', },
 				defaultIcon: '/static/pay/icon/3.png',
 				profile: this.$c.profile(),
@@ -92,7 +98,7 @@
 		},
 		methods: {
 			selectPayCate(item, index) {
-				if (index > 0) {
+				if (item.name != '奖励支付') {
 					item.open = !item.open
 				} else {
 					this.selectPayMode(item?.value[0]?.id)
@@ -118,6 +124,9 @@
 			async getCateList() {
 				let res = await this.$c.fetch(this.$api.config.payCategoryList2, { device: 2 })
 				if (res?.list?.length > 0) {
+					// #ifdef MP
+					res.list = res.list.filter(i => i.name != '奖励支付' )
+					// #endif
 					this.cateList = res.list.map(i => ({ ...i, open: false }))
 				} 
 			},
@@ -128,7 +137,6 @@
 			} else if(this.mode === 2) {
 				if (this.$c.mode()) this.cateList = [this.yue]
 			} else {
-				// if(this.mode === 1 && this.$c.mode()) this.cateList = [this.yue]
 				this.getCateList()
 			}
 		}

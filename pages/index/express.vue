@@ -63,11 +63,20 @@
 		background: none !important;
 		width: 0;
 	}
+	/* #ifndef MP */
 	::v-deep .u-text__value--main {
 		color: #1A7E84 !important;
 		font-weight: 500 !important;
 		font-size: 12px !important;
 	}
+	/* #endif */
+	/* #ifdef MP */
+	::v-deep .u-text__value--main {
+		color: #EB5433 !important;
+		font-weight: 500 !important;
+		font-size: 12px !important;
+	}
+	/* #endif */
 	::v-deep .u-text__value--content {
 		color: #3D3D3D !important;
 		font-weight: 500 !important;

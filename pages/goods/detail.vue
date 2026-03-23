@@ -11,7 +11,12 @@
 		</view>
 		<view class="relative price_box flex-start plr-20">
 			<view v-if="$c.mode()" class="absolute top-0 right-0">
+				<!-- #ifndef MP -->
 				<image src="/static/goods/price_bg.png" class="w-152 h-65"></image>
+				<!-- #endif -->
+				<!-- #ifdef MP -->
+				<image src="/static/mp/goods/price_bg.webp" class="w-152 h-65"></image>
+				<!-- #endif -->
 				<view class="full flex-center">
 					<image v-if="profile.level.id > 2" src="/static/goods/price_info_2.png" class="w-114 h-34"></image>
 					<view v-else class="flex-center" @click="$c.goto('/pages/user/vip')">
@@ -34,7 +39,7 @@
 					<text class="fs-24 fw-7">{{ sku.price }}</text>
 					<text class="mlr-16 line-through"><text v-if="$c.mode()">VIP价</text> ￥{{ sku.vip_price }}</text>
 				</view>
-				<text class="fs-12 fw-6 bg-white plr-3 ptb-2 rounded-4" style="color: #362826;">会员可享专属折扣</text>
+				<text class="fs-12 fw-6 bg-white plr-3 ptb-2 rounded-4 zhuanshu">会员可享专属折扣</text>
 			</view>
 		</view>
 		<view class="p-20 bg-white">
@@ -45,7 +50,8 @@
 				<text class="ml-16">库存{{ sku.stock }}</text>
 			</view> -->
 		</view>
-		<view v-if="!showInfo && priceLog.length" class="" style="background: linear-gradient(78deg, #FCFFF0 0%, #FFE0C3 99%);">
+		<view v-if="!showInfo && priceLog.length" class=""
+			style="background: linear-gradient(78deg, #FCFFF0 0%, #FFE0C3 99%);">
 			<scroll-view ref="scrollView" :scroll-left="scrollLeft" scroll-x class="scroll-view_H"
 				scroll-with-animation>
 				<e-chart ref="echartRef" @ready="initEchart" :width="getWidth()" height="77px" />
@@ -63,11 +69,16 @@
 		<view class="h-100"></view>
 		<view class="fixed left-0 bottom-0 pw-100 flex-between p-20 bg-white border-box">
 			<view class="text-center relative" @click="$c.goto('/pages/index/web')">
+				<!-- #ifdef MP -->
+				<image src="/static/mp/goods/cs.webp" class="i-24 auto"></image>
+				<!-- #endif -->
+				<!-- #ifndef MP -->
 				<image src="/static/goods/cs.png" class="i-24 auto"></image>
+				<!-- #endif -->
 				<view class="fs-10 text-base mt-1">客服</view>
 			</view>
 			<view class="flex-start">
-				<button class="border-1 fw-7 fs-14 text-base w-100 h-39 btn_left flex-center p-0"
+				<button class="bg-white border-1 fw-7 fs-14 text-base w-100 h-41 btn_left flex-center p-0"
 					@click="onChooseMode(1)">加入购物车</button>
 				<button class="bg-base-change fw-7 fs-14 text-white w-100 h-41 btn_right flex-center p-0"
 					@click="onChooseMode(2)">提交订单</button>
@@ -76,9 +87,10 @@
 
 		<!-- 选购 -->
 		<u-popup :show="showInfo" mode="bottom" round="8" closeable @close="showInfo = false">
-			<view class="ptb-20 fs-12 info_box lh-10">
+			<view class="ptb-20 fs-12 bg-address lh-10">
 				<view class="text-center fs-18 fw-5">{{ mode == 1? '添加到购物车' : '提交订单'}}</view>
-				<view class="plr-20 flex justify-between mt-37" style="align-items: flex-start;" @click="$c.goto('/pages/user/address?from=goodsDetail')">
+				<view class="plr-20 flex justify-between mt-37" style="align-items: flex-start;"
+					@click="$c.goto('/pages/user/address?from=goodsDetail')">
 					<image src="/static/goods/place.png" class="w-12 h-14"></image>
 					<view v-if="address.district" class="flex-1 ml-8 mr-20">
 						<view class="">{{ address.district + address.address }}</view>
@@ -126,7 +138,7 @@
 						<view v-else-if="mode == 2 && goods.is_subsidy == 1 && profile.subsidy >= 1" class="mt-20">
 							<view class="flex-between fgap-20">
 								<text>可用{{ profile.subsidy }}购物金抵扣</text>
-								<u-input v-model.number="subsidy.amount" placeholder="输入抵扣金额" inputAlign="right" 
+								<u-input v-model.number="subsidy.amount" placeholder="输入抵扣金额" inputAlign="right"
 									border="none" type="number" :formatter="priceFormatter"></u-input>
 							</view>
 							<view class="mt-10 text-info fs-12">购物金使用后，无法退还</view>
@@ -136,41 +148,33 @@
 					<view v-if="mode == 2" class="plr-20">
 						<Payment v-model="paying_mode"></Payment>
 					</view>
-					<button v-if="mode == 1" class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30 flex-center rounded-x"
+					<button v-if="mode == 1"
+						class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30 flex-center rounded-x"
 						@click="doCartAdd">添加到购物车</button>
-					<button v-else class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30 flex-center rounded-x" @click="onShowPasswrod()"
-						>{{ `提交订单（￥${(profile.level.id > 2? sku.vip_price : sku.price) * quantity - (subsidy.amount || 0)}）` }}</button>
+					<button v-else class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30 flex-center rounded-x"
+						@click="onShowPasswrod()">{{ `提交订单（￥${(profile.level.id > 2? sku.vip_price : sku.price) * quantity - (subsidy.amount || 0)}）` }}</button>
 					<view class="h-30"></view>
 				</view>
 			</view>
 		</u-popup>
 
 		<!-- 密码 -->
-		<u-popup :show="showPassword" mode="bottom" round="20" closeable @close="showPassword = false">
-			<view class="plr-20 pt-50 pb-70 text-center">
-				<view class="">需支付</view>
-				<view class="fw-7 pb-36 mt-20" style="border-bottom: 1px solid #F6F6F6;">
-					<text class="fs-20">￥</text>
-					<text class="fs-28">{{ (profile.level.id > 2? sku.vip_price : sku.price) * quantity - (subsidy.amount || 0) }}</text>
-				</view>
-				<view class="mt-28 fw-7 text-left">请输入交易密码</view>
-				<view class="mt-20">
-					<u-code-input v-model="password" :maxlength="6" :focus="true" :color="$c.baseColor()"
-						borderColor="#EAEAEA" dot @finish="doBuy"></u-code-input>
-				</view>
-			</view>
-		</u-popup>
+		<payPassword v-model="password" :show.sync="showPassword"
+			:amount="(profile.level.id > 2? sku.vip_price : sku.price) * quantity - (subsidy.amount || 0)"
+			@finish="doBuy"></payPassword>
 	</view>
 </template>
 
 <script>
 	import Title from '../../components/Title.vue'
 	import Payment from '../../components/Payment.vue'
+	import payPassword from '../../components/payPassword.vue'
 
 	export default {
 		components: {
 			Title,
-			Payment
+			Payment,
+			payPassword
 		},
 		data() {
 			return {
@@ -295,7 +299,7 @@
 				orderId: null,
 				subsidy: {
 					show: false,
-					amount : null,
+					amount: null,
 					pay: 0
 				}
 			}
@@ -323,21 +327,11 @@
 			},
 			priceFormatter(value) {
 				if (!value) return '';
-				let max = Math.min(this.profile.level.id > 2?  this.sku.vip_price : this.sku.price, this.profile.subsidy)
+				let max = Math.min(this.profile.level.id > 2 ? this.sku.vip_price : this.sku.price, this.profile.subsidy)
 				let v = Math.min(max, value)
-				v =  v < 1 ? 1 : v
+				v = v < 1 ? 1 : v
 				let match = v.toString().match(/^[1-9]\d*/)
 				return match ? match[0] : ''
-				
-				// let match = value.toString().match(/^\d*(\.?\d{0,2})?/);
-				// let match = value.toString().match(/^[1-9]\d*/)
-				// let max = Math.min(this.profile.level.id > 2?  this.sku.vip_price : this.sku.price, this.profile.subsidy)
-				// if(match) {
-				// 	let v = Math.min(max, parseFloat(match[0]))
-				// 	return v < 1 ? 1 : v
-				// } 
-				// return ''
-				// return match ? Math.min(max, parseFloat(match[0])) : '';
 			},
 			async initEchart() {
 				await this.$refs.echartRef.init(this.option);
@@ -345,7 +339,7 @@
 			},
 			setOption() {
 				// 执行更新
-				let m = this.priceLog.map(item => item.date) 
+				let m = this.priceLog.map(item => item.date)
 				let p = this.priceLog.map(item => item.price)
 				const months = ['', ...m]
 				const prices = [p[0] * 0.98, ...p];
@@ -392,8 +386,10 @@
 				}, 1000)
 			},
 			async getPriceLog() {
-				const res = await this.$c.fetch(this.$api.goods.priceLog, { goods_sku_id: this.sku.id })
-				if(res.length) {
+				const res = await this.$c.fetch(this.$api.goods.priceLog, {
+					goods_sku_id: this.sku.id
+				})
+				if (res.length) {
 					this.priceLog = res
 				}
 			},
@@ -405,8 +401,8 @@
 			async addressList() {
 				const res = await this.$c.fetch(this.$api.user.addressList)
 				if (!Array.isArray(res) || res.length === 0) {
-				  this.address = {}
-				  return
+					this.address = {}
+					return
 				}
 				const address = this.$c.getStorage('address')
 				this.address = !this.address?.id || !res.some(i => i.id === address.id) ? res[0] : address
@@ -508,11 +504,31 @@
 </script>
 
 <style>
+	/* #ifndef MP */
 	.price_box {
 		height: 65px;
 		background: linear-gradient(90deg, #6C5B47 0%, #312323 100%);
 		color: #F7E7CD;
 	}
+
+	.zhuanshu {
+		color: #362826;
+	}
+
+	/* #endif */
+
+	/* #ifdef MP */
+	.price_box {
+		height: 65px;
+		background: linear-gradient(90deg, #EB5433 0%, #F53939 99%);
+		color: #F7E7CD;
+	}
+
+	.zhuanshu {
+		color: #B05217;
+	}
+
+	/* #endif */
 
 	image {
 		display: block;
@@ -525,24 +541,6 @@
 	.btn_right {
 		border-radius: 0 999px 999px 0;
 		margin-left: -2px;
-		border-left: 1px solid #1A7E84;
-	}
-
-	.info_box {
-		background: linear-gradient(180deg, #CDEAEB 2%, #FFFFFF 95%);
-		background-size: 100% 32px;
-		background-repeat: no-repeat;
-	}
-
-	.sku_name {
-		background: #F5F5F5;
-		padding: 10px;
-		border-radius: 4px;
-	}
-
-	.sku_name_1 {
-		border: 1px solid #1A7E84;
-		color: #1A7E84;
-		background: #EFFEFF;
+		/* border-left: 1px solid #1A7E84; */
 	}
 </style>

@@ -1,6 +1,6 @@
 <template>
 	<u-popup :show="visible" mode="center" bgColor="transparent" :closeOnClickOverlay="false" @close="close">
-		<view class="popup-box" :style="bg">
+		<view class="popup-box sign_reward_box" :style="bg">
 			<image v-if="imgObj.src" :src="imgObj.src" :class="['popup-img', imgObj.class]" mode="heightFix" />
 			<view v-if="title.text" :class="['popup-title', title.class]">{{ title.text }}</view>
 			<view v-if="text.text" :class="['popup-text flex-1', text.class]" v-html="text.text"></view>
@@ -31,7 +31,7 @@
 
 		methods: {
 			open(options = {}) {
-				this.bg = options.bg || "background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);";
+				this.bg = options.bg || "";
 				if (typeof options.img === "string") {
 					this.imgObj = {
 						src: options.img,

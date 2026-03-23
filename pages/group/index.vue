@@ -45,7 +45,7 @@
 
 		<!-- 等级 -->
 		<u-popup :show="showLv" mode="center" round="20" @close="showLv = false">
-			<view class="lv_box pt-75 border-box">
+			<view class="lv_box sign_reward_box pt-75 border-box">
 				<view class="lh-15 text-center">
 					<view class="">需要成为合伙人</view>
 					<view class="">才可以创建群聊哦~</view>
@@ -111,6 +111,7 @@
 			return {
 				teamJoinCount,
 				friendApplictionCount,
+				// #ifndef MP
 				navList: [{
 						id: 1,
 						name: '发现群聊',
@@ -136,6 +137,34 @@
 						url: '/pages/group/apply'
 					},
 				],
+				// #endif
+				// #ifdef MP
+				navList: [{
+						id: 1,
+						name: '发现群聊',
+						icon: '/static/mp/group/find.webp',
+						url: '/pages/group/find'
+					},
+					{
+						id: 2,
+						name: '创建群聊',
+						icon: '/static/mp/group/create.webp',
+						url: '/pages/group/create'
+					},
+					{
+						id: 3,
+						name: '通讯录',
+						icon: '/static/mp/group/my_group.webp',
+						url: '/pages/group/myGroup'
+					},
+					{
+						id: 4,
+						name: '申请信息',
+						icon: '/static/mp/group/apply.webp',
+						url: '/pages/group/apply'
+					},
+				],
+				// #endif
 				showOperation: false,
 				showCreate: false,
 				showLv: false,
@@ -219,10 +248,17 @@
 </script>
 
 <style lang="scss" scoped>
+	/* #ifdef MP */
+	.title_bg {
+		background: linear-gradient(180deg, #FBE5C5 0%, #fff 99%);
+	}
+	/* #endif */
+	/* #ifndef MP */
 	.title_bg {
 		background: linear-gradient(180deg, #95C6C8 0%, #fff 99%);
 	}
-
+	/* #endif */
+	
 	.tabbar {
 		box-shadow: none;
 	}
@@ -235,7 +271,6 @@
 		width: 308px;
 		height: 280px;
 		border-radius: 20px;
-		background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);
 	}
 
 	.swiper-item {

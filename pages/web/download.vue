@@ -4,10 +4,10 @@
 		<view class="flex-1 flex-center">
 			<view class="text-center">
 				<view class="">
-					<image src="/static/common/logo_white.png" class="logo"></image>
+					<image src="/static/common/logo_mall.webp" class="i-86"></image>
 				</view>
 				<view class="mt-32">
-					<image src="/static/common/logo_name.png" class="w-130 h-30"></image>
+					<image src="/static/common/logo_mall_name.webp" class="w-115 h-30"></image>
 				</view>
 				<view class="mt-8">加入北辰成为全球合伙人</view>
 			</view>
@@ -53,11 +53,6 @@
 </script>
 
 <style>
-	.logo {
-		width: 82.56px;
-		height: 85.57px;
-	}
-
 	.btn {
 		box-shadow: 0px 4px 10px 0px rgba(21, 105, 112, 0.45);
 	}

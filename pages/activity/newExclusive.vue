@@ -22,7 +22,7 @@
 		</u--image>
 		<button v-if="done === 1" class="fs-16 btn bg-base-change rounded-x flex-center"
 			@click="eventGoods()">领取福利</button>
-		<button v-else-if="done === 2" class="fs-14 btn rounded-x flex-center" style="background: #739A9C;"
+		<button v-else-if="done === 2" class="fs-14 btn rounded-x flex-center bg-audit"
 			@click="onDetail()">已领取 查看领取详情</button>
 		<view class="h-20"></view>
 

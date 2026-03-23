@@ -438,12 +438,6 @@
 		line-height: 1.5;
 	}
 
-	.message-item.self .bubble {
-		background-color: #1DAFB8;
-		border-radius: 10px 2px 10px 10px;
-		color: #fff;
-	}
-
 	.playing image {
 		animation: voiceAnim 1s infinite;
 	}

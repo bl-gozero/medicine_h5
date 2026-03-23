@@ -109,7 +109,7 @@
 				</view>
 				<view class="flex-center fgap-10 mt-20">
 					<view class="">
-						<button class="w-135 h-51 fw-7 fs-16 rounded-x flex-center" @click="showActive = false">取消</button>
+						<button class="w-135 h-51 fw-7 fs-16 rounded-x flex-center border-plain" plain="" @click="showActive = false">取消</button>
 					</view>
 					<view class="">
 						<button class="w-135 h-51 bg-base text-white fw-7 fs-16 rounded-x flex-center" @click="$c.goto('/pages/goods/searchResult?is_level_valid=1')">去购买</button>
@@ -143,7 +143,7 @@
 					{ id: 3, name: '北辰优选东北大米', img: '/static/avtivity/egg/img_rice.webp', class: 'w-64 h-51', stock: 1 },
 				],
 				select: null,
-				showActive: false
+				showActive: true
 			}
 		},
 		async onLoad() {

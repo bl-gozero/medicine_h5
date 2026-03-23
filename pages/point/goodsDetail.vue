@@ -47,7 +47,7 @@
 
 		<!-- 选购 -->
 		<u-popup :show="showInfo" mode="bottom" round="8" closeable @close="showInfo = false">
-			<view class="ptb-20 fs-12 info_box lh-10">
+			<view class="ptb-20 fs-12 bg-address lh-10">
 				<view class="text-center fs-18 fw-5">{{ mode == 1? '添加到购物车' : '提交订单'}}</view>
 				<view class="plr-20 flex justify-between mt-37" style="align-items: flex-start;"
 					@click="$c.goto('/pages/user/address?from=goodsDetail')">
@@ -296,23 +296,5 @@
 		border-radius: 0 999px 999px 0;
 		margin-left: -2px;
 		border-left: 1px solid #1A7E84;
-	}
-
-	.info_box {
-		background: linear-gradient(180deg, #CDEAEB 2%, #FFFFFF 95%);
-		background-size: 100% 32px;
-		background-repeat: no-repeat;
-	}
-
-	.sku_name {
-		background: #F5F5F5;
-		padding: 10px;
-		border-radius: 4px;
-	}
-
-	.sku_name_1 {
-		border: 1px solid #1A7E84;
-		color: #1A7E84;
-		background: #EFFEFF;
 	}
 </style>

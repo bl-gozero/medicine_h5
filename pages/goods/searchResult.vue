@@ -28,7 +28,7 @@
 						</view>
 					</view>
 					<view class="text-right mt-33 mt-12">
-						<image src="/static/index/cart.png" class="w-35 h-25"></image>
+						<view class="goods_cart"></view>
 					</view>
 				</view>
 			</view>

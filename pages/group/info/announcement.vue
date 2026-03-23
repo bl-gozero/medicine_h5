@@ -98,13 +98,6 @@
 		color: #3d3d3d !important;
 	}
 
-	.lv_box {
-		width: 308px;
-		height: 280px;
-		border-radius: 20px;
-		background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);
-	}
-
 	.disabled-textarea {
 		background-color: #fff !important;
 	}

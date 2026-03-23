@@ -11,7 +11,7 @@
 		</view>
 		<view class="mt-15 fs-18 lh-15">Hi欢迎来到群聊广场</view>
 		<view class="mt-6 fs-12 text-info">寻找你感兴趣的群聊：</view>
-		<view class="mt-27 flex-between gap-13">
+		<view class="mt-27 flex-between fgap-13">
 			<view class="p-15 border-box flex-1 top_group" v-for="(item, index) in top" :key="item.id"
 				@click="group = item;showJoin = true">
 				<view class="fw-6">{{ item.name }}</view>
@@ -44,7 +44,7 @@
 					class="text-info fs-12 lh-10 w-53 h-21 rounded-x flex-center" style="border: 0.5px solid #9F9F9F;">
 					{{ item.join_state.value }}</view>
 				<view v-else-if="item.join_state && item.join_state.id == 1"
-					class="text-white fs-12 lh-10 w-53 h-21 rounded-x flex-center" style="background: #9DC7CA;">
+					class="text-white fs-12 lh-10 w-53 h-21 rounded-x flex-center bg-audit">
 					{{ item.join_state.value }}</view>
 				<view v-else class="text-white bg-base fs-12 lh-10 w-53 h-21 rounded-x flex-center">加入</view>
 			</view>
@@ -62,14 +62,14 @@
 				<view class="fs-12 text-info mtb-15">群介绍</view>
 				<view class="">{{ group.intro }}</view>
 				<button v-if="group.join_state && group.join_state.id == 2 && group.role && group.role.id == 1"
-					class="fw-7 fs-14 w-224 h-43 mt-20 text-danger mt-70 border-0 flex-center" style="background: #f8f8f8;"
-					shape="circle" text="解散该群聊" @click="doDelete"></button>
+					class="fw-7 fs-14 w-224 h-43 mt-20 text-danger mt-70 border-0 flex-center rounded-x bg-page"
+					@click="doDelete">解散该群聊</button>
 				<button v-else-if="group.join_state && group.join_state.id == 2"
-					class="fw-7 fs-14 w-224 h-43 mt-20 text-danger mt-70 border-0 flex-center" style="background: #f8f8f8;"
-					shape="circle" text="退出该群聊" @click="doQuit"></button>
+					class="fw-7 fs-14 w-224 h-43 mt-20 text-danger mt-70 border-0 flex-center rounded-x bg-page"
+					@click="doQuit">退出该群聊</button>
 				<button v-else-if="group.join_state && group.join_state.id == 1"
-					class="fw-7 fs-14 w-224 h-43 mt-20 text-white mt-70 flex-center rounded-x" style="background: #9DC7CA;"
-					:text="group.join_state.value"></button>
+					class="fw-7 fs-14 w-224 h-43 mt-20 text-white mt-70 flex-center rounded-x bg-audit"
+					>{{ group.join_state.value }}</button>
 				<button v-else class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white mt-70 flex-center rounded-x"
 					@click="doJoin">申请加入</button>
 				<view class="text-center fs-10 mt-10">
@@ -81,7 +81,7 @@
 
 		<!-- 等级 -->
 		<u-popup :show="showLv" mode="center" round="20" @close="showLv = false">
-			<view class="lv_box pt-75 border-box">
+			<view class="lv_box sign_reward_box pt-75 border-box">
 				<view class="lh-15 text-center">
 					<view class="">需要成为合伙人</view>
 					<view class="">才可以创建群聊哦~</view>
@@ -291,9 +291,17 @@
 </script>
 
 <style lang="scss" scoped>
+	/* #ifndef MP */
 	.bg {
 		background: linear-gradient(180deg, #A4D9D7 0%, rgba(216, 216, 216, 0) 211px, #fff 100%);
 	}
+	/* #endif */
+	/* #ifdef MP */
+	.bg {
+		background: linear-gradient(180deg, #FBE2C0 0%, rgba(251, 226, 192, 0) 211px, #fff 100%);
+	}
+	/* #endif */
+	
 
 	.top_group {
 		background: #FFFFFF;
@@ -305,6 +313,5 @@
 		width: 308px;
 		height: 280px;
 		border-radius: 20px;
-		background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);
 	}
 </style>

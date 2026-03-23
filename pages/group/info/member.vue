@@ -24,11 +24,11 @@
 							<button class="w-47 h-20 fs-10 plr-0 text-danger border-danger ml-8  flex-center rounded-x"
 								@click="onShowRemove(item)">移除</button>
 
-							<button v-if="item.chat_banned.id == 1" class="w-47 h-20 fs-10 plr-0 ml-8  flex-center rounded-x"
+							<button v-if="item.chat_banned.id == 1" class="w-47 h-20 fs-10 plr-0 ml-8  flex-center rounded-x border-plain" plain
 								@click="doBanned(item)">解除禁言</button>
 
 							<button v-if="item.chat_banned.id == 2"
-								class="w-47 h-20 fs-10 plr-0 border-1 text-base ml-8  flex-center rounded-x"
+								class="w-47 h-20 fs-10 plr-0 border-1 text-base ml-8 flex-center rounded-x"
 								@click="doBanned(item)">禁言</button>
 						</view>
 					</view>
@@ -213,13 +213,6 @@
 	::v-deep .u-textarea__field {
 		font-size: 14px !important;
 		color: #3d3d3d !important;
-	}
-
-	.lv_box {
-		width: 308px;
-		height: 280px;
-		border-radius: 20px;
-		background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);
 	}
 
 	.disabled-textarea {

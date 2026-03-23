@@ -57,14 +57,14 @@
 							@click="id = item.id; showCancel = true">取消订单</button>
 						<button v-if="item.status == 4 || item.status == 6" class="btn btn-black border-plain" plain
 							@click="onAgain(item)">再来一单</button>
-						<button v-if="item.status == 3" class="btn border-1 text-base border-plain" plain
+						<button v-if="item.status == 3" class="btn border-1 text-base" plain
 							@click="id = item.id; showReceive = true">确认收货</button>
-						<button v-if="item.status == 1" class="btn border-1 text-base border-plain" plain
+						<button v-if="item.status == 1" class="btn border-1 text-base" plain
 							@click="$c.goto(`/pages/order/pay?id=${item.id}`)">去付款</button>
 
 						<button v-if="item.status == 2" class="btn btn-black border-plain" plain
 							@click="id = item.id; showStore = true">寄存仓库</button>
-						<button v-if="item.status == 2" class="btn border-1 text-base border-plain" plain
+						<button v-if="item.status == 2" class="btn border-1 text-base" plain
 							@click="onShowShip(item)">申请发货</button>
 
 						<button v-if="item.status == 9" class="btn btn-black border-plain" plain

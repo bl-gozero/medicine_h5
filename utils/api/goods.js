@@ -87,5 +87,8 @@ export default {
 	},
 	storeBuy(data = {}, config = {}) {
 		return request.post('/warehouse/buyback', data, { loading: true, ...config })
+	},
+	nation(data = {}, config = {}) {
+		return request.post('/goods_nation/list', data, { ...config })
 	}
 }

@@ -1,17 +1,16 @@
 <template>
 	<view class="page bg-page lh-10">
-		<view class="absolute top-0 left-0 pw-100 h-218"
-			style="background: linear-gradient(180deg, #92CBCE 4%, #DBEBEB 85%, rgba(219, 235, 235, 0) 100%);"></view>
+		<view class="absolute top-0 left-0 pw-100 h-218 order_detail_bg"></view>
 		<Title title="订单详情" bgColor="tetransparent"></Title>
 		<view v-if="load" class="">
 			<view class="pt-10 plr-20 relative" style="z-index: 2;">
-				<view class="text-center" style="color: #064144;">
+				<view class="order_detail_text">
 					<view class="fs-18 fw-7">{{ $c.formatStatus(order.status).text }}</view>
-					<view class="fs-12 mt-14 lh-15 border-box" style="padding: 0 10%;">{{ $c.formatStatus(order.status, $c.calcTime(order.created_at, 30 * 60)).hint }}</view>
+					<view class="fs-12 mt-14 lh-15 border-box">{{ $c.formatStatus(order.status, $c.calcTime(order.created_at, 30 * 60)).hint }}</view>
 				</view>
 				<view v-if="order.address" class="mt-20 bg-white rounded-12 plr-16 ptb-20 border-box">
 					<view class="flex-between">
-						<image src="/static/order/car.png" class="i-18 self-start"></image>
+						<view class="icon-car self-start"></view>
 						<view class="ml-11 flex-1">
 							<view>物流信息</view>
 							<view v-if="order.waybill_number" class="mt-10 flex-between ">
@@ -26,7 +25,7 @@
 						</view>
 					</view>
 					<view class="flex-between mt-23">
-						<image src="/static/order/address.png" class="i-18 self-start"></image>
+						<view class="icon-address self-start"></view>
 						<view class="ml-11 flex-1">
 							<view>{{ order.address }}</view>
 							<view class="mt-10 fs-12 text-info">

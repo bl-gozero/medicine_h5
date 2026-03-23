@@ -12,7 +12,7 @@
 				<view class="flex-1 flex-between ml-8 border-bottom">
 					<text class="u-line-1">{{ item.name }}</text>
 					<view v-if="memberInfo.memberRole === 1 && item.role.id === 2" class="">
-						<button class="w-47 h-20 fs-10 flex-center rounded-x" @click="onRemove(item)">解除</button>
+						<button class="w-47 h-20 fs-10 flex-center rounded-x border-plain" plain @click="onRemove(item)">解除</button>
 					</view>
 				</view>
 			</view>
@@ -26,8 +26,8 @@
 				6、设置进群方式，并可同意/拒绝进群申请置顶和撤群成员消息<br>
 			</view>
 			<view v-if="memberInfo.memberRole === 1" class="mt-20">
-				<button class="fw-7 lh-10 fs-14 bg-base text-white w-247 h-47 flex-center rounded-x" text="添加管理员"
-					@click="$c.goto('/pages/group/info/addAdmins')"></button>
+				<button class="fw-7 lh-10 fs-14 bg-base text-white w-247 h-47 flex-center rounded-x"
+					@click="$c.goto('/pages/group/info/addAdmins')">添加管理员</button>
 			</view>
 		</view>
 		<u-modal :show="show" title="是否移除" content='移除后该成员将无管理权限？' confirmColor="#3D3D3D" cancelColor="#9F9F9F"
@@ -135,13 +135,6 @@
 	::v-deep .u-textarea__field {
 		font-size: 14px !important;
 		color: #3d3d3d !important;
-	}
-
-	.lv_box {
-		width: 308px;
-		height: 280px;
-		border-radius: 20px;
-		background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);
 	}
 
 	.disabled-textarea {

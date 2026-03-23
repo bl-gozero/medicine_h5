@@ -11,7 +11,7 @@
 			>{{ item.name }}</view>
 		</view>
 		<view class="plr-20 mt-20">
-			<view class="ptb-16 plr-16 roundedTop-14 time relative">
+			<view class="ptb-16 plr-16 roundedTop-14 time_bg relative">
 				<view class="flex-start" @click="showTimePicker = true">
 					<text class="fs-16 fw-7 mr-4">{{ form.month }}</text>
 					<u-icon name="arrow-down-fill" color="#3D3D3D" size="14"></u-icon>
@@ -110,7 +110,4 @@
 </script>
 
 <style>
-	.time {
-	    background: linear-gradient(180deg, #FFFFFF 35%, #E7F7F5 100%);
-	}
 </style>

@@ -1,10 +1,16 @@
 <template>
 	<view class="page flex-col login-bg">
-		<view class="border-box pt-48 pl-38 pb-20">
-			<view class="fw-3" style="color: #75A3A5;">Welcome</view>
-			<view class="fs-40 fw-9" style="color: #2E4E50;">登录</view>
+		<view class="border-box pt-48 pl-38 pb-20" :class="'pt-' + $c.barHeight()">
+			<view class="fw-3 text-welcome">Welcome</view>
+			<view class="fs-40 fw-9 text-login">登录</view>
 		</view>
-		<view class="relative flex-1 bg-white roundedTop-40 fs-12 fw-5">
+		<view class="relative flex-1 bg-white roundedTop-45 fs-12 fw-5">
+			<!-- #ifdef MP -->
+			<view class="flex-between text-center relative" style="z-index: 10;">
+				<view class="fs-16 fw-7 ptb-15 flex-1 login-left" @click="$c.goto('/pages/index/login')">密码登录</view>
+				<view class="fs-16 fw-7 ptb-15 flex-1">手机号登录</view>
+			</view>
+			<!-- #endif -->
 			<view class="full sroller-y pt-60 plr-35">
 				<view class="flex-start">
 					<view class="i-18 mr-7 self-start">
@@ -16,22 +22,6 @@
 							:showLine="true" />
 					</view>
 				</view>
-				<!-- <view class="flex-start mt-52">
-					<view class="i-18 mr-7 self-start">
-						<image src="/static/icon/password.png" class="i-18"></image>
-					</view>
-					<view class="flex-1">
-						<view>密码</view>
-						<LineInput
-							v-model="form.password"
-							type="password"
-							placeholder="请输入密码"
-							placeholderClass="text-info fs-14 fw-5"
-							:showLine="true"
-							:maxlength="20"
-						/>
-					</view>
-				</view> -->
 				<view class="flex-start mt-52">
 					<view class="i-18 mr-7 self-start">
 						<image src="/static/icon/code.png" class="i-18"></image>
@@ -42,7 +32,8 @@
 							:showLine="true">
 							<template #suffix>
 								<!-- <image v-if="!showCodeBtn && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix" @click="getCode()"></image> -->
-								<button v-if="showCodeBtn" class="bg-base-change fw-7 fs-12 text-white plr-20 h-40 flex-center rounded-x"
+								<button v-if="showCodeBtn"
+									class="bg-base-change fw-7 fs-12 text-white plr-20 h-40 flex-center rounded-x"
 									@click="getMobileCode()">点击获取</button>
 								<div v-else class="text-info flex-start h-40">
 									<u-count-down ref="countDown" :time="$c.codeLimitTime()" format="ss"
@@ -54,9 +45,9 @@
 					</view>
 				</view>
 				<view class="mt-47 flex-center">
-					<!-- <u-checkbox v-model="agreed" label="我已阅读并同意《用户协议》" /> -->
 					<u-checkbox-group v-model="agreed">
-						<u-checkbox name="agreed" size="16" activeColor="#1A7E84" inactiveColor="#1A7E84" />
+						<u-checkbox name="agreed" size="16" :activeColor="$c.baseColor()"
+							:inactiveColor="$c.baseColor()" />
 					</u-checkbox-group>
 					<text class="fs-10">
 						<text>阅读并同意</text>
@@ -67,9 +58,11 @@
 					<button class="bg-base-change fw-7 fs-14 text-white w-278 h-49 flex-center rounded-x"
 						@click="onSubmit()">登录</button>
 				</view>
+				<!-- #ifndef MP -->
 				<view class="text-center mt-23">
 					<text class="text-base fw-4" @click="$c.goto('/pages/index/login')">密码登录</text>
 				</view>
+				<!-- #endif -->
 				<view class="text-center mt-23">
 					<text class="text-base fw-4" @click="$c.goto('/pages/index/register')">没有账号？去注册</text>
 				</view>
@@ -187,10 +180,4 @@
 </script>
 
 <style lang="scss" scoped>
-	.login-bg {
-		background-image: url('/static/login/bg.png');
-		background-color: linear-gradient(270deg, #92CBCE 4%, #DBEBEB 98%);
-		background-repeat: no-repeat;
-		background-size: 100% auto;
-	}
 </style>

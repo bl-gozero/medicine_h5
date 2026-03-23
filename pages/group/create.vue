@@ -54,7 +54,7 @@
 
 		<!-- 等级 -->
 		<u-popup :show="showLv" mode="center" round="20" @close="showLv = false">
-			<view class="lv_box pt-75 border-box">
+			<view class="lv_box sign_reward_box pt-75 border-box">
 				<view class="lh-15 text-center">
 					<view class="">需要成为合伙人</view>
 					<view class="">才可以创建群聊哦~</view>
@@ -259,6 +259,5 @@
 		width: 308px;
 		height: 280px;
 		border-radius: 20px;
-		background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);
 	}
 </style>

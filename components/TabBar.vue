@@ -2,7 +2,7 @@
 	<view class="tabbar flex-evenly">
 		<view v-for="(item, index) in tabs" class="flex-center flex-1" :key="index" @click="switchTab(item)">
 			<view class="text-center">
-				<image class="i-24 block auto-x" :src="current === item.pagePath ? item.selectedIconPath : item.iconPath" mode="aspectFit" />
+				<image class="i-22 block auto-x" :src="current === item.pagePath ? item.selectedIconPath : item.iconPath" mode="aspectFit" />
 				<view class="tab-text" :class="current === item.pagePath && 'text-base'">{{ item.text }}</view>
 			</view>
 		</view>
@@ -13,6 +13,34 @@
 	export default {
 		data() {
 			return {
+				// #ifdef MP
+				tabs: [{
+						text: '首页',
+						pagePath: '/pages/index/index',
+						iconPath: '/static/mp/tabbar/home.webp',
+						selectedIconPath: '/static/mp/tabbar/home_active.webp',
+					},
+					{
+						text: '购物车',
+						pagePath: '/pages/goods/cart',
+						iconPath: '/static/mp/tabbar/cart.webp',
+						selectedIconPath: '/static/mp/tabbar/cart_active.webp',
+					},
+					{
+						text: '聊天',
+						pagePath: '/pages/group/index',
+						iconPath: '/static/mp/tabbar/group.webp',
+						selectedIconPath: '/static/mp/tabbar/group_active.webp',
+					},
+					{
+						text: '我的',
+						pagePath: '/pages/user/index',
+						iconPath: '/static/mp/tabbar/user.webp',
+						selectedIconPath: '/static/mp/tabbar/user_active.webp',
+					}
+				],
+				// #endif
+				// #ifndef MP
 				tabs: [{
 						text: '首页',
 						pagePath: '/pages/index/index',
@@ -38,6 +66,7 @@
 						selectedIconPath: '/static/tabbar/user_active.png',
 					}
 				],
+				// #endif
 				current: ''
 			}
 		},

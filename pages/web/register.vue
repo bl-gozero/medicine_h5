@@ -58,7 +58,7 @@
 		</view>
 		<view class="mt-23 flex-center">
 			<u-checkbox-group v-model="agreed">
-				<u-checkbox name="agreed" size="16" activeColor="#1A7E84" inactiveColor="#1A7E84" />
+				<u-checkbox name="agreed" size="16" :activeColor="$c.baseColor()" :inactiveColor="$c.baseColor()" />
 			</u-checkbox-group>
 			<text class="fs-10">
 				<text>阅读并同意</text>
@@ -68,7 +68,7 @@
 		<button class="bg-base-change fw-7 text-white w-278 h-49 mt-20 fs-14 flex-center rounded-x"
 			@click="onSubmit()">注册</button>
 		<view class="mt-50 download_box flex-between">
-			<image src="/static/common/logo_white.png" class="logo"></image>
+			<image src="/static/common/logo_mall.webp" class="logo"></image>
 			<view class="flex-1 ml-4">
 				<view class="fw-7" style="color: #E77F1E;">APP下载</view>
 				<view class="fs-10 mt-3">成为北辰代购全球合伙人共享福利</view>

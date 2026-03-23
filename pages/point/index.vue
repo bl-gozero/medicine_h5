@@ -51,9 +51,14 @@
 					</view>
 				</view>
 			</view>
+			<!-- #ifndef MP -->
 			<view class="w-101 h-42 mt-20">
 				<PlayImg path="point/title/3" :length="40" :interval="50" />
 			</view>
+			<!-- #endif -->
+			<!-- #ifdef MP -->
+			<image src="/static/mp/point/title.webp" class="pw-100 maxh-60 mt-20" mode="widthFix"></image>
+			<!-- #endif -->
 			<view class="flex-between flex-wrap mt-20" style="gap: 10px;">
 				<view class="bg-white rounded-14" style="width: calc((100% - 10px) / 2);" v-for="item in list"
 					:key="item.id" @click="$c.goto(`/pages/point/goodsDetail?id=${item.id}`)">
