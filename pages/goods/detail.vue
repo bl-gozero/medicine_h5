@@ -54,7 +54,7 @@
 			style="background: linear-gradient(78deg, #FCFFF0 0%, #FFE0C3 99%);">
 			<scroll-view ref="scrollView" :scroll-left="scrollLeft" scroll-x class="scroll-view_H"
 				scroll-with-animation>
-				<e-chart ref="echartRef" @ready="initEchart" :width="getWidth()" height="77px" />
+				<EChart ref="echartRef" @ready="initEchart" :width="getWidth()" height="77px" />
 			</scroll-view>
 		</view>
 		<view class="mt-14 bg-white">
@@ -170,11 +170,20 @@
 	import Payment from '../../components/Payment.vue'
 	import payPassword from '../../components/payPassword.vue'
 
+	// #ifdef MP
+	import EChart from '@/pages/goods/e-chart/components/e-chart/e-chart.vue'
+	// #endif
+	
+	// #ifndef MP
+	import EChart from '@/uni_modules/e-chart/components/e-chart/e-chart.vue'
+	// #endif
+
 	export default {
 		components: {
 			Title,
 			Payment,
-			payPassword
+			payPassword,
+			EChart
 		},
 		data() {
 			return {

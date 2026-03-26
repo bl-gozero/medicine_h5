@@ -1,103 +1,170 @@
 {
   "pages": [
-    { "path": "pages/index/launch" },
-    { "path": "pages/index/index" },
-    { "path": "pages/index/login" },
-    { "path": "pages/index/login_p" },
-    { "path": "pages/index/register" },
-    { "path": "pages/index/vipRule" },
-    { "path": "pages/index/web" },
-    { "path": "pages/index/userAgreement" },
-    { "path": "pages/index/protocols" },
-    { "path": "pages/index/userService" },
-    { "path": "pages/index/task" },
-	{ "path": "pages/index/recruit" },
-	{ "path": "pages/index/express" },
-	{ "path": "pages/index/maker" },
-
-    { "path": "pages/goods/search" },
-    { "path": "pages/goods/searchResult" },
-    { "path": "pages/goods/cart" },
-    { "path": "pages/goods/detail" },
-    { "path": "pages/goods/category" },
-
-    { "path": "pages/order/list" },
-    { "path": "pages/order/pay" },
-    { "path": "pages/order/detail" },
-    { "path": "pages/order/create" },
-
-    { "path": "pages/user/index" },
-    { "path": "pages/user/qrcode" },
-    { "path": "pages/user/address" },
-    { "path": "pages/user/settings" },
-    { "path": "pages/user/loginPassword" },
-    { "path": "pages/user/forgotPassword" },
-    { "path": "pages/user/payPassword" },
-    { "path": "pages/user/bindCard" },
-    { "path": "pages/user/join" },
-    { "path": "pages/user/baseInfo" },
-	
-    { "path": "pages/finance/subsidy" },
-
-    { "path": "pages/group/index" },
-    { "path": "pages/group/pay" },
-    { "path": "pages/group/myGroup" },
-    { "path": "pages/group/create" },
-    { "path": "pages/group/find" },
-    { "path": "pages/group/chat" },
-    { "path": "pages/group/apply" },
-    { "path": "pages/group/detail" },
-    { "path": "pages/group/addFriend" },
-    { "path": "pages/group/blackList" },
-    { "path": "pages/group/friendDetail" },
-
-    { "path": "pages/group/info/baseInfo" },
-    { "path": "pages/group/info/announcement" },
-    { "path": "pages/group/info/manage" },
-    { "path": "pages/group/info/admins" },
-    { "path": "pages/group/info/addAdmins" },
-    { "path": "pages/group/info/member" },
-    { "path": "pages/group/info/qrcode" },
-
-    { "path": "pages/point/index" },
-    { "path": "pages/point/goodsDetail" },
-    { "path": "pages/point/list" },
-    { "path": "pages/point/order" },
-    { "path": "pages/point/orderDetail" },
-    { "path": "pages/point/pay" },
-
-    { "path": "pages/activity/egg" },
-    { "path": "pages/activity/detail" },
-    { "path": "pages/activity/newExclusive" },
-    { "path": "pages/activity/wine" },
-    { "path": "pages/activity/trip" },
-	
-	// #ifndef MP
-	{ "path": "pages/finance/transfer" },
-	{ "path": "pages/finance/balance" },
-	{ "path": "pages/finance/list" },
-	{ "path": "pages/finance/withdraw" },
-	{ "path": "pages/finance/withdrawList" },
-	{ "path": "pages/finance/performance" },
-	{ "path": "pages/finance/sell" },
-	
-	{ "path": "pages/store/detail" },
-	{ "path": "pages/store/detailForShip" },
-	
-	{ "path": "pages/web/register" },
-	{ "path": "pages/web/download" },
-	{ "path": "pages/web/pay" },
-	
-	{ "path": "pages/user/team" },
-	{ "path": "pages/user/vip" },
-	{ "path": "pages/user/sell" },
-	{ "path": "pages/user/sellDetail" },
-	{ "path": "pages/user/sellSearch" },
-	{ "path": "pages/user/sellSearchResult" },
-	// #endif 
-
-    { "path": "pages/store/index" }
+	  { "path": "pages/launch/launch" }
+ //    { "path": "pages/index/launch" },
+ //    { "path": "pages/index/index" },
+ //    { "path": "pages/index/login" },
+ //    { "path": "pages/index/register" },
+	// { "path": "pages/index/login_p" },
+	// { "path": "pages/index/vipRule" },
+	// { "path": "pages/index/web" },
+	// { "path": "pages/index/userAgreement" },
+	// { "path": "pages/index/protocols" },
+	// { "path": "pages/index/userService" },
+	// { "path": "pages/index/task" },
+	// { "path": "pages/index/recruit" },
+	// { "path": "pages/index/express" },
+	// { "path": "pages/index/maker" }
   ],
+
+  "subPackages": [
+    {
+      "root": "pages/index",
+      "pages": [
+		{ "path": "index" },
+		{ "path": "login" },
+		{ "path": "register" },
+        { "path": "login_p" },
+        { "path": "vipRule" },
+        { "path": "web" },
+        { "path": "userAgreement" },
+        { "path": "protocols" },
+        { "path": "userService" },
+        { "path": "task" },
+        { "path": "recruit" },
+        { "path": "express" },
+        { "path": "maker" }
+      ]
+    },
+    {
+      "root": "pages/goods",
+      "pages": [
+        { "path": "search" },
+        { "path": "searchResult" },
+        { "path": "cart" },
+        { "path": "detail" },
+        { "path": "category" }
+      ]
+    },
+    {
+      "root": "pages/order",
+      "pages": [
+        { "path": "list" },
+        { "path": "pay" },
+        { "path": "detail" },
+        { "path": "create" }
+      ]
+    },
+    {
+      "root": "pages/user",
+      "pages": [
+		{ "path": "index" },
+        { "path": "qrcode" },
+        { "path": "address" },
+        { "path": "settings" },
+        { "path": "loginPassword" },
+        { "path": "forgotPassword" },
+        { "path": "payPassword" },
+        { "path": "bindCard" },
+        { "path": "join" },
+        { "path": "baseInfo" }
+        // #ifndef MP
+        ,{ "path": "team" }
+        ,{ "path": "vip" }
+        ,{ "path": "sell" }
+        ,{ "path": "sellDetail" }
+        ,{ "path": "sellSearch" }
+        ,{ "path": "sellSearchResult" }
+        // #endif
+      ]
+    },
+    {
+      "root": "pages/group",
+      "pages": [
+        { "path": "index" },
+        { "path": "pay" },
+        { "path": "myGroup" },
+        { "path": "create" },
+        { "path": "find" },
+        { "path": "chat" },
+        { "path": "apply" },
+        { "path": "detail" },
+        { "path": "addFriend" },
+        { "path": "blackList" },
+        { "path": "friendDetail" },
+
+        { "path": "info/baseInfo" },
+        { "path": "info/announcement" },
+        { "path": "info/manage" },
+        { "path": "info/admins" },
+        { "path": "info/addAdmins" },
+        { "path": "info/member" },
+        { "path": "info/qrcode" }
+      ]
+    },
+    {
+      "root": "pages/point",
+      "pages": [
+        { "path": "index" },
+        { "path": "goodsDetail" },
+        { "path": "list" },
+        { "path": "order" },
+        { "path": "orderDetail" },
+        { "path": "pay" }
+      ]
+    },
+    {
+      "root": "pages/activity",
+      "pages": [
+        { "path": "egg" },
+        { "path": "detail" },
+        { "path": "newExclusive" },
+        { "path": "wine" },
+        { "path": "trip" },
+		{ "path": "gift" }
+      ]
+    },
+    {
+      "root": "pages/finance",
+      "pages": [
+        { "path": "subsidy" }
+        // #ifndef MP
+        ,{ "path": "transfer" }
+        ,{ "path": "balance" }
+        ,{ "path": "list" }
+        ,{ "path": "withdraw" }
+        ,{ "path": "withdrawList" }
+        ,{ "path": "performance" }
+        ,{ "path": "sell" }
+        // #endif
+      ]
+    },
+    {
+      "root": "pages/store",
+      "pages": [
+		{ "path": "index" },
+        { "path": "detail" },
+        { "path": "detailForShip" }
+      ]
+    }
+	// #ifndef MP 
+	,{
+	  "root": "pages/web",
+	  "pages": [
+	    { "path": "register" },
+	    { "path": "download" },
+	    { "path": "pay" }
+	  ]
+	}
+	// #endif
+  ],
+
+  "preloadRule": {
+    "pages/index/index": {
+      "network": "all",
+      "packages": ["pages/goods", "pages/user"]
+    }
+  },
 
   "easycom": {
     "^u-(.*)": "@/uni_modules/uview-ui/components/u-$1/u-$1.vue"

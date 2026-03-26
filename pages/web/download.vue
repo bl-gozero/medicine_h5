@@ -13,7 +13,7 @@
 			</view>
 		</view>
 		<view class="relative bg">
-			<image src="/static/web/download_bg.png" class="pw-100" mode="widthFix"></image>
+			<image :src="$c.img('static/web/download_bg.png')" class="pw-100" mode="widthFix"></image>
 			<view class="full flex-center">
 				<view class="">
 					<u-button class="bg-base btn fw-7 text-white w-278 h-49 border-0" shape="circle" icon="android-fill"

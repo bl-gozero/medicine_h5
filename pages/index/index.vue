@@ -3,7 +3,7 @@
 		<view class="title_box pb-15 plr-20 pw-100 border-box" :class="'pt-' + $c.barHeight()">
 			<view class="flex-center">
 				<!-- #ifndef MP -->
-				<image src="/static/common/logo.gif" class="w-73 h-32 mr-11"></image>
+				<image :src="$c.img('/static/common/logo.gif')" class="w-73 h-32 mr-11"></image>
 				<!-- #endif -->
 				<!-- #ifdef MP -->
 				<image src="/static/common/logo_mall_name.webp" class="w-100 h-25"></image>
@@ -89,7 +89,7 @@
 			<view class="relative mb-30">
 				<image src="/static/index/point_box.webp" class="pw-100" mode="widthFix"></image>
 				<view class="absolute pw-100 top-0 left-0">
-					<PlayImg path="indexpoint/1" :interval="40" :length="50" />
+					<PlayImg path="indexpoint/1" :interval="40" :length="51" />
 				</view>
 				<view class="absolute ph-19 pw-50" style="top: 3%;right: 2%" @click="$c.goto('/pages/index/task')">
 				</view>
@@ -161,7 +161,7 @@
 				</view>
 			</view>
 		</view>
-		<!-- #ifdef MP -->
+		<!-- #ifndef MP -->
 		<view class="fixed right-0 bottom-75 w-56 h-69">
 			<image src="/static/index/cs.png" class="w-56 h-69" @click="$c.goto('/pages/index/web')"></image>
 		</view>

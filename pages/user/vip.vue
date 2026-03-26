@@ -7,7 +7,7 @@
 						<text @click="$c.goto('/pages/user/team')">邀请的好友</text>
 					</template>
 				</Title>
-				<image :src="`/static/vip/v2/pointer_${level_index}.webp`" class="pw-100 maxh-50"
+				<image :src="$c.img(`/static/vip/v2/pointer_${level_index}.webp`)" class="pw-100 maxh-50"
 					mode="widthFix"></image>
 				<swiper class="h-170" :interval="5000" :duration="500" :current="level_index - 1"
 					@change="(e) => { level_index = e.detail.current + 1 }">
@@ -15,10 +15,10 @@
 						<view class="">
 							<view class="flex-center">
 								<view class="relative">
-									<image :src="`/static/vip/v2/bg_${item.id}.webp`" class="w-335 h-148 block"></image>
+									<image :src="$c.img(`/static/vip/v2/bg_${item.id}.webp`)" class="w-335 h-148 block"></image>
 									<view class="absolute left-0 bottom-0 pw-100 ph-85 pl-20 pt-14 border-box">
 										<view class="flex-start pw-100">
-											<image :src="`/static/vip/v2/name_${item.id}.webp`" class="w-120 h-22">
+											<image :src="$c.img(`/static/vip/v2/name_${item.id}.webp`)" class="w-120 h-22">
 											</image>
 											<view class="unfinished text-black ml-10">
 												<text v-if="$c.calcLv(profile) < item.id">未达到</text>
@@ -35,7 +35,7 @@
 												</view>
 												<text v-if="item.id > 3"
 													class="fw-7 fs-12 ml-7">{{ item.count > item.num? item.num : item.count }}/{{ item.num }}</text>
-												<image v-else src="/static/vip/v2/icon.webp" class="i-16 block ml-8">
+												<image v-else :src="$c.img('/static/vip/v2/icon.webp')" class="i-16 block ml-8">
 												</image>
 											</view>
 											<image src="/static/vip/partner/pop-arrow.webp"
@@ -43,7 +43,7 @@
 											<view class="flex-start">
 												<view class="fs-10 flex-start ptb-5 plr-7 rounded-x num relative"
 													style="background: rgba(255, 255, 255, 0.5);">
-													<image src="/static/vip/v2/ring.webp" class="i-14"></image>
+													<image :src="$c.img('/static/vip/v2/ring.webp')" class="i-14"></image>
 													<text>{{ item.require }}</text>
 												</view>
 											</view>
@@ -83,13 +83,13 @@
 					@change="(e) => { privilege_index = e.detail.current }">
 					<swiper-item>
 						<view class="pl-20">
-							<image :src="`/static/vip/v2/privilege_1_${level_index}.webp`"
+							<image :src="$c.img(`/static/vip/v2/privilege_1_${level_index}.webp`)"
 								class="pw-100 inline-block" mode="widthFix" @load="onImgLoad1"></image>
 						</view>
 					</swiper-item>
 					<swiper-item>
 						<view class="plr-20">
-							<image :src="`/static/vip/v2/privilege_2_${level_index}.webp`"
+							<image :src="$c.img(`/static/vip/v2/privilege_2_${level_index}.webp`)"
 								class="pw-100 inline-block" mode="widthFix" @load="onImgLoad2"></image>
 						</view>
 					</swiper-item>
@@ -204,6 +204,11 @@
 								<view class="text-info fs-12 mt-6">存储产品总数量（件）</view>
 								<view class="fs-16 fw-7 u-line-1">{{ sell.save_count || 0 }}</view>
 							</view>
+							<view class="data_bg rounded-8 p-12 border-box icon">
+								<image src="/static/vip/xian.webp" class="icon"></image>
+								<view class="text-info fs-12 mt-6">现存储产品数量（件）</view>
+								<view class="fs-16 fw-7 u-line-1">{{ sell.save_buy_count || 0 }}</view>
+							</view>
 						</view>
 						<button class="fw-7 btn-search flex-center rounded-x" @click="$c.goto('/pages/user/sell')">
 							<image src="/static/vip/search.webp" class="i-22 mr-3"></image>
@@ -244,7 +249,7 @@
 								</view>
 							</view>
 						</view>
-						<image src="/static/vip/reward.webp" class="pw-100 block mt-40" mode="widthFix"></image>
+						<image :src="$c.img('/static/vip/reward.webp')" class="pw-100 block mt-40" mode="widthFix"></image>
 					</view>
 				</view>
 			</view>

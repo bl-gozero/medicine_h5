@@ -3,7 +3,7 @@
 		<Title title="群二维码" fixed />
 		<view class="flex-center" style="margin-top: 30%;">
 			<view v-if="qrcode" class="rounded-8 p-14 border-box bg-white">
-				<uqrcode ref="uqrcode" canvas-id="qrcode" :value="qrcode" size="185"></uqrcode>
+				<UQrcode ref="uqrcode" canvas-id="qrcode" :value="qrcode" size="185"></UQrcode>
 			</view>
 		</view>
 		<view class="fixed left-0 bottom-20 pw-100 ptb-20">
@@ -15,13 +15,21 @@
 
 <script>
 	import Title from '@/components/Title.vue'
+	// #ifdef MP
+	import UQrcode from '@/pages/group/components/Sansnn-uQRCode/components/uqrcode/uqrcode.vue'
+	// #endif
+	// #ifdef H5
+	import UQrcode from '@/uni_modules/Sansnn-uQRCode/components/uqrcode/uqrcode.vue'
+	// #endif
+	
 	import {
 		teamInfo
 	} from '@/utils/nim.js'
 
 	export default {
 		components: {
-			Title
+			Title,
+			UQrcode
 		},
 		data() {
 			return {

@@ -112,7 +112,6 @@
 	}
 	.login-bg {
 		background-image: url('/static/login/bg.png');
-		background-color: linear-gradient(270deg, #92CBCE 4%, #DBEBEB 98%);
 		background-repeat: no-repeat;
 		background-size: 100% auto;
 	}
@@ -140,7 +139,7 @@
 		height: 18px;
 	}
 	.icon-trip-user {
-		background-image: url('/static/avtivity/trip/user.webp');
+		background-image: url('/static/icon/trip_user.webp');
 		background-size: 100% 100%;
 		background-repeat: no-repeat;
 		width: 17px;
@@ -227,7 +226,7 @@
 		height: 18px;
 	}
 	.icon-trip-user {
-		background-image: url('/static/avtivity/trip/user_mp.webp');
+		background-image: url('/static/icon/trip_user_mp.webp');
 		background-size: 100% 100%;
 		background-repeat: no-repeat;
 		width: 17px;

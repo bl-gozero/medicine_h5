@@ -22,4 +22,13 @@ export default {
 	tripPopup(data = {}, config = {}) {
 		return request.post('/travel/pop_up', data, { ...config })
 	},
+	gift(data = {}, config = {}) {
+		return request.post('/redeem_gifts/exchange', data, { loading: true, ...config })
+	},
+	giftList(data = {}, config = {}) {
+		return request.post('/redeem_gifts/list', data, { ...config })
+	},
+	giftStatus(data = {}, config = {}) {
+		return request.post('/redeem_gifts/status', data, { ...config })
+	},
 }

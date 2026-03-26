@@ -3,10 +3,10 @@
 		<Title title="加入北辰代购" :fixed="true" />
 		<view>
 			<!-- #ifndef MP -->
-			<image src="/static/join/top.jpg" class="pw-100 block" mode="widthFix"></image>
+			<image :src="$c.img('/static/join/top.jpg')" class="pw-100 block" mode="widthFix"></image>
 			<!-- #endif -->
 			<!-- #ifdef MP -->
-			<image src="/static/mp/join/top.webp" class="pw-100 block" mode="widthFix"></image>
+			<image :src="$c.img('/static/mp/join/top.webp')" class="pw-100 block" mode="widthFix"></image>
 			<!-- #endif -->
 			<view class="plr-8">
 				<view class="box text-center">
@@ -40,13 +40,15 @@
 						<view class="flex-evenly mt-25 fw-4 fs-12" style="text-wrap: nowrap;">
 							<view class="text-center self-start w-80">
 								<view class="qrbox auto-x">
-									<UQrcode :text="downloadUrl" :size="59" :qrId="'code1'" />
+									<!-- <UQrcodes :text="downloadUrl" :size="59" :qrId="'code1'" /> -->
+									<UQrcode ref="qrcode1" canvas-id="code1" :value="downloadUrl" size="59"></UQrcode>
 								</view>
 								<view class="mt-6 flex-center">APP下载地址</view>
 							</view>
 							<view class="text-center w-80">
 								<view class="qrbox auto-x">
-									<UQrcode :text="profile.referral_code" :size="59" :qrId="'code2'" />
+									<!-- <UQrcodes :text="profile.referral_code" :size="59" :qrId="'code2'" /> -->
+									<UQrcode ref="qrcode2" canvas-id="code2" :value="profile.referral_code" size="59"></UQrcode>
 								</view>
 								<view class="mt-6 flex-center">我的邀请码</view>
 								<view class="flex-center" @click="$c.copy(profile.referral_code)">
@@ -107,16 +109,27 @@
 		</u-popup>
 
 		<!-- <image :src="path" mode="widthFix" @click="onSave()"></image> -->
-		<l-painter ref="painter" :board="poster" isCanvasToTempFilePath @success="path = $event" hidden />
+		<Painter ref="painter" :board="poster" isCanvasToTempFilePath @success="path = $event" hidden />
 	</view>
 </template>
 
 <script>
 	import Title from '../../components/Title.vue';
-	import UQrcode from '@/components/u-qrcode.vue'
+	
+	// #ifdef MP
+	import Painter from '@/pages/user/components/lime-painter/components/l-painter/l-painter.vue'
+	import UQrcode from '@/pages/user/components/Sansnn-uQRCode/components/uqrcode/uqrcode.vue'
+	// #endif
+	
+	// #ifdef H5
+	import Painter from '@/uni_modules/lime-painter/components/l-painter/l-painter.vue'
+	import UQrcode from '@/uni_modules/Sansnn-uQRCode/components/uqrcode/uqrcode.vue'
+	// #endif
+	
 	export default {
 		components: {
 			Title,
+			Painter,
 			UQrcode
 		},
 		data() {
@@ -134,10 +147,10 @@
 					},
 					views: [{
 							// #ifdef MP
-							src: "/static/mp/user/poster.webp",
+							src: this.$c.img("/static/mp/user/poster.webp"),
 							// #endif
 							// #ifndef MP
-							src: "/static/user/poster.webp",
+							src: this.$c.img("/static/user/poster.webp"),
 							// #endif
 							type: "image",
 							css: {

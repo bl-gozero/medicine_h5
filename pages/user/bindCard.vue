@@ -163,7 +163,7 @@
 <script>
 	import Title from '../../components/Title.vue';
 	import LineInput from '@/components/LineInput.vue'
-	import RegionPicker from '@/components/RegionPicker.vue'
+	import RegionPicker from './components/RegionPicker.vue'
 
 	export default {
 		components: {

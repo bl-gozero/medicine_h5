@@ -54,7 +54,7 @@ const common = {
 	formatMoney(num) {
 		return parseFloat(num || 0).toFixed(2)
 	},
-	
+
 	priceFormatter(value) {
 		if (!value) return '';
 		let match = value.toString().match(/^\d*(\.?\d{0,2})?/);
@@ -149,7 +149,8 @@ const common = {
 			uni.redirectTo({
 				url
 			})
-		} if(type == 3) {
+		}
+		if (type == 3) {
 			uni.reLaunch({
 				url
 			})
@@ -157,7 +158,7 @@ const common = {
 			uni.navigateTo({
 				url: url,
 				success(res) {
-				    data && res.eventChannel.emit('pageData', data)
+					data && res.eventChannel.emit('pageData', data)
 				}
 			})
 		}
@@ -222,7 +223,7 @@ const common = {
 			case 'cs':
 				return this.cs()
 			case 'dl':
-				return  this.getStorage('endpoint') + '/download/app-release.new.apk'
+				return this.getStorage('endpoint') + '/download/app-release.new.apk'
 			default:
 				return ''
 		}
@@ -391,7 +392,7 @@ const common = {
 			medals: {
 				id: 1,
 				value: "无奖牌"
-			}, 
+			},
 			upgrade_at: "",
 			balance: 0,
 			referral_code: "",
@@ -414,7 +415,7 @@ const common = {
 		return '/static/mp/user/icon_user_default.webp'
 		// #endif
 		// #ifndef MP
-		return '/static/user/icon_user_default.png'
+		return '/static/user/icon_user_default.webp'
 		// #endif
 	},
 
@@ -474,7 +475,7 @@ const common = {
 			'/pages/index/register', '/pages/web/register', '/pages/web/download'
 		]
 		let current = ''
-		if(pages.length) {
+		if (pages.length) {
 			const currentPage = pages[pages.length - 1]
 			current = '/' + currentPage.route
 		}
@@ -620,21 +621,21 @@ const common = {
 		const domain = this.getStorage('endpoint')
 		return domain ? `${domain}/${url}` : url
 	},
-	
+
 	isMedals(data) {
 		if (!data) return 0;
 		const level = Number(data?.level?.id) || 1;
 		const medals = Number(data?.medals?.id) || 1;
-		return level > 3 && medals > 1?  (medals - 1) : 0
+		return level > 3 && medals > 1 ? (medals - 1) : 0
 	},
-	
+
 	calcLv(data) {
 		if (!data) return 1;
 		const level = Number(data?.level?.id) || 1;
 		const medals = level > 3 ? (Number(data?.medals?.id) || 1) : 1;
 		return level + medals - 1
 	},
-	
+
 	calcLvName(data) {
 		if (data?.level?.id > 3 && data?.medals?.id > 1 && data?.medals?.value) {
 			return data.medals.value
@@ -643,35 +644,65 @@ const common = {
 		}
 		return ''
 	},
-	
+
 	calcLvBg(item) {
 		const lv = this.calcLv(item)
-		switch(lv) {
-			case 1: return 'background: #E1E9EA;color: #3D3D3D'
-			case 2: return 'background: #E5E0D2;color: #3D3D3D'
-			case 3: return 'background: #B08E3E;color: #fff'
-			case 4: return 'background: #30304C;color: #fff'
-			case 5: return 'background: linear-gradient(90deg, #895041 0%, #BD967E 96%);color: #fff'
-			case 6: return 'background: linear-gradient(90deg, #41474D 0%, #9BA4B5 96%);color: #fff'
-			case 7: return 'background: linear-gradient(90deg, #B76B20 0%, #DDAB57 100%);color: #fff'
-			default: return 'background: #D8D8D8'
+		switch (lv) {
+			case 1:
+				return 'background: #E1E9EA;color: #3D3D3D'
+			case 2:
+				return 'background: #E5E0D2;color: #3D3D3D'
+			case 3:
+				return 'background: #B08E3E;color: #fff'
+			case 4:
+				return 'background: #30304C;color: #fff'
+			case 5:
+				return 'background: linear-gradient(90deg, #895041 0%, #BD967E 96%);color: #fff'
+			case 6:
+				return 'background: linear-gradient(90deg, #41474D 0%, #9BA4B5 96%);color: #fff'
+			case 7:
+				return 'background: linear-gradient(90deg, #B76B20 0%, #DDAB57 100%);color: #fff'
+			default:
+				return 'background: #D8D8D8'
 		}
 	},
-	
+
 	sellData(id = 0, account = '') {
-		if(!account) return
-		this.setStorage('sellAccount', { id: Number(id) || 0, account: account })
+		if (!account) return
+		this.setStorage('sellAccount', {
+			id: Number(id) || 0,
+			account: account
+		})
 		this.goto('/pages/finance/sell')
 	},
-	
+
 	mode() {
 		return 1
 	},
-	
+
 	safeId(query, q = 'id') {
 		const id = Number(query?.[q])
 		return Number.isInteger(id) && id >= 0 ? id : null
 	},
+
+	img(path, mode = 1) {
+		if (!path) return ''
+		
+		if (/^(https?:)?\/\//.test(path)) {
+			return path
+		}
+		
+		let domain = ''
+		if (mode) {
+			if (process.env.NODE_ENV === 'development') {
+				domain = 'https://resource.bcdg1135.com' + '/medicinedev/wx_mini_program'
+			} else {
+				domain = this.getStorage('endpoint') + '/medicinedev/wx_mini_program'
+			}
+			path = domain + path
+		}
+		return path
+	}
 }
 
 export default common

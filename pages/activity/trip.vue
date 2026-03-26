@@ -2,32 +2,35 @@
 	<view>
 		<view v-if="page == 1" class="page" style="background: #47969B;">
 			<Title title="椰风海韵活动" fixed bgColor="#fff" />
-			<image src="/static/avtivity/trip/top.webp" class="pw-100 block" mode="widthFix"></image>
+			<image :src="$c.img('/static/avtivity/trip/top.webp')" class="pw-100 block" mode="widthFix"></image>
 			<view class="relative">
-				<image src="/static/avtivity/trip/part_1.webp" class="pw-100 block" mode="widthFix"></image>
+				<image :src="$c.img('/static/avtivity/trip/part_1.webp')" class="pw-100 block" mode="widthFix"></image>
 				<view class="absolute top-0 flex-center auto-x">
 					<view class="fs-16 p-7 lh-10 rounded-4 "
 						style="background: linear-gradient(90deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 100%);color: #0E5A29;"
-						@click="$c.goto('/pages/index/protocols?type=7')"
-					>查看详细旅游计划 >></view>
+						@click="$c.goto('/pages/index/protocols?type=7')">查看详细旅游计划 >></view>
 				</view>
 			</view>
 			<view class="relative">
-				<image src="/static/avtivity/trip/part_2.webp" class="pw-100 block" mode="widthFix"></image>
+				<image :src="$c.img('/static/avtivity/trip/part_2.webp')" class="pw-100 block" mode="widthFix"></image>
 				<view class="full pt-50">
 					<view class="flex-center">
 						<view class="w-343 part relative pb-10">
-							<image src="/static/avtivity/trip/titile_1.webp" class="w-132 h-121 absolute" style="top: -35px;left: -10px;"></image>
+							<image :src="$c.img('/static/avtivity/trip/titile_1.webp')" class="w-132 h-121 absolute"
+								style="top: -35px;left: -10px;"></image>
 							<view class="relative flex-center mt-70">
-								<image src="/static/avtivity/trip/bg_line.webp" class="w-327 h-74"></image>
+								<image :src="$c.img('/static/avtivity/trip/bg_line.webp')" class="w-327 h-74"></image>
 								<view class="full border-box pl-36 pr-40 pt-33">
 									<view class="relative">
-										<u-line-progress :percentage="process" :showText="false" activeColor="#fff" inactiveColor="#2C6775" 
-											:height="6"></u-line-progress>
-										<view class="percent text-center" :style="{left: `${item.left}%`}" v-for="item in items" :key="item.id">
-											<image :src="`/static/avtivity/trip/${item.id}.webp`" class="i-52"></image>
+										<u-line-progress :percentage="process" :showText="false" activeColor="#fff"
+											inactiveColor="#2C6775" :height="6"></u-line-progress>
+										<view class="percent text-center" :style="{left: `${item.left}%`}"
+											v-for="item in items" :key="item.id">
+											<image :src="$c.img(`/static/avtivity/trip/${item.id}.webp`)" class="i-52">
+											</image>
 											<view class="mt-10 mb-14">
-												<image src="/static/avtivity/trip/point.webp" class="i-27"></image>
+												<image :src="$c.img('/static/avtivity/trip/point.webp')" class="i-27">
+												</image>
 											</view>
 											<view class="flex-center">
 												<view class="num w-30">{{ item.num }}盒</view>
@@ -39,32 +42,44 @@
 							<view class="fs-14 mt-30 flex-center">
 								<text class="fw-3" style="color: #2C6775;">已购买数量</text>
 								<text class="fw-7 ml-2" style="color: #2C6775;">{{ stat.pur_quan }}盒</text>
-								<image src="/static/avtivity/trip/buy.webp" class="w-73 h-48 ml-4" @click="$c.goto('/pages/goods/detail?id=28')"></image>
+								<image :src="$c.img('/static/avtivity/trip/buy.webp')" class="w-73 h-48 ml-4"
+									@click="$c.goto('/pages/goods/detail?id=28')"></image>
 							</view>
 							<view class="flex-center fs-12" style="color: #83ACB6;">
 								<view class="" @click="onLog()">活动购买记录>></view>
 							</view>
 							<view class="flex-center mt-25">
-								<image v-if="!stat.pur_quan" src="/static/avtivity/trip/btn_0.webp" class="w-282 h-78"></image>
-								<image v-else-if="stat.quota && stat.record_num === 0" src="/static/avtivity/trip/btn_1.webp" class="w-282 h-78" @click="onInfo()"></image>
-								<image v-else-if="stat.quota > stat.record_num" src="/static/avtivity/trip/btn_2.webp" class="w-282 h-78" @click="onInfo()"></image>
-								<image v-else-if="stat.quota == stat.record_num" src="/static/avtivity/trip/btn_3.webp" class="w-282 h-78" @click="onInfo()"></image>
+								<image v-if="!stat.pur_quan" :src="$c.img('/static/avtivity/trip/btn_0.webp')"
+									class="w-282 h-78"></image>
+								<image v-else-if="stat.quota && stat.record_num === 0"
+									:src="$c.img('/static/avtivity/trip/btn_1.webp')" class="w-282 h-78"
+									@click="onInfo()"></image>
+								<image v-else-if="stat.quota > stat.record_num"
+									:src="$c.img('/static/avtivity/trip/btn_2.webp')" class="w-282 h-78"
+									@click="onInfo()"></image>
+								<image v-else-if="stat.quota == stat.record_num"
+									:src="$c.img('/static/avtivity/trip/btn_3.webp')" class="w-282 h-78"
+									@click="onInfo()"></image>
 							</view>
-							<view v-if="stat.end_time" class="fs-12 text-center" style="color: #B3882B;">申请截止日期: {{ stat.end_time }}</view>
+							<view v-if="stat.end_time" class="fs-12 text-center" style="color: #B3882B;">申请截止日期:
+								{{ stat.end_time }}</view>
 						</view>
 					</view>
 					<view class="flex-center mt-40">
 						<view class="w-343 part relative pt-25 pb-20">
 							<view class="relative flex-center">
-								<image src="/static/avtivity/trip/bg_line.webp" class="w-327 h-74"></image>
+								<image :src="$c.img('/static/avtivity/trip/bg_line.webp')" class="w-327 h-74"></image>
 								<view class="full border-box pl-36 pr-40 pt-33">
 									<view class="relative">
-										<u-line-progress :percentage="process2" :showText="false" activeColor="#fff" inactiveColor="#2C6775" 
-											:height="6"></u-line-progress>
-										<view class="percent text-center" :style="{left: `${item.left}%`}" v-for="item in items" :key="item.id">
-											<image :src="`/static/avtivity/trip/${item.id}.webp`" class="i-52"></image>
+										<u-line-progress :percentage="process2" :showText="false" activeColor="#fff"
+											inactiveColor="#2C6775" :height="6"></u-line-progress>
+										<view class="percent text-center" :style="{left: `${item.left}%`}"
+											v-for="item in items" :key="item.id">
+											<image :src="$c.img(`/static/avtivity/trip/${item.id}.webp`)" class="i-52">
+											</image>
 											<view class="mt-10 mb-14">
-												<image src="/static/avtivity/trip/point.webp" class="i-27"></image>
+												<image :src="$c.img('/static/avtivity/trip/point.webp')" class="i-27">
+												</image>
 											</view>
 											<view class="flex-center">
 												<view class="num" style="text-wrap: nowrap;">{{ item.text }}</view>
@@ -77,7 +92,7 @@
 								<text style="color: #8A8A8A;font-weight: 350;">您当前等级推广员</text>
 								<text style="color: #5A5A5A;font-weight: 700;">{{ $c.calcLvName(profile) }}</text>
 							</view>
-							<image src="/static/avtivity/trip/cs.webp" class="w-56 h-69 absolute" 
+							<image :src="$c.img('/static/avtivity/trip/cs.webp')" class="w-56 h-69 absolute"
 								style="right: -12px;bottom: -26px;" @click="$c.goto('/pages/index/web')"></image>
 						</view>
 					</view>
@@ -85,24 +100,24 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<view v-if="page == 2" class="page" style="background: #fff;">
 			<Title title="旅游计划详情" fixed bgColor="#fff" isBack @back="page = 1" />
-			<u-image :src="`/static/avtivity/trip/detail.webp`" width="100%" height="auto"
-				bgColor="transparent" mode="widthFix">
-			  <template v-slot:loading>
-			    <view class="ptb-50 pw-100" style="background: #fff;">
-					<u-loading-icon color="#9F9F9F" class=""></u-loading-icon>
-				</view>
-			  </template>
-			  <template v-slot:error>
-			    <view class="ptb-10 pw-100 flex-center" style="background: #fff;">
-					<u-icon name="info-circle" color="#9F9F9F"></u-icon>
-				</view>
-			  </template>
+			<u-image :src="$c.img(`/static/avtivity/trip/detail.webp`)" width="100%" height="auto" bgColor="transparent"
+				mode="widthFix">
+				<template v-slot:loading>
+					<view class="ptb-50 pw-100" style="background: #fff;">
+						<u-loading-icon color="#9F9F9F" class=""></u-loading-icon>
+					</view>
+				</template>
+				<template v-slot:error>
+					<view class="ptb-10 pw-100 flex-center" style="background: #fff;">
+						<u-icon name="info-circle" color="#9F9F9F"></u-icon>
+					</view>
+				</template>
 			</u-image>
 		</view>
-		
+
 		<view v-if="page == 3" class="page bg-page plr-20">
 			<Title title="购买记录" fixed bgColor="#F8F8F8" isBack @back="page = 1" />
 			<view class="bg-white p-12 rounded-8 flex-between mt-10 fgap-10" v-for="item in logs" :key="item.id">
@@ -113,7 +128,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<!-- registe -->
 		<view v-if="page == 4" class="page bg-page plr-20">
 			<Title title="报名" fixed bgColor="#F8F8F8" isBack @back="page = 1" />
@@ -142,8 +157,8 @@
 						border="none"></u-input>
 				</view>
 			</view>
-			
-			<view  v-if="stat.quota == 2" class="">
+
+			<view v-if="stat.quota == 2" class="">
 				<view class="flex-start mt-30">
 					<view class="icon-trip-user"></view>
 					<view class="fs-16 fw-5 ml-3">同行人</view>
@@ -171,20 +186,21 @@
 				</view>
 			</view>
 			<view v-if="stat.quota > stat.record_num" class="absolute bottom-30 left-0 pw-100">
-				<button class="fs-14 fw-7 bg-base text-white w-247 h-47 rounded-x flex-center" @click="doSubmit">提交</button>
+				<button class="fs-14 fw-7 bg-base text-white w-247 h-47 rounded-x flex-center"
+					@click="doSubmit">提交</button>
 			</view>
 		</view>
-		
+
 		<!-- 弹窗 -->
 		<u-popup :show="showReward" mode="center" bgColor="transparent" @close="showReward = false;">
 			<view class="popup-box sign_reward_box">
-				<image src="/static/avtivity/trip/know.webp" class="popup-img" mode="heightFix"></image>
+				<image :src="$c.img('/static/avtivity/trip/know.webp')" class="popup-img" mode="heightFix"></image>
 				<view class="popup-title">提交成功</view>
 				<view class="popup-text flex-1">您已提交成功，请联系在线客服领取旅游资料及相关说明</view>
 				<view class="popup-buttons">
 					<view class="">
-						<button class="bold fs-16 w-135 h-51 flex-center text-black rounded-x bg-white" style="border: 1px solid #9F9F9F;"
-							@click="showReward = false;">取消</button>
+						<button class="bold fs-16 w-135 h-51 flex-center text-black rounded-x bg-white"
+							style="border: 1px solid #9F9F9F;" @click="showReward = false;">取消</button>
 					</view>
 					<view class="">
 						<button class="bold fs-16 w-135 h-51 bg-base text-white flex-center rounded-x"
@@ -199,7 +215,7 @@
 <script>
 	import Title from '../../components/Title.vue'
 	import PlayImg from '../../components/PlayImgs.vue'
-	
+
 	export default {
 		components: {
 			Title,
@@ -214,13 +230,38 @@
 				event_id: 1,
 				profile: this.$c.profile(),
 				logs: [],
-				items: [
-					{ id: 1, num: 15, text: '合伙人', left: 50 },
-					{ id: 2, num: 30, text: '铜牌及以上', left: 100 },
+				items: [{
+						id: 1,
+						num: 15,
+						text: '合伙人',
+						left: 50
+					},
+					{
+						id: 2,
+						num: 30,
+						text: '铜牌及以上',
+						left: 100
+					},
 				],
-				info1: { name: '', identity: '', mobile: '', is_vassal: 2, done: false },
-				info2: { name: '', identity: '', mobile: '', is_vassal: 1, done: false },
-				stat: { quota: 0, record_num: 0, pur_quan: 0 },
+				info1: {
+					name: '',
+					identity: '',
+					mobile: '',
+					is_vassal: 2,
+					done: false
+				},
+				info2: {
+					name: '',
+					identity: '',
+					mobile: '',
+					is_vassal: 1,
+					done: false
+				},
+				stat: {
+					quota: 0,
+					record_num: 0,
+					pur_quan: 0
+				},
 				showReward: false
 			}
 		},
@@ -251,11 +292,19 @@
 				if (res.length) {
 					const info1 = res.find(i => i.is_vassal?.id == 2)
 					if (info1) {
-						this.info1 = { ...this.info1, ...info1, done: true }
+						this.info1 = {
+							...this.info1,
+							...info1,
+							done: true
+						}
 					}
 					const info2 = res.find(i => i.is_vassal?.id == 1)
 					if (info2) {
-						this.info2 = { ...this.info2, ...info2, done: true }
+						this.info2 = {
+							...this.info2,
+							...info2,
+							done: true
+						}
 					}
 				}
 				this.page = 4
@@ -264,7 +313,8 @@
 				if (this.stat.quota == 1 && this.stat.record_num == 0 && this.check(this.info1)) {
 					this.toSubmit(this.info1)
 				}
-				if (this.stat.quota == 2 && this.stat.record_num == 0 && this.check(this.info1) && this.check(this.info2)) {
+				if (this.stat.quota == 2 && this.stat.record_num == 0 && this.check(this.info1) && this.check(this
+					.info2)) {
 					this.toSubmit(this.info1, 0)
 					this.toSubmit(this.info2)
 				}
@@ -293,7 +343,7 @@
 					id: this.event_id,
 					...info
 				})
-				if(res && show) {
+				if (res && show) {
 					this.onKnow()
 					this.getActivity()
 				}
@@ -303,11 +353,15 @@
 			},
 			async onLog() {
 				this.page = 3
-				const res = await this.$c.fetch(this.$api.event.tripBuy, { id: this.event_id })
-				if(res) this.logs = res
+				const res = await this.$c.fetch(this.$api.event.tripBuy, {
+					id: this.event_id
+				})
+				if (res) this.logs = res
 			},
 			async getActivity() {
-				const res = await this.$c.fetch(this.$api.event.tripStat, { id: this.event_id })
+				const res = await this.$c.fetch(this.$api.event.tripStat, {
+					id: this.event_id
+				})
 				if (res) this.stat = res
 			}
 		}
@@ -318,17 +372,21 @@
 	.part {
 		background: #E8F1E8;
 		border-radius: 12px;
-		box-shadow: 2px 2px 2px 0px #42BD6C;;
+		box-shadow: 2px 2px 2px 0px #42BD6C;
+		;
 	}
+
 	.process {
 		background: #fff;
 		position: relative;
 		transition: all 1s ease;
 	}
+
 	.percent {
 		position: absolute;
 		transform: translate(-50%, -65%);
 	}
+
 	.num {
 		border-radius: 3px;
 		border: 1px solid #C6E1CF;
@@ -340,6 +398,7 @@
 		height: 16px;
 		line-height: 16px;
 	}
+
 	.bg {
 		background: linear-gradient(180deg, #CDEAEB 2%, #FFFFFF 32px);
 	}

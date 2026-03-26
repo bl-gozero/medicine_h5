@@ -2,18 +2,18 @@
 	<view>
 		<view v-if="page == 1" class="page" style="background: #FC4F43;">
 			<Title title="新年赠好礼活动" fixed bgColor="#fff" />
-			<image src="/static/avtivity/wine/top.webp" class="pw-100 block" mode="widthFix"></image>
+			<image :src="$c.img('/static/avtivity/wine/top.webp')" class="pw-100 block" mode="widthFix"></image>
 			<view class="flex-center">
 				<view class="relative">
-					<image src="/static/avtivity/wine/part_1.webp" class="w-375 h-453 block"></image>
+					<image :src="$c.img('/static/avtivity/wine/part_1.webp')" class="w-375 h-453 block"></image>
 					<view class="full border-box pt-72 plr-20">
-						<image src="/static/avtivity/wine/1.webp" class="w-330 h-86 block"></image>
+						<image :src="$c.img('/static/avtivity/wine/1.webp')" class="w-330 h-86 block"></image>
 						<view class="relative">
-							<image src="/static/avtivity/wine/2.webp" class="w-330 h-262 mt-6"></image>
+							<image :src="$c.img('/static/avtivity/wine/2.webp')" class="w-330 h-262 mt-6"></image>
 							<view class="full border-box pt-63 text-center">
 								<view class="flex-center">
 									<view class="relative">
-										<image src="/static/avtivity/wine/out.webp" class="w-260 h-15 block"></image>
+										<image :src="$c.img('/static/avtivity/wine/out.webp')" class="w-260 h-15 block"></image>
 										<view class="full border-box ptb-5 plr-4">
 											<view class="process rounded-x h-5" :class="'pw-' + process">
 												<view v-if="![0, 10, 15].includes(num)" class="circle"></view>
@@ -21,10 +21,10 @@
 										</view>
 										<view class="percent text-center" style="left: 67%;">
 											<view class="">
-												<image src="/static/avtivity/wine/bottle_1.webp" class="i-52"></image>
+												<image :src="$c.img('/static/avtivity/wine/bottle_1.webp')" class="i-52"></image>
 											</view>
 											<view class="">
-												<image src="/static/avtivity/wine/gift.webp" class="i-19"></image>
+												<image :src="$c.img('/static/avtivity/wine/gift.webp')" class="i-19"></image>
 											</view>
 											<view class="flex-center">
 												<view class="num w-30">10份</view>
@@ -32,10 +32,10 @@
 										</view>
 										<view class="percent text-center" style="left: 100%;">
 											<view class="">
-												<image src="/static/avtivity/wine/bottle_2.webp" class="i-52"></image>
+												<image :src="$c.img('/static/avtivity/wine/bottle_2.webp')" class="i-52"></image>
 											</view>
 											<view class="">
-												<image src="/static/avtivity/wine/gift.webp" class="i-19"></image>
+												<image :src="$c.img('/static/avtivity/wine/gift.webp')" class="i-19"></image>
 											</view>
 											<view class="flex-center">
 												<view class="num w-30">15份</view>
@@ -49,7 +49,7 @@
 								</view>
 								<view class="fs-12 fw-3 mt-20" style="color: #4D0101;">活动期限:即日起至2026年2月28日</view>
 								<view class="flex-center">
-									<image src="/static/avtivity/wine/buy.webp" class="w-220 h-61" @click="$c.goto('/pages/goods/detail?id=28')"></image>
+									<image :src="$c.img('/static/avtivity/wine/buy.webp')" class="w-220 h-61" @click="$c.goto('/pages/goods/detail?id=28')"></image>
 								</view>
 								<view class="flex-center fs-12 mt-7" style="color: #2D674A;">
 									<view class="" @click="onLog()">活动购买记录>></view>
@@ -60,20 +60,20 @@
 				</view>
 			</view>
 			<view class="flex-center">
-				<image src="/static/avtivity/wine/part_2.webp" class="w-375 h-207 block" @click="page = 2"></image>
+				<image :src="$c.img('/static/avtivity/wine/part_2.webp')" class="w-375 h-207 block" @click="page = 2"></image>
 			</view>
 			<view class="flex-center">
-				<image src="/static/avtivity/wine/part_3.webp" class="w-375 h-310 block"></image>
+				<image :src="$c.img('/static/avtivity/wine/part_3.webp')" class="w-375 h-310 block"></image>
 			</view>
 			<view class="flex-center pt-10 pb-20" style="background: #CD2220;">
-				<image v-if="done" src="/static/avtivity/wine/check.webp" class="w-227 h-50 block" @click="onDetail()"></image>
-				<image v-else src="/static/avtivity/wine/get.webp" class="w-227 h-50 block" @click="showAddress = true"></image>
+				<image v-if="done" :src="$c.img('/static/avtivity/wine/check.webp')" class="w-227 h-50 block" @click="onDetail()"></image>
+				<image v-else :src="$c.img('/static/avtivity/wine/get.webp')" class="w-227 h-50 block" @click="showAddress = true"></image>
 			</view>
 		</view>
 		
 		<view v-if="page == 2" class="page" style="background: #010101;">
 			<Title title="礼品详细说明" fixed bgColor="#fff" isBack @back="page = 1" />
-			<u-image :src="`/static/avtivity/wine/rule/${index}.webp`" v-for="index in 5" :key="index" width="100%" height="auto"
+			<u-image :src="$c.img(`/static/avtivity/wine/rule/${index}.webp`)" v-for="index in 5" :key="index" width="100%" height="auto"
 				bgColor="transparent" mode="widthFix">
 			  <template v-slot:loading>
 			    <view class="ptb-50 pw-100" style="background: #010101;">
@@ -106,7 +106,7 @@
 				<view class="border-bottom pb-30">
 					<view class="flex-between item-stretch mt-30 " v-for="item in items">
 						<view class="i-76 rounded-8 flex-center" style="background: #D8D8D8;">
-							<image :src="item.img" :class="item.class"></image>
+							<image :src="$c.img(item.img)" :class="item.class"></image>
 						</view>
 						<view class="flex-1 ml-8">
 							<view class="">{{ item.name }}</view>
@@ -116,7 +116,7 @@
 					</view>
 				</view>
 				<view class="flex-between ptb-25 border-bottom" @click="$c.goto('/pages/user/address?from=address')">
-					<image src="/static/goods/place.png" class="w-12 h-14 self-start"></image>
+					<image :src="$c.img('/static/goods/place.png')" class="w-12 h-14 self-start"></image>
 					<view v-if="address.district" class="flex-1 ml-8 mr-20">
 						<view class="">{{ address.district + address.address }}</view>
 						<view class="mt-15 fs-12">

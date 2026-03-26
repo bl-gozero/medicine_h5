@@ -53,6 +53,11 @@
 					<view class="text-info fs-12 mt-6">存储产品总数量（件）</view>
 					<view class="fs-16 fw-7 u-line-1">{{ info.save_count || 0 }}</view>
 				</view>
+				<view class="data_bg rounded-8 p-12 border-box icon">
+					<image src="/static/vip/xian.webp" class="icon"></image>
+					<view class="text-info fs-12 mt-6">现存储产品数量（件）</view>
+					<view class="fs-16 fw-7 u-line-1">{{ info.save_buy_count || 0 }}</view>
+				</view>
 			</view>
 		</view>
 	</view>

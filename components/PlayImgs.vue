@@ -48,7 +48,13 @@
 				diceAnimationImages2: [],
 
 				loadedCache: {},
-				imagesLoaded: false
+				imagesLoaded: false,
+				// #ifdef MP
+				play: false
+				// #endif
+				// #ifndef MP
+				play: false
+				// #endif
 			};
 		},
 
@@ -96,26 +102,18 @@
 			},
 
 			getImage(imgSrc) {
-				// #ifndef MP
-				if (!this.loadedCache[imgSrc]) {
+				if (this.play && !this.loadedCache[imgSrc]) {
 					const img = new Image();
 					img.src = imgSrc;
 					this.loadedCache[imgSrc] = img;
 				}
-				// #endif
 			},
 
 			async loadImages() {
 
 				if (this.imagesLoaded) return;
 				
-				// #ifndef MP
-				const path = 'anime'
-				// #endif
-				
-				// #ifdef MP
-				const path = 'anime_mp'
-				// #endif
+				const path = this.play ? 'anime' : 'anime_mp'
 
 				// 第一段动画
 				for (let i = 0; i < this.length; i++) {
@@ -153,25 +151,23 @@
 				}
 
 				this.imagesLoaded = true;
-
-				// 小程序只显示最后一帧
-				// #ifdef MP
-				if (this.loopAll) {
-					this.imgSrc = this.diceAnimationImages[this.diceAnimationImages.length - 1];
-				} else if (this.diceAnimationImages2.length > 0) {
-					this.imgSrc = this.diceAnimationImages2[this.diceAnimationImages2.length - 1];
+				
+				let imgSrc = ''
+				if (this.play) {
+					if (this.diceAnimationImages.length > 0) {
+						imgSrc = this.diceAnimationImages[0];
+					}
 				} else {
-					this.imgSrc = this.diceAnimationImages[this.diceAnimationImages.length - 1];
+					if (this.loopAll) {
+						imgSrc = this.diceAnimationImages[this.diceAnimationImages.length - 1];
+					} else if (this.diceAnimationImages2.length > 0) {
+						imgSrc = this.diceAnimationImages2[this.diceAnimationImages2.length - 1];
+					} else {
+						imgSrc = this.diceAnimationImages[this.diceAnimationImages.length - 1];
+					}
 				}
-				// #endif
-
-				// 非小程序默认第一帧
-				// #ifndef MP
-				if (this.diceAnimationImages.length > 0) {
-					this.imgSrc = this.diceAnimationImages[0];
-				}
-				// #endif
-
+				if (imgSrc) this.imgSrc = this.$c.img(imgSrc)
+				
 				this.$emit('load', {
 					length1: this.diceAnimationImages.length,
 					length2: this.diceAnimationImages2.length
@@ -179,12 +175,8 @@
 			},
 
 			startAnimation() {
-
-				// 小程序不播放动画
-				// #ifdef MP
-				return;
-				// #endif
-
+				if (!this.play) return
+				
 				this.stopAnimation();
 
 				if (!this.diceAnimationImages.length) return;
@@ -229,10 +221,6 @@
 			},
 
 			startAnimation2() {
-
-				// #ifdef MP
-				return;
-				// #endif
 
 				if (!this.diceAnimationImages2.length) return;
 

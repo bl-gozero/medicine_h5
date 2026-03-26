@@ -4,9 +4,7 @@
 		<view v-if="load" class="plr-20 mt-10">
 			<view class="bg-white rounded-14 pt-40 pb-25 text-center">
 				<view class="">
-					<!-- <image v-if="info.commodity && info.commodity.id" src="/static/avtivity/egg/egg.webp" class="w-115 h-73"></image>
-					<image v-if="event_id == 1" src="/static/avtivity/new/goods.webp" class="i-84"></image> -->
-					<image v-if="info.goods" :src="info.goods.img" :class="info.goods.class"></image>
+					<image v-if="info.goods" :src="$c.img(info.goods.img)" :class="info.goods.class"></image>
 				</view>
 				<view class="mt-20 fs-16">领取成功</view>
 			</view>

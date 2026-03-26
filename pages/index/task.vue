@@ -117,7 +117,7 @@
 		<!-- 签到弹窗 -->
 		<u-popup :show="showReward" mode="center" bgColor="transparent" @close="showReward = false;">
 			<view class="w-308 h-280 sign_reward_box rounded-20 text-center">
-				<image src="/static/user/sign_reward.png" class="w-113 h-107" style="margin-top: -53px;"></image>
+				<image src="/static/user/sign_reward.webp" class="w-113 h-107" style="margin-top: -53px;"></image>
 				<view class="fw-7 fs-18 mt-20 text-base">签到成功</view>
 				<view class="mt-9 fs-12" style="color: #8B9E9F;">真棒！请保持每天签到哦！</view>
 				<view v-if="$c.mode()" class="fs-16 mt-10">恭喜您获得<text class="fs-36 fw-7 text-danger">{{ reward }}</text>元购物金</text></view>

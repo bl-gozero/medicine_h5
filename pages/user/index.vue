@@ -182,7 +182,7 @@
 				<view v-if="$c.mode()" class="">
 					<view class="fw-5 mt-34">加入北辰代购</view>
 					<view class="relative" @click="$c.goto('/pages/user/join')">
-						<image src="/static/user/join.png" class="pw-100 mt-10 maxh-110" mode="widthFix"></image>
+						<image src="/static/user/join.webp" class="pw-100 mt-10 maxh-110" mode="widthFix"></image>
 						<view class="absolute pw-100 left-0" style="top: 8%">
 							<PlayImgs path="user/index_join/2" :interval="50" :length="40" type="webp"></PlayImgs>
 						</view>
@@ -275,6 +275,12 @@
 						icon: '/static/icon/about.webp',
 						url: '/pages/index/protocols?type=6'
 					},
+					{
+						id: 5,
+						name: '礼品兑换',
+						icon: '/static/icon/gift.webp',
+						url: '/pages/activity/gift'
+					},
 				],
 				mp_menus: [
 					{
@@ -284,29 +290,25 @@
 							id: 1,
 							name: '积分商城',
 							icon: '/static/mp/icon/mall.webp',
-							url: '/pages/point/index',
-							type: 1
+							url: '/pages/point/index'
 						},
 						{
 							id: 2,
 							name: '创客平台',
 							icon: '/static/mp/icon/maker.webp',
-							url: '/pages/index/maker',
-							type: 1
+							url: '/pages/index/maker'
 						},
 						{
 							id: 3,
 							name: '招募计划',
 							icon: '/static/mp/icon/recruit.webp',
-							url: '/pages/index/recruit',
-							type: 1
+							url: '/pages/index/recruit'
 						},
 						{
 							id: 4,
 							name: '关于北辰',
 							icon: '/static/mp/icon/about.webp',
-							url: '/pages/index/protocols?type=6',
-							type: 1
+							url: '/pages/index/protocols?type=6'
 						}]
 					},
 					{
@@ -316,8 +318,13 @@
 							id: 5,
 							name: '在线客服',
 							icon: '/static/mp/icon/cs.webp',
-							url: '/pages/index/web',
-							type: 2
+							url: '/pages/index/web'
+						},
+						{
+							id: 6,
+							name: '在线客服',
+							icon: '/static/mp/icon/gift.webp',
+							url: '/pages/activity/gift'
 						}]
 					}
 				],

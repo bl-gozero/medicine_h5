@@ -3,18 +3,18 @@
 		<Title title="我的二维码" fixed bgColor="#4F87D6" />
 		<view class="">
 			<!-- #ifdef MP -->
-			<image src="/static/mp/user/qr_top.webp" class="pw-100 block" mode="widthFix"></image>
+			<image :src="$c.img('/static/mp/user/qr_top.webp')" class="pw-100 block" mode="widthFix"></image>
 			<!-- #endif -->
 			<!-- #ifndef MP -->
-			<image src="/static/user/qr_top.webp" class="pw-100 block" mode="widthFix"></image>
+			<image :src="$c.img('/static/user/qr_top.webp')" class="pw-100 block" mode="widthFix"></image>
 			<!-- #endif -->
 		</view>
 		<view class="plr-20 mt-10">
 			<view class="out_box">
 				<view class="flex-center">
 					<view  class="qrbox i-148">
-						<uqrcode v-show="!showQr" class="auto-x rounded-22" ref="qrcode" canvas-id="uqrcode" :value="link" size="148">
-						</uqrcode>
+						<UQrcode v-show="!showQr" class="auto-x rounded-22" ref="qrcode" canvas-id="uqrcode" :value="link" size="148">
+						</UQrcode>
 					</view>
 				</view>
 				<view class="text-center lh-15 mt-10 text-info fs-12">
@@ -57,16 +57,27 @@
 			</view>
 		</u-popup>
 
-		<!-- <image :src="path" mode="widthFix" @click="onSave()"></image> -->
-		<l-painter ref="painter" :board="poster" isCanvasToTempFilePath @success="path = $event" hidden />
+		<Painter ref="painter" :board="poster" isCanvasToTempFilePath @success="path = $event" hidden />
 	</view>
 </template>
 
 <script>
 	import Title from '../../components/Title.vue';
+	// #ifdef MP
+	import Painter from '@/pages/user/components/lime-painter/components/l-painter/l-painter.vue'
+	import UQrcode from '@/pages/user/components/Sansnn-uQRCode/components/uqrcode/uqrcode.vue'
+	// #endif
+	
+	// #ifdef H5
+	import Painter from '@/uni_modules/lime-painter/components/l-painter/l-painter.vue'
+	import UQrcode from '@/uni_modules/Sansnn-uQRCode/components/uqrcode/uqrcode.vue'
+	// #endif
+
 	export default {
 		components: {
-			Title
+			Title,
+			Painter,
+			UQrcode
 		},
 		data() {
 			return {
@@ -82,10 +93,10 @@
 					},
 					views: [{
 							// #ifdef MP
-							src: "/static/mp/user/poster.webp",
+							src: this.$c.img("/static/mp/user/poster.webp"),
 							// #endif
 							// #ifndef MP
-							src: "/static/user/poster.webp",
+							src: this.$c.img("/static/user/poster.webp"),
 							// #endif
 							type: "image",
 							css: {
