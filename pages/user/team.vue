@@ -89,7 +89,7 @@
 				this.levels = [{ id: 0, name: '全部', count: 0 }],
 				this.nums = [
 					{ code: 'regular_count', name: '普通用户', count: 0 },
-					{ code: 'staff_count',name: '推广员', count: 0 },
+					{ code: 'staff_count',name: '销售员', count: 0 },
 					{ code: 'vip_count', name: 'VIP', count: 0 },
 					{ code: 'partners_count', name: '合伙人', count: 0 },
 					{ code: 'bronze_partners_count', name: '铜牌合伙人', count: 0 },

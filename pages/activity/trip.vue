@@ -89,7 +89,7 @@
 								</view>
 							</view>
 							<view class="text-center mt-30">
-								<text style="color: #8A8A8A;font-weight: 350;">您当前等级推广员</text>
+								<text style="color: #8A8A8A;font-weight: 350;">您当前等级</text>
 								<text style="color: #5A5A5A;font-weight: 700;">{{ $c.calcLvName(profile) }}</text>
 							</view>
 							<image :src="$c.img('/static/avtivity/trip/cs.webp')" class="w-56 h-69 absolute"

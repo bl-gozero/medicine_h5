@@ -2,7 +2,7 @@
 	<view class="page bg-page">
 		<Title title="奖励提现" @right="$c.goto('/pages/finance/withdrawList')">
 			<template v-slot:right>
-			  <text class="text-base">提现明细</text>
+			  <view class="text-base">提现明细</view>
 			</template>
 		</Title>
 		<view class="plr-20 pt-20">

@@ -186,7 +186,7 @@
 				showEgg: false,
 				showNick: false,
 				events: [
-					{ id: 5, name: '旅游', path: 'group_activity/trip_hn/1', url: '/pages/activity/trip', show: true },
+					// { id: 5, name: '视频', path: 'group_activity/video/1', url: '/pages/activity/video/index', show: true },
 					{ id: 1, name: '人参', path: 'group_activity/new/1', url: '/pages/activity/newExclusive', show: true },
 					// { id: 2, name: '酒',   path: 'group_activity/wine/1', url: '/pages/activity/wine', show: true },
 					{ id: 3, name: '鸡蛋', path: 'group_activity/rice/1', url: '/pages/activity/egg', show: true },

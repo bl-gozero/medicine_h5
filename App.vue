@@ -7,20 +7,22 @@
 		onLaunch: function() {
 		},
 		onShow: function() {
-			process.env.NODE_ENV !== 'development' && this.onInitNIM()
+			this.onInitNIM()
 		},
 		onHide: function() {},
 		methods: {
 			async onInitNIM() {
 				const res = await this.$c.fetch(this.$api.group.config)
 				if (res?.endpoint) this.$c.setStorage('endpoint', res.endpoint)
-				if (res?.app_key && !this.$nim) {
-					let nim = this.$c.getStorage('nimInfo') || {}
-					this.$c.setStorage('nimInfo', {
-						...nim,
-						appkey: res.app_key
-					})
-					this.$c.checkNim()
+				if (process.env.NODE_ENV !== 'development') {
+					if (res?.app_key && !this.$nim) {
+						let nim = this.$c.getStorage('nimInfo') || {}
+						this.$c.setStorage('nimInfo', {
+							...nim,
+							appkey: res.app_key
+						})
+						this.$c.checkNim()
+					}
 				}
 			}
 		}

@@ -19,7 +19,7 @@
 								<view class="fs-16 fw-7 u-line-1">{{ all.count }}</view>
 								<view class="text_top_name">{{ all.level_name }}</view>
 							</view>
-							<view class="line w-1 h-43" style="background: rgba(169, 115, 67, 0.2;"></view>
+							<view class="line w-1 h-43" style="background: rgba(169, 115, 67, 0.2;)"></view>
 							<view class="flex-1 overflow-hide">
 								<u-scroll-list indicatorActiveColor="#B88854">
 									<view class="nums text-center" v-for="item in nums">
@@ -113,7 +113,7 @@
 				levelMax: 8,
 				nums: [
 					{ code: 'regular_count', name: '普通用户', count: 0 },
-					{ code: 'staff_count',name: '推广员', count: 0 },
+					{ code: 'staff_count',name: '销售员', count: 0 },
 					{ code: 'vip_count', name: 'VIP', count: 0 },
 					{ code: 'partners_count', name: '合伙人', count: 0 },
 					{ code: 'bronze_partners_count', name: '铜牌合伙人', count: 0 },

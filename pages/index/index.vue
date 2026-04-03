@@ -172,12 +172,11 @@
 		<u-popup :show="showWine" mode="center" bgColor="transparent"
 			overlayStyle="background: 'rgba(0, 0, 0, 0.6)'" @close="showWine == false">
 			<view class="text-center vw-100 relative">
-				<PlayImg path="index_hn/1/1" :interval="40" :length="25" :loop="false" path2="index_hn/2/2"
-					:interval2="40" :length2="50" :start2="25" type="webp" imgClass="vh-100 vw-100" />
-				<view class="absolute left-0 right-0 auto-x pw-62 ph-8" style="bottom: 30%;"
-					@click="$c.goto('/pages/activity/trip')"></view>
-				<image v-if="showClose" src="/static/icon/close.webp" class="i-52 mt-17 absolute left-0 right-0 auto-x"
-					style="bottom: 13%;" @click="onClose('wine')"></image>	
+				<view class="" @click="$c.goto('/pages/activity/video/index')">
+					<PlayImg path="index_video/1/1" :interval="40" :length="25" :loop="false" path2="index_video/2/2"
+						:interval2="40" :length2="50" :start2="25" type="webp" />
+				</view>
+				<image v-if="showClose" src="/static/icon/close.webp" class="i-52 mt-17 block auto-x" @click="onClose('wine')"></image>	
 			</view>
 		</u-popup>
 		
@@ -258,7 +257,9 @@
 				this.getBanner()
 				this.getGoods()
 				this.getPointList()
+				// #ifdef MP
 				this.getNation()
+				// #endif
 				this.$c.removeStorage('sellAccount')
 			}
 		},
@@ -294,18 +295,20 @@
 				}
 			},
 			async getActivity() {
-				const res1 = await this.$c.fetch(this.$api.event.tripPopup, { id: 1 })
-				if (res1) {
-					this.showWine = res1?.ok
-				}
+				// const res1 = await this.$c.fetch(this.$api.event.tripPopup, { id: 1 })
+				// if (res1) {
+				// 	this.showWine = res1?.ok
+				// }
 				const res = await this.$c.fetch(this.$api.user.activityStatus)
 				if (res) {
 					// this.showWine = res.is_ginsend_wine
 					this.showNew = res.is_ginseng
 					this.showEgg = res.is_egg
-					setTimeout(() => {
-						this.showClose = true
-					}, 1500)
+					
+					this.showClose = true
+					// setTimeout(() => {
+					// 	this.showClose = true
+					// }, 1500)
 				}
 			},
 			async getNation() {

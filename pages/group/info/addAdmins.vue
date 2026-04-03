@@ -2,7 +2,7 @@
 	<view class="page bg-white">
 		<Title title="添加群管理员" bgColor="#fff" fixed @right="doSubmit">
 			<template v-slot:right>
-				<text v-if="account_id.length > 0" class="text-primary">确定</text>
+				<view v-if="account_id.length > 0" class="text-primary">确定</view>
 			</template>
 		</Title>
 		<view class="plr-20 pt-10">

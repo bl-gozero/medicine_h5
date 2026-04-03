@@ -101,6 +101,9 @@
 					url: api,
 					filePath: typeof file === 'string' ? file : file.path, // 非 H5 端就是本地路径
 					name: 'file',
+					formData: {
+						mode: 'avatar'
+					},
 					success: (uploadRes) => {
 						const res = JSON.parse(uploadRes.data);
 						this.avatar = res.data.url;

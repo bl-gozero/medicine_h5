@@ -31,4 +31,28 @@ export default {
 	giftStatus(data = {}, config = {}) {
 		return request.post('/redeem_gifts/status', data, { ...config })
 	},
+	platformList(data = {}, config = {}) {
+		return request.post('/user_lucky_star/platform_list', data, { ...config })
+	},
+	videoCreate(data = {}, config = {}) {
+		return request.post('/user_lucky_star/create', data, { ...config })
+	},
+	videoList(data = {}, config = {}) {
+		return request.post('/user_lucky_star/list', data, { ...config })
+	},
+	videoEdit(data = {}, config = {}) {
+		return request.post('/user_lucky_star/edit', data, { ...config })
+	},
+	videoDetail(data = {}, config = {}) {
+		return request.post('/user_lucky_star/view', data, { ...config })
+	},
+	videoInfo(data = {}, config = {}) {
+		return request.post('/user_lucky_star/info', data, { ...config })
+	},
+	videoReceive(data = {}, config = {}) {
+		return request.post('/user_lucky_star/receive', data, { ...config })
+	},
+	videoReceiveList(data = {}, config = {}) {
+		return request.post('/user_lucky_star/receive_list', data, { ...config })
+	},
 }

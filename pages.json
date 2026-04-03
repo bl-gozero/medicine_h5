@@ -121,7 +121,10 @@
         { "path": "newExclusive" },
         { "path": "wine" },
         { "path": "trip" },
-		{ "path": "gift" }
+		{ "path": "gift" },
+		{ "path": "video/index" },
+		{ "path": "video/video" },
+		{ "path": "video/goodsDetail" }
       ]
     },
     {

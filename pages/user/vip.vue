@@ -2,9 +2,9 @@
 	<view class="page bg-page">
 		<view class="level_box">
 			<view class="" :class="['bg-' + level_index]">
-				<Title title="会员中心" bgColor="transparent">
+				<Title title="商户权益中心" bgColor="transparent">
 					<template v-if="profile.level.id < 3" v-slot:right>
-						<text @click="$c.goto('/pages/user/team')">邀请的好友</text>
+						<view @click="$c.goto('/pages/user/team')">邀请的好友</view>
 					</template>
 				</Title>
 				<image :src="$c.img(`/static/vip/v2/pointer_${level_index}.webp`)" class="pw-100 maxh-50"
@@ -105,7 +105,7 @@
 						<image src="/static/vip/lv-2.webp" class="w-24 h-20 block"></image>
 					</view>
 					<view class="mlr-9 flex-1">
-						<view class="">成为推广员</view>
+						<view class="">成为销售员</view>
 						<view class="text-info">购买1件指定商品即可</view>
 					</view>
 					<button v-if="profile.level.id < 2" class="btn bg-0 text-0"
@@ -119,7 +119,7 @@
 					</view>
 					<view class="mlr-9 flex-1">
 						<view class="">升级为VIP</view>
-						<view class="text-info">邀请{{ level3.upgrade_count || 3 }}位好友成为推广员</view>
+						<view class="text-info">邀请{{ level3.upgrade_count || 3 }}位好友成为销售员</view>
 					</view>
 					<button v-if="profile.level.id < 3" class="btn bg-0 text-0" @click="$c.goto('/pages/user/qrcode')">{{ num1 > 0? `还需${num1}人` : '去完成' }}</button>
 					<button v-else class="btn bg-1 text-1">已完成</button>
@@ -141,7 +141,7 @@
 		</view>
 		<view v-if="$c.calcLv(profile) > 2" class="">
 			<view class="mt-15" :class="$c.calcLv(profile) == 3 && 'switch_box'">
-				<view v-if="$c.calcLv(profile) > 3" class="relative mt-15">
+				<view v-if="$c.calcLv(profile) > 2" class="relative mt-15">
 					<image :src="`/static/vip/switch-${switcher}.webp`" class="pw-100 block" mode="widthFix"></image>
 					<view class="full flex-between item-stretch pr-20 border-box" style="padding-top: 7%;">
 						<view class="fw-5 pw-26 plr-13 border-box"
@@ -166,7 +166,7 @@
 						</view>
 					</view>
 				</view>
-				<view v-else-if="$c.calcLv(profile) == 3" class="">
+				<!-- <view v-else-if="$c.calcLv(profile) == 3" class="">
 					<view class="fs-16 fw-5 flex-center">
 						<text>销售数据</text>
 						<view class="icon_info ml-3" @click="showHint = true"></view>
@@ -175,7 +175,7 @@
 						<text>数据更新于{{ now }}</text>
 						<image src="/static/vip/refresh.webp" class="i-11 ml-4" @click="getSellData()"></image>
 					</view>
-				</view>
+				</view> -->
 				<view class="bg-white">
 					<view v-if="switcher == 3" class="plr-20 pb-30">
 						<view class="flex-between pt-33 flex-wrap fgap-20">
@@ -249,7 +249,7 @@
 								</view>
 							</view>
 						</view>
-						<image :src="$c.img('/static/vip/reward.webp')" class="pw-100 block mt-40" mode="widthFix"></image>
+						<image :src="$c.img('/static/vip/reward_2.webp')" class="pw-100 block mt-40" mode="widthFix"></image>
 					</view>
 				</view>
 			</view>
@@ -321,7 +321,7 @@
 						num: 1,
 						count: 0,
 						privilege: 2,
-						require: '购买1件指定商品可升级推广员'
+						require: '购买1件指定商品可升级销售员'
 					},
 					{
 						id: 3,
@@ -329,7 +329,7 @@
 						num: 3,
 						count: 0,
 						privilege: 4,
-						require: '购买1件指定商品并邀请3位好友成为推广员，可升级VIP'
+						require: '购买1件指定商品并邀请3位好友成为销售员，可升级VIP'
 					},
 					{
 						id: 4,
@@ -381,7 +381,7 @@
 			if (this.profile.team_silver_count) this.level_list[6].count = this.profile.team_silver_count
 			this.levelList()
 			if (this.$c.calcLv(this.profile) >= 3) this.getSellData()
-			if (this.$c.calcLv(this.profile) >= 4) this.getPerformce()
+			if (this.$c.calcLv(this.profile) >= 3) this.getPerformce()
 			this.level_index = this.$c.calcLv(this.profile)
 		},
 		methods: {

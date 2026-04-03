@@ -28,7 +28,7 @@
 							</view>
 						</view>
 						<view class="mt-3 mb-10 fs-10 u-line-1">{{ item.name }}</view>
-						<button class="btn btn-2 p-0" :class="item.end && 'btn-1'" @click="$c.goto(item.url)">{{ item.text }}</button>
+						<button class="btn btn-2 p-0" :class="item.end && 'btn-1'" @click="$c.goto(item.url)">{{ item.end? '已结束' : item.text }}</button>
 					</view>
 				</view>
 				<u-scroll-list v-else indicatorActiveColor="#F3AF67">
@@ -42,7 +42,7 @@
 							</view>
 						</view>
 						<view class="mt-3 mb-10 fs-10 u-line-1">{{ item.name }}</view>
-						<button class="btn btn-2 p-0" :class="item.end && 'btn-1'" @click="$c.goto(item.url)">{{ item.text }}</button>
+						<button class="btn btn-2 p-0" :class="item.end && 'btn-1'" @click="$c.goto(item.url)">{{ item.end? '已结束' : item.text }}</button>
 					</view>
 				</u-scroll-list>
 			</view>
@@ -150,16 +150,15 @@
 						is_new: true,
 						show: true
 					},
-					{
-						id: 5,
-						name: '5天4晚海南行',
-						img: '/static/task/trip_hn.webp',
-						text: '去参与',
-						url: '/pages/activity/trip',
-						is_new: false,
-						end: false,
-						show: true
-					},
+					// {
+					// 	id: 6,
+					// 	name: '发视频领好礼',
+					// 	img: '/static/task/video.webp',
+					// 	text: '去参与',
+					// 	url: '/pages/activity/video/index',
+					// 	is_new: false,
+					// 	show: true
+					// },
 					{
 						id: 2,
 						name: '每月领一箱礼品',
@@ -184,6 +183,16 @@
 						img: '/static/task/wine.webp',
 						text: '已结束',
 						url: '/pages/activity/wine',
+						is_new: false,
+						end: true,
+						show: true
+					},
+					{
+						id: 5,
+						name: '5天4晚海南行',
+						img: '/static/task/trip_hn.webp',
+						text: '去参与',
+						url: '/pages/activity/trip',
 						is_new: false,
 						end: true,
 						show: true

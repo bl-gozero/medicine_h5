@@ -3,7 +3,7 @@
 		<view class="" style="background: linear-gradient(to bottom, #C1E4E5 -1%, #f8f8f8 100%);">
 			<Title title="购物金" bgColor="transparent" @right="onRule()">
 				<template v-slot:right>
-					<text>使用规则</text>
+					<view>使用规则</view>
 				</template>
 			</Title>
 			<view class=" plr-20 mt-10">

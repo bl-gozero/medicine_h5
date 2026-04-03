@@ -53,7 +53,7 @@
 				play: false
 				// #endif
 				// #ifndef MP
-				play: false
+				play: true
 				// #endif
 			};
 		},
@@ -166,7 +166,7 @@
 						imgSrc = this.diceAnimationImages[this.diceAnimationImages.length - 1];
 					}
 				}
-				if (imgSrc) this.imgSrc = this.$c.img(imgSrc)
+				if (imgSrc && !this.play) this.imgSrc = this.$c.img(imgSrc)
 				
 				this.$emit('load', {
 					length1: this.diceAnimationImages.length,

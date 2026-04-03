@@ -235,12 +235,10 @@
 
 <script>
 	import Title from '../../components/Title.vue'
-	import AddressPicker from './components/AddressPicker.vue';
 
 	export default {
 		components: {
 			Title,
-			AddressPicker
 		},
 		data() {
 			return {

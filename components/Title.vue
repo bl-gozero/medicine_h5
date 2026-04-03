@@ -23,7 +23,7 @@
 				</view>
 
 				<!-- 标题（绝对居中） -->
-				<view class="nav-title">
+				<view v-if="!onlyBack" class="nav-title">
 					<text class="title-text" :style="titleStyle">
 						{{ title }}
 					</text>
@@ -34,8 +34,8 @@
 				</view>
 
 				<!-- 右侧 -->
-				<view class="right-slot relative" :class="hasRightSlot ? ('mr-' + rightSafe) : ''" @click="handleRightClick">
-					<view class="absolute top-0 right-0 ph-100 flex-end" style="white-space: nowrap;">
+				<view v-if="!onlyBack" class="right-slot relative" :class="hasRightSlot ? ('mr-' + rightSafe) : ''" @click="handleRightClick">
+					<view class="absolute top-0 right-0 ph-100 flex-end text-nowrap">
 						<slot name="right"></slot>
 					</view>
 				</view>
@@ -87,6 +87,10 @@
 				type: Boolean,
 				default: false
 			},
+			onlyBack: {
+				type: Boolean,
+				default: false
+			}
 		},
 
 		data() {
@@ -233,6 +237,6 @@
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;
-		text-wrap: nowrap;
+		text-wrap: nowrap !important;
 	}
 </style>

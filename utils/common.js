@@ -130,12 +130,10 @@ const common = {
 				title,
 				icon: 'none',
 				mask: true,
-				duration,
-				success() {
-					// 等待 duration 时间再 resolve
-					setTimeout(resolve, duration)
-				}
+				duration
 			})
+			
+			setTimeout(resolve, duration)
 		})
 	},
 
@@ -692,15 +690,11 @@ const common = {
 			return path
 		}
 		
-		let domain = ''
-		if (mode) {
-			if (process.env.NODE_ENV === 'development') {
-				domain = 'https://resource.bcdg1135.com' + '/medicinedev/wx_mini_program'
-			} else {
-				domain = this.getStorage('endpoint') + '/medicinedev/wx_mini_program'
-			}
-			path = domain + path
+		let domain = this.getStorage('endpoint')
+		if (mode && domain) {
+			path = domain + '/wx_mini_program' + path
 		}
+		
 		return path
 	}
 }
