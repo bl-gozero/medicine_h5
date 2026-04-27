@@ -1,20 +1,6 @@
 {
   "pages": [
 	  { "path": "pages/launch/launch" }
- //    { "path": "pages/index/launch" },
- //    { "path": "pages/index/index" },
- //    { "path": "pages/index/login" },
- //    { "path": "pages/index/register" },
-	// { "path": "pages/index/login_p" },
-	// { "path": "pages/index/vipRule" },
-	// { "path": "pages/index/web" },
-	// { "path": "pages/index/userAgreement" },
-	// { "path": "pages/index/protocols" },
-	// { "path": "pages/index/userService" },
-	// { "path": "pages/index/task" },
-	// { "path": "pages/index/recruit" },
-	// { "path": "pages/index/express" },
-	// { "path": "pages/index/maker" }
   ],
 
   "subPackages": [

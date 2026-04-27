@@ -121,8 +121,10 @@ async function loginout() {
  * 登出
  */
 export async function logoutNIM() {
-	clearConversations()
-	loginout()
+	if (isLogin) {
+		clearConversations()
+		loginout()
+	}
 	uni.removeStorageSync(NIM_KEY)
 	uni.removeStorageSync('chatInfo')
 	uni.removeStorageSync('frind_id')
