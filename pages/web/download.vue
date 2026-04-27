@@ -1,19 +1,15 @@
 <template>
-	<view class="page flex-col" style="background: linear-gradient(to bottom, #F5F6ED, #95CDD1);">
+	<view class="page flex-col" style="background: linear-gradient(to bottom, #FFFAF3, #FFEBD6);">
 		<Title title="APP下载" />
 		<view class="flex-1 flex-center">
 			<view class="text-center">
-				<view class="">
-					<image src="/static/common/logo_mall.webp" class="i-86"></image>
-				</view>
-				<view class="mt-32">
-					<image src="/static/common/logo_mall_name.webp" class="w-115 h-30"></image>
-				</view>
-				<view class="mt-8">加入北辰成为全球合伙人</view>
+				<image src="/static/common/logo_mall_white.webp" class="i-100 block auto-x"></image>
+				<image src="/static/common/mall_name_py.webp" class="w-115 h-37 block auto-x mt-10"></image>
+				<view class="mt-10" style="color: #4A4A4A;">拓展新零售·购物新体验</view>
 			</view>
 		</view>
 		<view class="relative bg">
-			<image :src="$c.img('static/web/download_bg.png')" class="pw-100" mode="widthFix"></image>
+			<image :src="$c.img('/static/web/bottom.webp', 0)" class="pw-100" mode="widthFix"></image>
 			<view class="full flex-center">
 				<view class="">
 					<u-button class="bg-base btn fw-7 text-white w-278 h-49 border-0" shape="circle" icon="android-fill"
@@ -41,11 +37,9 @@
 			}
 		},
 		onLoad() {
-			if (this.$c.getStorage('jwt')) this.show = true
 		},
 		methods: {
 			onDownload() {
-				// console.log(this.downloadUrl)
 				window.location.href = this.downloadUrl;
 			}
 		}

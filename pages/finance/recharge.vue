@@ -13,17 +13,6 @@
 				<u-input v-model.number="form.amount" placeholder="请输入想要充值的金额" placeholderClass="fs-14" type="number"
 					border="none" :formatter="priceFormatter" clearable></u-input>
 			</view>
-			<!-- <view class="mt-20 fw-7">选择支付方式</view>
-			<view class="list_box bg-white rounded-8 plr-14 mt-20">
-				<view class="flex-between ptb-19" v-for="item in cateList" :key="item.id" @click="form.pay_mode = item.id">
-					<view class="flex-start">
-						<image :src="`/static/pay/icon/${item.id}.png`" class="i-18 mr-10"></image>
-						<text>{{ item.value }}</text>
-					</view>
-					<u-icon v-if="form.pay_mode == item.id" name="checkmark-circle-fill" :color="$c.baseColor()" size="20"></u-icon>
-					<view v-else class="circle"></view>
-				</view>
-			</view> -->
 			<Payment v-model="form.pay_mode" :mode="0"></Payment>
 		</view>
 		<button class="bg-base text-white fw-7 fs-14 w-247 h-47 flex-center mt-36 rounded-x"

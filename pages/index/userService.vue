@@ -1,6 +1,6 @@
 <template>
 	<view class="">
-		<Title title="会员服务介绍" :fixed="true" />
+		<Title title="商户服务介绍" :fixed="true" />
 		<view>
 			<u--image :src="img" width="100%" height="auto" bgColor="transparent" mode="widthFix">
 			  <template v-slot:loading>

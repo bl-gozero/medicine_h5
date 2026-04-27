@@ -1,8 +1,10 @@
 <template>
 	<view class="page flex-col login-bg">
 		<view class="border-box pt-48 pl-38 pb-20" :class="'pt-' + $c.barHeight()">
-			<view class="fw-3 text-welcome">Welcome</view>
-			<view class="fs-40 fw-9 text-login">登录</view>
+			<view style="min-width: 100px;min-height: 80px;">
+				<view class="fw-3 text-welcome">Welcome</view>
+				<view class="fs-40 fw-9 text-login">登录</view>
+			</view>
 		</view>
 		<view class="relative flex-1 bg-white roundedTop-45 fs-12 fw-5">
 			<!-- #ifdef MP -->
@@ -80,7 +82,9 @@
 </template>
 
 <script>
+	import Title from '../../components/Title.vue'
 	import LineInput from '@/components/LineInput.vue'
+	
 	import {
 		initNIM,
 		loginNIM
@@ -88,7 +92,8 @@
 
 	export default {
 		components: {
-			LineInput
+			LineInput,
+			Title
 		},
 		data() {
 			return {
@@ -101,12 +106,17 @@
 				agreed: [],
 				captcha: '',
 				showCodeBtn: false,
-				doSubmit: null
+				doSubmit: null,
+				mode: 1
 			}
 		},
 		onLoad() {
-			this.$c.removeStorage('jwt')
-			this.$c.removeStorage('profile')
+			const pages = getCurrentPages()
+			if (pages.length <= 1 || pages[pages.length - 2].route != 'pages/user/accounts') {
+				this.$c.removeStorage('jwt')
+				this.$c.removeStorage('profile')
+				this.mode = 2 
+			}
 			this.getCode()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},
@@ -170,6 +180,7 @@
 				const res = await this.$c.fetch(this.$api.user.getProfile)
 				if (res) {
 					this.$c.setStorage('profile', res)
+					this.$c.saveAccount(res)
 					this.$c.goto('/pages/index/index')
 				}
 			}

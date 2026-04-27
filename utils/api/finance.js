@@ -32,6 +32,6 @@ export default {
 		return request.post('/user_team/person_list', data, { loading: true, ...config  })
 	},
 	subsidyList(data = {}, config = {}) {
-		return request.post('/subsidy_logs/list', data, { loading: true, ...config  })
+		return request.post('/subsidy_logs/list', data, { ...config  })
 	}
 }

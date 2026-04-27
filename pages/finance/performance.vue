@@ -1,6 +1,6 @@
 <template>
 	<view class="page bg-page flex-col">
-		<Title title="团队业绩" />
+		<Title title="体系数据" />
 		<view class="plr-20">
 			<view class="plr-17 ptb-13 bg rounded-8">
 				<view class="flex-between">
@@ -49,7 +49,7 @@
 								</view>
 								<view class="line"></view>
 								<view class="text-center">
-									<view class="fw-7">{{ item.total_sales }}</view>
+									<view class="fw-7">{{ item.replenish_sales }}</view>
 									<view class="fs-10 mt-5 text-info">平级回补业绩(元)</view>
 								</view>
 								<view class="line"></view>

@@ -1,18 +1,28 @@
 <template>
 	<view class="page bg-page">
+		<image src="/static/task/top.webp" class="pw-100 absolute top-0 left-0" mode="widthFix"></image>
 		<Title title="任务中心" bgColor="transparent" />
-		<view class="bg"></view>
+		<!-- <view class="bg"></view> -->
 		<view class="pt-10 mlr-20 relative" style="z-index: 2;">
-			<view class="absolute top-20 right-0 w-179 h-118" style="transform: translateY(-30%);">
-				<!-- <image src="/static/index/task_top.webp" class="pw-100 h-ph-100"></image> -->
+			<!-- <view class="absolute top-20 right-0 w-179 h-118" style="transform: translateY(-30%);">
 				<PlayImg path="task/top/1" :length="40" :interval="50" type="webp" />
-			</view>
-			<view class="" @click="$c.goto('/pages/point/index')">
-				<view class="">
-					<text>当前积分</text>
-					<image src="/static/icon/right_bg.webp" class="i-11 ml-3"></image>
+			</view> -->
+			<view class="flex-between text-center">
+				<view class="flex-1 p-10 border-box" @click="$c.goto('/pages/point/index')">
+					<view class="mt-5 fs-28 fw-7 u-line-1">{{ profile.integral }}</view>
+					<view class="">
+						<text>当前积分</text>
+						<image src="/static/icon/right_bg.webp" class="i-11 ml-3"></image>
+					</view>
 				</view>
-				<view class="mt-5 fs-28 fw-7">{{ profile.integral }}</view>
+				<view class="line"></view>
+				<view class="flex-1 p-10 border-box" @click="$c.goto('/pages/finance/subsidy')">
+					<view class="mt-5 fs-28 fw-7 u-line-1">{{ profile.subsidy }}</view>
+					<view class="">
+						<text>当前购物金</text>
+						<image src="/static/icon/right_bg.webp" class="i-11 ml-3"></image>
+					</view>
+				</view>
 			</view>
 			<view class="bg-white rounded-12 ptb-20 plr-16 mt-20 relative"
 				style="z-index: 5;box-shadow: 0px 0px 15px 0px rgba(216, 216, 216, 0.13);">
@@ -84,12 +94,12 @@
 				<view class="mt-24 flex-between item-stretch">
 					<image src="/static/task/invite.webp" class="i-24"></image>
 					<view class="ml-3 mr-20 flex-1">
-						<view class="fw-5">邀请好友</view>
+						<view class="fw-5">邀请商户</view>
 						<view v-if="point_2" class="all h-20 rounded-x flex-start plr-5 mt-6">
 							<image src="/static/point/coin.webp" class="w-17 h-18"></image>
-							<text class="fs-10 lh-10">推荐好友1人 ，额外获得 {{ point_2 }} 积分</text>
+							<text class="fs-10 lh-10">推荐商户1人 ，额外获得 {{ point_2 }} 积分</text>
 						</view>
-						<view class="text-info mt-5 fs-10">邀请好友注册并完成首次登录，您将获得丰厚奖励！推荐越多，赚得越多！</view>
+						<view class="text-info mt-5 fs-10">邀请商户注册并完成首次登录，您将获得丰厚奖励！推荐越多，赚得越多！</view>
 					</view>
 					<view class="w-70">
 						<button class="btn" @click="$c.goto('/pages/user/qrcode')">去邀请</button>
@@ -170,7 +180,7 @@
 					},
 					{
 						id: 3,
-						name: '邀好友得购物金',
+						name: '邀商户得购物金',
 						img: '/static/task/task_invite.webp',
 						text: '去邀请',
 						url: '/pages/user/qrcode',

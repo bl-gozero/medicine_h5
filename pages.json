@@ -25,7 +25,7 @@
 		{ "path": "login" },
 		{ "path": "register" },
         { "path": "login_p" },
-        { "path": "vipRule" },
+        // { "path": "vipRule" },
         { "path": "web" },
         { "path": "userAgreement" },
         { "path": "protocols" },
@@ -52,7 +52,8 @@
         { "path": "list" },
         { "path": "pay" },
         { "path": "detail" },
-        { "path": "create" }
+        { "path": "create" },
+		{ "path": "invoice" }
       ]
     },
     {
@@ -67,6 +68,8 @@
         { "path": "payPassword" },
         { "path": "bindCard" },
         { "path": "join" },
+		{ "path": "accounts" },
+		{ "path": "delete" },
         { "path": "baseInfo" }
         // #ifndef MP
         ,{ "path": "team" }
@@ -124,7 +127,8 @@
 		{ "path": "gift" },
 		{ "path": "video/index" },
 		{ "path": "video/video" },
-		{ "path": "video/goodsDetail" }
+		{ "path": "video/goodsDetail" },
+		{ "path": "video/assets" }
       ]
     },
     {
@@ -149,14 +153,23 @@
         { "path": "detail" },
         { "path": "detailForShip" }
       ]
-    }
+    },
+	{
+	  "root": "pages/info",
+	  "pages": [
+		{ "path": "news" },
+		{ "path": "notice" }
+	  ]
+	}
 	// #ifndef MP 
 	,{
 	  "root": "pages/web",
 	  "pages": [
 	    { "path": "register" },
 	    { "path": "download" },
-	    { "path": "pay" }
+		{ "path": "downloadForMerchant" },
+	    { "path": "pay" },
+		{ "path": "pay1" }
 	  ]
 	}
 	// #endif

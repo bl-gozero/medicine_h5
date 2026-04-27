@@ -4,7 +4,7 @@
 			<view class="flex-between gap-20">
 				<view class="flex-start" @click="$c.goBack()">
 					<image src="/static/icon/back.png" class="i-24"></image>
-					<text class="fs-18 lh-13">团队成员</text>
+					<text class="fs-18 lh-13">商户列表</text>
 				</view>
 				<view class="flex-1" style="max-width: 220px;">
 					<u-search v-model="account" placeholder="输入账号搜索成员" bgColor="#fff" :showAction="true" animation @search="onSearch" @custom="onSearch"></u-search>
@@ -13,18 +13,21 @@
 			<view class="minh-76">
 				<view v-if="nums.length > 0" class="relative mt-20">
 					<image src="/static/user/level/sell_top.webp" class="pw-100 maxh-100 block" mode="widthFix"></image>
-					<view class="full flex-start pl-11 pb-10">
+					<view class="full flex-start pl-11 pb-5">
 						<view class="flex-start fgap-10 pw-100">
 							<view class="w-60 text-center">
 								<view class="fs-16 fw-7 u-line-1">{{ all.count }}</view>
 								<view class="text_top_name">{{ all.level_name }}</view>
 							</view>
-							<view class="line w-1 h-43" style="background: rgba(169, 115, 67, 0.2;)"></view>
+							<view class="line"></view>
 							<view class="flex-1 overflow-hide">
 								<u-scroll-list indicatorActiveColor="#B88854">
-									<view class="nums text-center" v-for="item in nums">
+									<view class="nums text-center" v-for="(item, index) in nums" @click="onPartner(index, item)">
 										<view class="fs-16 fw-7 u-line-1">{{ item.count }}</view>
-										<view class="text_top_name">{{ item.name }}</view>
+										<view class="text_top_name">
+											<view class="">{{ item.name }}</view>
+											<view class="">{{ item.sub }}</view>
+										</view>
 									</view>
 								</u-scroll-list>
 							</view>
@@ -44,7 +47,7 @@
 					<u-icon name="play-right-fill" color="#AC7747" size="12" @click="onChangeLevel(1)"></u-icon>
 				</view>
 			</view>
-			<view class="text-center fs-12" style="color: #AC7747;">“成员层级”将展示您8层内的用户数据详情</view>
+			<view class="text-center fs-12" style="color: #AC7747;">“商户层级”将展示您8层内的用户数据详情</view>
 			<view class="flex-1 relative">
 				<swiper class="full" :current="level - 1" :duration="500" @change="onChange">
 					<swiper-item v-for="i in levelMax" :key="i">
@@ -99,6 +102,41 @@
 				</view>
 			</u-popup>
 		</view>
+		
+		<view class="">
+			<u-popup :show="showTeam" mode="center" :closeOnClickOverlay="false" round="20" bgColor="tranparent" @close="showTeam = false">
+				<view class="w-308 h-406 rounded-20 border-box plr-10" style="background: linear-gradient(180deg, #CFDEFF 0%, #FFFFFF 48%);">
+					<image :src="img(medals.value + '_0.webp')" class="w-185 h-62 block auto-x" style="margin-top: -26px;"></image>
+					<scroll-view class="rounded-14 mt-6 h-271 border-box ptb-5 plr-20 relative" style="background: linear-gradient(180deg, #FFFFFF 0%, #F1F6FF 100%);" scroll-y>
+						<view v-if="medals.list.length" class="">
+							<view class="flex-start mt-15">
+								<image :src="img(medals.value + '_1.webp')" class="w-28 h-23 block"></image>
+								<text>大区{{ medals.name }}：{{ medals.list[0].count }}</text>
+							</view>
+							<view class="mt-20">
+								<view class="flex-between">
+									<text>{{ medals.list[0].account }}下团队总{{ medals.name }}</text>
+									<text class="fw-5">{{ medals.list[0].count }}</text>
+								</view>
+							</view>
+							<view v-if="medals.list.length > 1" class="mt-25">
+								<view class="flex-start mt-15">
+									<image :src="img(medals.value + '_2.webp')" class="w-28 h-23 block"></image>
+									<text>小区{{ medals.name }}：{{ medals.smallTotal }}</text>
+								</view>
+								<view v-if="index" class="mt-20 flex-between" v-for="(item, index) in medals.list" :key="item.id">
+									<text>{{ item.account }}下团队总{{ medals.name }}</text>
+									<text class="fw-5">{{ item.count }}</text>
+								</view>
+							</view>
+						</view>
+						<view v-else class="text-info flex-center full">暂无数据</view>
+					</scroll-view>
+					<button class="bg-black text-white w-234 h-51 fs-16 fw-7 mt-22 border-0 flex-center rounded-x"
+						@click="showTeam = false">知道了</button>
+				</view>
+			</u-popup>
+		</view>
 	</view>
 </template>
 
@@ -112,19 +150,32 @@
 				level: 1,
 				levelMax: 8,
 				nums: [
-					{ code: 'regular_count', name: '普通用户', count: 0 },
-					{ code: 'staff_count',name: '销售员', count: 0 },
-					{ code: 'vip_count', name: 'VIP', count: 0 },
-					{ code: 'partners_count', name: '合伙人', count: 0 },
-					{ code: 'bronze_partners_count', name: '铜牌合伙人', count: 0 },
-					{ code: 'silver_partners_count', name: '银牌合伙人', count: 0 },
-					{ code: 'gold_partners_count', name: '金牌合伙人', count: 0 },
+					{ code: 'regular_count', name: '普通用户', count: 0, needSum: true },
+					{ code: 'staff_count',name: '销售员', count: 0, needSum: true },
+					{ code: 'vip_count', name: 'VIP', count: 0, needSum: true },
+					{ code: 'partner_count', name: '合伙人', count: 0 },
+					{ code: 'partner_bronze_count', name: '铜牌合伙人', count: 0 },
+					{ code: 'partner_silver_count', name: '银牌合伙人', count: 0 },
+					// { code: 'big_none_count', name: '合伙人', count: 0, needSum: true, sub: '大区' },
+					// { code: 'small_none_count', name: '合伙人', count: 0, needSum: true, sub: '小区' },
+					// { code: 'big_bronze_count', name: '铜牌合伙人', count: 0, needSum: false, sub: '大区' },
+					// { code: 'small_bronze_count', name: '银牌合伙人', count: 0, needSum: false, sub: '小区' },
+					// { code: 'big_silver_count', name: '银牌合伙人', count: 0, needSum: false, sub: '大区' },
+					// { code: 'small_silver_count', name: '银牌合伙人', count: 0, needSum: false, sub: '小区' },
+					{ code: 'partner_gold_count', name: '金牌合伙人', count: 0, needSum: false, },
 				],
 				list: [],
 				page: 1,
 				limit: 10,
 				listStatus: 'more',
-				all: { level_name: '总数', count: 0 }
+				all: { level_name: '总数', count: 0 },
+				showTeam: false,
+				medals: {
+					value: 4,
+					name: '合伙人',
+					smallTotal: 0,
+					list: []
+				}
 			}
 		},
 		async onLoad() {
@@ -205,13 +256,35 @@
 				if (res) {
 					for (let key in res) {
 						const item = this.nums.find(item => item.code == key)
-						if (item) item.count = res[key] || 0
-						if (!['bronze_partners_count', 'gold_partners_count', 'silver_partners_count'].includes(key)) {
-							this.all.count += res[key]
+						if (item) {
+							item.count = res[key] || 0
+							if (item.needSum) {
+								this.all.count += item.count
+							}
 						}
 					}
 				}
 			},
+			async onPartner(index, item) {
+				if (index < 3 || index == 6) return
+				this.medals.list = []
+				this.medals.value = index + 1
+				this.medals.name = item.name
+				if(1 || item.count) {
+					const res = await this.$c.fetch(this.$api.user.partnerNum, {
+						medals: this.medals.value - 3
+					})
+					if (res.length) {
+						this.medals.list = res
+						this.medals.smallTotal = res.slice(1).reduce((sum, cur) => sum + (cur.count || 0), 0);
+					}
+				}
+				this.showTeam = true
+			},
+			img(path, root = '/static/user/teamNum/') {
+				if (!/^(https?:)?\/\//.test(path)) path = root + path
+				return this.$c.img(path, 1)
+			}
 		}
 	}
 </script>
@@ -219,11 +292,6 @@
 <style lang="scss" scoped>
 	.bg {
 		background: linear-gradient(180deg, #FFE2C0 5%, #FFF0DE 63%, rgba(255, 240, 222, 0) 100%);
-	}
-	.text_top_name {
-		color: #AD987F;
-		font-size: 12px;
-		margin-top: 3px;
 	}
 	.member_box {
 		background: #F7FAFF;
@@ -259,6 +327,18 @@
 		position: absolute;
 		left: 0;
 		right: 0;
-		bottom: 6px;
+		bottom: 8px;
+	}
+	.text_top_name {
+		color: #AD987F;
+		font-size: 12px;
+		line-height: 15px;
+		margin-top: 3px;
+		height: 20px;
+	}
+	.line {
+		border-left: 1px solid rgba(169, 115, 67, 0.2);
+		width: 0;
+		height: 40px;
 	}
 </style>

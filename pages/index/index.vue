@@ -168,7 +168,7 @@
 		<!-- #endif -->
 		<TabBar />
 		
-		<!-- trip -->
+		<!-- video -->
 		<u-popup :show="showWine" mode="center" bgColor="transparent"
 			overlayStyle="background: 'rgba(0, 0, 0, 0.6)'" @close="showWine == false">
 			<view class="text-center vw-100 relative">
@@ -238,7 +238,7 @@
 				showClose: false,
 				showWine: false,
 				menus: [
-					{ id: 3, icon: '/static/mp/index_menu/3.webp', name: '邀请好友', url: '/pages/user/qrcode' },
+					{ id: 3, icon: '/static/mp/index_menu/3.webp', name: '加入北城', url: '/pages/user/qrcode' },
 					{ id: 4, icon: '/static/mp/index_menu/4.webp', name: '活动·签到', url: '/pages/index/task' },
 					{ id: 5, icon: '/static/mp/index_menu/5.webp', name: '在线客服', url: '/pages/index/web' },
 				],
@@ -297,11 +297,11 @@
 			async getActivity() {
 				// const res1 = await this.$c.fetch(this.$api.event.tripPopup, { id: 1 })
 				// if (res1) {
-				// 	this.showWine = res1?.ok
+				// 	this.showWine = res1?.ok || true
 				// }
 				const res = await this.$c.fetch(this.$api.user.activityStatus)
 				if (res) {
-					// this.showWine = res.is_ginsend_wine
+					// this.showWine = res.is_lucky_star
 					this.showNew = res.is_ginseng
 					this.showEgg = res.is_egg
 					

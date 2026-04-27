@@ -29,7 +29,7 @@
 				p?.payType && apis[p.payType] && apis[p.payType](p, {
 					jwt: p.token
 				}).then(res => {
-					this.$c.quickPay(res.jump_url)
+					this.$c.quickPay(res.jump_url, false)
 				}).catch(err => {
 				})
 			},

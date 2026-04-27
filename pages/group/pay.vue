@@ -12,7 +12,7 @@
 		</view>
 		<view class="h-10 bg-page"></view>
 		<view class="plr-20">
-			<Payment v-model="form.pay_mode"></Payment>
+			<Payment v-model="paying_mode"></Payment>
 		</view>
 		<view class="absolute left-0 bottom-25 pw-100">
 			<button class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white flex-center rounded-x"
@@ -60,14 +60,17 @@
 					id: null,
 					password: '',
 					pay_mode: 0
-				}
+				},
+				paying_mode: {
+					id: null,
+					is_password: false
+				},
 			}
 		},
 		onLoad(p) {
 			this.$c.checkeLogin()
 			if (p.id) this.form.id = parseInt(p.id)
 			this.getInfo()
-			// this.getCateList()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},
 		onShow() {
@@ -85,24 +88,22 @@
 				if (res) this.cateList = [...this.cateList, ...res]
 			},
 			onCheck() {
-				if (!this.form.pay_mode) {
+				if (!this.paying_mode) {
 					this.$c.toast('请选择支付方式')
 					return
 				}
+				this.form.pay_mode = this.paying_mode.id
 				this.form.password = ''
-				this.showPassword = true
+				if (this.paying_mode.is_password) {
+					return this.showPassword = true
+				}
+				this.doSubmit()
 			},
 			async onSubmit() {
 				this.showPassword = false
 				const res = await this.$c.fetch(this.$api.group.pay, this.form)
 				if (res) {
-					if (res.jump_url) {
-						// this.$c.setStorage('web', { title: '支付', src: res.jump_url })
-						// this.$c.goto('/pages/index/web?type=pay')
-						this.$c.quickPay(res.jump_url)
-					} else {
-						this.$c.goBack()
-					}
+					this.$c.payJump(res)
 				}
 			},
 		}

@@ -33,7 +33,7 @@
 						<view class="fw-7">上传发布截图</view>
 						<view class="relative i-75 mt-10" @click="chooseImg()">
 							<image :src="img('upload.webp')" class="x-100 y-100 block"></image>
-							<image v-if="form.picture" :src="form.picture"
+							<image v-if="tempImg" :src="tempImg"
 								class="x-100 y-100 block absolute top-0 left-0 rounded-8" mode="aspectFill"></image>
 						</view>
 					</view>
@@ -66,6 +66,7 @@
 				</view>
 			</view>
 		</view>
+		<view class="h-100"></view>
 		<view class="fixed left-0 bottom-30 x-100">
 			<button v-if="form.verify && [1, 4].includes(form.verify.id)"
 				class="btn-play flex-center w-246 h-50 fs-20 fw-7 rounded-20" style="opacity: .5">审核中</button>
@@ -114,7 +115,8 @@
 					picture: '',
 					platform: null
 				},
-				platforms: []
+				platforms: [],
+				tempImg: '',
 			}
 		},
 		computed: {
@@ -142,7 +144,8 @@
 				const api = this.form?.id ? this.$api.event.videoEdit : this.$api.event.videoCreate
 				const res = await this.$c.fetch(api, this.form)
 				if (res) {
-					this.show = true
+					await this.$c.toast('提交成功，请等待审核')
+					this.$c.goBack()
 				}
 				this.loading = false
 			},
@@ -158,7 +161,12 @@
 				const res = await this.$c.fetch(this.$api.event.videoDetail, {
 					id: this.form?.id
 				})
-				if (res) this.form = res
+				if (res) {
+					this.form = { ... res, ...{
+						platform: res.platform.id
+					}}
+					this.tempImg = res.picture
+				}
 			},
 			chooseImg() {
 				uni.chooseImage({
@@ -166,9 +174,9 @@
 					sizeType: ['compressed'], // 初步压缩
 					sourceType: ['album', 'camera'],
 					success: (res) => {
-						const tempPath = res.tempFilePaths[0];
+						const tempPath = res.tempFilePaths[0]
 						// #ifdef H5
-						this.uploadImg(tempPath);
+						this.uploadImg(tempPath)
 						// #endif
 
 						// #ifndef H5
@@ -176,10 +184,10 @@
 							src: tempPath,
 							quality: 70,
 							success: res => {
-								this.uploadImg(res.tempFilePath);
+								this.uploadImg(res.tempFilePath)
 							},
 							fail: () => {
-								this.uploadImg(tempPath);
+								this.uploadImg(tempPath)
 							}
 						})
 						// #endif
@@ -188,17 +196,19 @@
 			},
 			uploadImg(file) {
 				const api = this.$baseUrl + '/resource/upload'
+				const filePath = typeof file === 'string' ? file : file.path // 非 H5 端就是本地路径
 				uni.showLoading()
 				uni.uploadFile({
 					url: api,
-					filePath: typeof file === 'string' ? file : file.path, // 非 H5 端就是本地路径
+					filePath: filePath,
 					name: 'file',
 					formData: {
 						mode: 'lucky_star'
 					},
 					success: (uploadRes) => {
-						const res = JSON.parse(uploadRes.data);
-						this.form.picture = res.data?.url;
+						const res = JSON.parse(uploadRes.data)
+						this.form.picture = res.data?.url
+						this.tempImg = filePath
 					},
 					fail: (err) => {
 						uni.showToast({
@@ -207,7 +217,7 @@
 						});
 					},
 					complete: () => {
-						uni.hideLoading();
+						uni.hideLoading()
 					}
 				});
 			},

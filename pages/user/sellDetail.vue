@@ -15,7 +15,7 @@
 				<view class="absolute top-0 right-0 ph-100 p-4 border-box">
 					<image src="/static/user/level/detail.webp" class="ph-100" mode="heightFix"></image>
 				</view>
-				<image v-if="info.level" :src="`/static/user/level/lv-${$c.calcLv(info)}.webp`" class="w-43 h-44"></image>
+				<image v-if="info.level" :src="$c.img(`/static/user/level/lv-${$c.calcLv(info)}.webp`, 0)" class="w-43 h-44"></image>
 				<view class="flex-1">
 					<view class="flex-between fs-16 text-white gap-20">
 						<view>所属{{ info.tiers }}层</view>

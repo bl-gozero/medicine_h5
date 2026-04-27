@@ -15,8 +15,10 @@
 								:key="item.id" @click.stop="onShipItem(index)">{{ item.value }}</view>
 						</view>
 					</view>
-					<view v-if="$c.mode()" class="relative" :class="nav == 3 && 'nav_active text-black'" @click="onNav(3)">已赠出</view>
-					<view v-if="$c.mode()" class="relative" :class="nav == 4 && 'nav_active text-black'" @click="onNav(4)">已回购</view>
+					<view v-if="$c.mode()" class="relative" :class="nav == 3 && 'nav_active text-black'"
+						@click="onNav(3)">已赠出</view>
+					<view v-if="$c.mode()" class="relative" :class="nav == 4 && 'nav_active text-black'"
+						@click="onNav(4)">已回购</view>
 					<!-- #endif -->
 				</view>
 			</view>
@@ -68,7 +70,8 @@
 				</view>
 				<view class="flex-end" @click.stop>
 					<view class="">
-						<button v-if="item.status && item.status.id == 2" class="btn-list btn-black fs-12 p-0 border-plain" plain
+						<button v-if="item.status && item.status.id == 2"
+							class="btn-list btn-black fs-12 p-0 border-plain" plain
 							@click="onReceive(item)">确认收货</button>
 					</view>
 				</view>
@@ -161,40 +164,40 @@
 		</u-popup>
 
 		<!-- 转增 -->
-		<u-popup :show="showTransfer" mode="bottom" :round="20" closeable @close="showTransfer = false">
-			<view class="pt-14 pb-30 plr-20 bg-address lh-10 roundedTop-20">
+		<u-popup :show="showTransfer" mode="bottom" :round="20" :safe-area="false" closeable
+			@close="showTransfer = false">
+			<view class="popup-fixed pt-14 pb-30 plr-20 bg-address lh-10 roundedTop-20">
 				<view class="fs-18 fw-5 text-center">转赠他人</view>
 				<view class="ptb-20 flex-between border-bottom border-top mt-20">
 					<view class="">对方账户</view>
 					<u-input v-model="to_account" placeholder="手机号/账号" placeholderClass="fs-14 text-info" border="none"
 						class="flex-1 mlr-24"></u-input>
-					<image src="/static/finance/account.webp" class="i-23"
-						@click="$c.goto('/pages/group/myGroup?mode=select')"></image>
+					<!-- <image src="/static/finance/account.webp" class="i-23"
+						@click="$c.goto('/pages/group/myGroup?mode=select')"></image> -->
 				</view>
-				<view class="fs-12 p-12 border-box rounded-8 mtb-15 lh-15" style="background: #F0ECE1;color: #99935C;">
-					<view class="fw-7 flex-start">
-						<u-icon name="bell-fill" color="#9D9762" size="14"></u-icon>
-						<text class="ml-3">温馨提示</text>
-					</view>
-					<view class="">仓库内产品可转赠其他用户，转赠后所有权即时转移且不可撤销。请核对受赠人信息，平台仅提供服务，不承担操作失误责任。</view>
-				</view>
-				<view class="h-10 bg-page"></view>
-				<view class="mt-20 fw-5">共计{{ num }}件</view>
-				<scroll-view scroll-y class="h-140 mt-20">
-					<view class="flex-between mb-20" v-for="(i, index) in order" :key="i.index">
-						<image :src="i.picture" class="i-76 rounded-12" mode="aspectFill"></image>
-						<view class="ml-9 flex-1">
-							<view class="flex-between">
-								<text class="fw-5">{{ i.goods_name }}</text>
-							</view>
-							<view class="mt-10 fs-12 text-info">{{ i.goods_sku_name }}</view>
-							<!-- <view class="flex-end mt-10 fs-12 text-info">
-								<text class="">×{{ i.quantity }}</text>
-							</view> -->
+				<view :class="isKeyboardShow && 'h-100 sroller-y'">
+					<view class="fs-12 p-12 border-box rounded-8 mtb-15 lh-15" style="background: #F0ECE1;color: #99935C;">
+						<view class="fw-7 flex-start">
+							<u-icon name="bell-fill" color="#9D9762" size="14"></u-icon>
+							<text class="ml-3">温馨提示</text>
 						</view>
+						<view class="">仓库内产品可转赠其他用户，转赠后所有权即时转移且不可撤销。请核对受赠人信息，平台仅提供服务，不承担操作失误责任。</view>
 					</view>
-				</scroll-view>
-				<button class="btn-submit bg-base mt-40" @click="doSubmit('transfer')">填写账号并转赠</button>
+					<view class="h-10 bg-page"></view>
+					<view class="mt-20 fw-5">共计{{ num }}件</view>
+					<scroll-view scroll-y class="h-100 mt-20">
+						<view class="flex-between mb-20" v-for="(i, index) in order" :key="i.index">
+							<image :src="i.picture" class="i-76 rounded-12" mode="aspectFill"></image>
+							<view class="ml-9 flex-1">
+								<view class="flex-between">
+									<text class="fw-5">{{ i.goods_name }}</text>
+								</view>
+								<view class="mt-10 fs-12 text-info">{{ i.goods_sku_name }}</view>
+							</view>
+						</view>
+					</scroll-view>
+					<button class="btn-submit bg-base mt-20" @click="doSubmit('transfer')">填写账号并转赠</button>
+				</view>
 			</view>
 		</u-popup>
 
@@ -276,7 +279,9 @@
 				limit: 10,
 				address: {},
 				to_account: null,
-				top: 0
+				top: 110,
+				isKeyboardShow: false,
+				baseHeight: 0
 			}
 		},
 		computed: {
@@ -301,6 +306,18 @@
 			this.init()
 			this.addressList()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
+			
+			// 监听键盘
+			if (window.visualViewport) {
+			  this.baseHeight = window.visualViewport.height
+		
+			  this._onResize = () => {
+				const height = window.visualViewport.height
+				this.isKeyboardShow = height < this.baseHeight - 100
+			  }
+		
+			  window.visualViewport.addEventListener('resize', this._onResize)
+			}
 		},
 		onShow() {
 			const address = this.$c.getStorage('address')
@@ -310,14 +327,8 @@
 				this.to_account = account.account
 			}
 		},
-		onReady() {
-			this.$nextTick(() => {
-				this.$nextTick(() => {
-					this.$uGetRect('.title_box').then(res => {
-						this.top = res.height
-					})
-				})
-			})
+		onUnload() {
+		    window.visualViewport?.removeEventListener('resize', this._onResize)
 		},
 		onReachBottom() {
 			this.getList()
@@ -371,27 +382,37 @@
 				if (e == 'buy') {
 					// this.$c.toast('未到开放时间')
 					const res = this.validateList(this.order)
-					if(res !== true) return this.showPop('reset', res)
+					if (res !== true) return this.showPop('reset', res)
 					this.showBuy = true
 				}
 			},
 			validateList(list) {
 				const noBuy = list.find(i => i?.is_buyback?.id !== 1)
-				if(noBuy) return `${noBuy.goods_name}(${noBuy.goods_sku_name})不可回购`
-				
+				if (noBuy) return `${noBuy.goods_name}(${noBuy.goods_sku_name})不可回购`
+
 				const map = {};
 				list.forEach(item => {
 					const id = item.goods_sku_id || 0
-					map[id] = map[id] ? { ...map[id], count: map[id].count + 1 } : { ...item, count: 1 }
+					map[id] = map[id] ? {
+						...map[id],
+						count: map[id].count + 1
+					} : {
+						...item,
+						count: 1
+					}
 				});
 				const goods = Object.values(map)
 				const errors = [];
 				goods.forEach(item => {
 					if (item.count < item.min_quantity) {
-						errors.push(`${item.goods_name}(${item.goods_sku_name})至少回购 ${item.min_quantity} 件 ，已选 ${item.count} 件`);
+						errors.push(
+							`${item.goods_name}(${item.goods_sku_name})至少回购 ${item.min_quantity} 件 ，已选 ${item.count} 件`
+							);
 					}
 					if (item.count > item.max_quantity) {
-						errors.push(`${item.goods_name}(${item.goods_sku_name})至多回购 ${item.max_quantity} 件 ，已选 ${item.count} 件`);
+						errors.push(
+							`${item.goods_name}(${item.goods_sku_name})至多回购 ${item.max_quantity} 件 ，已选 ${item.count} 件`
+							);
 					}
 				});
 				if (errors.length === 0) return true;
@@ -514,7 +535,7 @@
 						this.init()
 						this.showPop('success', `本次回购总金额元${total}，<br />已到账，请查看账户奖励。`)
 					}).catch(err => {
-						if(err.message == '有商品本期回购已达上线') {
+						if (err.message == '有商品本期回购已达上线') {
 							this.showPop('finished')
 						} else {
 							this.$c.toast(err.message || '回购失败')
@@ -524,32 +545,33 @@
 				}
 			},
 			showPop(mode = null, text = '') {
-				if(mode == 'end') {
+				if (mode == 'end') {
 					// 已结束
 					this.$know({
 						img: "/static/know/clock.webp",
 						title: "已结束",
 						text: "本期回购已结束，<br/>请等待下一期回购开放",
 					})
-				} else if(mode == 'finished') {
+				} else if (mode == 'finished') {
 					// 已参加
 					this.$know({
 						img: "/static/know/time.webp",
 						title: "已参与",
 						text: "您已参与本周期回购，<br />请等待下一周期更高价格回购，<br />不容错过！",
 					})
-				} else if(mode == 'reset') {
+				} else if (mode == 'reset') {
 					// 重新选择
 					this.$know({
 						bg: "background: linear-gradient(180deg, #FFEFCE 3%, #FFFFFF 49%);",
 						img: "/static/know/warn.webp",
 						title: "回购提醒",
 						text: text,
-						buttons: [
-							{ text: '重新选择', class: 'bg-base bold fs-16 text-white w-234 h-51' }
-						]
+						buttons: [{
+							text: '重新选择',
+							class: 'bg-base bold fs-16 text-white w-234 h-51'
+						}]
 					})
-				} else if(mode == 'rule') {
+				} else if (mode == 'rule') {
 					// 确认
 					this.$know({
 						bg: 'background: linear-gradient(180deg, #FFEFCE 3%, #FFFFFF 49%);',
@@ -559,14 +581,19 @@
 							text: "1、平台数据显示，未来几天产品价格预计将上涨约5%-20%！<br />2、在同一个回购周期内，每位用户只能发起一次回购交易，请谨慎操作！",
 							class: "text-left"
 						},
-						buttons: [
-							{ text: '我已确认', class: 'bold fs-16 w-135 h-51' },
-							{ text: '暂时取消', class: 'bold fs-16 w-135 h-51 bg-base text-white' }
+						buttons: [{
+								text: '我已确认',
+								class: 'bold fs-16 w-135 h-51'
+							},
+							{
+								text: '暂时取消',
+								class: 'bold fs-16 w-135 h-51 bg-base text-white'
+							}
 						]
 					}).then(i => {
 						i === 0 && this.doSubmit('buy')
 					})
-				} else if(mode == 'success') {
+				} else if (mode == 'success') {
 					this.$know({
 						img: "/static/point/tranfer_1.webp",
 						title: "回购成功",

@@ -104,7 +104,6 @@
 								<image src="/static/point/check_1.webp" class="i-18"></image>
 							</view>
 						</view>
-						<!-- <Payment v-model="paying_mode"></Payment> -->
 					</view>
 					<button v-if="mode == 1" class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-30 flex-center rounded-x"
 						@click="doCartAdd">添加到购物车</button>
@@ -135,12 +134,10 @@
 
 <script>
 	import Title from '../../components/Title.vue'
-	import Payment from '../../components/Payment.vue'
 
 	export default {
 		components: {
 			Title,
-			Payment
 		},
 		data() {
 			return {

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<Title :title="web.title" fixed></Title>
+		<Title v-if="showTitle" :title="web.title" fixed></Title>
 		<view class="relative" :style="{ minHeight: `calc(100vh - ${top}px)` }">
 			<web-view :webview-styles="webviewStyles" :src="web.src"></web-view>
 		</view>
@@ -19,7 +19,8 @@
 					}
 				},
 				top: 55,
-				web: { title: '', src: '' }
+				web: { title: '', src: '' },
+				showTitle: true
 			}
 		},
 		onLoad(p) {
@@ -27,6 +28,7 @@
 				const web = this.$c.getStorage('web')
 				if(web) {
 					this.web = web
+					if (web.showTitle === false) this.showTitle = false
 				}
 			} else {
 				this.web = { title: '在线客服', src: this.$c.cs() }

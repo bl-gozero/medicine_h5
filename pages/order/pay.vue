@@ -29,16 +29,9 @@
 									<text class="fs-14">{{ i.price }}</text>
 								</view>
 								<text class="text-info fs-12">×{{ i.quantity }}</text>
-								<!-- <u-number-box
-									v-model="i.quantity" 
-									:name="index" 
-									bgColor="#fff" 
-									iconStyle="font-size: 10px;" 
-									inputWidth="29" 
-									:integer="true"
-									:asyncChange="true"
-									@change="onNumChange"
-								></u-number-box> -->
+								<!-- <u-number-box v-model="i.quantity" :name="index" bgColor="#fff"
+									iconStyle="font-size: 10px;" inputWidth="29" :integer="true" :asyncChange="true"
+									@change="onNumChange"></u-number-box> -->
 							</view>
 						</view>
 					</view>
@@ -60,7 +53,8 @@
 				<view v-else-if="subsidy.show && profile.subsidy >= 1" class="mt-20">
 					<view class="flex-between fgap-20">
 						<text>可用{{ profile.subsidy }}购物金抵扣</text>
-						<u-input v-model.number="subsidy.amount" placeholder="输入抵扣金额" inputAlign="right" border="none" type="number" :formatter="priceFormatter"></u-input>
+						<u-input v-model.number="subsidy.amount" placeholder="输入抵扣金额" inputAlign="right" border="none"
+							type="number" :formatter="priceFormatter"></u-input>
 					</view>
 					<view class="mt-10 text-info fs-12">购物金使用后，无法退还</view>
 				</view>
@@ -70,19 +64,12 @@
 				</view>
 			</view>
 			<view class="mt-12 plr-13 ptb-10 bg-white rounded-12">
-				<!-- <view class="flex-between ptb-13" v-for="item in cateList" :key="item.id" @click="paying_mode = item.id">
-					<view class="flex-start">
-						<image :src="`/static/pay/icon/${item.id}.png`" class="i-18 mr-10"></image>
-						<text>{{ item.value }}</text>
-					</view>
-					<u-icon v-if="paying_mode == item.id" name="checkmark-circle-fill" :color="$c.baseColor()" size="20"></u-icon>
-					<view v-else class="circle"></view>
-				</view> -->
 				<Payment v-model="paying_mode"></Payment>
 			</view>
 		</view>
-		<button class="w-279 h-41 bg-base-change fw-7 text-white mt-10 flex-center rounded-x"
+		<button class="w-279 h-41 bg-base-change fw-7 text-white mt-10 btn"
 			@click="onShowPassword()">{{ total ? `立即支付（￥${total}）` : '立即支付' }}</button>
+		<view class="h-30"></view>
 
 		<!-- 密码 -->
 		<u-popup :show="showPassword" mode="bottom" round="20" closeable @close="showPassword = false">
@@ -121,11 +108,14 @@
 					id: 4,
 					value: '奖励'
 				}],
-				paying_mode: '',
+				paying_mode: {
+					id: null,
+					is_password: false
+				},
 				doPay: null,
 				subsidy: {
 					show: false,
-					amount : null,
+					amount: null,
 					pay: 0
 				},
 				profile: this.$c.profile()
@@ -139,7 +129,7 @@
 		async onLoad(p) {
 			this.$c.removeStorage('address')
 			const profile = await this.$c.checkeLogin(1)
-			if(profile) {
+			if (profile) {
 				this.profile = profile
 				this.id = this.$c.safeId(p)
 				this.id && this.getDetail()
@@ -148,40 +138,24 @@
 		},
 		onShow() {},
 		methods: {
-			// onNumChange(e) {
-			// 	const item = this.order.details[e.name]
-			// 	if(item.limit_quantity < e.value) {
-			// 		this.$c.toast('当前商品限购' + item.limit_quantity + '件')
-			// 	} else {
-			// 		this.quantity = e.value
-			// 	}
-			// },
 			onShowPassword() {
 				if (!this.paying_mode) {
 					this.$c.toast('请选择支付方式')
 					return
 				}
 				this.password = '';
-				this.showPassword = true;
+				if (this.paying_mode.is_password) {
+					return this.showPassword = true
+				}
+				this.doPay()
 			},
 			priceFormatter(value) {
 				if (!value) return '';
 				let max = Math.min(this.total, this.profile.subsidy)
 				let v = Math.min(max, value)
-				v =  v < 1 ? 1 : v
+				v = v < 1 ? 1 : v
 				let match = v.toString().match(/^[1-9]\d*/)
 				return match ? match[0] : ''
-				
-				// let match = value.toString().match(/^\d*(\.?\d{0,2})?/);
-				// return match ? match[0] : '';
-				// let match = value.toString().match(/^[1-9]\d*/)
-				// let max = Math.min(this.total, this.profile.subsidy)
-				// if(match) {
-				// 	let v = Math.min(max, parseFloat(match[0]))
-				// 	return v < 1 ? 1 : V
-				// } 
-				// return ''
-				// return match ? Math.min(max, parseFloat(match[0])) : '';
 			},
 			async getDetail() {
 				const res = await this.$c.fetch(this.$api.goods.orderDetail, {
@@ -203,23 +177,21 @@
 						id: this.id,
 						amount: this.subsidy.amount,
 					})
-					// this.profile = await this.$c.getProfile()
 					if (!res1) return false
 					this.subsidy.pay = 1
 				}
 				const res = await this.$c.fetch(this.$api.goods.orderPay, {
 					id: this.id,
-					paying_mode: this.paying_mode,
+					paying_mode: this.paying_mode.id,
 					password: this.password
 				})
 				if (res) {
-					if (res.jump_url) {
-						// this.$c.setStorage('web', { title: '支付', src: res.jump_url })
-						// this.$c.goto('/pages/index/web?type=pay')
-						this.$c.quickPay(res.jump_url)
-					} else {
-						this.$c.goto('/pages/order/list')
-					}
+					this.$c.payJump(res, '/pages/order/list')
+					// if (res.jump_url) {
+					// 	this.$c.quickPay(res.jump_url)
+					// } else {
+					// 	this.$c.goto('/pages/order/list')
+					// }
 				}
 			},
 			async onCancel() {

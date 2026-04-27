@@ -35,13 +35,13 @@ export default {
 		return request.post('/user_lucky_star/platform_list', data, { ...config })
 	},
 	videoCreate(data = {}, config = {}) {
-		return request.post('/user_lucky_star/create', data, { ...config })
+		return request.post('/user_lucky_star/create', data, { loading: true, ...config })
 	},
 	videoList(data = {}, config = {}) {
 		return request.post('/user_lucky_star/list', data, { ...config })
 	},
 	videoEdit(data = {}, config = {}) {
-		return request.post('/user_lucky_star/edit', data, { ...config })
+		return request.post('/user_lucky_star/edit', data, { loading: true, ...config })
 	},
 	videoDetail(data = {}, config = {}) {
 		return request.post('/user_lucky_star/view', data, { ...config })
@@ -50,9 +50,12 @@ export default {
 		return request.post('/user_lucky_star/info', data, { ...config })
 	},
 	videoReceive(data = {}, config = {}) {
-		return request.post('/user_lucky_star/receive', data, { ...config })
+		return request.post('/user_lucky_star/receive', data, { loading: true, ...config })
 	},
 	videoReceiveList(data = {}, config = {}) {
 		return request.post('/user_lucky_star/receive_list', data, { ...config })
 	},
+	assetList(data = {}, config = {}) {
+		return request.post('/material/details', data, { ...config })
+	}
 }

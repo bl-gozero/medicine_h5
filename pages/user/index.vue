@@ -1,33 +1,41 @@
 <template>
 	<view class="page bg-page">
 		<view class="user_box" :class="'pt-' + $c.barHeight()">
-			<view class="flex-end plr-20">
+			<view class="flex-end plr-20 fgap-14">
+				<!-- <view class="relative i-20">
+					<image src="/static/icon/notice.webp" class="i-20" @click="$c.goto('/pages/info/notice')"></image>
+					<u-badge :show="!!notice" :absolute="true" bgColor="#FF2A40" :offset="[0, 0]" isDot></u-badge>
+				</view> -->
 				<image src="/static/icon/set.webp" class="i-20" @click="$c.goto('/pages/user/settings')"></image>
-				<image src="/static/icon/qr.webp" class="i-20 ml-14" @click="$c.goto('/pages/user/qrcode')"></image>
+				<image src="/static/icon/qr.webp" class="i-20" @click="$c.goto('/pages/user/qrcode')"></image>
 			</view>
 			<view v-if="$c.mode()" class="flex-center">
 				<view class="relative mt-30">
-					<image :src="`/static/vip/user_index/bg_level_${$c.calcLv(profile)}.webp`" class="w-351 h-126"
+					<image :src="$c.img('/static/vip/user_index/bg_level_' + $c.calcLv(profile) +  '.webp', 0)" class="w-351 h-126"
 						mode="widthFix"></image>
 					<view class="full border-box pl-25">
 						<view class="flex-start" style="margin-top: -13px;">
-							<view class="i-60 rounded" style="border: 2px solid #fff;background: #EAEAEA;">
+							<view class="i-60 rounded mr-5" style="border: 2px solid #fff;background: #EAEAEA;">
 								<u-avatar :src="profile.avatar" size="60" :default-url="$c.userAvatar()"></u-avatar>
 							</view>
 							<view class="relative">
-								<view class="fs-16 u-line-1">{{ profile.account }}</view>
+								<view class="flex-start fgap-5">
+									<view class="fs-16 u-line-1" style="max-width: 180px;">{{ profile.account }}</view>
+									<view class="bg-white fs-10 border-box flex-center rounded-x w-50 h-17" 
+										style="border: 0.5px solid #E8E8E8;" @click="showAccounts = true">切换账号</view>
+								</view>
 								
 								<!-- #ifdef MP -->
-								<image :src="`/static/vip/name_level_${$c.calcLv(profile)}.webp`"
-									class="h-10 block absolute" style="top: 120%;" mode="heightFix"></image>
+								<image :src="$c.img('/static/vip/name_level_' + $c.calcLv(profile) + '.webp')"
+									class="h-10 block absolute" style="top: 120%;max-width: 75px;" mode="heightFix"></image>
 								<!-- #endif -->
 								
 							</view>
 						</view>
 						
 						<!-- #ifndef MP -->
-						<image :src="`/static/vip/name_level_${$c.calcLv(profile)}.webp`" class="h-14 mt-10 block"
-							mode="heightFix"></image>
+						<image :src="$c.img('/static/vip/name_level_' + $c.calcLv(profile) + '.webp')" class="h-14 mt-10 block"
+							style="max-width: 75px;" mode="heightFix"></image>
 						<view class="fs-12 mt-10">升级成为合伙人，享永久绩效分红</view>
 						<!-- #endif -->
 						
@@ -126,7 +134,7 @@
 					<view class="mp-view mp-right relative" @click="$c.goto('/pages/user/join')">
 						<image src="/static/user/invite.webp" class="i-54 absolute top-8 right-9"></image>
 						<view class="fs-16 fw-7">加入北辰</view>
-						<view class="fs-12 mt-5" style="color: #D3A69C;">邀好友全球代购</view>
+						<view class="fs-12 mt-5" style="color: #D3A69C;">邀商户全球乐购</view>
 					</view>
 				</view>
 				
@@ -141,7 +149,6 @@
 						</view>
 					</view>
 				</view>
-				<view class="h-80"></view>
 			</view>
 			<!-- #endif -->
 		</view>
@@ -189,8 +196,8 @@
 					</view>
 				</view>
 				<view class="fw-5 mt-23">其他</view>
-				<view class="">
-					<view class="border-bottom ptb-20 flex-between" v-for="item in menus" :key="item.id"
+				<view class="list_box">
+					<view class="ptb-20 flex-between" v-for="item in menus" :key="item.id"
 						@click="$c.goto(item.url)">
 						<view class="flex-start">
 							<image :src="item.icon" class="i-16"></image>
@@ -198,12 +205,31 @@
 						</view>
 						<u-icon name="arrow-right" size="12" color="#7D7D7D"></u-icon>
 					</view>
-					<view class="h-80"></view>
 				</view>
 			</view>
 		</view>
+		<image src="/static/user/insurance.webp" class="w-304 h-35 mt-30 block auto-x"></image>
+		<view class="h-70"></view>
 		<!-- #endif -->
 		<TabBar />
+		
+		<u-popup :show="showAccounts" mode="bottom" round="20" closeable @close="showAccounts = false">
+			<view class="plr-20 pt-20 pb-30">
+				<view class="text-center fs-16 fw-5 mb-10">切换账号</view>
+				<scroll-view class="h-200" scroll-y>
+					<view class="flex-between fgap-13 ptb-15 border-bottom" v-for="(item, index) in accounts" @click="onAccounts(item)">
+						<u-avatar :src="item.avatar" size="32" :default-url="$c.userAvatar()"></u-avatar>
+						<view class="flex-1">
+							<view class="u-line-1">{{ item.nickname || '账号' + (index + 1) }}</view>
+							<view class="mt-3 text-info fs-12">{{ item.account }}</view>
+						</view>
+						<u-icon v-if="item.account == profile.account" name="checkbox-mark" size="16" :color="$c.baseColor()"></u-icon>
+					</view>
+				</scroll-view>
+				<button class="fw-7 fs-14 w-224 h-43 mt-40 border-0 flex-center rounded-x bg-page"
+					@click="showAccounts = false">取消</button>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -281,6 +307,12 @@
 						icon: '/static/icon/gift.webp',
 						url: '/pages/activity/gift'
 					},
+					// {
+					// 	id: 6,
+					// 	name: '企业讯息',
+					// 	icon: '/static/mp/icon/news.webp',
+					// 	url: '/pages/info/news'
+					// },
 				],
 				mp_menus: [
 					{
@@ -305,10 +337,10 @@
 							url: '/pages/index/recruit'
 						},
 						{
-							id: 4,
-							name: '关于北辰',
-							icon: '/static/mp/icon/about.webp',
-							url: '/pages/index/protocols?type=6'
+							id: 6,
+							name: '礼品兑换',
+							icon: '/static/mp/icon/gift.webp',
+							url: '/pages/activity/gift'
 						}]
 					},
 					{
@@ -321,21 +353,28 @@
 							url: '/pages/index/web'
 						},
 						{
-							id: 6,
-							name: '在线客服',
-							icon: '/static/mp/icon/gift.webp',
-							url: '/pages/activity/gift'
+							id: 7,
+							name: '企业讯息',
+							icon: '/static/mp/icon/news.webp',
+							url: '/pages/info/news'
+						},
+						{
+							id: 4,
+							name: '关于北辰',
+							icon: '/static/mp/icon/about.webp',
+							url: '/pages/index/protocols?type=6'
 						}]
 					}
 				],
 				is_sign: 'no-load',
 				reward: 0,
-				showReward: false,
-				doSign: null
+				showAccounts: false,
+				notice: 0,
+				accounts: []
 			}
 		},
 		onLoad() {
-			this.doSign = this.$c.onceRequest(this.onSign)
+			this.accounts = this.$c.getStorage('accounts') || []
 		},
 		async onShow() {
 			await this.$c.checkeLogin()
@@ -358,15 +397,6 @@
 				const res = await this.$c.fetch(this.$api.user.signStatus)
 				if (res) this.is_sign = res.is_sign
 			},
-			async onSign() {
-				const res = await this.$c.fetch(this.$api.user.signIn)
-				if (res) {
-					this.is_sign = true
-					this.reward = res.amount
-					this.showReward = true
-					this.getProfile()
-				}
-			},
 			async getOrderNum() {
 				const validOrders = this.orders.filter(order => order.value > 0)
 				const results = await Promise.all(
@@ -381,6 +411,19 @@
 						target.count = res.count
 					}
 				})
+			},
+			async onAccounts(item) {
+				if (item.account == this.profile.account) return
+				if (!item.jwt) {
+					await this.$c.toast('登录已失效，需重新登录')
+					this.$c.goto('/pages/index/login')
+					return
+				}
+				this.$c.setStorage('jwt', item.jwt)
+				this.getProfile()
+				this.getOrderNum()
+				this.getSignStatus()
+				this.showAccounts = false
 			}
 		}
 	}

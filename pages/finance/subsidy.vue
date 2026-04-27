@@ -72,7 +72,7 @@
 			<view class="w-308 rounded-20 p-20 border-box bg-white" style="min-height: 257px;">
 				<view class="text-black text-center fs-18 fw-7">购物金使用规则</view>
 				<view class="lh-20 mt-20 text-black">
-					1. 参与签到 、推荐好友等活动获得；<br />
+					1. 参与签到 、推荐商户等活动获得；<br />
 					2. 不可转赠或提现；<br />
 					3. 只用于购买商品时，部分或全部抵扣。
 				</view>

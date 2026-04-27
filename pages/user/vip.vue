@@ -4,7 +4,7 @@
 			<view class="" :class="['bg-' + level_index]">
 				<Title title="商户权益中心" bgColor="transparent">
 					<template v-if="profile.level.id < 3" v-slot:right>
-						<view @click="$c.goto('/pages/user/team')">邀请的好友</view>
+						<view @click="$c.goto('/pages/user/team')">邀请的商户</view>
 					</template>
 				</Title>
 				<image :src="$c.img(`/static/vip/v2/pointer_${level_index}.webp`)" class="pw-100 maxh-50"
@@ -18,7 +18,7 @@
 									<image :src="$c.img(`/static/vip/v2/bg_${item.id}.webp`)" class="w-335 h-148 block"></image>
 									<view class="absolute left-0 bottom-0 pw-100 ph-85 pl-20 pt-14 border-box">
 										<view class="flex-start pw-100">
-											<image :src="$c.img(`/static/vip/v2/name_${item.id}.webp`)" class="w-120 h-22">
+											<image :src="$c.img(`/static/vip/v2/name_${item.id}.webp`)" class="h-22" style="max-width: 120px;" mode="heightFix">
 											</image>
 											<view class="unfinished text-black ml-10">
 												<text v-if="$c.calcLv(profile) < item.id">未达到</text>
@@ -55,25 +55,15 @@
 					</swiper-item>
 				</swiper>
 				<view class="flex-between plr-20">
-					<text class="fs-16">可享{{ level_list[level_index - 1].privilege }}/19特权</text>
-					<view v-if="level_index < 3" class="flex-end lh-10"
-						@click="$c.goto('/pages/index/protocols?type=4')">
-						<text class="fs-12" style="color: #051835;">查看《会员服务介绍》</text>
-						<image src="/static/vip/right.webp" class="i-14"></image>
-					</view>
-					<view v-else-if="level_index == 3" class="flex-end lh-10"
-						@click="$c.goto('/pages/index/protocols?type=2')">
-						<text class="fs-12" style="color: #051835;">查看《VIP服务介绍》</text>
-						<image src="/static/vip/right.webp" class="i-14"></image>
-					</view>
-					<view v-else-if="level_index == 4" class="flex-end lh-10"
-						@click="$c.goto('/pages/index/protocols?type=3')">
-						<text class="fs-12" style="color: #051835;">查看《合伙人计划》</text>
-						<image src="/static/vip/right.webp" class="i-14"></image>
-					</view>
-					<view v-else-if="level_index > 4" class="flex-end lh-10"
+					<text class="fs-16">可享{{ level_list[level_index - 1].privilege }}/18特权</text>
+					<view v-if="level_index > 4" class="flex-end lh-10"
 						@click="$c.goto('/pages/index/protocols?type=5')">
-						<text class="fs-12" style="color: #051835;">查看《合伙人计划》</text>
+						<text class="fs-12" style="color: #051835;">查看《商户合伙人计划》</text>
+						<image src="/static/vip/right.webp" class="i-14"></image>
+					</view>
+					<view v-else class="flex-end lh-10"
+						@click="$c.goto('/pages/index/protocols?type=4')">
+						<text class="fs-12" style="color: #051835;">查看《商户服务介绍》</text>
 						<image src="/static/vip/right.webp" class="i-14"></image>
 					</view>
 				</view>
@@ -82,13 +72,13 @@
 				<swiper :style="{ height: `${privilege_index == 0? swiperHeight1 : swiperHeight2}px` }" :interval="5000" :duration="500"
 					@change="(e) => { privilege_index = e.detail.current }">
 					<swiper-item>
-						<view class="pl-20">
+						<view class="">
 							<image :src="$c.img(`/static/vip/v2/privilege_1_${level_index}.webp`)"
 								class="pw-100 inline-block" mode="widthFix" @load="onImgLoad1"></image>
 						</view>
 					</swiper-item>
 					<swiper-item>
-						<view class="plr-20">
+						<view class="">
 							<image :src="$c.img(`/static/vip/v2/privilege_2_${level_index}.webp`)"
 								class="pw-100 inline-block" mode="widthFix" @load="onImgLoad2"></image>
 						</view>
@@ -98,15 +88,15 @@
 		</view>
 		<view v-if="$c.calcLv(profile) < 4" class="roundedTop-14 p-20 pt-25 mt-15"
 			style="background: linear-gradient(180deg, #FFF2E5 0%, #FFFFFF 15%);">
-			<view class="fs-16">升级任务</view>
+			<view class="fs-16">提升代理</view>
 			<view class="mt-20">
 				<view class="step_box flex-between">
 					<view class="i-35 flex-center bg-white rounded">
 						<image src="/static/vip/lv-2.webp" class="w-24 h-20 block"></image>
 					</view>
 					<view class="mlr-9 flex-1">
-						<view class="">成为销售员</view>
-						<view class="text-info">购买1件指定商品即可</view>
+						<view class="">初级商户</view>
+						<view class="text-info">进货1件指定商品</view>
 					</view>
 					<button v-if="profile.level.id < 2" class="btn bg-0 text-0"
 						@click="$c.goto('/pages/goods/searchResult?is_level_valid=1')">去完成</button>
@@ -116,10 +106,11 @@
 					<view class="i-35 relative flex-center bg-white rounded">
 						<image src="/static/vip/lv-3.webp" class="w-24 h-20 block"></image>
 						<view class="line"></view>
+						<image src="/static/vip/good-1.webp" class="w-109 h-31 absolute bottom-33 left-19"></image>
 					</view>
 					<view class="mlr-9 flex-1">
-						<view class="">升级为VIP</view>
-						<view class="text-info">邀请{{ level3.upgrade_count || 3 }}位好友成为销售员</view>
+						<view class="">进阶商户</view>
+						<view class="text-info">扩招{{ level3.upgrade_count || 3 }}名“初级商户”</view>
 					</view>
 					<button v-if="profile.level.id < 3" class="btn bg-0 text-0" @click="$c.goto('/pages/user/qrcode')">{{ num1 > 0? `还需${num1}人` : '去完成' }}</button>
 					<button v-else class="btn bg-1 text-1">已完成</button>
@@ -131,8 +122,8 @@
 						<image src="/static/vip/good-1.webp" class="w-109 h-31 absolute bottom-33 left-19"></image>
 					</view>
 					<view class="mlr-9 flex-1">
-						<view class="">升级为合伙人</view>
-						<view class="text-info">邀请{{ level4.upgrade_count || 5 }}位好友成为VIP会员</view>
+						<view class="">高级商户</view>
+						<view class="text-info">扩招{{ level4.upgrade_count || 5 }}名“进阶商户”</view>
 					</view>
 					<button v-if="profile.direct_vip < 5" class="btn bg-0 text-0" @click="$c.goto('/pages/user/qrcode')">{{ num2 > 0? `还需${num2}人` : '去完成' }}</button>
 					<button v-else class="btn bg-1 text-1">已完成</button>
@@ -140,22 +131,25 @@
 			</view>
 		</view>
 		<view v-if="$c.calcLv(profile) > 2" class="">
-			<view class="mt-15" :class="$c.calcLv(profile) == 3 && 'switch_box'">
+			<view class="mt-15" :class="$c.calcLv(profile) == 3 && ''">
 				<view v-if="$c.calcLv(profile) > 2" class="relative mt-15">
 					<image :src="`/static/vip/switch-${switcher}.webp`" class="pw-100 block" mode="widthFix"></image>
 					<view class="full flex-between item-stretch pr-20 border-box" style="padding-top: 7%;">
 						<view class="fw-5 pw-26 plr-13 border-box"
 							:style="{ color: switcher == 4 ? '#969AA7' : '#B2A09B' }"
-							@click="switcher = switcher == 3 ? 4 : 3">{{ switcher == 4 ? '销售数据' : '团队业绩' }}</view>
+							@click="switcher = switcher == 3 ? 4 : 3">{{ switcher == 4 ? '销售数据' : '体系数据' }}</view>
 						<view class="flex-1">
 							<view class="fs-16 fw-5 flex-center">
-								<text>{{ switcher == 3 ? '销售数据' : '团队业绩' }}</text>
+								<text>{{ switcher == 3 ? '销售数据' : '体系数据' }}</text>
 								<view class="icon_info ml-3" @click="showHint = true"></view>
 							</view>
-							<view class="text-info flex-center mt-13 fs-10 lh-10">
-								<text>数据更新于{{ switcher == 3 ? now : today }}</text>
-								<image v-if="switcher == 3" src="/static/vip/refresh.webp" class="i-11 ml-4"
+							<view v-if="switcher == 3" class="text-info flex-center mt-13 fs-10 lh-10">
+								<text>数据更新于{{ now }}</text>
+								<image src="/static/vip/refresh.webp" class="i-11 ml-4"
 									@click="getSellData(1)"></image>
+							</view>
+							<view v-else class="text-info flex-center mt-13 fs-10 lh-10">
+								<text>数据来源于{{ today }}</text>
 							</view>
 						</view>
 						<view class="pw-24">
@@ -166,7 +160,7 @@
 						</view>
 					</view>
 				</view>
-				<!-- <view v-else-if="$c.calcLv(profile) == 3" class="">
+				<view v-else-if="$c.calcLv(profile) == 3" class="">
 					<view class="fs-16 fw-5 flex-center">
 						<text>销售数据</text>
 						<view class="icon_info ml-3" @click="showHint = true"></view>
@@ -175,7 +169,7 @@
 						<text>数据更新于{{ now }}</text>
 						<image src="/static/vip/refresh.webp" class="i-11 ml-4" @click="getSellData()"></image>
 					</view>
-				</view> -->
+				</view>
 				<view class="bg-white">
 					<view v-if="switcher == 3" class="plr-20 pb-30">
 						<view class="flex-between pt-33 flex-wrap fgap-20">
@@ -249,14 +243,14 @@
 								</view>
 							</view>
 						</view>
-						<image :src="$c.img('/static/vip/reward_2.webp')" class="pw-100 block mt-40" mode="widthFix"></image>
+						<image :src="$c.img('/static/vip/reward_3.webp')" class="pw-100 block mt-40" mode="widthFix"></image>
 					</view>
 				</view>
 			</view>
 		</view>
 		<view v-if="load" class="fs-10 text-center ptb-30">
-			<text class="text-info">详细权益、佣金比例等请查看</text>
-			<text class="text-base" @click="$c.goto('/pages/index/userService')">《会员服务介绍》</text>
+			<text class="text-info">详细权益等请查看</text>
+			<text class="text-base" @click="$c.goto('/pages/index/userService')">《商户服务介绍》</text>
 		</view>
 		<!-- 提示 -->
 		<u-popup :show="showHint" mode="center" round="20" :closeOnClickOverlay="false" @close="showHint = false">
@@ -266,7 +260,7 @@
 					“销售数据”将体现您整个销售团队的所有数据情况，包含同级别以下用户数据。
 				</view>
 				<view v-if="switcher == 4" class="mt-34 lh-17 fs-14">
-					“团队绩效”同合伙人级别用户团队业绩将不纳入“团队绩效”统计范围。每月完成“团队绩效”考核可获得对应“绩效分红”。“绩效分红”每月1日自动重置，不做累计计算。
+					“体系数据”同合伙人级别用户团队业绩将不纳入“体系数据”统计范围。每月完成“团队绩效”考核可获得对应“绩效分红”。“绩效分红”每月1日自动重置，不做累计计算。
 				</view>
 				<button class="bg-base text-white w-234 h-51 fs-16 fw-7 mt-68 flex-center rounded-x"
 					@click="showHint = false">知道了</button>
@@ -294,7 +288,7 @@
 				},
 				year: new Date().getFullYear(),
 				month: new Date().getMonth() + 1,
-				today: new Date().toISOString().slice(0, 10),
+				today: new Date(Date.now() - 86400000).toISOString().slice(0, 10),
 				now: this.$c.formatDateTime(),
 				month_sales: 0,
 				month_bonus: 0,
@@ -321,47 +315,47 @@
 						num: 1,
 						count: 0,
 						privilege: 2,
-						require: '购买1件指定商品可升级销售员'
+						require: '进货1件指定商品提升到该等级'
 					},
 					{
 						id: 3,
 						name: '',
 						num: 3,
 						count: 0,
-						privilege: 4,
-						require: '购买1件指定商品并邀请3位好友成为销售员，可升级VIP'
+						privilege: 5,
+						require: '扩招3名初级商户提升到该等级'
 					},
 					{
 						id: 4,
 						name: '',
 						num: 5,
 						count: 0,
-						privilege: 6,
-						require: 'VIP身份邀请5位好友成为VIP用户，可升级合伙人'
+						privilege: 5,
+						require: '扩招5名进阶商户提升到该等级'
 					},
 					{
 						id: 5,
 						name: '',
 						num: 5,
 						count: 0,
-						privilege: 10,
-						require: '团队内累计 ≥5 名合伙人升级为铜牌合伙人'
+						privilege: 9,
+						require: '扩招5名进阶商户提升到该等级'
 					},
 					{
 						id: 6,
 						name: '',
 						num: 5,
 						count: 0,
-						privilege: 15,
-						require: '团队内累计 ≥5 名铜牌合伙人升级为银牌合伙人'
+						privilege: 14,
+						require: '扩招5名区级商户提升到该等级'
 					},
 					{
 						id: 7,
 						name: '',
-						num: 20,
+						num: 12,
 						count: 0,
-						privilege: 19,
-						require: '团队内累计 ≥20 名银牌合伙人升级为金牌合伙人'
+						privilege: 18,
+						require: '扩招12名市级商户提升到该等级'
 					}
 				],
 				level_index: 1,
@@ -390,7 +384,7 @@
 				// 获取 window 宽度
 				const screenWidth = uni.getSystemInfoSync().windowWidth;
 				// 计算图片显示宽度（根据你的 pw-100 = 100% 宽度来算）
-				const displayWidth = screenWidth - 20;
+				const displayWidth = screenWidth;
 				// 按比例计算高度
 				const displayHeight = (height / width) * displayWidth;
 				this.swiperHeight1 = displayHeight;
@@ -400,7 +394,7 @@
 				// 获取 window 宽度
 				const screenWidth = uni.getSystemInfoSync().windowWidth;
 				// 计算图片显示宽度（根据你的 pw-100 = 100% 宽度来算）
-				const displayWidth = screenWidth - 40;
+				const displayWidth = screenWidth;
 				// 按比例计算高度
 				const displayHeight = (height / width) * displayWidth;
 				this.swiperHeight2 = displayHeight;

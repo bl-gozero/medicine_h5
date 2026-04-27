@@ -115,9 +115,10 @@
 					@click="showCancel = true">取消订单</button>
 				<button v-if="order.status == 4 || order.status == 6" class="btn btn-black border-plain" plain
 					@click="onAgain()">再来一单</button>
-					
-				<!-- <button v-if="order.status == 3" class="btn btn-black" plain
-					@click="$c.goto(`/pages/order/express?id=${order.id}`)">查看物流</button> -->
+				<button v-if="[3, 4, 8].includes(order.status)" class="btn btn-black border-plain" plain
+					@click="$c.goto('/pages/index/web')">退款退货</button>
+				<!-- <button v-if="order.status == 4" class="btn btn-black border-plain" plain
+					@click="$c.goto('/pages/order/invoice?id=' + order.id)">申请开票</button> -->
 				<button v-if="order.status == 3" class="btn bg-base text-white"
 					@click="showReceive = true">确认收货</button>
 					

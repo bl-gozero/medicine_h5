@@ -2,29 +2,22 @@
 	<view>
 		<view v-if="cateList.length > 0" class="list_box">
 			<view class="ptb-20" v-for="(item, index) in cateList" :key="index">
-				<view v-if="item.value.length == 1 && item.value[0].value == '奖励支付'" class="flex-between" @click="selectPayCate(item, index)">
+				<view class="flex-between" @click="selectPayCate(item, index)">
 					<view class="flex-start">
-						<image :src="iconItem[item.value[0].value] || defaultIcon" class="i-18 mr-8" />
-						<text class="fs-14">{{ item.value[0].value }}</text>
-					</view>
-					<image :src="$c.checkIcon(payingMode === item.value[0].id)" class="i-18" />
-				</view>
-				<view v-else class="flex-between" @click="selectPayCate(item, index)">
-					<view class="flex-start">
-						<image :src="iconCate[item.name] || defaultIcon" class="i-18 mr-8" />
+						<image :src="item.icon" class="i-18 mr-8" />
 						<text class="fs-14">{{ item.name }}</text>
 					</view>
 					<view class="flex-end">
 						<text class="fs-10 text-info mr-6">{{ item.open ? '收起' : '展开' }}</text>
-						<u-icon :name="item.open ? 'arrow-up' : 'arrow-down'" size="18" color="#7E7E7E"></u-icon>
+						<u-icon :name="item.open ? 'arrow-up' : 'arrow-down'" size="14" color="#7E7E7E"></u-icon>
 					</view>
 				</view>
-				<view v-if="item.open" class="flex-between mt-30 pl-16" v-for="i in item.value" :key="i.id" @click="selectPayMode(i.id)">
+				<view v-if="item.open" class="flex-between mt-30 pl-16" v-for="i in item.value" :key="i.id" @click="selectPayMode(i)">
 					<view class="flex-start">
-						<image :src="iconItem[i.value] || defaultIcon" class="i-15 mr-10" />
+						<image :src="i.icon" class="i-15 mr-10" />
 						<text class="fs-12">{{ i.value }}</text>
 					</view>
-					<image :src="$c.checkIcon(payingMode === i.id)" class="i-18" />
+					<image :src="$c.checkIcon(value.id === i.id)" class="i-18" />
 				</view>
 			</view>
 		</view>
@@ -41,16 +34,6 @@
 				</view>
 			</view>
 		</u-popup>
-		
-		<u-modal 
-			:show="show"
-			title="提示"
-			content='网页端支付正在维护，请在APP端进行付款或充值等操作。'
-			showCancelButton
-			confirmText="去下载"
-			@cancel="show = false"
-			@confirm="show = false;$c.goto('/pages/web/download');"
-		></u-modal>
 	</view>
 </template>
 
@@ -58,7 +41,10 @@
 	export default {
 		name: 'Payment',
 		props: {
-			modelValue: Number,
+			value: {
+				type: Object,
+				default: () => ({})
+			},
 			mode: {
 				type: Number,
 				default: 1, // 0不含奖励，1包含奖励, 2只有奖励
@@ -72,63 +58,46 @@
 			return {
 				cateList: [],
 				show: false,
-				payingMode: this.modelValue,
-				// #ifdef MP
-				yue: { },
-				iconCate: { '奖励支付': '/static/pay/cate/1.png', '北辰支付': '/static/pay/cate/mp_2.webp', '三方支付': '/static/pay/cate/mp_3.webp' },
-				// #endif
-				// #ifndef MP
-				yue: { cate: 1, id: 4, value: '奖励支付' },
-				iconCate: { '奖励支付': '/static/pay/cate/1.png', '北辰支付': '/static/pay/cate/2.png', '三方支付': '/static/pay/cate/3.png' },
-				// #endif
-				iconItem: { "支付宝": '/static/pay/icon/1.png', "微信": '/static/pay/icon/2.png', "银联": '/static/pay/icon/3.png', "聚合支付": '/static/pay/icon/3.png', '奖励支付': '/static/pay/cate/1.png', },
-				defaultIcon: '/static/pay/icon/3.png',
-				profile: this.$c.profile(),
+				yue: { cate: 1, id: 4, value: '奖励支付', is_password: true },
 				errorInfo: {
 					show: false,
 					text: ''
-				}
+				},
+				allow: [],
+				category: ''
 				
-			}
-		},
-		watch: {
-			modelValue(val) {
-				this.payingMode = val
 			}
 		},
 		methods: {
 			selectPayCate(item, index) {
-				if (item.name != '奖励支付') {
-					item.open = !item.open
-				} else {
-					this.selectPayMode(item?.value[0]?.id)
-				}
+				item.open = !item.open
 			},
-			selectPayMode(id) {
-				const profile = this.$c.profile()
+			selectPayMode(item) {
 				let msg = ''
-				if (profile.category == 'A' && [5, 6, 7].includes(id)) {
-					msg = '当前第三方支付通道繁忙，建议使用北辰支付，更加便捷高效'
-				}
-				if (profile.category == 'B' && [1, 2, 3].includes(id)) {
-					msg = '北辰支付通道繁忙，建议选择三方支付付款，体验更顺畅。'
+				if (!this.allow.includes(item.id)) {
+					if (this.category == 'A')  msg = '当前第三方支付通道繁忙，建议使用北辰支付，更加便捷高效'
+					if (this.category == 'B')  msg = '北辰支付通道繁忙，建议选择三方支付付款，体验更顺畅。'
 				}
 				if (msg) {
 					this.errorInfo.text = msg
 					this.errorInfo.show = true
 					return
 				}
-				this.payingMode = id
-				this.$emit('input', this.payingMode);
+				this.$emit('input', {
+					id: item.id,
+					is_password: item.is_password
+				});
 			},
 			async getCateList() {
 				let res = await this.$c.fetch(this.$api.config.payCategoryList2, { device: 2 })
-				if (res?.list?.length > 0) {
-					// #ifdef MP
-					res.list = res.list.filter(i => i.name != '奖励支付' )
-					// #endif
-					this.cateList = res.list.map(i => ({ ...i, open: false }))
-				} 
+				if (res) {
+					this.allow = res.allow
+					this.category = res.category
+					if (res?.list?.length > 0) {
+						this.cateList = res.list.map(i => ({ ...i, open: false }))
+					} 
+				}
+				
 			},
 		},
 		mounted() {

@@ -90,7 +90,10 @@
 					id: 4,
 					value: '奖励'
 				}],
-				paying_mode: '',
+				paying_mode: {
+					id: null,
+					is_password: false
+				},
 				doPay: null,
 				address: {},
 				profile: this.$c.profile(),
@@ -124,7 +127,10 @@
 					return
 				}
 				this.password = '';
-				this.showPassword = true;
+				if (this.paying_mode.is_password) {
+					return this.showPassword = true
+				}
+				this.doPay()
 			},
 			priceFormatter(value) {
 				if (!value) return '';
@@ -133,17 +139,6 @@
 				v =  v < 1 ? 1 : v
 				let match = v.toString().match(/^[1-9]\d*/)
 				return match ? match[0] : ''
-				
-				// let match = value.toString().match(/^\d*(\.?\d{0,2})?/);
-				// let match = value.toString().match(/^[1-9]\d*/)
-				// let max = Math.min(this.total, this.profile.subsidy)
-				// if(match) {
-				// 	let v = Math.min(max, parseFloat(match[0]))
-				// 	return v < 1 ? 1 : V
-				// } 
-				// return ''
-				// return match ? Math.min(max, parseFloat(match[0])) : '';
-				// return match ? match[0] : '';
 			},
 			async addressList() {
 				const res = await this.$c.fetch(this.$api.user.addressList)
@@ -163,7 +158,6 @@
 					    (sum, item) => sum + (this.profile.level?.id > 2 ? item.vip_price : item.price) * item.quantity,
 					    0
 					)
-					// console.log(this.order.details, )
 				} else {
 					this.$c.goBack()
 				}
@@ -192,21 +186,21 @@
 						id: this.id,
 						amount: this.subsidy.amount,
 					})
-					// this.profile = await this.$c.getProfile()
 					if (!res1) return false
 					this.subsidy.pay = 1
 				}
 				const res = await this.$c.fetch(this.$api.goods.orderPay, {
 					id: this.id,
-					paying_mode: this.paying_mode,
+					paying_mode: this.paying_mode.id,
 					password: this.password
 				})
 				if (res) {
-					if (res.jump_url) {
-						this.$c.quickPay(res.jump_url)
-					} else {
-						this.$c.goto('/pages/order/list')
-					}
+					this.$c.payJump(res, '/pages/order/list')
+					// if (res.jump_url) {
+					// 	this.$c.quickPay(res.jump_url)
+					// } else {
+					// 	this.$c.goto('/pages/order/list')
+					// }
 				}
 			},
 		}

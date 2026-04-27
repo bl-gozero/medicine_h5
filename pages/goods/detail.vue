@@ -197,12 +197,11 @@
 				showPassword: false,
 				showInfo: false,
 				quantity: 1,
-				paying_mode: null,
+				paying_mode: {
+					id: null,
+					is_password: false
+				},
 				password: '',
-				cateList: [{
-					id: 4,
-					value: '奖励'
-				}],
 				doCartAdd: null,
 				doBuy: null,
 				option: {
@@ -318,7 +317,6 @@
 			const profile = await this.$c.checkeLogin(1)
 			if (profile && p.id && parseInt(p.id)) {
 				this.profile = profile
-				// this.profile.subsidy = 50.5
 				this.id = parseInt(p.id)
 				this.goodsDetail()
 			}
@@ -465,22 +463,14 @@
 					})
 					if (!res1) return false
 					this.subsidy.pay = 1
-					// this.profile = await this.$c.getProfile()
 				}
 				const res = await this.$c.fetch(this.$api.goods.orderPay, {
 					id: this.orderId,
-					paying_mode: this.paying_mode,
+					paying_mode: this.paying_mode.id,
 					password: this.password
 				})
 				if (res) {
-					if (res.jump_url) {
-						// this.$c.setStorage('web', { title: '支付', src: res.jump_url })
-						// this.$c.goto('/pages/index/web?type=pay')
-						this.$c.quickPay(res.jump_url)
-					} else {
-						await this.$c.toast('购买成功')
-						this.$c.goto('/pages/order/list')
-					}
+					this.$c.payJump(res, '/pages/order/list')
 					this.orderId = null
 				}
 			},
@@ -497,7 +487,7 @@
 				this.quantity = e.value
 			},
 			onShowPasswrod() {
-				if (!this.paying_mode) {
+				if (!this.paying_mode.id) {
 					this.$c.toast('请选择支付方式')
 					return
 				}
@@ -506,7 +496,10 @@
 					return false
 				}
 				this.password = ''
-				this.showPassword = true
+				if (this.paying_mode.is_password) {
+					return this.showPassword = true
+				}
+				this.doBuy()
 			}
 		}
 	}

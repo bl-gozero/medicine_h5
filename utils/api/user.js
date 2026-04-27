@@ -97,4 +97,10 @@ export default {
 	recruit(data = {}, config = {}) {
 		return request.post('/user_enlist/add', data, { loading: true, ...config })
 	},
+	partnerNum(data = {}, config = {}) {
+		return request.post('/user_team/partner_region_list', data, { ...config })
+	},
+	deleteAccount(data = {}, config = {}) {
+		return request.post('/user/cancel_account', data, { loading: true, ...config })
+	}
 }

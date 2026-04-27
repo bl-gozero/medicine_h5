@@ -162,11 +162,6 @@
 					mode: 'register'
 				})
 				if (res) {
-					// this.showCodeBtn = false
-					// this.form.captcha_id = res.id
-					// this.captcha = res.base64_image
-					// this.$refs.countDown.reset();
-					// this.$refs.countDown.start();
 					this.$c.toast('发送成功')
 					if (res.captcha) this.form.captcha = res.captcha
 				}
@@ -204,14 +199,6 @@
 					this.$c.toast('阅读并同意《APP用户协议》')
 					return
 				}
-				// const res = await this.$c.fetch(this.$api.user.register, this.form)
-				// if(res) {
-				// 	this.$c.setStorage('jwt', res.jwt)
-				// 	this.$c.setStorage('index_pop', false)
-				// 	await this.$c.toast('注册成功')
-				// 	this.intIm()
-				// 	// this.getProfile()
-				// }
 				this.$api.user.register(this.form).then(res => {
 					this.$c.setStorage('jwt', res.jwt)
 					this.$c.setStorage('index_pop', false)
@@ -243,6 +230,7 @@
 				const res = await this.$c.fetch(this.$api.user.getProfile)
 				if (res) {
 					this.$c.setStorage('profile', res)
+					this.$c.saveAccount(res)
 					this.$c.goto('/pages/user/payPassword?type=1')
 				}
 			}

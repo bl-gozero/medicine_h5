@@ -57,6 +57,10 @@
 							@click="id = item.id; showCancel = true">取消订单</button>
 						<button v-if="item.status == 4 || item.status == 6" class="btn btn-black border-plain" plain
 							@click="onAgain(item)">再来一单</button>
+						<button v-if="[3, 4, 8].includes(item.status)" class="btn btn-black border-plain" plain
+							@click="$c.goto('/pages/index/web')">退款退货</button>
+						<!-- <button v-if="item.status == 4" class="btn btn-black border-plain" plain
+							@click="$c.goto('/pages/order/invoice?id=' + item.id)">申请开票</button> -->
 						<button v-if="item.status == 3" class="btn border-1 text-base" plain
 							@click="id = item.id; showReceive = true">确认收货</button>
 						<button v-if="item.status == 1" class="btn border-1 text-base" plain

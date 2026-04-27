@@ -98,20 +98,9 @@
 		onLoad() {
 			this.$c.removeStorage('jwt')
 			this.$c.removeStorage('profile')
-			// this.getCode()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},
 		methods: {
-			// async getCode() {
-			// 	const res = await this.$c.fetch(this.$api.config.captcha)
-			// 	if(res) {
-			// 		this.showCodeBtn = false
-			// 		this.form.captcha_id = res.id
-			// 		this.captcha = res.base64_image
-			// 	} else {
-			// 		this.showCodeBtn = true
-			// 	}
-			// },
 			async getMobileCode() {
 				if (!this.form.account) {
 					this.$c.toast('请输入手机号')
@@ -122,9 +111,6 @@
 					mode: 'login'
 				})
 				if (res) {
-					// this.showCodeBtn = false
-					// this.$refs.countDown.reset();
-					// this.$refs.countDown.start();
 					this.$c.toast('发送成功')
 					if (res.captcha) this.form.captcha = res.captcha
 				}
@@ -172,6 +158,7 @@
 				const res = await this.$c.fetch(this.$api.user.getProfile)
 				if (res) {
 					this.$c.setStorage('profile', res)
+					this.$c.saveAccount(res)
 					this.$c.goto('/pages/index/index')
 				}
 			}

@@ -19,10 +19,10 @@
 					<view class="full border-box plr-39 pt-87">
 						<view class="flex-start flex-wrap fgap-3 y-83">
 							<view v-if="index < 9" class="text-center mb-16 self-start" v-for="(item, index) in goods"
-								:key="item.id">
-								<view class="goods relative"
-									@click="$c.goto('/pages/activity/video/goodsDetail?id=' + item.id)">
-									<image :src="item.picture" class="w-69 h-53 block auto-x roundedTop-4" mode="aspectFill"></image>
+								:key="item.id" @click="$c.goto('/pages/activity/video/goodsDetail?id=' + item.id)">
+								<view class="goods relative">
+									<image :src="item.picture" class="w-69 h-53 block auto-x roundedTop-4"
+										mode="aspectFill"></image>
 									<view class="flex-center fs-10 absolute bottom-11 x-100 text-num lh-10">
 										<text>幸运星：</text>
 										<text class="fw-7">{{ item.price }}</text>
@@ -108,14 +108,14 @@
 		</view>
 
 		<view v-if="page == 2" class="page bg-page plr-20">
-			<Title title="兑换记录" fixed isBack @back="page = 1" />
+			<Title title="兑换记录" fixed isBack @back="onLog(1)" />
 			<view class="bg-white p-12 rounded-8 flex-between mt-10 fgap-10" v-for="item in logs" :key="item.id">
-				<image :src="item.picture" class="i-70 block rounded-10 bg-page"></image>
+				<image :src="item.picture" class="i-70 block rounded-10 bg-page" mode="aspectFill"></image>
 				<view class="lh-10 flex-1">
-					<view class="fs-14 fw-5">{{ item.name }}</view>
-					<view class="text-info fs-12 mtb-10">{{ item.price }}颗幸运星</view>
+					<view class="fs-14 fw-5">{{ item.goods_name }}</view>
+					<view class="text-info fs-12 mt-8 mb-6">{{ item.price }}颗幸运星</view>
 					<view class="flex-between">
-						<text class="text-info fs-12">{{ item.exchange_at }}</text>
+						<text class="text-info fs-12">{{ item.created_at }}</text>
 						<button class="w-65 h-26 border-plain btn fs-12 m-0" plain>查看物流</button>
 					</view>
 				</view>
@@ -123,7 +123,7 @@
 		</view>
 
 		<view v-if="page == 3" class="page bg-page plr-20">
-			<Title title="提交记录" fixed isBack @back="page = 1" />
+			<Title title="提交记录" fixed isBack @back="onLog(1)" />
 			<view class="flex-start fgap-36 nav">
 				<view :class="item.id == nav ? 'fw-7 nav_active' : 'text-info'" v-for="item in navList" :key="item.id"
 					@click="onVideoList(item.id)">{{ item.name }}</view>
@@ -133,45 +133,11 @@
 				<image :src="item.picture" class="i-70 block rounded-10 bg-page"></image>
 				<view class="lh-10 flex-1">
 					<view class="flex-between">
-						<text class="fs-14 fw-5 u-line-1">{{ item.code }}</text>
-						<text class="text-gold" :class="statusClass">{{ item.verify? item.verify.value : '' }}</text>
+						<text class="fs-12 fw-5 u-line-1">{{ item.platform ? item.platform.value : '' }}</text>
+						<text class="text-gold fs-12" :class="statusClass">{{ item.verify? item.verify.value : '' }}</text>
 					</view>
-					<view class="text-info fs-12 mtb-10">{{ item.price }}抖音</view>
-					<view class="text-info fs-12">{{ item.exchange_at }}</view>
-				</view>
-			</view>
-		</view>
-
-		<view v-if="page == 4" class="page" style="background: #B9E5FD;">
-			<view class="relative">
-				<image :src="img('subtop.webp')" class="x-100 block"></image>
-				<view class="full">
-					<Title title="素材库" bgColor="transparent" isBack @back="page = 1" />
-				</view>
-			</view>
-			<view class="flex-center" style="margin-top: -80rpx;">
-				<view class="rounded-10 bg-white relative border-box pt-30 pb-20 plr-14 w-348">
-					<image :src="img('asset.webp')" class="title block"></image>
-					<view class="">
-						<view class="flex-end">
-							<button class="btn-play m-0 w-79 p-0 flex-center">
-								<image :src="img('copy.webp')" class="i-16 block"></image>复制文案
-							</button>
-						</view>
-						<view class="rounded-4 h-95 border-box p-10 mt-10" style="background: #E6F3FA;">
-							<scroll-view class="h-75 rounded-4" scroll-y>
-								<view class="" style="color: #637B87;">#北辰乐购#还在为买不到海外好物发愁？</view>
-							</scroll-view>
-						</view>
-						<view class="flex-end mt-15">
-							<button class="btn-play m-0 w-108 p-0 flex-center">
-								<image :src="img('download.webp')" class="i-16 block"></image>下载图片/视频
-							</button>
-						</view>
-						<view class="flex-start fgap-6 mt-10 flex-wrap">
-							<view class="i-75 bg-page" v-for="item in 6"></view>
-						</view>
-					</view>
+					<!-- <view class="text-info fs-12 mtb-10">{{ item.platform ? item.platform.value : '' }}</view> -->
+					<view class="text-info fs-12 mt-20">{{ item.created_at }}</view>
 				</view>
 			</view>
 		</view>
@@ -223,6 +189,9 @@
 			this.getPlatforms()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
 		},
+		onShow() {
+			if (this.page == 1) this.getVideoInfo()
+		},
 		methods: {
 			statusClass(item) {
 				const map = {
@@ -235,17 +204,20 @@
 				return map[item.verify?.id] || 'text-info'
 			},
 			async onLog(n, e = null) {
-				this.page = n
-				if (n == 2) {
-					this.getReceiveList()
-				}
-				if (n == 3) {
-					if (e == 2) this.nav = 2
-					this.getVideoList()
-				}
 				if (n == 5) {
 					let page = '/pages/activity/video/video' + (e ? `?id=${e}` : '')
 					this.$c.goto(page)
+				} else if (n == 4) {
+					this.$c.goto('/pages/activity/video/assets')
+				} else {
+					this.logs = []
+					this.page = n
+					if (n == 1) this.getVideoInfo()
+					if (n == 2) this.getReceiveList()
+					if (n == 3) {
+						if (e == 2) this.nav = 2
+						this.getVideoList()
+					}
 				}
 			},
 			async getReceiveList() {
@@ -284,8 +256,10 @@
 				if (res) this.logs = res
 			},
 			img(path, root = '/static/avtivity/video/') {
-				let imgPath = root + path
-				return this.$c.img(imgPath, 0)
+				if (!/^(https?:)?\/\//.test(path)) {
+					path = root + path
+				}
+				return this.$c.img(path, 0)
 			}
 		}
 	}
@@ -372,7 +346,7 @@
 	.nav .text-info {
 		color: #575D62;
 	}
-	
+
 	.title {
 		position: absolute;
 		top: -8px;

@@ -1,9 +1,11 @@
 <template>
-	<view class="page plr-20 pt-20" style="background: #F5F6ED;">
+	<view class="page plr-20 bg">
+		<Title isBlank></Title>
 		<view class="fs-24">加入北辰</view>
 		<view class="fs-36 fw-7 mt-10 mb-20">成为全球合伙人</view>
-		<text class="plr-11 ptb-8 rounded-x border-box" style="border: 1px solid #696969;background: #FFFFEB;">活动多多 名额有限
-			快快加入</text>
+		<view class="flex-start">
+			<view class="plr-11 ptb-8 rounded-x border-box" style="border: 1px solid #696969;background: #FFFFEB;">活动多多 名额有限 快快加入</view>
+		</view>
 		<view class="mt-35 bg-white border-box rounded-26 ptb-26 plr-11"
 			style="box-shadow: 0px 0px 10px 0px rgba(88, 88, 88, 0.13);">
 			<view class="flex-between input_box">
@@ -81,6 +83,7 @@
 </template>
 
 <script>
+	import Title from '@/components/Title.vue'
 	import LineInput from '@/components/LineInput.vue'
 	import {
 		initNIM,
@@ -89,7 +92,8 @@
 
 	export default {
 		components: {
-			LineInput
+			LineInput,
+			Title
 		},
 		data() {
 			return {
@@ -211,7 +215,7 @@
 				const res = await this.$c.fetch(this.$api.user.getProfile)
 				if (res) {
 					this.$c.setStorage('profile', res)
-					// this.$c.goto('/pages/web/download')
+					this.$c.saveAccount(res)
 					this.$c.goto('/pages/user/payPassword?type=1')
 				}
 			}
@@ -241,5 +245,12 @@
 	.logo {
 		width: 46.77px;
 		height: 47.52px;
+	}
+	
+	.bg {
+		background-color: #FCF3EB;
+		background-image: url('/static/web/register.webp');
+		background-repeat: no-repeat;
+		background-size: 100% auto;
 	}
 </style>

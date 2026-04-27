@@ -142,23 +142,35 @@ const common = {
 	 */
 	goto(url, type = 1, data = null) {
 		if (!url) return
-		if (type == 2) {
-			// 关闭此页面跳转
-			uni.redirectTo({
-				url
-			})
+		const isHttp = /^https?:\/\//.test(url)
+		if (isHttp) {
+			// #ifdef H5
+			// window.open(url) // 推荐新开页
+			window.location.href = url
+			// #endif
+	
+			// #ifdef APP-PLUS
+			plus.runtime.openURL(url)
+			// #endif
+	
+			return
 		}
-		if (type == 3) {
-			uni.reLaunch({
-				url
-			})
-		} else {
-			uni.navigateTo({
-				url: url,
-				success(res) {
-					data && res.eventChannel.emit('pageData', data)
-				}
-			})
+		switch (type) {
+			case 2:
+				uni.redirectTo({ url }) // 关闭当前页面，然后打开新的页面
+				break
+			case 3:
+				uni.reLaunch({ url }) // 关闭所有页面，然后打开新的页面
+				break
+			default:
+				uni.navigateTo({
+					url,
+					success(res) {
+						if (data) {
+							res.eventChannel.emit('pageData', data)
+						}
+					}
+				})
 		}
 	},
 
@@ -222,6 +234,8 @@ const common = {
 				return this.cs()
 			case 'dl':
 				return this.getStorage('endpoint') + '/download/app-release.new.apk'
+			case 'dl2':
+				return this.getStorage('endpoint') + '/download/app-release.m.new.apk'
 			default:
 				return ''
 		}
@@ -409,12 +423,7 @@ const common = {
 	},
 
 	userAvatar() {
-		// #ifdef MP
 		return '/static/mp/user/icon_user_default.webp'
-		// #endif
-		// #ifndef MP
-		return '/static/user/icon_user_default.webp'
-		// #endif
 	},
 
 	groupAvatar() {
@@ -469,8 +478,8 @@ const common = {
 
 	checkNim() {
 		const pages = getCurrentPages()
-		const arr = ['/pages/index/launch', '/pages/index/login', '/pages/index/index', '/pages/index/index',
-			'/pages/index/register', '/pages/web/register', '/pages/web/download'
+		const arr = ['/pages/index/launch', '/pages/index/login', '/pages/index/index', '/pages/index/index', '/pages/index/protocols',
+			'/pages/index/register', '/pages/web/register', '/pages/web/download', '/pages/web/downloadForMerchant', '/pages/web/pay', '/pages/web/pay1'
 		]
 		let current = ''
 		if (pages.length) {
@@ -521,13 +530,14 @@ const common = {
 		return 'https://www.99bill.com/mobilegateway/recvMerchantInfoAction.htm'
 	},
 
-	quickPay(params) {
+	quickPay(params, showTitle = true) {
 		if (!params) return
 		let data = this.parseJSON(params)
 		if (!data) {
 			this.setStorage('web', {
 				title: '支付',
-				src: params
+				src: params,
+				showTitle: showTitle
 			})
 			this.goto('/pages/index/web?type=pay')
 			return
@@ -562,6 +572,31 @@ const common = {
 		setTimeout(() => {
 			form.submit()
 		}, 300)
+	},
+	
+	async payJump(e, url = '', msg = '支付成功') {
+		if (!e) return
+	
+		if (e.status === 'success') {
+			await this.toast(msg)
+			return url ? this.goto(url) : this.goBack()
+		}
+		
+		if (e.jump_url) {
+			const payHandlers = {
+				none: (e) => this.quickPay(e.jump_url),
+				browser: (e) => this.quickPay(e.jump_url),
+				out_browser: (e) => this.quickPay(e.jump_url),
+				alipay: (e) => {},
+				wechat: (e) => {}
+			}
+			
+			const handler = payHandlers[e.call] 
+				|| (e.alipay && payHandlers.alipay)
+				|| (e.wechat && payHandlers.wechat)
+				
+			handler ? handler(e) : console.warn('未知支付方式', e)
+		}
 	},
 
 	getCid(id, mode) {
@@ -696,6 +731,27 @@ const common = {
 		}
 		
 		return path
+	},
+	
+	sleep(time) {
+		return new Promise(resolve => setTimeout(resolve, time))
+	},
+	
+	saveAccount(a) {
+		const jwt = this.getStorage('jwt')
+		if (!a || !jwt) return
+		const newAccount = { ...a, jwt }
+		let accounts = this.getStorage('accounts') || []
+		const index = accounts.findIndex(i => i.account === newAccount.account)
+		if (index > -1) {	
+			if (accounts[index].deleted_at) newAccount.deleted_at = accounts[index].deleted_at
+			accounts.splice(index, 1) // 先删
+		}
+		accounts.unshift(newAccount) // 放最前
+		
+		// 最多保留10个
+		accounts = accounts.slice(0, 10)
+		this.setStorage('accounts', accounts)
 	}
 }
 
