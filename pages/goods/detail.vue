@@ -475,16 +475,27 @@
 				}
 			},
 			onNumChange(e) {
-				// if(this.sku.limit_quantity && this.sku.limit_quantity < e.value) {
-				// 	this.$c.toast('当前商品限购' + this.sku.limit_quantity + '件')
-				// 	return
-				// }
 				// if(this.sku.stock - this.sku.sales < e.value) {
 				// 	this.$c.toast('库存不足')
 				// 	this.quantity = this.sku.stock - this.sku.sales
 				// 	return
 				// }
-				this.quantity = e.value
+				const max = this.isMax(e.value)
+				this.quantity = max === false ? e.value : Math.max(max, 1)
+			},
+			isMax(e) {
+				const limit = Number(this.sku.limit_quantity)
+				const allowed = Number(this.sku.allowed_purchase_quantity)
+				if(limit || allowed > -10000000) {
+					const max1 = allowed > -10000000 ? Math.max(allowed, 0) :limit
+					const max2 = limit ? limit : Math.max(allowed, 0)
+					const max = Math.min(max1, max2)
+					if (e > max) {
+						this.$c.toast('已达购买上限')
+						return max
+					}
+				}
+				return false
 			},
 			onShowPasswrod() {
 				if (!this.paying_mode.id) {
@@ -493,6 +504,9 @@
 				}
 				if (!this.address?.id) {
 					this.$c.toast('请先添加收货地址')
+					return false
+				}
+				if (this.isMax(this.quantity) !== false) {
 					return false
 				}
 				this.password = ''

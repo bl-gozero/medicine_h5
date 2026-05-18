@@ -73,12 +73,7 @@
 					this.accounts.splice(index, 1)
 					this.$c.setStorage('accounts', this.accounts)
 				} else {
-					if (!item.jwt) {
-						await this.$c.toast('登录已失效，需重新登录')
-						this.$c.goto('/pages/index/login')
-						return
-					}
-					this.$c.setStorage('jwt', item.jwt)
+					this.$c.switchAccount(item)
 					this.profile = item
 					this.profile = await this.$c.getProfile()
 					this.$c.toast('切换成功')

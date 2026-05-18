@@ -144,7 +144,8 @@
 	  "root": "pages/info",
 	  "pages": [
 		{ "path": "news" },
-		{ "path": "notice" }
+		{ "path": "notice" },
+		{ "path": "protocols" }
 	  ]
 	}
 	// #ifndef MP 

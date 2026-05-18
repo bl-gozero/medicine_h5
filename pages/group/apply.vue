@@ -22,7 +22,7 @@
 						<view v-if="item.actionStatus === 0" class="flex-end ml-10">
 							<button class="bg-white fs-10 lh-8 w-47 h-20 text-base flex-center border-1 plr-0 flex-center rounded-x"
 								@click="doReject(item)">忽略</button>
-							<button class="bg-base fs-10 lh-8 w-47 h-20 text-white flex-center border-1 ml-10 flex-center rounded-x"
+							<button class="bg-base fs-10 lh-8 w-47 h-20 text-white flex-center border-1 plr-0 ml-10 flex-center rounded-x"
 								@click="doPass(item)">同意</button>
 						</view>
 						<view v-else-if="item.actionStatus === 1" class="text-base fs-12">已通过</view>
@@ -48,7 +48,7 @@
 						<view v-if="item.status === 0" class="flex-end ml-10">
 							<button class="bg-white fs-10 lh-8 w-47 h-20 text-base flex-center border-1 plr-0 flex-center rounded-x"
 								shape="circle" @click="doReject(item)">拒绝</button>
-							<button class="bg-base fs-10 lh-8 w-47 h-20 text-white flex-center border-1 ml-10 flex-center rounded-x"
+							<button class="bg-base fs-10 lh-8 w-47 h-20 text-white flex-center border-1 plr-0 ml-10 flex-center rounded-x"
 								shape="circle" @click="doPass(item)">同意</button>
 						</view>
 						<view v-else-if="item.status === 1 || item.status === 4" class="text-base fs-12">已通过</view>

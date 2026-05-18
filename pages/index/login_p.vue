@@ -31,7 +31,6 @@
 						<LineInput v-model="form.captcha" placeholder="请输入验证码" placeholderClass="text-info fs-14 fw-5"
 							:showLine="true">
 							<template #suffix>
-								<!-- <image v-if="!showCodeBtn && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix" @click="getCode()"></image> -->
 								<button v-if="showCodeBtn"
 									class="bg-base-change fw-7 fs-12 text-white plr-20 h-40 flex-center rounded-x"
 									@click="getMobileCode()">点击获取</button>

@@ -40,8 +40,12 @@
 			if (p.show == 2) this.show = false
 			const type = parseInt(p.type)
 			if (type) {
-				this.title = this.getTitle(type)
-				if (this.title) this.getImages(type)
+				if ([8, 9].includes(type)) {
+					this.$c.goto('/pages/info/protocols?type=' + type)
+				} else {
+					this.title = this.getTitle(type)
+					if (this.title) this.getImages(type)
+				}	
 			}
 		},
 		methods: {
@@ -73,7 +77,7 @@
 					case 8:
 						return 'APP隐私政策' // 商城
 					case 9:
-						return 'APP隐私‘政策' // 商户
+						return 'APP隐私政策' // 商户
 					case 10:
 						return 'APP用户协议' // 商户
 					case 11:

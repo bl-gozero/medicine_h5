@@ -163,7 +163,7 @@ $color-base:	#1A7E84;
   $val: $i * 0.1;
   .lh-#{$i} { line-height: $val; } 
 }
-.font-bold   { font-weight: bold; }
+.font-bold   { font-weight: bold !important; }
 .line-through { text-decoration: line-through; }
 /* ========== 宽高类 ========== */
 @for $i from 0 through 1000 {

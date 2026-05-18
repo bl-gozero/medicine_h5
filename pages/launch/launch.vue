@@ -1,12 +1,13 @@
 <template>
 	<!-- #ifndef MP -->
-	<view class="page bg flex-center">
-		<image src="/static/launch/launch_logo.png" class="i-150"></image>
-	</view>
+	<!-- <view class="page bg flex-center">
+		<image src="/static/launch/launch_logo.png" style="width: 150px;height: 150px;"></image>
+	</view> -->
 	<!-- #endif -->
 	<!-- #ifdef MP -->
-	<image src="/static/mp/launch/mp.webp" class="pw-100" mode="widthFix"></image>
+	<!-- <image src="/static/mp/launch/mp.webp" class="pw-100" mode="widthFix"></image> -->
 	<!-- #endif -->
+	<image src="/static/mp/launch/mp.webp" class="pw-100" mode="widthFix"></image>
 </template>
 
 <script>

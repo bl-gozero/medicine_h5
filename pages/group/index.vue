@@ -71,18 +71,6 @@
 					@click="toCreate()">支付99元并创建</button>
 			</view>
 		</u-popup>
-		
-		<!-- 加入 -->
-		<u-popup :show="showJoin" mode="center" bgColor="transparent" @close="showJoin = false">
-			<view class="relative w-375">
-				<PlayImg path="group_vip/1/1" :interval="40" :length="25" :loop="false" path2="group_vip/2/2"
-					:interval2="40" :length2="50" :start2="25" type="png" />
-				<view class="absolute left-0 right-0 auto-x pw-49 ph-7" style="bottom: 34%;"
-					@click="onJoin()"></view>
-				<image src="/static/icon/close.webp" class="i-52 mt-17 absolute left-0 right-0 auto-x"
-					style="bottom: 20%;" @click="showJoin = false"></image>
-			</view>
-		</u-popup>
 
 		<u-modal :show="showNick" title="提示" content='您还未设置昵称' confirmText="去设置" confirmColor="#3D3D3D"
 			cancelColor="#9F9F9F" showCancelButton @cancel="$c.goBack()"
@@ -192,27 +180,22 @@
 					{ id: 3, name: '鸡蛋', path: 'group_activity/rice/1', url: '/pages/activity/egg', show: true },
 					{ id: 4, name: '任务', path: 'group_activity/daily/3', url: '/pages/index/task', show: true },
 				],
-				showJoin: false,
 				team_id: null
 			}
 		},
-		onLoad() {
-			process.env.NODE_ENV !== 'development' && this.$c.checkNim()
-			// this.profile.nickname = 11
-			if (this.profile.nickname) this.onGroupCheck()
-			// this.getActivity()
+		async onLoad() {
+			const profile = await this.$c.checkeLogin(1)
+			if (profile) {
+				this.profile = profile
+				this.$c.checkNim()
+				this.onGroupCheck()
+			}
 		},
 		async onShow() {
 			this.profile = await this.$c.checkeLogin(1)
-			if (!this.profile.nickname && process.env.NODE_ENV != 'development') this.showNick = true
+			this.showNick = this.profile.nickname? false : true
 		},
 		methods: {
-			async getActivity() {
-				const res = await this.$c.fetch(this.$api.user.activityStatus)
-				if (res) {
-					this.events[1].show = res.is_ginsend_wine
-				}
-			},
 			onNav(e) {
 				if (e.id == 2 && this.profile.level.id < 4) {
 					this.showLv = true
@@ -225,22 +208,19 @@
 				this.$c.goto('/pages/group/pay')
 			},
 			async onGroupCheck() {
-				if (this.profile?.level?.id < 4 || this.showJoin) return
-				const res = await this.$c.fetch(this.$api.group.partnerGroup)
+				const res = await this.$c.fetch(this.$api.group.levelGroup)
 				if (res) {
-					if (res?.is_join === false && res.team_id) this.showJoin = true
-					this.team_id = res.team_id
+					const team = res.find(i => i.level_id == this.profile?.level?.id && i.medals == this.profile?.medals?.id)
+					if (team && !team.is_join) {
+						this.team_id = team.team_id
+						this.onJoin()
+					}
 				}
 			},
 			async onJoin() {
-				const res1 = await joinTeam(this.team_id, 1)
+				const res1 = await joinTeam(this.team_id, 1, '', false)
 				if(res1) {
-					const res = await this.$c.fetch(this.$api.group.join, { team_id: this.team_id })
-					if(res) {
-						this.showJoin = false
-					}
-				} else {
-					this.$c.toast('请稍后再试')
+					const res = await this.$c.fetch(this.$api.group.join, { team_id: this.team_id })			
 				}
 			}
 		}

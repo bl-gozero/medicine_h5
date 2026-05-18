@@ -20,7 +20,7 @@
 					</view>
 					<view class="flex-1 flex-between border-bottom ml-8">
 						<view class="">{{ item.name }}</view>
-						<view v-if="memberInfo.memberRole > 0 && item.role.id > 1" class="flex-end">
+						<view v-if="memberInfo.memberRole > 0" class="flex-end">
 							<button class="w-47 h-20 fs-10 plr-0 text-danger border-danger ml-8  flex-center rounded-x"
 								@click="onShowRemove(item)">移除</button>
 

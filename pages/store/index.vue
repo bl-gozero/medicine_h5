@@ -24,7 +24,7 @@
 			</view>
 		</view>
 		<view :class="['plr-20', `pt-${top}`]">
-			<view v-if="nav == 1" class="ptb-14 plr-12 rounded-12 flex-start bg-white mt-12" v-for="item in list"
+			<view v-if="nav == 1" class="ptb-14 plr-12 rounded-12 flex-start bg-white mt-12 relative" v-for="item in list"
 				:key="item.id">
 				<!-- #ifndef MP -->
 				<image :src="$c.checkIcon(item.selected)" class="i-18 self-start"
@@ -32,16 +32,21 @@
 				<!-- #endif -->
 				<view class="flex-1 ml-8">
 					<view class="flex-between">
-						<!-- <text class="fs-12 fw-5">自购存入</text> -->
+						<text v-if="item.is_gift && item.is_gift.id == 1" class="fs-12 fw-5">转赠账号：13678789898</text>
+						<text v-else class="fs-12 fw-5">订单号：{{ item.order_number }}</text>
 						<text class="fs-12 fw-5"></text>
 						<text class="fs-10">已寄存</text>
 					</view>
 					<view class="flex-between mt-14">
-						<image :src="item.picture" class="i-57 rounded-12 mr-10" mode="aspectFill"></image>
+						<image :src="item.picture" class="i-57 rounded-12 mr-10 self-start" mode="aspectFill"></image>
 						<view class="flex-1 fs-12 text-info">
 							<view class="fw-5 fs-14 text-black u-line-1">{{ item.goods_name }}</view>
-							<view class="mtb-3">{{ item.goods_sku_name }}</view>
-							<view class="">订单号：{{ item.order_number }}</view>
+							<view class="mt-2">{{ item.goods_sku_name }}</view>
+							<view class="">
+								<view class="mt-2">下单时间：{{ item.paying_at }}</view>
+								<view class="mt-2">存入时间：{{ item.created_at }}</view>
+							</view>
+							<view class="mt-2">转赠时间：{{ item.created_at }}</view>
 						</view>
 					</view>
 					<view
@@ -52,6 +57,7 @@
 							class="text-gold fs-12 ml-5 lh-10">此商品已开启回购，回购数量限制{{ item.min_quantity }}-{{ item.max_quantity }}件</text>
 					</view>
 				</view>
+				<view v-if="item.is_gift && item.is_gift.id == 1" class="gift-tag">他人转赠</view>
 			</view>
 			<view v-if="nav == 2" class="p-12 rounded-12 bg-white mt-12" v-for="(item, index) in list" :key="index"
 				@click="$c.goto(`/pages/store/detailForShip?id=${item.id}`)">
@@ -176,7 +182,8 @@
 						@click="$c.goto('/pages/group/myGroup?mode=select')"></image> -->
 				</view>
 				<view :class="isKeyboardShow && 'h-100 sroller-y'">
-					<view class="fs-12 p-12 border-box rounded-8 mtb-15 lh-15" style="background: #F0ECE1;color: #99935C;">
+					<view class="fs-12 p-12 border-box rounded-8 mtb-15 lh-15"
+						style="background: #F0ECE1;color: #99935C;">
 						<view class="fw-7 flex-start">
 							<u-icon name="bell-fill" color="#9D9762" size="14"></u-icon>
 							<text class="ml-3">温馨提示</text>
@@ -196,7 +203,7 @@
 							</view>
 						</view>
 					</scroll-view>
-					<button class="btn-submit bg-base mt-20" @click="doSubmit('transfer')">填写账号并转赠</button>
+					<button class="btn-submit bg-base mt-20" @click="onShowPassword()">填写账号并转赠</button>
 				</view>
 			</view>
 		</u-popup>
@@ -233,15 +240,19 @@
 				<button class="btn-submit bg-base mt-40" @click="onClose();showPop('rule')">申请回购</button>
 			</view>
 		</u-popup>
+
+		<payPassword v-model="password" :show.sync="showPassword" @finish="doSubmit('transfer')"></payPassword>
 	</view>
 </template>
 
 <script>
 	import Title from '../../components/Title.vue'
+	import payPassword from '../../components/payPassword.vue'
 
 	export default {
 		components: {
 			Title,
+			payPassword
 		},
 		data() {
 			return {
@@ -281,7 +292,9 @@
 				to_account: null,
 				top: 110,
 				isKeyboardShow: false,
-				baseHeight: 0
+				baseHeight: 0,
+				showPassword: false,
+				password: ''
 			}
 		},
 		computed: {
@@ -306,17 +319,17 @@
 			this.init()
 			this.addressList()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
-			
+
 			// 监听键盘
 			if (window.visualViewport) {
-			  this.baseHeight = window.visualViewport.height
-		
-			  this._onResize = () => {
-				const height = window.visualViewport.height
-				this.isKeyboardShow = height < this.baseHeight - 100
-			  }
-		
-			  window.visualViewport.addEventListener('resize', this._onResize)
+				this.baseHeight = window.visualViewport.height
+
+				this._onResize = () => {
+					const height = window.visualViewport.height
+					this.isKeyboardShow = height < this.baseHeight - 100
+				}
+
+				window.visualViewport.addEventListener('resize', this._onResize)
 			}
 		},
 		onShow() {
@@ -328,7 +341,7 @@
 			}
 		},
 		onUnload() {
-		    window.visualViewport?.removeEventListener('resize', this._onResize)
+			window.visualViewport?.removeEventListener('resize', this._onResize)
 		},
 		onReachBottom() {
 			this.getList()
@@ -339,6 +352,10 @@
 				this.list.forEach(item => {
 					item.selected = this.all
 				});
+			},
+			onShowPassword() {
+				this.password = ''
+				this.showPassword = true
 			},
 			onNav(n) {
 				if (this.status == 'load') return
@@ -358,6 +375,7 @@
 				this.showBuy = false
 				this.showShip = false
 				this.showTransfer = false
+				this.showPassword = false
 			},
 			onShipItem(n) {
 				if (this.status == 'load') return
@@ -371,7 +389,6 @@
 				this.init()
 			},
 			onShowEvent(e) {
-				// this.$c.toast('未到开放时间')
 				this.onClose()
 				if (!this.num) {
 					this.$c.toast('请选择产品')
@@ -380,7 +397,6 @@
 				if (e == 'ship') this.showShip = true
 				if (e == 'transfer') this.showTransfer = true
 				if (e == 'buy') {
-					// this.$c.toast('未到开放时间')
 					const res = this.validateList(this.order)
 					if (res !== true) return this.showPop('reset', res)
 					this.showBuy = true
@@ -388,7 +404,7 @@
 			},
 			validateList(list) {
 				const noBuy = list.find(i => i?.is_buyback?.id !== 1)
-				if (noBuy) return `${noBuy.goods_name}(${noBuy.goods_sku_name})不可回购`
+				if (noBuy)  return '暂未开启回购，请回购期进行尝' // return `${noBuy.goods_name}(${noBuy.goods_sku_name})不可回购`
 
 				const map = {};
 				list.forEach(item => {
@@ -407,12 +423,12 @@
 					if (item.count < item.min_quantity) {
 						errors.push(
 							`${item.goods_name}(${item.goods_sku_name})至少回购 ${item.min_quantity} 件 ，已选 ${item.count} 件`
-							);
+						);
 					}
 					if (item.count > item.max_quantity) {
 						errors.push(
 							`${item.goods_name}(${item.goods_sku_name})至多回购 ${item.max_quantity} 件 ，已选 ${item.count} 件`
-							);
+						);
 					}
 				});
 				if (errors.length === 0) return true;
@@ -463,7 +479,6 @@
 					})
 			},
 			async onSubmit(mode, order = null) {
-				// this.$c.toast('未到开放时间')
 				this.onClose()
 				if (mode == 'transfer') {
 					if (!this.order.length) {
@@ -477,7 +492,8 @@
 					const ids = this.order.map(item => item.id)
 					const res = await this.$c.fetch(this.$api.goods.storeTransfer, {
 						id: ids,
-						to_account: this.to_account + ''
+						to_account: this.to_account + '',
+						payment_password: this.password
 					})
 					if (res) {
 						this.$know({
@@ -521,11 +537,9 @@
 					}
 				}
 				if (mode == 'buy') {
-					// this.$c.toast('未到开放时间')
 					if (!this.order) return this.$c.toast('请选择产品')
 					const ids = this.order.map(item => item.id)
 					const total = this.buyTotal
-					// const res = await this.run10(ids, this);
 					this.$api.goods.storeBuy({
 						id: ids
 					}, {
@@ -540,7 +554,6 @@
 						} else {
 							this.$c.toast(err.message || '回购失败')
 						}
-						// this.showPop('reset', err.message || '回购失败')
 					})
 				}
 			},
@@ -715,5 +728,27 @@
 		width: 65px;
 		height: 26px;
 		margin-left: 5px;
+	}
+	
+	.gift-tag {
+		background: linear-gradient(270deg, #00B578 0%, #41EBB2 100%);
+		border-radius: 5px 0px 0px 5px;
+		font-size: 13px;
+		color: #FFFFFF;
+		font-weight: bold;
+		padding: 2px 5px;
+		position: absolute;
+		top: 78px;
+		right: -3px;
+	}
+	.gift-tag::after {
+		content: '';
+		width: 0;
+		height: 0;
+		border-left: 3px solid #007E54;
+		border-bottom: 3px solid transparent;
+		position: absolute;
+		right: .5px;
+		top: 100%;
 	}
 </style>

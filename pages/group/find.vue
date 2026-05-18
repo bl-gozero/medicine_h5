@@ -114,7 +114,8 @@
 	import Title from '../../components/Title.vue'
 	import {
 		joinTeam,
-		leaveTeam
+		leaveTeam,
+		deleteConversation
 	} from '@/utils/nim.js'
 
 	export default {
@@ -238,6 +239,7 @@
 					if (res) {
 						this.$c.toast('退出成功')
 						this.updateInfo()
+						this.onDeleteConversation(this.group.team_id)
 					}
 				}
 			},
@@ -276,16 +278,16 @@
 					return
 				}
 				this.$c.goto('/pages/group/create')
-				// if(this.profile.level.id >= 4) {
-				// 	this.showCreate = true
-				// } else {
-				// 	this.showLv = true
-				// }
 			},
 			toCreate() {
 				this.showCreate = false
 				this.$c.goto('/pages/group/pay')
-			}
+			},
+			async onDeleteConversation(teamId) {
+				const cid = this.$c.getCid(teamId, 2)
+				console.log(cid)
+				if (cid) await deleteConversation(cid)
+			},
 		}
 	}
 </script>

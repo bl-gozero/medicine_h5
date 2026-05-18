@@ -398,6 +398,7 @@
 				if (res) this.is_sign = res.is_sign
 			},
 			async getOrderNum() {
+				// #ifdef MP
 				const validOrders = this.orders.filter(order => order.value > 0)
 				const results = await Promise.all(
 					validOrders.map(order => this.$api.goods.orderNum({
@@ -411,15 +412,11 @@
 						target.count = res.count
 					}
 				})
+				// #endif
 			},
 			async onAccounts(item) {
 				if (item.account == this.profile.account) return
-				if (!item.jwt) {
-					await this.$c.toast('登录已失效，需重新登录')
-					this.$c.goto('/pages/index/login')
-					return
-				}
-				this.$c.setStorage('jwt', item.jwt)
+				this.$c.switchAccount(item)
 				this.getProfile()
 				this.getOrderNum()
 				this.getSignStatus()

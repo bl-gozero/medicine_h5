@@ -28,7 +28,7 @@
 				<LineInput class="flex-1 ml-7" v-model="form.captcha_code" placeholder="请输入图形验证码"
 					placeholderClass="text-info fs-14 fw-5">
 					<template #suffix>
-						<image v-if="!showCodeBtn1 && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix"
+						<image v-if="!showCodeBtn1 && captcha" :src="captcha" class="h-40 ml-10" mode="heightFix"
 							@click="getCode()"></image>
 						<button v-if="showCodeBtn1"
 							class="bg-base-change fw-7 fs-12 text-white plr-20 h-40 flex-center rounded-x"
@@ -173,10 +173,10 @@
 					this.$c.toast('请输入短信验证码')
 					return
 				}
-				if (!this.form.referral_code) {
-					this.$c.toast('请输入推荐人邀请码')
-					return
-				}
+				// if (!this.form.referral_code) {
+				// 	this.$c.toast('请输入推荐人邀请码')
+				// 	return
+				// }
 				if (this.agreed.indexOf('agreed') == -1) {
 					this.$c.toast('阅读并同意《APP用户协议》')
 					return
@@ -188,7 +188,7 @@
 					this.$c.setStorage('index_pop', false)
 					// this.$c.goto('/pages/user/payPassword?type=1')
 					// this.getProfile()
-					this.intIm()
+					this.intIm() 
 				} else {
 					this.getCode()
 				}

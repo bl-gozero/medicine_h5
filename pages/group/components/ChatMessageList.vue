@@ -152,6 +152,7 @@
 		deleteMessage,
 		revokeMessage,
 		friendInfo,
+		teamMemberList
 	} from '@/utils/nim.js'
 
 	export default {
@@ -173,12 +174,31 @@
 				showTips: false,
 				showDelete: false,
 				showRevoke: false,
-				profile: this.$c.profile()
+				profile: this.$c.profile(),
+				mode: parseInt(this.$c.getCidInfo(this.$c.getStorage('conversationId'), 1)),
+				teamMemberList
 			}
 		},
 		computed: {
 			messages() {
-				return this.messageList.list.slice().sort((a, b) => a.createTime - b.createTime)
+				if (this.mode == 1) {
+					return this.messageList.list.slice().sort((a, b) => a.createTime - b.createTime)
+				} else {
+					const memberMap = new Map()
+					this.teamMemberList.list.forEach(member => {
+						memberMap.set(member.accountId, member)
+					})
+					return this.messageList.list
+						.filter(msg => {
+							const member = memberMap.get(msg.senderId)
+							if (!member) return false // 非成员
+							if (member.chatBanned) return false // 禁言
+							return true
+						})
+						.sort((a, b) => {
+							return a.createTime - b.createTime
+						})
+				}
 			}
 		},
 		watch: {

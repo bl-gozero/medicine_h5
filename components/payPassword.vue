@@ -1,11 +1,13 @@
 <template>
 	<u-popup :show="show" mode="bottom" round="20" closeable @close="handleClose">
 		<view class="plr-20 pt-50 pb-70 text-center">
-			<view>需支付</view>
-
-			<view class="fw-7 pb-36 mt-20" style="border-bottom: 1px solid #F6F6F6;">
-				<text class="fs-20">￥</text>
-				<text class="fs-28">{{ amount }}</text>
+			<view v-if="amount" class="">
+				<view>需支付</view>
+				
+				<view class="fw-7 pb-36 mt-20" style="border-bottom: 1px solid #F6F6F6;">
+					<text class="fs-20">￥</text>
+					<text class="fs-28">{{ amount }}</text>
+				</view>
 			</view>
 
 			<view class="mt-28 fw-7 text-left">请输入交易密码</view>

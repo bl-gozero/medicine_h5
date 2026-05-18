@@ -15,7 +15,7 @@ export default {
 		return request.post('/im/teams/create', data, { loading: true })
 	},
 	join(data) {
-		return request.post('/im/teams/join', data, { loading: true })
+		return request.post('/im/teams/join', data, { loading: false })
 	},
 	join_info(data)	{
 		return request.post('/im/teams/join_info', data, { loading: true })
@@ -82,5 +82,8 @@ export default {
 	},
 	partnerGroup(data = {}, config = {}) {
 		return request.post('/im/teams/partners_add', data, { ...config })
+	},
+	levelGroup(data = {}, config = {}) {
+		return request.post('/im/teams_level/add_list', data, { ...config })
 	}
 }

@@ -49,9 +49,9 @@
 			</view>
 			<view class="text-center fs-12" style="color: #AC7747;">“商户层级”将展示您8层内的用户数据详情</view>
 			<view class="flex-1 relative">
-				<swiper class="full" :current="level - 1" :duration="500" @change="onChange">
+				<swiper class="full" :current="level - 1" :duration="500" :touch-angle="45" @change="onChange">
 					<swiper-item v-for="i in levelMax" :key="i">
-						<scroll-view class="full ptb-10 border-box" scroll-y>
+						<scroll-view class="full ptb-10 border-box" scroll-y :enhanced="true" @scrolltolower="getList">
 							<view v-if="list.length === 0" class="h-200 flex-center text-info">{{ listStatus != 'load' ? '暂无下级' : '' }}</view>
 							<view v-else class="plr-20 inline-block pw-100 border-box member_outbox" v-for="item in list" :key="item.id">
 								<view class="member_box">
@@ -182,9 +182,6 @@
 			const arr = this.$c.getStorage('seeAction') || []
 			if(!arr.includes(this.profile.account)) this.showAction = true
 			this.getNum()
-			this.getList()
-		},
-		onReachBottom() {
 			this.getList()
 		},
 		methods: {

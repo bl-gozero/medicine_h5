@@ -36,7 +36,8 @@
 				show: false
 			}
 		},
-		onLoad() {
+		onLoad(p) {
+			if (p?.show) this.show = true
 		},
 		methods: {
 			onDownload() {

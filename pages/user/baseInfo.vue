@@ -141,7 +141,7 @@
 				})
 				if (res) {
 					this.$c.toast('保存成功')
-					this.type == 1 ?  this.$c.goto('/pages/web/download') : this.$c.goBack()
+					this.type == 1 ?  this.$c.goto('/pages/web/download?show=1') : this.$c.goBack()
 				}
 			}
 		}

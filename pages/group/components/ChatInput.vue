@@ -4,27 +4,23 @@
 			<!-- 语音相关 -->
 			<!-- <image :src="showRecord? '/static/chat/text.png' : '/static/chat/sound.png'" class="i-27" @click="showRecord = !showRecord"></image> -->
 			<image src="/static/chat/more.png" class="i-27" @click="showFunc = !showFunc"></image>
-
 			<!-- 输入框 -->
 			<view class="flex-1 ml-10">
-				<view v-if="teamInfo.chatBannedMode === 1" class="" style="color: #C0C4CC">群禁言中...</view>
-				<u-input v-else-if="!showRecord" v-model="inputValue" placeholder="请输入您想说的..." border="none"
+				<view v-if="memberInfo.kicked" class="" style="color: #C0C4CC">您当前不是群成员...</view>
+				<view v-else-if="teamInfo.chatBannedMode === 1" class="" style="color: #C0C4CC">群禁言中...</view>
+				<view v-else-if="memberInfo.chatBanned" class="" style="color: #C0C4CC">您已被禁言...</view>
+				<u-input v-else-if="!chatBanned" v-model="inputValue" placeholder="请输入您想说的..." border="none"
 					@confirm="sendMessage"></u-input>
-				<view v-else class="text-center flex-1 ml-10" @touchstart="startRecord" @touchend="stopRecord">按住说话
-				</view>
+				<!-- <view v-else class="text-center flex-1 ml-10" @touchstart="startRecord" @touchend="stopRecord">按住说话</view> -->
 				<view v-if="reply" class="flex-between mt-6 p-6 rounded-4" style="background: #E1E1E1;">
 					<text class="text-10 text-info u-line-1 mr-10">回复 {{ reply.fromNick || reply.senderId }}
 						{{ $c.formatMessage(reply) }}</text>
 					<u-icon name="close-circle-fill" size="18" @click="clearRepay()"></u-icon>
 				</view>
 			</view>
-
 			<!-- 表情 -->
 			<!-- <view class="i-27 ml-10 flex-center" @click="toggleEmoji">😊</view> -->
-
-			<!-- <image src="/static/chat/more.png" class="i-27 ml-10" @click="showFunc = !showFunc"></image> -->
-
-			<button v-if="!showRecord" class="bg-base text-white fw-5 w-60 h-32 flex-center rounded-x"
+			<button v-if="!chatBanned" class="bg-base text-white fw-5 w-60 h-32 flex-center rounded-x fs-14"
 				@click="sendMessage()">发送</button>
 		</view>
 
@@ -49,7 +45,8 @@
 <script>
 	import {
 		teamInfo,
-		friendInfo
+		friendInfo,
+		memberInfo
 	} from '@/utils/nim.js'
 
 	export default {
@@ -67,6 +64,7 @@
 		data() {
 			return {
 				teamInfo,
+				memberInfo,
 				inputValue: '',
 				showEmoji: false,
 				showFunc: false,
@@ -104,6 +102,11 @@
 						type: [1]
 					},
 				]
+			}
+		},
+		computed: {
+			chatBanned() {
+				return this.showRecord || this.teamInfo.chatBannedMode === 1 || this.memberInfo.chatBanned ? true : false
 			}
 		},
 		methods: {

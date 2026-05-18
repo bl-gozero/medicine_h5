@@ -89,9 +89,9 @@
 		</view>
 
 		<button v-if="memberInfo.memberRole === 1"
-			class="bg-white pw-100 re rounded-8 text-danger flex-center mt-11 border-0 ptb-18"
+			class="bg-white pw-100 re rounded-8 text-danger flex-center mt-11 border-0 ptb-18 h-47 fs-14"
 			@click="showDelete = true">解散群聊</button>
-		<button v-else class="bg-white pw-100 re rounded-8 text-danger flex-center mt-11 border-0 ptb-18"
+		<button v-else class="bg-white pw-100 re rounded-8 text-danger flex-center mt-11 border-0 ptb-18 h-47 fs-14"
 			@click="showQuit = true">删除并退出</button>
 
 		<view class="h-20"></view>
@@ -158,15 +158,12 @@
 			this.memberSearch.team_id = info.team_id
 			this.doDelete = this.$c.onceRequest(this.onDelete)
 			this.doQuit = this.$c.onceRequest(this.onQuit)
-			// this.onRoleInfo(info.team_id, this.$c.getStorage('profile').account)
 			this.getMembers()
 		},
 		methods: {
 			async getMembers() {
 				const res = await this.$c.fetch(this.$api.group.memberList, this.memberSearch)
-				if (res) {
-					this.members = res.list
-				}
+				if (res) this.members = res.list
 			},
 			async pinConversation(e) {
 				const nimInfo = this.$c.getStorage('nimInfo')
@@ -186,7 +183,6 @@
 				this.showDelete = false
 				const team_id = parseInt(this.teamInfo.teamId)
 				if (!team_id) return
-				this.onDeleteConversation()
 				const res = await this.$c.fetch(this.$api.group.teamDelete, {
 					team_id: team_id
 				})
@@ -195,24 +191,26 @@
 					setTimeout(() => {
 						this.$c.goto('/pages/group/index')
 					}, 1500)
+					this.onDeleteConversation()
 				}
 			},
 			async onQuit() {
 				this.showQuit = false
 				const team_id = parseInt(this.teamInfo.teamId)
 				if (!team_id) return
-				this.onDeleteConversation()
 				const res1 = await leaveTeam()
 				if (res1) {
 					const res = await this.$c.fetch(this.$api.group.quit, {
 						team_id: team_id
 					})
 					if (res) {
+						
 						this.$c.removeStorage('chatInfo')
 						this.$c.toast('退出成功')
 						setTimeout(() => {
 							this.$c.goto('/pages/group/index')
 						}, 1500)
+						this.onDeleteConversation()
 					}
 				}
 			},

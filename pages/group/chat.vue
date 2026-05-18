@@ -26,6 +26,11 @@
 			<u-modal :show="showNick" title="提示" content='您还未设置昵称' confirmText="去设置" confirmColor="#3D3D3D" cancelColor="#9F9F9F"
 				showCancelButton @cancel="$c.goBack()" @confirm="$c.goto('/pages/user/baseInfo');showNick = false"></u-modal>
 		</view>
+		
+		<view class="">
+			<u-modal :show="!!memberInfo.kicked" title="提示" content='您已被移出该群聊' confirmText="确定" confirmColor="#3D3D3D" cancelColor="#9F9F9F"
+				:showCancelButton="false" @confirm="$c.goto('/pages/group/index')"></u-modal>
+		</view>
 	</view>
 </template>
 
@@ -33,7 +38,7 @@
 	import Title from '../../components/Title.vue'
 	import ChatInput from './components/ChatInput.vue'
 	import ChatMessageList from './components/ChatMessageList.vue'
-	import { teamInfo, memberInfo, sendMessage, replyMessage, getMessageList, friendInfo, getUserInfo, clearUnreadCountByIds, getFriendList } from '@/utils/nim.js'
+	import { teamInfo, memberInfo, sendMessage, replyMessage, getMessageList, friendInfo, getUserInfo, clearUnreadCountByIds, getFriendList, getTeamMembers } from '@/utils/nim.js'
 	
 	export default {
 		components: {
@@ -47,6 +52,7 @@
 				memberInfo,
 				friendInfo,
 				chatInfo: '',
+				isKicked: false,
 				name: '',
 				join_info: {},
 				reply: null,
@@ -78,6 +84,7 @@
 					this.$c.goto('/pages/group/index')
 					return
 				}
+				getTeamMembers()
 			}
 			this.getList()
 		},
@@ -113,7 +120,7 @@
 				if(res && ['text', 'audio'].includes(e.type)) this.onTask()
 			},
 			onTask() {
-				this.$c.fetch(this.$api.config.taskFinish, { id: 3 })
+				// this.$c.fetch(this.$api.config.taskFinish, { id: 3 })
 			},
 			endVoiceCall() {
 				

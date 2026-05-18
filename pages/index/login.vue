@@ -46,7 +46,7 @@
 						<LineInput v-model="form.captcha_code" placeholder="请输入验证码"
 							placeholderClass="text-info fs-14 fw-5" :showLine="true" :maxlength="6">
 							<template #suffix>
-								<image v-if="!showCodeBtn && captcha" :src="captcha" class="h-29 ml-10" mode="heightFix"
+								<image v-if="!showCodeBtn && captcha" :src="captcha" class="h-40 ml-10" mode="heightFix"
 									@click="getCode()"></image>
 								<button v-if="showCodeBtn" class="bg-base-change fw-7 fs-12 text-white plr-20 h-40 flex-center rounded-x"
 									@click="getCode()">点击获取</button>

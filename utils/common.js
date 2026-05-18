@@ -6,7 +6,9 @@ import {
 	getMemberInfo,
 	getMessageList,
 	nimReady,
-	getUserInfo
+	getUserInfo,
+	loginNIM,
+	logoutNIM
 } from './nim'
 
 const BASE_URL = env.BASE_URL
@@ -477,16 +479,18 @@ const common = {
 	},
 
 	checkNim() {
+		const jwt = this.getStorage('jwt')
 		const pages = getCurrentPages()
 		const arr = ['/pages/index/launch', '/pages/index/login', '/pages/index/index', '/pages/index/index', '/pages/index/protocols',
-			'/pages/index/register', '/pages/web/register', '/pages/web/download', '/pages/web/downloadForMerchant', '/pages/web/pay', '/pages/web/pay1'
+			'/pages/index/register', '/pages/web/register', '/pages/web/download', '/pages/web/downloadForMerchant', '/pages/web/pay', 
+			'/pages/web/pay1', '/pages/info/protocols'
 		]
 		let current = ''
 		if (pages.length) {
 			const currentPage = pages[pages.length - 1]
 			current = '/' + currentPage.route
 		}
-		const aotuLogin = arr.indexOf(current) > -1 ? false : true
+		const aotuLogin = arr.indexOf(current) > -1 || !jwt ? false : true
 		nimReady(aotuLogin)
 	},
 
@@ -567,15 +571,13 @@ const common = {
 
 		// 插入页面并提交
 		document.body.appendChild(form)
-		// form.submit()
-		// console.log(form)
 		setTimeout(() => {
 			form.submit()
 		}, 300)
 	},
 	
 	async payJump(e, url = '', msg = '支付成功') {
-		if (!e) return
+		if (!e) return 
 	
 		if (e.status === 'success') {
 			await this.toast(msg)
@@ -599,7 +601,7 @@ const common = {
 		}
 	},
 
-	getCid(id, mode) {
+	getCid(id, mode = 2) {
 		// mode 1 私聊 2 群聊
 		if (!id) return ''
 		const nimInfo = this.getStorage('nimInfo')
@@ -740,7 +742,8 @@ const common = {
 	saveAccount(a) {
 		const jwt = this.getStorage('jwt')
 		if (!a || !jwt) return
-		const newAccount = { ...a, jwt }
+		const nimInfo = this.getStorage('nimInfo')
+		const newAccount = { ...a, jwt, nimInfo }
 		let accounts = this.getStorage('accounts') || []
 		const index = accounts.findIndex(i => i.account === newAccount.account)
 		if (index > -1) {	
@@ -750,8 +753,23 @@ const common = {
 		accounts.unshift(newAccount) // 放最前
 		
 		// 最多保留10个
-		accounts = accounts.slice(0, 10)
+		// accounts = accounts.slice(0, 10)
 		this.setStorage('accounts', accounts)
+	},
+	
+	async switchAccount(account) {
+		if (!account.jwt && !account.nimInfo) {
+			await this.$c.toast('登录已失效，需重新登录')
+			this.$c.goto('/pages/index/login')
+			return
+		}
+		this.setStorage('jwt', account.jwt)
+		
+		const nimInfo = account.nimInfo
+		this.setStorage('nimInfo', nimInfo)
+		
+		await logoutNIM('switch')
+		await loginNIM()
 	}
 }
 

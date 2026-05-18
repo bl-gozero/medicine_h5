@@ -138,7 +138,7 @@
 				event_id: 2,
 				profile: {},
 				list: Array.from({
-					length: 12
+					length: 3
 				}, () => ({})), //生成12个空对象
 				load: false,
 				items: [
@@ -227,15 +227,6 @@
 					return this.$c.toast('请选择收货地址')
 				}
 				this.showAddress = false
-				// const res = await this.$c.fetch(this.$api.user.activityAddress, {
-				// 	id: this.event_id,
-				// 	address_id: this.address.id,
-				// 	commodity: this.select
-				// })
-				// if(res) {
-				// 	this.$c.toast('提交成功')
-				// 	this.getActivity()
-				// }
 				this.$api.user.activityAddress({
 						id: this.event_id,
 						address_id: this.address.id,
