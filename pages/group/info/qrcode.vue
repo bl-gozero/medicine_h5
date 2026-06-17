@@ -6,7 +6,7 @@
 				<UQrcode ref="uqrcode" canvas-id="qrcode" :value="qrcode" size="185"></UQrcode>
 			</view>
 		</view>
-		<view class="fixed left-0 bottom-20 pw-100 ptb-20">
+		<view class="fixed left-0 bottom-20 x-100 ptb-20">
 			<button class="fw-7 lh-10 fs-14 bg-base text-white w-247 h-47 flex-center rounded-x"
 				@click="onSave()">保存</button>
 		</view>

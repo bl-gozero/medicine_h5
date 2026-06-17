@@ -12,7 +12,7 @@
 			</view>
 		</view>
 		<view class="bg-white rounded-8 ptb-8 plr-15 mt-30 flex-between">
-			<view class="relative flex-center" :class="nav == 2 && 'nav_active text-black'" @click="onNation()">
+			<view class="relative flex-center" @click="onNation()">
 				<text class="text-base fs-12 fw-5 mr-3">国家 - {{ nation }}</text>
 				<u-icon name="arrow-down-fill" :color="$c.baseColor()" size="8"></u-icon>
 				<view v-if="showItem" class="ship_box text-info fs-12">
@@ -21,10 +21,10 @@
 				</view>
 			</view>
 		</view>
-		<view class="">
+		<view v-if="list.length" class="">
 			<view class="mt-10 bg-white rounded-8 flex-between" v-for="(item,index) in list" :key="item.id" @click="$c.goto('/pages/goods/detail?id=' + item.id)">
 				<view class="i-103 flex-center">
-					<image :src="item.picture" class="pw-100 ph-100 rounded-8 block" lazy-load
+					<image :src="item.picture" class="x-100 y-100 rounded-8 block" lazy-load
 						mode="aspectFill"></image>
 				</view>
 				<view class="plr-10 ptb-15 border-box flex-1">
@@ -35,12 +35,12 @@
 					</view>
 					<view class="flex-between mt-25">
 						<view class="plr-4 flex-center">
-							<view v-if="level > 2" class="pw-100">
+							<view v-if="profile.level.id > 2" class="x-100">
 								<text class="text-danger fs-10 fw-7">￥</text>
 								<text class="text-danger fw-7">{{ item.vip_price }}</text>
 								<text class="ml-4 text-base fs-10 fw-4 line-through">￥{{ item.price }}</text>
 							</view>
-							<view v-else class="pw-100">
+							<view v-else class="x-100">
 								<text class="text-base fs-10 fw-7">￥</text>
 								<text class="text-base fw-7">{{ item.price }}</text>
 								<text class="ml-4 text-danger fs-10 fw-4 line-through">￥{{ item.vip_price }}</text>
@@ -51,6 +51,10 @@
 				</view>
 			</view>
 		</view>
+		<view v-else-if="search.load == 'loading'" class="h-200 flex-center">
+			<u-loadmore status="loading" />
+		</view>
+		<view v-else class="h-200 flex-center text-info fs-12">暂无商品</view>
 	</view>
 </template>
 
@@ -73,7 +77,8 @@
 				showItem: false,
 				nations: [
 					{ id: 0, name: '不限' }
-				]
+				],
+				nav: 2
 			}
 		},
 		computed: {
@@ -86,7 +91,7 @@
 			const profile = await this.$c.checkeLogin(1)
 			if (profile) {
 				this.profile = profile
-				this.search.goods_nation_id = this.$c.safeId(p, 'goods_nation_id')
+				this.search.goods_nation_id = this.$c.safeId(p, 'goods_nation_id') || 0
 				this.getGoods()
 				this.getNation()
 			}

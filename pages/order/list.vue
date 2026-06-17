@@ -1,6 +1,6 @@
 <template>
 	<view class="page bg-page">
-		<view class="title_box fixed top-0 left-0 pw-100 bg-page" style="z-index: 300;">
+		<view class="title_box fixed top-0 left-0 x-100 bg-page" style="z-index: 300;">
 			<Title title="我的订单" url="/pages/user/index"></Title>
 			<view class="pt-10 pb-10 plr-20 fs-12 flex-between">
 				<view class="relative" :class="search.status == item.id ? 'nav_active' : 'text-info'"

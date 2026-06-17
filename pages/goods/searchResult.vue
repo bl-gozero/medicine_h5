@@ -1,6 +1,6 @@
 <template>
 	<view class="page bg-page plr-20">
-		<view class="title_box fixed top-0 left-0 pw-100 pb-10 bg-page box" style="z-index: 100;">
+		<view class="title_box fixed top-0 left-0 x-100 pb-10 bg-page box" style="z-index: 100;">
 			<Title :isBlank="true"></Title>
 			<view class="flex-between plr-20 border-box">
 				<image src="/static/icon/back.png" class="i-24 mr-23" @click="$c.goBack()"></image>
@@ -16,18 +16,18 @@
 					<view class="flex-between">
 						<text class="u-line-1 fw-5">{{ item.name }}</text>
 						<view class="ml-10">
-							<view v-if="level > 2" class="pw-100">
+							<view v-if="level > 2" class="x-100">
 								<text class="text-danger fs-10 fw-7">￥</text>
 								<text class="text-danger fw-7">{{ item.vip_price }}</text>
 								<text class="ml-4 text-base fs-10 fw-4 line-through">￥{{ item.price }}</text>
 							</view>
-							<view v-else class="pw-100">
+							<view v-else class="x-100">
 								<text class="text-danger fs-10 fw-7">￥</text>
 								<text class="text-danger fw-7">{{ item.price }}</text>
 							</view>
 						</view>
 					</view>
-					<view class="text-right mt-33 mt-12">
+					<view class="flex-end mt-33 mt-12">
 						<view class="goods_cart"></view>
 					</view>
 				</view>

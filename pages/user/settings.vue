@@ -59,6 +59,11 @@
 							name: '更改交易密码',
 							type: 'link',
 							url: '/pages/user/payPassword'
+						},
+						{
+							name: '忘记交易密码',
+							type: 'link',
+							url: '/pages/user/forgotPassword'
 						}
 						// #endif
 					],

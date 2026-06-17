@@ -293,17 +293,9 @@
 </script>
 
 <style lang="scss" scoped>
-	/* #ifndef MP */
-	.bg {
-		background: linear-gradient(180deg, #A4D9D7 0%, rgba(216, 216, 216, 0) 211px, #fff 100%);
-	}
-	/* #endif */
-	/* #ifdef MP */
 	.bg {
 		background: linear-gradient(180deg, #FBE2C0 0%, rgba(251, 226, 192, 0) 211px, #fff 100%);
 	}
-	/* #endif */
-	
 
 	.top_group {
 		background: #FFFFFF;

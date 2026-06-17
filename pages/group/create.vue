@@ -43,7 +43,7 @@
 			</view>
 			<view class="h-120"></view>
 		</view>
-		<view class="fixed left-0 bottom-0 pw-100 ptb-20">
+		<view class="fixed left-0 bottom-0 x-100 ptb-20">
 			<button class="fw-7 lh-10 fs-14 bg-base text-white w-247 h-47 flex-center rounded-x"
 				@click="doSubmit">创建</button>
 			<view class="text-center fs-10 mt-10">

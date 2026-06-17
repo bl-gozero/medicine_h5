@@ -1,6 +1,6 @@
 <template>
 	<view class="page bg-white plr-20">
-		<view class="title_box fixed top-0 left-0 pw-100 pb-10 bg-white plr-10 border-box" style="z-index: 100;">
+		<view class="title_box fixed top-0 left-0 x-100 pb-10 bg-white plr-10 border-box" style="z-index: 100;">
 			<Title :isBlank="true"></Title>
 			<view class="flex-between">
 				<image src="/static/icon/back.png" class="i-24 mr-23" @click="$c.goBack()"></image>

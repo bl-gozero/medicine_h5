@@ -40,10 +40,10 @@
 						<view class="plr-5 relative" style="max-width: 70%;" @longpress="tipItem = item;showTips = true">
 							<view v-if="!item.isSelf" class="fs-12 lh-13 pb-3 text-info">{{ item.fromNick }}</view>
 							<!-- 文字类消息 -->
-							<view v-if="item.messageType === 0" class="bubble">
+							<view v-if="item.messageType === 0" class="bubble text-wrap">
 								<text>{{ item.text }}</text>
 							</view>
-							<view v-if="item.messageType === 1" class="">
+							<view v-if="item.messageType === 1" class="" @click="preview(item.attachment.url)">
 								<u-image :src="item.attachment.url" width="100" height="auto" bgColor="transparent"
 									mode="widthFix">
 									<template v-slot:loading>
@@ -212,6 +212,13 @@
 		methods: {
 			onAvatar(item) {
 				if(item.conversationType == 1) this.$c.goto('/pages/group/friendDetail')
+			},
+			preview(url) {
+				if (!url) return
+				uni.previewImage({
+					current: url,
+					urls: [url]
+				})
 			},
 			formatReplyInfo(item) {
 				if(item.threadReply && item.threadReply.messageClientId) {

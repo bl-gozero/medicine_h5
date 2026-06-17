@@ -1,7 +1,7 @@
 <template>
 	<view class="page" style="background: #E03D2F;">
 		<Title title="加入北辰" fixed />
-		<image :src="img('/static/join/top.webp')" class="pw-100 block" mode="widthFix"></image>
+		<image :src="img('/static/join/top.webp')" class="x-100 block" mode="widthFix"></image>
 		<view class="flex-center" style="margin-top: -130rpx;">
 			<view class="relative">
 				<image :src="img('/static/join/part_1.webp')" class="w-335 h-236 block"></image>
@@ -13,7 +13,7 @@
 			<image :src="img('/static/join/part_2.webp')" class="w-335 h-520"></image>
 		</view>
 		<view class="line_text mt-10 text-white" @click="$c.goto('/pages/index/userService')">点击了解详细规则</view>
-		<image :src="img('/static/join/bottom.png')" class="pw-100 block" mode="widthFix"></image>
+		<image :src="img('/static/join/bottom.png')" class="x-100 block" mode="widthFix"></image>
 	</view>
 </template>
 

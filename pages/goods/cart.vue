@@ -15,12 +15,12 @@
 					<view class="u-line-1 fw-5">{{ item.goods_name }}</view>
 					<view class="mtb-8 fs-12 text-info">{{ item.goods_sku_name }}</view>
 					<view class="flex-between">
-						<view v-if="level > 2" class="pw-100">
+						<view v-if="level > 2" class="x-100">
 							<text class="text-danger fs-10 fw-7">￥</text>
 							<text class="text-danger fw-7">{{ item.vip_price }}</text>
 							<!-- <text class="ml-4 text-base fs-10 fw-4 line-through">￥{{ item.price }}</text> -->
 						</view>
-						<view v-else class="pw-100">
+						<view v-else class="x-100">
 							<text class="text-danger fs-10 fw-7">￥</text>
 							<text class="text-danger fw-7">{{ item.price }}</text>
 						</view>
@@ -32,7 +32,7 @@
 			</view>
 		</view>
 		<view :class="'h-' + height"></view>
-		<view class="total_box fixed pw-100 bottom-48 left-0 plr-20 ptb-9 flex-between fs-10 border-box bg-white"
+		<view class="total_box fixed x-100 bottom-48 left-0 plr-20 ptb-9 flex-between fs-10 border-box bg-white"
 			style="z-index: 10;">
 			<view class="flex-start">
 				<view class="" @click="onAll()">
@@ -196,23 +196,20 @@
 				// 	user_address_id: this.address.id
 				// })
 				// if (res) this.$c.goto(`/pages/order/pay?id=${res.id}`)
-			},
+			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	/* #ifndef MP */
-	.title_bg {
-		background: linear-gradient(180deg, #95C6C8 0%, #F7FAFF 99%);
-	}
+	// .title_bg {
+	// 	background: linear-gradient(180deg, #95C6C8 0%, #F7FAFF 99%);
+	// }
 	/* #endif */
-	/* #ifdef MP */
 	.title_bg {
 		background: linear-gradient(180deg, #FBE3C2 0%, #F8F8F8 99%);
 	}
-	/* #endif */
-
 	.tabbar {
 		box-shadow: none;
 	}

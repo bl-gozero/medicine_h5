@@ -2,39 +2,41 @@
 	<view class="page">
 		<Title title="我的二维码" fixed />
 		<view class="relative">
-			<image :src="$c.img('/static/mp/user/qr_top_red.webp')" class="pw-100 block" mode="widthFix"></image>
-			<view class="h-208" style="background: linear-gradient(180deg, #E03C2F 0%, #C4DDFF 100%);"></view>
-			<view class="plr-20 mt-10 absolute border-box pw-100 bottom-40">
-				<view class="out_box">
-					<view class="flex-center">
-						<view  class="qrbox i-148">
-							<UQrcode v-show="!showQr" class="auto-x rounded-22" ref="qrcode" canvas-id="uqrcode" :value="link" size="148">
-							</UQrcode>
+			<image :src="$c.img('/static/mp/user/qr_top_red.webp')" class="x-100 block" mode="widthFix" @load="show = true"></image>
+			<view v-if="show" class="">
+				<view class="h-208" style="background: linear-gradient(180deg, #E03C2F 0%, #C4DDFF 100%);"></view>
+				<view class="plr-20 mt-10 absolute border-box x-100 bottom-40">
+					<view class="out_box">
+						<view class="flex-center">
+							<view  class="qrbox i-148">
+								<UQrcode v-show="!showQr" class="auto-x rounded-22" ref="qrcode" canvas-id="uqrcode" :value="link" size="148">
+								</UQrcode>
+							</view>
 						</view>
-					</view>
-					<view class="text-center lh-15 mt-10 text-info fs-12">
-						扫描二维码<br />
-						可在注册APP时填写下方邀请码
-					</view>
-					<view class="text-center flex-center mt-15">
-						<view class="relative">
-							<image src="/static/user/code_box.webp" class="w-273 h-70 block"></image>
-							<view class="full flex-center">
-								<view class="">
-									<view class="fw-7 fs-14">我的邀请码</view>
-									<view class="flex-center" @click="$c.copy(profile.referral_code)">
-										<text class="fw-7 fs-16" style="color: #EB5433;">{{ profile.referral_code }}</text>
-										<image src="/static/user/copy.webp" class="i-15 ml-4"></image>
+						<view class="text-center lh-15 mt-10 text-info fs-12">
+							扫描二维码<br />
+							可在注册APP时填写下方邀请码
+						</view>
+						<view class="text-center flex-center mt-15">
+							<view class="relative">
+								<image src="/static/user/code_box.webp" class="w-273 h-70 block"></image>
+								<view class="full flex-center">
+									<view class="">
+										<view class="fw-7 fs-14">我的邀请码</view>
+										<view class="flex-center" @click="$c.copy(profile.referral_code)">
+											<text class="fw-7 fs-16" style="color: #EB5433;">{{ profile.referral_code }}</text>
+											<image src="/static/user/copy.webp" class="i-15 ml-4"></image>
+										</view>
 									</view>
 								</view>
 							</view>
 						</view>
-					</view>
-					<view class="flex-between mt-15">
-						<button class="w-126 h-47 fw-7 text-white flex-center rounded-x fs-14" style="background: #EB5433;"
-							@click="showQr = true">保存二维码</button>
-						<button class="w-170 h-47 fw-7 text-white flex-center rounded-x fs-14" style="background: #4F87D6;"
-							@click="$c.copy(link)">分享注册链接</button>
+						<view class="flex-between mt-15">
+							<button class="w-126 h-47 fw-7 text-white flex-center rounded-x fs-14" style="background: #EB5433;"
+								@click="showQr = true">保存二维码</button>
+							<button class="w-170 h-47 fw-7 text-white flex-center rounded-x fs-14" style="background: #4F87D6;"
+								@click="$c.copy(link)">分享注册链接</button>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -43,7 +45,7 @@
 			<view class="">
 				<view class="relative">
 					<image :src="path" mode="widthFix"></image>
-					<view class="text-info fs-12 mt-20 absolute left-0 pw-100 bottom-20 text-center">如果保存无效请长按图片保存
+					<view class="text-info fs-12 mt-20 absolute left-0 x-100 bottom-20 text-center">如果保存无效请长按图片保存
 					</view>
 				</view>
 				<button class="bg-base fw-7 fs-14 text-white w-169 h-47 mt-15 border-0 flex-center rounded-x"
@@ -107,7 +109,8 @@
 							}
 						}
 					]
-				}
+				},
+				show: false
 			}
 		},
 		onLoad() {},

@@ -253,9 +253,7 @@ const common = {
 	},
 
 	baseColor() {
-		// #ifdef MP
 		return '#EB5433'
-		// #endif
 		// #ifndef MP
 		return '#1A7E84'
 		// #endif
@@ -495,14 +493,16 @@ const common = {
 	},
 
 	checkIcon(res) {
-		// #ifdef MP
+		// // #ifdef MP
+		// return res ? '/static/icon/check_1_mp.webp' :
+		// 	'/static/icon/check_0.webp'
+		// // #endif
+		// // #ifndef MP
+		// return res ? '/static/icon/check_1.webp' :
+		// 	'/static/icon/check_0.webp'
+		// // #endif
 		return res ? '/static/icon/check_1_mp.webp' :
 			'/static/icon/check_0.webp'
-		// #endif
-		// #ifndef MP
-		return res ? '/static/icon/check_1.webp' :
-			'/static/icon/check_0.webp'
-		// #endif
 	},
 
 	codeLimitTime() {
@@ -576,6 +576,21 @@ const common = {
 		}, 300)
 	},
 	
+	formPay(formHtml) {
+		uni.showLoading({
+			title: '提交中，请稍等...',
+			icon: 'none',
+			mask: true
+		})		
+		const div = document.createElement('div')
+		div.innerHTML = formHtml
+		const form = div.querySelector('form')
+		document.body.appendChild(form)
+		setTimeout(() => {
+			form.submit()
+		}, 300)
+	},
+	
 	async payJump(e, url = '', msg = '支付成功') {
 		if (!e) return 
 	
@@ -590,7 +605,8 @@ const common = {
 				browser: (e) => this.quickPay(e.jump_url),
 				out_browser: (e) => this.quickPay(e.jump_url),
 				alipay: (e) => {},
-				wechat: (e) => {}
+				wechat: (e) => {},
+				form: (e) => this.formPay(e.jump_url)
 			}
 			
 			const handler = payHandlers[e.call] 

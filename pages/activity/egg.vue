@@ -2,7 +2,7 @@
 	<view class="page" style="background: #E54C32;">
 		<Title title="每月领福利活动" fixed bgColor="#fff" />
 		<view class="relative">
-			<image :src="$c.img('/static/avtivity/egg/top_1_1.webp')" class="pw-100" mode="widthFix"></image>
+			<image :src="$c.img('/static/avtivity/egg/top_1_1.webp')" class="x-100" mode="widthFix"></image>
 			<view class="flex-center" style="margin-top: -80rpx;">
 				<image :src="$c.img('/static/avtivity/egg/rule.webp')" class="w-375 h-511"></image>
 			</view>

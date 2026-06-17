@@ -7,7 +7,7 @@
 						<view @click="$c.goto('/pages/user/team')">邀请的商户</view>
 					</template>
 				</Title>
-				<image :src="$c.img(`/static/vip/v2/pointer_${level_index}.webp`)" class="pw-100 maxh-50"
+				<image :src="$c.img(`/static/vip/v2/pointer_${level_index}.webp`)" class="x-100 maxh-50"
 					mode="widthFix"></image>
 				<swiper class="h-170" :interval="5000" :duration="500" :current="level_index - 1"
 					@change="(e) => { level_index = e.detail.current + 1 }">
@@ -16,17 +16,18 @@
 							<view class="flex-center">
 								<view class="relative">
 									<image :src="$c.img(`/static/vip/v2/bg_${item.id}.webp`)" class="w-335 h-148 block"></image>
-									<view class="absolute left-0 bottom-0 pw-100 ph-85 pl-20 pt-14 border-box">
-										<view class="flex-start pw-100">
+									<view class="absolute left-0 bottom-0 x-100 y-85 pl-20 pt-14 border-box">
+										<view class="flex-start x-100">
 											<image :src="$c.img(`/static/vip/v2/name_${item.id}.webp`)" class="h-22" style="max-width: 120px;" mode="heightFix">
 											</image>
-											<view class="unfinished text-black ml-10">
+											<view class="unfinished text-black ml-10 mr-5">
 												<text v-if="$c.calcLv(profile) < item.id">未达到</text>
 												<text v-else-if="$c.calcLv(profile) == item.id">当前等级</text>
 												<text v-else-if="$c.calcLv(profile) > item.id">已超过</text>
 											</view>
+											<u-icon name="info-circle" color="rgba(255, 255, 255, 0.8)" size="14" @click="showInfo = true"></u-icon>
 										</view>
-										<view class="text-white fw-7 fs-12 pw-100 mt-10">升级进度</view>
+										<view class="text-white fw-7 fs-12 x-100 mt-10">升级进度</view>
 										<view :class="'requirement_' + item.id">
 											<view class="flex-start mt-2">
 												<view class="w-97">
@@ -74,13 +75,13 @@
 					<swiper-item>
 						<view class="">
 							<image :src="$c.img(`/static/vip/v2/privilege_1_${level_index}.webp`)"
-								class="pw-100 inline-block" mode="widthFix" @load="onImgLoad1"></image>
+								class="x-100 inline-block" mode="widthFix" @load="onImgLoad1"></image>
 						</view>
 					</swiper-item>
 					<swiper-item>
 						<view class="">
 							<image :src="$c.img(`/static/vip/v2/privilege_2_${level_index}.webp`)"
-								class="pw-100 inline-block" mode="widthFix" @load="onImgLoad2"></image>
+								class="x-100 inline-block" mode="widthFix" @load="onImgLoad2"></image>
 						</view>
 					</swiper-item>
 				</swiper>
@@ -133,9 +134,9 @@
 		<view v-if="$c.calcLv(profile) > 2" class="">
 			<view class="mt-15" :class="$c.calcLv(profile) == 3 && ''">
 				<view v-if="$c.calcLv(profile) > 2" class="relative mt-15">
-					<image :src="`/static/vip/switch-${switcher}.webp`" class="pw-100 block" mode="widthFix"></image>
+					<image :src="`/static/vip/switch-${switcher}.webp`" class="x-100 block" mode="widthFix"></image>
 					<view class="full flex-between item-stretch pr-20 border-box" style="padding-top: 7%;">
-						<view class="fw-5 pw-26 plr-13 border-box"
+						<view class="fw-5 x-26 plr-13 border-box"
 							:style="{ color: switcher == 4 ? '#969AA7' : '#B2A09B' }"
 							@click="switcher = switcher == 3 ? 4 : 3">{{ switcher == 4 ? '销售数据' : '体系数据' }}</view>
 						<view class="flex-1">
@@ -152,7 +153,7 @@
 								<text>数据来源于{{ today }}</text>
 							</view>
 						</view>
-						<view class="pw-24">
+						<view class="x-24">
 							<view class="flex-end" @click="switcher == 4 ? $c.goto('/pages/finance/performance') : $c.sellData(0, profile.account)">
 								<text class="fs-12">历史数据</text>
 								<u-icon name="arrow-right" color="#9F9F9F" size="13"></u-icon>
@@ -223,11 +224,11 @@
 									<view class="text-info fs-10 mtb-5">绩效分红（元）</view>
 									<view class="fs-16 fw-7 u-line-1">{{ month_bonus }}</view>
 								</view>
-								<view class="data_bg rounded-8 ptb-11 plr-13 border-box">
+								<!-- <view class="data_bg rounded-8 ptb-11 plr-13 border-box">
 									<image src="/static/vip/data_5.webp" class="i-17"></image>
 									<view class="text-info fs-10 mtb-5">平级业绩（元）</view>
 									<view class="fs-16 fw-7 u-line-1">{{ pingji }}</view>
-								</view>
+								</view> -->
 							</view>
 							<view class="mt-10 mtb-17">累计数据</view>
 							<view class="flex-between flex-wrap fgap-20">
@@ -243,7 +244,7 @@
 								</view>
 							</view>
 						</view>
-						<image :src="$c.img('/static/vip/reward_3.webp')" class="pw-100 block mt-40" mode="widthFix"></image>
+						<image :src="$c.img('/static/vip/reward_3.webp')" class="x-100 block mt-40" mode="widthFix"></image>
 					</view>
 				</view>
 			</view>
@@ -264,6 +265,17 @@
 				</view>
 				<button class="bg-base text-white w-234 h-51 fs-16 fw-7 mt-68 flex-center rounded-x"
 					@click="showHint = false">知道了</button>
+			</view>
+		</u-popup>
+		<u-popup :show="showInfo" mode="center" bgColor="transparent" :closeOnClickOverlay="false"
+			@close="showInfo = false;">
+			<view class="popup-box bg-white p-20">
+				<view class="text-black text-center fs-18">温馨提示</view>
+				<view class="lh-20 mt-40 text-black plr-20">
+					App内“级别”仅用于业务身份与权限区分，“合伙人”等称谓仅为内部名称，不涉及法律、投资或收益关系
+				</view>
+				<button class="bg-base fs-16 flex-center text-white w-234 h-51 mt-34 flex-center rounded-x"
+					@click="showInfo = false;">知道了</button>
 			</view>
 		</u-popup>
 	</view>
@@ -363,6 +375,7 @@
 				scrollOffset: 50,
 				swiperHeight1: 50,
 				swiperHeight2: 200,
+				showInfo: false
 			}
 		},
 		async onLoad() {
@@ -383,7 +396,7 @@
 				const { width, height } = e.detail;
 				// 获取 window 宽度
 				const screenWidth = uni.getSystemInfoSync().windowWidth;
-				// 计算图片显示宽度（根据你的 pw-100 = 100% 宽度来算）
+				// 计算图片显示宽度（根据你的 x-100 = 100% 宽度来算）
 				const displayWidth = screenWidth;
 				// 按比例计算高度
 				const displayHeight = (height / width) * displayWidth;
@@ -393,7 +406,7 @@
 				const { width, height } = e.detail;
 				// 获取 window 宽度
 				const screenWidth = uni.getSystemInfoSync().windowWidth;
-				// 计算图片显示宽度（根据你的 pw-100 = 100% 宽度来算）
+				// 计算图片显示宽度（根据你的 x-100 = 100% 宽度来算）
 				const displayWidth = screenWidth;
 				// 按比例计算高度
 				const displayHeight = (height / width) * displayWidth;

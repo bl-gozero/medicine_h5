@@ -8,14 +8,14 @@
 					<text class="text-info fs-12">数据更新于{{ today }}</text>
 				</view>
 				<view class="flex-between mt-15">
-					<view class="rounded-8 pw-48 border-box">
+					<view class="rounded-8 x-48 border-box">
 						<view class="flex">
 							<image src="/static/vip/data_3.png" class="i-17 block"></image>
 							<text class="text-info fs-10 mtb-5 ml-8 lh-10">销售业绩（元）</text>
 						</view>
 						<view class="fs-16 fw-7 u-line-1 mt-3">{{ sales }}</view>
 					</view>
-					<view class="rounded-8 pw-48 border-box">
+					<view class="rounded-8 x-48 border-box">
 						<view class="flex">
 							<image src="/static/vip/data_4.png" class="i-17 block"></image>
 							<view class="text-info fs-10 mtb-5 ml-8 lh-10">绩效分红（元）</view>
@@ -48,10 +48,10 @@
 									<view class="fs-10 mt-5 text-info">销售业绩(元)</view>
 								</view>
 								<view class="line"></view>
-								<view class="text-center">
+								<!-- <view class="text-center">
 									<view class="fw-7">{{ item.replenish_sales }}</view>
 									<view class="fs-10 mt-5 text-info">平级回补业绩(元)</view>
-								</view>
+								</view> -->
 								<view class="line"></view>
 								<view class="text-center">
 									<view class="fw-7">{{ item.total_dividends }}</view>

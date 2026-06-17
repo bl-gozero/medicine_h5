@@ -14,7 +14,7 @@
 		<view class="plr-20">
 			<Payment v-model="paying_mode"></Payment>
 		</view>
-		<view class="absolute left-0 bottom-25 pw-100">
+		<view class="absolute left-0 bottom-25 x-100">
 			<button class="bg-base fw-7 fs-14 w-224 h-43 mt-20 text-white flex-center rounded-x"
 				@click="onCheck()">{{ `立即支付￥${ price }` }}</button>
 		</view>

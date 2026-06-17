@@ -41,13 +41,6 @@
 					<text class="fs-16 fw-7 mr-4">{{ form.month }}</text>
 					<u-icon name="arrow-down-fill" color="#3D3D3D" size="14"></u-icon>
 				</view>
-				<!-- <view class="mt-10 fs-12">
-					<text v-if="form.mode != 2">收入：</text>
-					<text v-if="form.mode != 2" class="fw-7 mr-32">{{ income }}</text>
-					<text v-if="form.mode != 1">支出：</text>
-					<text v-if="form.mode != 1" class="fw-7">{{ expense }}</text>
-				</view>
-				<image src="/static/finance/balance_log.png" class="absolute right-11 bottom-0 w-93 h-84"></image> -->
 			</view>
 		</view>
 		<view class="flex-1 relative">

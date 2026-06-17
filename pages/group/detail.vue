@@ -89,9 +89,9 @@
 		</view>
 
 		<button v-if="memberInfo.memberRole === 1"
-			class="bg-white pw-100 re rounded-8 text-danger flex-center mt-11 border-0 ptb-18 h-47 fs-14"
+			class="bg-white x-100 re rounded-8 text-danger flex-center mt-11 border-0 ptb-18 h-47 fs-14"
 			@click="showDelete = true">解散群聊</button>
-		<button v-else class="bg-white pw-100 re rounded-8 text-danger flex-center mt-11 border-0 ptb-18 h-47 fs-14"
+		<button v-else class="bg-white x-100 re rounded-8 text-danger flex-center mt-11 border-0 ptb-18 h-47 fs-14"
 			@click="showQuit = true">删除并退出</button>
 
 		<view class="h-20"></view>

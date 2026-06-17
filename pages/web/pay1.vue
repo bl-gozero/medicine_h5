@@ -18,8 +18,8 @@
 			onPay(p) {
 				if (p.id) p.id = parseInt(p.id)
 				if (p.amount) p.amount = parseFloat(p.amount)
-				p.paying_mode = 8
-				p.pay_mode = 8
+				if (p.paying_mode) p.paying_mode = parseInt(p.paying_mode)
+				if (p.pay_mode) p.pay_mode = parseInt(p.pay_mode)
 				this.data = p
 				let apis = { 
 					order: this.$api.goods.orderPay, 
@@ -29,7 +29,7 @@
 				p?.payType && apis[p.payType] && apis[p.payType](p, {
 					jwt: p.token
 				}).then(res => {
-					this.$c.quickPay(res.jump_url, false)
+					this.$c.payJump(res)
 				}).catch(err => {
 				})
 			},

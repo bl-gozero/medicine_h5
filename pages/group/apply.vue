@@ -9,7 +9,7 @@
 			<view v-if="!teamJoinList.list.length" class="flex-center h-300 text-info">暂无验证消息</view>
 			<view v-else class="">
 				<view v-if="item.actionType === 0" class="flex-between item-stretch" v-for="item in teamJoinList.list" :key="item.id">
-					<!-- <view class="u-line-1 pw-100">{{ item }}</view> -->
+					<!-- <view class="u-line-1 x-100">{{ item }}</view> -->
 					<view class="ptb-10">
 						<u-avatar :src="$c.formatImgUrl(item.user? item.user.avatar : '')" size="44" :default-url="defaultAvatar"
 							mode="aspectFill"></u-avatar>

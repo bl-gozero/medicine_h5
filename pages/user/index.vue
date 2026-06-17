@@ -2,15 +2,26 @@
 	<view class="page bg-page">
 		<view class="user_box" :class="'pt-' + $c.barHeight()">
 			<view class="flex-end plr-20 fgap-14">
-				<!-- <view class="relative i-20">
-					<image src="/static/icon/notice.webp" class="i-20" @click="$c.goto('/pages/info/notice')"></image>
-					<u-badge :show="!!notice" :absolute="true" bgColor="#FF2A40" :offset="[0, 0]" isDot></u-badge>
-				</view> -->
+				<view class="i-20 relative">
+					<image src="/static/icon/notice.webp" class="i-20" @click="$c.goto('/pages/info/news')"></image>
+					<u-badge :value="notice" :absolute="true" bgColor="#FF2A40" color="#fff" max="99"
+						:offset="[-5, 0]"></u-badge>
+				</view>
 				<image src="/static/icon/set.webp" class="i-20" @click="$c.goto('/pages/user/settings')"></image>
 				<image src="/static/icon/qr.webp" class="i-20" @click="$c.goto('/pages/user/qrcode')"></image>
 			</view>
 			<view v-if="$c.mode()" class="flex-center">
 				<view class="relative mt-30">
+					<view class="flex-between lh-10 plr-18 pb-12 pt-27 vip-tag" @click="$c.goto('/pages/user/vip')">
+						<view class="flex-start">
+							<image src="/static/user/vtag.webp" class="i-22 block mr-10"></image>
+							<text class="fw-7 fs-14" >权益中心</text>
+						</view>
+						<view class="flex-end">
+							<text class="fs-11" style="opacity: .8;">升级可获得永久分红和更多权益~</text>
+							<u-icon name="arrow-right" color="#FFEFCF" size="12px" style="transform: translateY(2px);"></u-icon>
+						</view>
+					</view>
 					<image :src="$c.img('/static/vip/user_index/bg_level_' + $c.calcLv(profile) +  '.webp', 0)" class="w-351 h-126"
 						mode="widthFix"></image>
 					<view class="full border-box pl-25">
@@ -24,24 +35,14 @@
 									<view class="bg-white fs-10 border-box flex-center rounded-x w-50 h-17" 
 										style="border: 0.5px solid #E8E8E8;" @click="showAccounts = true">切换账号</view>
 								</view>
-								
-								<!-- #ifdef MP -->
-								<image :src="$c.img('/static/vip/name_level_' + $c.calcLv(profile) + '.webp')"
-									class="h-10 block absolute" style="top: 120%;max-width: 75px;" mode="heightFix"></image>
-								<!-- #endif -->
-								
+								<view class="flex-start fgap-5 h-16 w-100 absolute" style="top: 120%;">
+									<image :src="$c.img('/static/vip/name_level_' + $c.calcLv(profile) + '.webp')"
+										class="h-10 block" style="max-width: 75px;" mode="heightFix"></image>
+									<u-icon name="info-circle" color="#cacaca" size="14" @click="showInfo = true"></u-icon>
+								</view>								
 							</view>
 						</view>
-						
-						<!-- #ifndef MP -->
-						<image :src="$c.img('/static/vip/name_level_' + $c.calcLv(profile) + '.webp')" class="h-14 mt-10 block"
-							style="max-width: 75px;" mode="heightFix"></image>
-						<view class="fs-12 mt-10">升级成为合伙人，享永久绩效分红</view>
-						<!-- #endif -->
-						
 					</view>
-					
-					<!-- #ifdef MP -->
 					<view class="flex-between absolute left-20 right-20 bottom-26">
 						<view class="flex-start" @click="$c.goto('/pages/user/address')">
 							<image src="/static/mp/icon/address.webp" class="i-16 mr-8 block"></image>
@@ -57,58 +58,42 @@
 							</view>
 						</view>
 					</view>
-					<!-- #endif -->
-					
-					<!-- #ifndef MP -->
-					<image src="/static/vip/user_index/center.webp" class="w-111 h-55 absolute right-0"
-						style="bottom: 3%;" @click="$c.goto('/pages/user/vip')"></image>
-					<!-- #endif -->
 				</view>
 			</view>
 			<view v-else class="flex-start plr-20">
 				<u-avatar :src="profile.avatar" size="80" :default-url="$c.userAvatar()"></u-avatar>
 				<view class="fs-16 u-line-1 ml-15">{{ profile.account }}</view>
 			</view>
-			<view class="flex-between lh-10 mt-20 plr-40 border-box text-center" style="color: #064144;gap: 15px;">
-				
+			<view class="flex-between lh-10 mt-50 plr-40 border-box text-center" style="color: #064144;gap: 15px;">
 				<!-- #ifndef MP -->
-				<view v-if="$c.mode()" class="pw-30" @click="$c.goto('/pages/finance/balance')">
+				<view v-if="$c.mode()" class="x-30" @click="$c.goto('/pages/finance/balance')">
 					<view class="fw-7 fs-22 flex-start u-line-1" style="line-height: 30px;">{{ profile.balance }}</view>
 					<view class="mt-12 text-name">奖励</view>
 				</view>
 				<!-- #endif -->
-				
-				<view class="pw-30" @click="$c.goto('/pages/point/index')">
+				<view class="x-30" @click="$c.goto('/pages/point/index')">
 					<view class="fw-7 fs-22 flex-start u-line-1" style="line-height: 30px;">{{ profile.integral }}
 					</view>
 					<view class="mt-12 text-name">积分</view>
 				</view>
-				<view class="pw-30" @click="$c.goto('/pages/finance/subsidy')">
+				<view class="x-30" @click="$c.goto('/pages/finance/subsidy')">
 					<view class="fw-7 fs-22 flex-start u-line-1" style="line-height: 30px;">{{ profile.subsidy }}
 					</view>
 					<view class="mt-12 text-name">购物金</view>
 				</view>
-				
 				<!-- #ifdef MP -->
-				<view class="pw-30" @click="$c.goto('/pages/store/index')">
+				<view class="x-30" @click="$c.goto('/pages/store/index')">
 					<view class="fw-7 fs-22 flex-start u-line-1" style="line-height: 30px;">
 						{{ profile.warehouse_count }}
 					</view>
 					<view class="mt-12 text-name">已寄存</view>
 				</view>
 				<!-- #endif -->
-				
 			</view>
-			
-			<!-- #ifndef MP -->
-			<view class="h-120"></view>
-			<!-- #endif -->
-			
-			<!-- #ifdef MP -->
 			<view class="plr-20 mt-25">
 				<view class="bg-white rounded-14 ptb-20 plr-14 border-box">
 					<view class="fw-5">我的订单</view>
-					<view class="flex-between mt-33 border-box">
+					<view class="flex-between mt-20 border-box">
 						<view v-if="index < 3" class="text-center relative flex-1" v-for="(item, index) in orders"
 							:key="index" @click="$c.goto(`/pages/order/list?status=${item.value}`)">
 							<image :src="'/static/mp/icon/order-' +  (index + 1) + '.webp'" class="i-26"></image>
@@ -124,7 +109,7 @@
 						</view>
 					</view>
 				</view>
-
+				<!-- #ifdef MP -->
 				<view class="flex-between fgap-10 mt-15">
 					<view class="mp-view mp-left relative" @click="$c.goto('/pages/index/task')">
 						<image src="/static/user/center.webp" class="i-54 absolute top-8 right-9"></image>
@@ -137,12 +122,34 @@
 						<view class="fs-12 mt-5" style="color: #D3A69C;">邀商户全球乐购</view>
 					</view>
 				</view>
-				
+				<!-- #endif -->
+				<!-- #ifndef MP -->
+				<view class="flex-between item-stretch fgap-10 mt-15">
+					<view class="flex-1 rounded-14 p-16 relative" style="background: linear-gradient(180deg, #C9E7FC 40%, #FFFFFF 100%);"
+					  @click="$c.goto('/pages/store/index')">
+						<image src="/static/user/store-tag.webp" class="w-85 h-68 absolute bottom-10 right-15"></image>
+						<view class="fs-16 fw-7">我的仓库</view>
+						<view class="fs-12 mt-5" style="color: #7495AD;">查看管理商品</view>
+					</view>
+					<view class="flex-1">
+						<view class="mp-view mp-right relative ptb-13" @click="$c.goto('/pages/user/join')">
+							<image src="/static/user/invite.webp" class="i-54 absolute top-8 right-9"></image>
+							<view class="fs-16 fw-7">加入北辰</view>
+							<view class="fs-12 mt-5" style="color: #D3A69C;">邀商户全球乐购</view>
+						</view>
+						<view class="mp-view mp-left relative ptb-13 mt-8" @click="$c.goto('/pages/index/task')">
+							<image src="/static/user/center.webp" class="i-54 absolute top-8 right-9"></image>
+							<view class="fs-16 fw-7">任务中心</view>
+							<view class="fs-12 mt-5" style="color: #C0B38F;">做任务赢好礼</view>
+						</view>
+					</view>
+				</view>
+				<!-- #endif -->
 				<view class="bg-white rounded-14 ptb-20 plr-14 border-box mt-16">
 					<view class="mp-menu-list" v-for="item in mp_menus" :key="item.id">
 						<view class="fw-5">{{ item.name }}</view>
 						<view class="flex-start mt-23 border-box">
-							<view class="pw-25 text-center" v-for="i in item.list" :key="i.id" @click="$c.goto(i.url)">
+							<view class="x-25 text-center" v-for="i in item.list" :key="i.id" @click="$c.goto(i.url)">
 								<image :src="i.icon" class="i-16 auto-x block"></image>
 								<view class="fs-12 mt-10">{{ i.name }}</view>
 							</view>
@@ -150,67 +157,9 @@
 					</view>
 				</view>
 			</view>
-			<!-- #endif -->
-		</view>
-		<!-- #ifndef MP -->
-		<view class="flex-1 relative" style="margin-top: -89px;z-index: 10;">
-			<view class="bg-white roundedTop-20 pt-30 plr-20 border-box">
-				<view class="flex-between" style="gap: 10px;">
-					<view class="order_box flex-between pl-16" @click="$c.goto('/pages/order/list')">
-						<view class="flex-1">
-							<view class="fs-16 fw-7">我的订单</view>
-							<view class="mt-6 text-info fs-12">查看全部</view>
-						</view>
-						<image src="/static/user/order.webp" class="w-37 h-41 self-start m-7 "></image>
-					</view>
-					<view class="store_box flex-between pl-16" @click="$c.goto('/pages/store/index')">
-						<view class="flex-1">
-							<view class="fs-16 fw-7">我的仓库</view>
-							<view class="mt-6 text-info fs-12">查看全部</view>
-						</view>
-						<image src="/static/user/store.webp" class="w-37 h-41 self-start m-7"></image>
-					</view>
-				</view>
-				<view class="rounded-8 mt-15 ptb-7 plr-10 flex-between fgap-5"
-					style="background: linear-gradient(264deg, #FFD0B7 6%, #F9EBDB 44%, #FFEDE5 98%);"
-					@click="$c.goto('/pages/index/task')">
-					<view class="fw-7 fs-14" style="color: #733C14;">任务中心</view>
-					<view class="fs-10 flex-1 u-line-1" style="color: #F68330;">参与更多活动任务，奖励多多</view>
-					<view class="w-98 h-30">
-						<image v-if="is_sign === true" :src="`/static/user/signed_0.webp`" class="w-98 h-30"></image>
-						<view v-if="is_sign === false" class="relative h-30">
-							<view class="w-76 h-29" style="transform: scale(1.4) translate(10%, -1px);">
-								<PlayImgs path="sign/1" :interval="70" :length="15" :width="76" type="webp"></PlayImgs>
-							</view>
-							<view class="sign_box full">签到领购物金</view>
-						</view>
-					</view>
-				</view>
-				<view v-if="$c.mode()" class="">
-					<view class="fw-5 mt-34">加入北辰代购</view>
-					<view class="relative" @click="$c.goto('/pages/user/join')">
-						<image src="/static/user/join.webp" class="pw-100 mt-10 maxh-110" mode="widthFix"></image>
-						<view class="absolute pw-100 left-0" style="top: 8%">
-							<PlayImgs path="user/index_join/2" :interval="50" :length="40" type="webp"></PlayImgs>
-						</view>
-					</view>
-				</view>
-				<view class="fw-5 mt-23">其他</view>
-				<view class="list_box">
-					<view class="ptb-20 flex-between" v-for="item in menus" :key="item.id"
-						@click="$c.goto(item.url)">
-						<view class="flex-start">
-							<image :src="item.icon" class="i-16"></image>
-							<text class="fs-12 lh-8 ml-9">{{ item.name  }}</text>
-						</view>
-						<u-icon name="arrow-right" size="12" color="#7D7D7D"></u-icon>
-					</view>
-				</view>
-			</view>
 		</view>
 		<image src="/static/user/insurance.webp" class="w-304 h-35 mt-30 block auto-x"></image>
 		<view class="h-70"></view>
-		<!-- #endif -->
 		<TabBar />
 		
 		<u-popup :show="showAccounts" mode="bottom" round="20" closeable @close="showAccounts = false">
@@ -230,6 +179,18 @@
 					@click="showAccounts = false">取消</button>
 			</view>
 		</u-popup>
+		
+		<u-popup :show="showInfo" mode="center" bgColor="transparent" :closeOnClickOverlay="false"
+			@close="showInfo = false;">
+			<view class="popup-box bg-white p-20">
+				<view class="text-black text-center fs-18">温馨提示</view>
+				<view class="lh-20 mt-40 text-black plr-20">
+					App内“级别”仅用于业务身份与权限区分，“合伙人”等称谓仅为内部名称，不涉及法律、投资或收益关系
+				</view>
+				<button class="bg-base fs-16 flex-center text-white w-234 h-51 mt-34 flex-center rounded-x"
+					@click="showInfo = false;">知道了</button>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -244,6 +205,7 @@
 		},
 		data() {
 			return {
+				showInfo: false,
 				profile: {
 					...{
 						level: {
@@ -277,43 +239,6 @@
 						count: 0
 					}
 				],
-				menus: [{
-						id: 1,
-						name: '招募计划',
-						icon: '/static/icon/recruit.webp',
-						url: '/pages/index/recruit'
-					},
-					{
-						id: 2,
-						name: '在线客服',
-						icon: '/static/icon/cs.png',
-						url: '/pages/index/web'
-					},
-					{
-						id: 3,
-						name: '地址管理',
-						icon: '/static/icon/address.png',
-						url: '/pages/user/address'
-					},
-					{
-						id: 4,
-						name: '关于北辰',
-						icon: '/static/icon/about.webp',
-						url: '/pages/index/protocols?type=6'
-					},
-					{
-						id: 5,
-						name: '礼品兑换',
-						icon: '/static/icon/gift.webp',
-						url: '/pages/activity/gift'
-					},
-					// {
-					// 	id: 6,
-					// 	name: '企业讯息',
-					// 	icon: '/static/mp/icon/news.webp',
-					// 	url: '/pages/info/news'
-					// },
-				],
 				mp_menus: [
 					{
 						id: 1,
@@ -324,12 +249,14 @@
 							icon: '/static/mp/icon/mall.webp',
 							url: '/pages/point/index'
 						},
+						// #ifdef MP
 						{
 							id: 2,
 							name: '创客平台',
 							icon: '/static/mp/icon/maker.webp',
 							url: '/pages/index/maker'
 						},
+						// #endif
 						{
 							id: 3,
 							name: '招募计划',
@@ -356,7 +283,13 @@
 							id: 7,
 							name: '企业讯息',
 							icon: '/static/mp/icon/news.webp',
-							url: '/pages/info/news'
+							url: '/pages/info/news?classify=2'
+						},
+						{
+							id: 8,
+							name: '企业展示',
+							icon: '/static/mp/icon/show.webp',
+							url: '/pages/index/protocols?type=13'
 						},
 						{
 							id: 4,
@@ -380,6 +313,7 @@
 			await this.$c.checkeLogin()
 			this.getProfile()
 			this.getOrderNum()
+			this.getNewsUnread()
 			if (this.is_sign !== true) this.getSignStatus()
 		},
 		methods: {
@@ -398,7 +332,6 @@
 				if (res) this.is_sign = res.is_sign
 			},
 			async getOrderNum() {
-				// #ifdef MP
 				const validOrders = this.orders.filter(order => order.value > 0)
 				const results = await Promise.all(
 					validOrders.map(order => this.$api.goods.orderNum({
@@ -412,7 +345,6 @@
 						target.count = res.count
 					}
 				})
-				// #endif
 			},
 			async onAccounts(item) {
 				if (item.account == this.profile.account) return
@@ -421,27 +353,22 @@
 				this.getOrderNum()
 				this.getSignStatus()
 				this.showAccounts = false
+			},
+			async getNewsUnread() {
+				const res = await this.$c.fetch(this.$api.config.messageUnread, { classify: 1 })
+				this.notice = res?.count || 0
 			}
 		}
 	}
 </script>
 
 <style>
-	/* #ifndef MP */
-	.user_box {
-		background:
-			linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 40%, #f8f8f8 100%),
-			linear-gradient(270deg, #92CBCE 4%, #DBEBEB 98%);
-	}
-	/* #endif */
-	/* #ifdef MP */
 	.user_box {
 		background:
 			linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 40%, #f8f8f8 100%),
 			linear-gradient(270deg, #FFE5C6 4%, #F9F6F4 98%);
 			
 	}
-	/* #endif */
 
 	.sign_box {
 		font-size: 10px;
@@ -479,7 +406,6 @@
 		border-radius: 12px;
 		background: linear-gradient(180deg, #E0E2EE 0%, rgba(240, 253, 253, 0.89) 100%);
 	}
-
 	.mp-view {
 		border-radius: 14px;
 		padding: 23px 17px;
@@ -494,5 +420,14 @@
 	}
 	.mp-menu-list:not(:first-child) {
 		margin-top: 36px;
+	}
+	.vip-tag {
+		color: #FFEFCF;
+		background: #4A3E30;
+		margin: -60rpx 2.3% 0;
+		border-radius: 0px 0px 12px 12px;
+		position: absolute;
+		top: 100%;
+		width: 85%;
 	}
 </style>

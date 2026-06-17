@@ -68,86 +68,7 @@
 		padding: 10px;
 		border-radius: 4px;
 	}
-
-	/* #ifndef MP */
-	.goods_price_box {
-		width: 111px;
-		height: 25px;
-		background-image: url('/static/index/price.png');
-		background-size: 100% 100%;
-		background-repeat: no-repeat;
-	}
-	.goods_cart {
-		width: 35px;
-		height: 25px;
-		background-image: url('/static/index/cart.png');
-		background-size: 100% 100%;
-		background-repeat: no-repeat;
-	}
-	.text-welcome {
-		color: #75A3A5;
-	}
-	.text-login {
-		color: #2E4E50;
-	}
-	.bg-address {
-		background: linear-gradient(180deg, #CDEAEB 2%, #FFFFFF 32px);
-	}
-	.sku_name_1 {
-		border: 1px solid #1A7E84;
-		color: #1A7E84;
-		background: #EFFEFF;
-	}
-	.message-item.self .bubble {
-		background-color: #1DAFB8;
-		border-radius: 10px 2px 10px 10px;
-		color: #fff;
-	}
-	.order_detail_bg {
-		background: linear-gradient(180deg, #92CBCE 4%, #DBEBEB 85%, rgba(219, 235, 235, 0) 100%);
-	}
-	.order_detail_text {
-		text-align: center;
-		color: #064144;
-	}
-	.login-bg {
-		background-image: url('/static/login/bg.png');
-		background-repeat: no-repeat;
-		background-size: 100% auto;
-	}
-	.time_bg {
-	    background: linear-gradient(180deg, #FFFFFF 35%, #E7F7F5 100%);
-	}
-	.bg-audit {
-		background: #9DC7CA;
-	}
-	.sign_reward_box {
-		background: linear-gradient(180deg, #DFFFEE 0%, #FFFFFF 100%);
-	}
-	.icon-car {
-		background-image: url('/static/order/car.png');
-		background-size: 100% 100%;
-		background-repeat: no-repeat;
-		width: 18px;
-		height: 18px;
-	}
-	.icon-address {
-		background-image: url('/static/order/address.png');
-		background-size: 100% 100%;
-		background-repeat: no-repeat;
-		width: 18px;
-		height: 18px;
-	}
-	.icon-trip-user {
-		background-image: url('/static/icon/trip_user.webp');
-		background-size: 100% 100%;
-		background-repeat: no-repeat;
-		width: 17px;
-		height: 17px;
-	}
-	/* #endif */
 	
-	/* #ifdef MP */
 	.goods_price_box {
 		width: 111px;
 		height: 25px;
@@ -232,7 +153,6 @@
 		width: 17px;
 		height: 17px;
 	}
-	/* #endif */
 	
 	.login-left {
 		background-image: url('/static/mp/login/1.webp');

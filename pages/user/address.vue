@@ -33,7 +33,7 @@
 				</view>
 				<view class="h-130"></view>
 			</view>
-			<view class="fixed left-0 bottom-0 pw-100 bg-page pt-20 pb-40">
+			<view class="fixed left-0 bottom-0 x-100 bg-page pt-20 pb-40">
 				<view class="bg-base fw-7 fs-14 text-white w-247 h-47 flex-center rounded-x auto-x" @click="onPage()">
 					<u-icon name="plus" color="#fff"></u-icon>
 					<text class="ml-5">添加地址</text>

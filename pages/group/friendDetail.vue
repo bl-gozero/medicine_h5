@@ -36,7 +36,7 @@
 			</view>
 		</view>
 
-		<button class="bg-white pw-100 rounded-8 text-danger flex-center mt-30 border-0 ptb-18 rounded-x"
+		<button class="bg-white x-100 rounded-8 text-danger flex-center mt-30 border-0 ptb-18 rounded-x"
 			@click="showDelete = true">删除好友</button>
 
 		<view class="h-20"></view>

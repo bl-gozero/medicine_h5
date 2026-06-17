@@ -2,7 +2,7 @@
 	<view>
 		<view v-if="page == 1" class="page" style="background: #9EC1F7;">
 			<Title title="礼品兑换" fixed bgColor="#fff" />
-			<image :src="img('/static/avtivity/gift/top.webp')" class="pw-100 block" mode="widthFix"></image>
+			<image :src="img('/static/avtivity/gift/top.webp')" class="x-100 block" mode="widthFix"></image>
 			<view class="flex-center" style="margin-top: -200rpx;">
 				<view class="relative">
 					<image :src="img('/static/avtivity/gift/part_1.webp')" class="w-375 h-345 block"></image>

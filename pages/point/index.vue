@@ -25,7 +25,7 @@
 					<view v-if="point_1" class="all h-20 rounded-x flex-start plr-5">
 						<view class="relative">
 							<image src="/static/point/coin.webp" class="w-17 h-18"></image>
-							<view class="absolute top-0 right-0 pw-100" style="transform: translate(20%, -5%);">
+							<view class="absolute top-0 right-0 x-100" style="transform: translate(20%, -5%);">
 								<PlayImg path="task/star/2" :length="40" :interval="50" />
 							</view>
 						</view>
@@ -57,13 +57,13 @@
 			</view>
 			<!-- #endif -->
 			<!-- #ifdef MP -->
-			<image src="/static/mp/point/title.webp" class="pw-100 maxh-60 mt-20" mode="widthFix"></image>
+			<image src="/static/mp/point/title.webp" class="x-100 maxh-60 mt-20" mode="widthFix"></image>
 			<!-- #endif -->
 			<view class="flex-between flex-wrap mt-20" style="gap: 10px;">
 				<view class="bg-white rounded-14" style="width: calc((100% - 10px) / 2);" v-for="item in list"
 					:key="item.id" @click="$c.goto(`/pages/point/goodsDetail?id=${item.id}`)">
 					<view class="img-box flex-center">
-						<image :src="item.picture" class="pw-100 ph-100 roundedTop-14" mode="aspectFill"></image>
+						<image :src="item.picture" class="x-100 y-100 roundedTop-14" mode="aspectFill"></image>
 					</view>
 					<view class="plr-10 pt-14 pb-18">
 						<view class="fs-16 u-line-1">{{ item.name }}</view>

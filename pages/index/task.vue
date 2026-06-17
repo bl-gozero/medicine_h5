@@ -1,6 +1,6 @@
 <template>
 	<view class="page bg-page">
-		<image src="/static/task/top.webp" class="pw-100 absolute top-0 left-0" mode="widthFix"></image>
+		<image src="/static/task/top.webp" class="x-100 absolute top-0 left-0" mode="widthFix"></image>
 		<Title title="任务中心" bgColor="transparent" />
 		<!-- <view class="bg"></view> -->
 		<view class="pt-10 mlr-20 relative" style="z-index: 2;">
@@ -66,7 +66,7 @@
 					<view v-if="point_1" class="all h-20 rounded-x flex-start plr-5">
 						<view class="relative">
 							<image src="/static/point/coin.webp" class="w-17 h-18"></image>
-							<view class="absolute top-0 right-0 pw-100" style="transform: translate(20%, -5%);">
+							<view class="absolute top-0 right-0 x-100" style="transform: translate(20%, -5%);">
 								<PlayImg path="task/star/2" :length="40" :interval="50" />
 							</view>
 						</view>

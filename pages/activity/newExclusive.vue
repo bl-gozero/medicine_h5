@@ -1,7 +1,7 @@
 <template>
 	<view class="bg-white">
 		<Title title="新手福利活动" fixed bgColor="#fff" />
-		<image :src="$c.img('/static/avtivity/new/goods.webp')" class="pw-100 block" mode="widthFix"></image>
+		<image :src="$c.img('/static/avtivity/new/goods.webp')" class="x-100 block" mode="widthFix"></image>
 		<view class="price-box flex-between h-65 plr-20">
 			<view class="fs-12 fw-4" style="color: #F7E7CD;">
 				<text>新手价</text>

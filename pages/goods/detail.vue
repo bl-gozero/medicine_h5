@@ -12,11 +12,9 @@
 		<view class="relative price_box flex-start plr-20">
 			<view v-if="$c.mode()" class="absolute top-0 right-0">
 				<!-- #ifndef MP -->
-				<image src="/static/goods/price_bg.png" class="w-152 h-65"></image>
+				<!-- <image src="/static/goods/price_bg.png" class="w-152 h-65"></image> -->
 				<!-- #endif -->
-				<!-- #ifdef MP -->
 				<image src="/static/mp/goods/price_bg.webp" class="w-152 h-65"></image>
-				<!-- #endif -->
 				<view class="full flex-center">
 					<image v-if="profile.level.id > 2" src="/static/goods/price_info_2.png" class="w-114 h-34"></image>
 					<view v-else class="flex-center" @click="$c.goto('/pages/user/vip')">
@@ -67,13 +65,11 @@
 			</u--image>
 		</view>
 		<view class="h-100"></view>
-		<view class="fixed left-0 bottom-0 pw-100 flex-between p-20 bg-white border-box">
+		<view class="fixed left-0 bottom-0 x-100 flex-between p-20 bg-white border-box">
 			<view class="text-center relative" @click="$c.goto('/pages/index/web')">
-				<!-- #ifdef MP -->
 				<image src="/static/mp/goods/cs.webp" class="i-24 auto"></image>
-				<!-- #endif -->
 				<!-- #ifndef MP -->
-				<image src="/static/goods/cs.png" class="i-24 auto"></image>
+				<!-- <image src="/static/goods/cs.png" class="i-24 auto"></image> -->
 				<!-- #endif -->
 				<view class="fs-10 text-base mt-1">客服</view>
 			</view>
@@ -521,7 +517,7 @@
 
 <style>
 	/* #ifndef MP */
-	.price_box {
+	/* .price_box {
 		height: 65px;
 		background: linear-gradient(90deg, #6C5B47 0%, #312323 100%);
 		color: #F7E7CD;
@@ -529,23 +525,19 @@
 
 	.zhuanshu {
 		color: #362826;
-	}
-
+	} */
 	/* #endif */
 
-	/* #ifdef MP */
 	.price_box {
 		height: 65px;
 		background: linear-gradient(90deg, #EB5433 0%, #F53939 99%);
 		color: #F7E7CD;
 	}
-
+	
 	.zhuanshu {
 		color: #B05217;
 	}
-
-	/* #endif */
-
+	
 	image {
 		display: block;
 	}

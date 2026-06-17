@@ -7,12 +7,10 @@
 			</view>
 		</view>
 		<view class="relative flex-1 bg-white roundedTop-45 fs-12 fw-5">
-			<!-- #ifdef MP -->
 			<view class="flex-between text-center relative" style="z-index: 10;">
 				<view class="fs-16 fw-7 ptb-15 flex-1">密码登录</view>
 				<view class="fs-16 fw-7 ptb-15 flex-1 login-right" @click="$c.goto('/pages/index/login_p')">手机号登录</view>
 			</view>
-			<!-- #endif -->
 			<view class="full sroller-y plr-35 pt-60">
 				<view class="flex-start mt-20">
 					<view class="i-18 mr-7 self-start">
@@ -34,6 +32,7 @@
 							placeholderClass="text-info fs-14 fw-5" :showLine="true" :maxlength="20" />
 					</view>
 				</view>
+				<view class="flex-end mt-12 text-base fs-12" @click="$c.goto('/pages/index/password')">忘记密码</view>
 				<view class="text-right mt-13">
 					<!-- <text class="text-base fw-4" @click="$c.goto('/pages/user/forgotPassword')">忘记密码</text> -->
 				</view>
@@ -67,11 +66,6 @@
 					<button class="bg-base-change fw-7 fs-14 text-white w-278 h-49 rounded-x flex-center"
 						@click="onSubmit()">登录</button>
 				</view>
-				<!-- #ifndef MP -->
-				<view class="text-center mt-23">
-					<text class="text-base fw-4" @click="$c.goto('/pages/index/login_p')">验证码登录</text>
-				</view>
-				<!-- #endif -->
 				<view class="text-center mt-23">
 					<text class="text-base fw-4" @click="$c.goto('/pages/index/register')">没有账号？去注册</text>
 				</view>

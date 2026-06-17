@@ -1,23 +1,23 @@
 <template>
 	<view class="page bg-page">
-		<view class="fixed top-0 left-0 pw-100 bg-page pb-10 title_box" style="z-index: 100;">
+		<view class="fixed top-0 left-0 x-100 bg-page pb-10 title_box" style="z-index: 100;">
 			<Title title="我的仓库"></Title>
 			<view class="plr-30">
 				<view class="flex-start fs-12 text-info nav_box pl-10" style="gap: 5%;">
-					<view class="relative" :class="nav == 1 && 'nav_active text-black'" @click="onNav(1)">已寄存</view>
+					<view class="relative" :class="nav == 1 && 'nav_active text-base fw-7'" @click="onNav(1)">已寄存</view>
 					<!-- #ifndef MP -->
-					<view class="relative w-80 flex-center" :class="nav == 2 && 'nav_active text-black'"
+					<view class="relative w-80 flex-center" :class="nav == 2 && 'nav_active text-base fw-7'"
 						@click="onNav(2)">
 						<text>发货 - {{ ships[shipIndex]? ships[shipIndex].value : '' }}</text>
 						<u-icon name="arrow-down-fill" :color="nav == 2? '#3D3D3D' : '#9F9F9F'" size="8"></u-icon>
-						<view v-if="showShipItem" class="ship_box text-info">
-							<view :class="shipIndex == index && 'text-black'" v-for="(item, index) in ships"
+						<view v-if="showShipItem" class="ship_box text-info fw-4">
+							<view :class="shipIndex == index && 'text-base'" v-for="(item, index) in ships"
 								:key="item.id" @click.stop="onShipItem(index)">{{ item.value }}</view>
 						</view>
 					</view>
-					<view v-if="$c.mode()" class="relative" :class="nav == 3 && 'nav_active text-black'"
+					<view v-if="$c.mode()" class="relative" :class="nav == 3 && 'nav_active text-base fw-7'"
 						@click="onNav(3)">已赠出</view>
-					<view v-if="$c.mode()" class="relative" :class="nav == 4 && 'nav_active text-black'"
+					<view v-if="$c.mode()" class="relative" :class="nav == 4 && 'nav_active text-base fw-7'"
 						@click="onNav(4)">已回购</view>
 					<!-- #endif -->
 				</view>
@@ -32,7 +32,7 @@
 				<!-- #endif -->
 				<view class="flex-1 ml-8">
 					<view class="flex-between">
-						<text v-if="item.is_gift && item.is_gift.id == 1" class="fs-12 fw-5">转赠账号：13678789898</text>
+						<text v-if="item.is_gift && item.is_gift.id == 1" class="fs-12 fw-5">转赠账号：{{ item.gitf_account }}</text>
 						<text v-else class="fs-12 fw-5">订单号：{{ item.order_number }}</text>
 						<text class="fs-12 fw-5"></text>
 						<text class="fs-10">已寄存</text>
@@ -42,11 +42,11 @@
 						<view class="flex-1 fs-12 text-info">
 							<view class="fw-5 fs-14 text-black u-line-1">{{ item.goods_name }}</view>
 							<view class="mt-2">{{ item.goods_sku_name }}</view>
-							<view class="">
+							<view v-if="item.is_gift && item.is_gift.id == 1" class="mt-2">转赠时间：{{ item.gitf_at }}</view>
+							<view v-else class="">
 								<view class="mt-2">下单时间：{{ item.paying_at }}</view>
 								<view class="mt-2">存入时间：{{ item.created_at }}</view>
 							</view>
-							<view class="mt-2">转赠时间：{{ item.created_at }}</view>
 						</view>
 					</view>
 					<view
@@ -116,7 +116,7 @@
 		<view class="h-70"></view>
 		<!-- #ifndef MP -->
 		<view v-if="nav == 1"
-			class="total_box fixed pw-100 bottom-0 left-0 plr-20 ptb-9 flex-between fs-10 border-box bg-white"
+			class="total_box fixed x-100 bottom-0 left-0 plr-20 ptb-9 flex-between fs-10 border-box bg-white"
 			style="z-index: 10;">
 			<view class="">
 				<view class="flex-start">

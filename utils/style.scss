@@ -10,13 +10,10 @@ $color-white:   #ffffff;
 $color-black:   #3d3d3d;
 $color-light:   #f5f5f5;
 $color-orange:  #EE6F2E;
-/* #ifdef MP */
-$color-base:	#EB5433;
-/* #endif */
 /* #ifndef MP */
-$color-base:	#1A7E84;
+// $color-base:	#1A7E84;
 /* #endif */
-
+$color-base:	#EB5433;
 /* ========== 字体颜色类 ========== */
 .text-primary { color: $color-primary; }
 .text-success { color: $color-success; }
@@ -44,11 +41,9 @@ $color-base:	#1A7E84;
 .bg-admin 	{ background: #FFF3D3 ; }
 .bg-test 	{ background: rgba(0, 0, 0, .3) ; }
 /* #ifndef MP */
-.bg-base-change  { background: linear-gradient(270deg, #1A7E84 0%, #72ADB0 100%) !important; }
+// .bg-base-change  { background: linear-gradient(270deg, #1A7E84 0%, #72ADB0 100%) !important; }
 /* #endif */
-/* #ifdef MP */
 .bg-base-change  { background: linear-gradient(270deg, #EB5433 0%, #E77625 100%); }
-/* #endif */
 /* ========== 文本对齐 ========== */
 .text-left   { text-align: left; }
 .text-center { text-align: center; }
@@ -60,22 +55,22 @@ $color-base:	#1A7E84;
 .flex, .flex-col, .flex-start, .flex-end, .flex-center, .flex-between, .flex-around, .flex-evenly, .flex-stretch      { display: flex; }
 .items-center, .flex-start, .flex-end, .flex-center, .flex-between, .flex-around    { align-items: center; }
 .item-stretch, .flex-stretch	{ align-items: stretch; }
-.item-end { align-items: flex-end; }
+.item-end 	{ align-items: flex-end; }
 .item-start { align-items: item-start; }
 .justify-center, .flex-center  	{ justify-content: center; }
 .justify-between, .flex-between { justify-content: space-between; }
 .justify-around, .flex-around   { justify-content: space-around; }
 .justify-evenly, .flex-evenly   { justify-content: space-evenly; }
-.justify-end, .flex-end  { justify-content: flex-end; }
+.justify-end, .flex-end  		{ justify-content: flex-end; }
 .flex-row     { flex-direction: row; }
 .flex-col     { flex-direction: column; }
 .flex-wrap    { flex-wrap: wrap; }
 .self-start   { align-self: self-start; }
 .self-center  { align-self: center; }
-.self-end  { align-self: self-end; }
+.self-end  	  { align-self: self-end; }
 .flex-1       { flex: 1; }
 .block		  { display: block; }
-.inline-block		  { display: inline-block; }
+.inline-block { display: inline-block; }
 
 .relative	  { position: relative; }
 .absolute	  { position: absolute; }
@@ -83,7 +78,7 @@ $color-base:	#1A7E84;
 .sticky		  { position: sticky; }
 .shrink-0	  { flex-shrink: 0; } //防止flex下被压缩
 
-@for $i from 5 through 50 {
+@for $i from 5 through 30 {
 	$val: $i * 1px;
 	.gap-#{$i}>*:not(:last-child) {
 		margin-right: $val; // 模拟 gap
@@ -112,10 +107,7 @@ $color-base:	#1A7E84;
 .list_box>*:not(:last-child) { border-bottom: 1px solid #F5F5F5; }
 .underline { text-decoration: underline; text-underline-offset: 3px; }
 .line { width: 0;height: 30px;border-left: 1px solid #D8D8D8; }
-
-.nav_active {
-	position: relative;
-}
+.nav_active { position: relative; }
 .nav_active::after {
 	content: '';
 	display: block;
@@ -129,12 +121,10 @@ $color-base:	#1A7E84;
 	margin: auto;
 	border-radius: 2px;
 }
-
 .scroll-view_H {
 	white-space: nowrap;
 	width: 100%;
 }
-
 .anime-scale {
 	animation: scalePulse 2s infinite ease-in-out;
 }
@@ -148,7 +138,6 @@ $color-base:	#1A7E84;
 		transform: scale(1.1);
 	}
 }
-
 .vw-100 { width: 100vw; }
 .vh-100 { height: 100vh; }
 /* ========== 字体类  ========== */
@@ -166,24 +155,28 @@ $color-base:	#1A7E84;
 .font-bold   { font-weight: bold !important; }
 .line-through { text-decoration: line-through; }
 /* ========== 宽高类 ========== */
-@for $i from 0 through 1000 {
+.minh-76 { min-height: 76px !important; }
+@for $i from 0 through 600 {
+  $val: $i * 1px;
+  .h-#{$i} { height: $val !important; }
+}
+@for $i from 0 through 400 {
   $val: $i * 1px;
   .w-#{$i} { width: $val !important; }
-  .h-#{$i} { height: $val !important; }
+}
+@for $i from 0 through 100 {
+  $val: $i * 1px;
   .maxh-#{$i} { max-height: $val !important; }
-  .minh-#{$i} { min-height: $val !important; }
   .top-#{$i} { top: $val !important; }
   .left-#{$i} { left: $val !important; }
   .right-#{$i} { right: $val !important; }
   .bottom-#{$i} { bottom: $val !important; }
 }
 @for $i from 0 through 100 {
-  .pw-#{$i} { width: $i * 1%; }
-  .ph-#{$i} { height: $i * 1%; }
   .x-#{$i} { width: $i * 1%; }
   .y-#{$i} { height: $i * 1%; }
 }
-@for $i from 2 through 100 {
+@for $i from 2 through 105 {
   $val: $i * 1px;
   .i-#{$i} { width: $val; height: $val; }
 }
@@ -203,7 +196,9 @@ $color-base:	#1A7E84;
 /* ========== 圆角类 ========== */
 .rounded     	{ border-radius: 50%; }
 .rounded-x		{ border-radius: 999px; }
-@for $i from 1 through 50 {
+.rounded-26		{ border-radius: 26px; }
+.roundedTop-45		{ border-radius: 45px 45px 0 0 }
+@for $i from 1 through 20 {
   $val: $i * 1px;
   .rounded-#{$i} { border-radius: $val !important; } 
   .roundedTop-#{$i} { border-radius: $val $val 0 0; }

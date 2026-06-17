@@ -7,7 +7,7 @@
 		</Title>
 		<view class="plr-20 pt-20">
 			<view class="h-61 rounded-16 flex-between plr-16"
-				style="background: linear-gradient(270deg, #92CBCE 4%, #DBEBEB 98%);">
+				style="background: linear-gradient(270deg, #FEDCCD 0%, #FBEFE6 96%);">
 				<text>提现金额</text>
 				<text class="fs-18 fw-7" style="color: #064144;">￥{{ profile.balance }}</text>
 			</view>

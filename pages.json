@@ -19,7 +19,8 @@
         { "path": "task" },
         { "path": "recruit" },
         { "path": "express" },
-        { "path": "maker" }
+        { "path": "maker" },
+		{ "path": "password" }
       ]
     },
     {
@@ -144,7 +145,7 @@
 	  "root": "pages/info",
 	  "pages": [
 		{ "path": "news" },
-		{ "path": "notice" },
+		// { "path": "notice" },
 		{ "path": "protocols" }
 	  ]
 	}
@@ -156,7 +157,8 @@
 	    { "path": "download" },
 		{ "path": "downloadForMerchant" },
 	    { "path": "pay" },
-		{ "path": "pay1" }
+		{ "path": "pay1" },
+		{ "path": "pay2" }
 	  ]
 	}
 	// #endif

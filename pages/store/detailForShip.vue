@@ -2,9 +2,12 @@
 	<view class="page bg-page lh-10">
 		<Title title="发货详情" fixed></Title>
 		<view v-if="load" class="pt-10 plr-20">
-			<view class="ptb-24 plr-14 rounded-14 text-base" style="background: linear-gradient(90deg, #FFFCEC 0%, #EBE8DB 100%);">
-				<view class="fs-18 fw-7">{{ order.status.value }}</view>
-				<view class="fs-12 mt-15">发货号：{{ order.order_number }}</view>
+			<view class="relative">
+				<image src="/static/store/detail.webp" class="x-100" mode="widthFix"></image>
+				<view class="full ptb-24 plr-14 rounded-14">
+					<view class="fs-18 fw-7">{{ order.status.value }}</view>
+					<view class="fs-12 mt-15" style="color: #6F6460;">发货号：{{ order.order_number }}</view>
+				</view>
 			</view>
 			<view v-if="order.address" class="mt-15 bg-white rounded-12 plr-16 ptb-20 border-box">
 				<view class="flex-between">
@@ -60,7 +63,7 @@
 			</view>
 		</view>
 		<view class="h-100"></view>
-		<view class="fixed bottom-0 left-0 pw-100 flex-between ptb-15 plr-20 bg-white border-box" style="z-index: 100;">
+		<view class="fixed bottom-0 left-0 x-100 flex-between ptb-15 plr-20 bg-white border-box" style="z-index: 100;">
 			<view class="relative w-40 h-20">
 				<!-- <text class="fs-12 text-info" @click="showMore = !showMore">更多</text>
 				<view v-if="showMore" class="absolute left-0 top-0 more_box flex-center"

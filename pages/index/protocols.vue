@@ -84,6 +84,8 @@
 						return 'APP注销协议' // 商户
 					case 12:
 						return 'APP注销协议' // 商城
+					case 13:
+						return '企业展示' // 商城
 					default:
 						return ''
 				}

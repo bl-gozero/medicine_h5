@@ -8,7 +8,7 @@
 			</view>
 		</view>
 		<view class="relative bg">
-			<image :src="img('/static/web/bottom.webp')" class="pw-100" mode="widthFix"></image>
+			<image :src="img('/static/web/bottom.webp')" class="x-100" mode="widthFix"></image>
 			<view class="full flex-center">
 				<view class="">
 					<image :src="img('/static/web/new.webp')" class="w-200 h-20 block auto-x"></image>

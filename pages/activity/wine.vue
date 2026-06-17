@@ -2,7 +2,7 @@
 	<view>
 		<view v-if="page == 1" class="page" style="background: #FC4F43;">
 			<Title title="新年赠好礼活动" fixed bgColor="#fff" />
-			<image :src="$c.img('/static/avtivity/wine/top.webp')" class="pw-100 block" mode="widthFix"></image>
+			<image :src="$c.img('/static/avtivity/wine/top.webp')" class="x-100 block" mode="widthFix"></image>
 			<view class="flex-center">
 				<view class="relative">
 					<image :src="$c.img('/static/avtivity/wine/part_1.webp')" class="w-375 h-453 block"></image>
@@ -15,7 +15,7 @@
 									<view class="relative">
 										<image :src="$c.img('/static/avtivity/wine/out.webp')" class="w-260 h-15 block"></image>
 										<view class="full border-box ptb-5 plr-4">
-											<view class="process rounded-x h-5" :class="'pw-' + process">
+											<view class="process rounded-x h-5" :class="'x-' + process">
 												<view v-if="![0, 10, 15].includes(num)" class="circle"></view>
 											</view>
 										</view>
@@ -76,12 +76,12 @@
 			<u-image :src="$c.img(`/static/avtivity/wine/rule/${index}.webp`)" v-for="index in 5" :key="index" width="100%" height="auto"
 				bgColor="transparent" mode="widthFix">
 			  <template v-slot:loading>
-			    <view class="ptb-50 pw-100" style="background: #010101;">
+			    <view class="ptb-50 x-100" style="background: #010101;">
 					<u-loading-icon color="#9F9F9F" class=""></u-loading-icon>
 				</view>
 			  </template>
 			  <template v-slot:error>
-			    <view class="ptb-10 pw-100 flex-center" style="background: #010101;">
+			    <view class="ptb-10 x-100 flex-center" style="background: #010101;">
 					<u-icon name="info-circle" color="#9F9F9F"></u-icon>
 				</view>
 			  </template>

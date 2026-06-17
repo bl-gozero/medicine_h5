@@ -8,7 +8,10 @@
 					<LineInput v-model="form.old_password" type="password" placeholder="请输入交易现密码"
 						placeholderClass="text-info fs-14 fw-7" :maxlength="20" />
 				</view>
-				<view class="mt-10 fs-12 text-info">若为首次修改原交易密码可不填</view>
+				<view class="mt-10 fs-12 text-info flex-between">
+					<text>若为首次修改原交易密码可不填</text>
+					<text class="text-base" @click="$c.goto('/pages/user/forgotPassword')">忘记原密码</text>
+				</view>
 			</view>
 
 			<view class="title mt-40">{{ type == 1? '设置密码' : '新密码' }}</view>

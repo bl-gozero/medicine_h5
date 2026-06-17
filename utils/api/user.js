@@ -31,6 +31,15 @@ export default {
 	payPassword(data) {
 		return request.post('/user/edit_payment_password', data, { loading: true })
 	},
+	resetPassword(data = {}, config = {}) {
+		return request.post('/user/mobile_reset_password', data, { loading: true, auth: false, ...config })
+	},
+	resetPayPasswordCaptcha(data = {}, config = {}) {
+		return request.post('/user/self_mobile_captcha', data, { loading: true, ...config })
+	},
+	resetPayPassword(data = {}, config = {}) {
+		return request.post('/user/reset_paying_password', data, { loading: true, ...config })
+	},
 	cardList(data) {
 		return request.post('/card_holder/list', data)
 	},
@@ -39,6 +48,12 @@ export default {
 	},
 	cardDelete(data) {
 		return request.post('/card_holder/delete', data, { loading: true })
+	},
+	cardVerify(data = {}, config = {}) {
+		return request.post('/card_holder/verify', data, { ...config })
+	},
+	cardCopy(data = {}, config = {}) {
+		return request.post('/card_holder/copy', data, { loading: true, ...config })
 	},
 	addressList() {
 		return request.post('/user_address/list', {})

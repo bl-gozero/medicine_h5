@@ -35,7 +35,7 @@
 
 				<!-- 右侧 -->
 				<view v-if="!onlyBack" class="right-slot relative" :class="hasRightSlot ? ('mr-' + rightSafe) : ''" @click="handleRightClick">
-					<view class="absolute top-0 right-0 ph-100 flex-center text-nowrap">
+					<view class="absolute top-0 right-0 y-100 flex-center text-nowrap">
 						<slot name="right"></slot>
 					</view>
 				</view>

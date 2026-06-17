@@ -37,7 +37,7 @@
 					<view class="h-120"></view>
 				</view>
 			</view>
-			<view class="fixed left-0 bottom-0 pw-100 bg-white pt-20 pb-40">
+			<view class="fixed left-0 bottom-0 x-100 bg-white pt-20 pb-40">
 				<view class="bg-base fw-7 fs-14 text-white w-247 h-47 flex-center rounded-x auto-x" @click="showCate = true">
 					<u-icon name="plus" color="#fff"></u-icon>
 					<text class="ml-5">新增绑定账户</text>
@@ -57,10 +57,10 @@
 				</view>
 				<view v-if="form.category > 2" class="mt-13">
 					<view class="mt-10">卡类型</view>
-					<view class="mt-7 bg-white rounded-8 ptb-13 plr-16 flex-between" @click="showCates = true">
+					<view class="mt-7 bg-white rounded-8 ptb-13 plr-16 flex-between" @click="">
 						<text
 							:class="form.category? 'fs-12 lh-18' : 'text-info fs-14'">{{ cateName ? cateName : '请选择卡类型' }}</text>
-						<u-icon name="arrow-right" color="#7D7D7D" size="12"></u-icon>
+						<!-- <u-icon name="arrow-right" color="#7D7D7D" size="12"></u-icon> -->
 					</view>
 				</view>
 				<view v-if="form.category > 2" class="mt-13">
@@ -74,7 +74,7 @@
 				<view class="mt-13">
 					<view class="mt-10">{{ form.category > 2? '卡号' : `${form.value}手机号` }}</view>
 					<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
-						<LineInput v-model="form.card_number" type="text"
+						<LineInput v-model="form.card_number" type="number"
 							:placeholder="form.category > 2? '请输入卡号' : `请输入${form.value}手机号`"
 							placeholderClass="text-info fs-14" />
 					</view>
@@ -105,7 +105,7 @@
 				<view v-if="form.category > 2" class="mt-13">
 					<view class="mt-10">证件号</view>
 					<view class="mt-7 bg-white rounded-8 pb-7 plr-16">
-						<LineInput v-model="form.identity" type="text" placeholder="请输入持卡人身份证件号"
+						<LineInput v-model="form.identity" type="text" placeholder="请输入持卡人身份证件号" :disabled="form.category == 3"
 							placeholderClass="text-info fs-14" />
 					</view>
 				</view>
@@ -148,6 +148,42 @@
 				</view>
 				<button class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-60 flex-center rounded-x"
 					@click="doDelete">解绑</button>
+				<view class="h-30"></view>
+			</view>
+		</u-popup>
+		
+		<!-- 选择 -->
+		<u-popup :show="showSelect" mode="bottom" round="20" :closeable="false" :closeOnClickOverlay="false" @close="showSelect = false">
+			<view class="p-20 relative">
+				<view class="text-base fs-12 absolute top-20 right-20" @click="showSelect = false;page = 1;">取消</view>
+				<view v-if="step == 1" class="">
+					<view class="text-center fs-18">卡类型</view>
+					<view class="flex-start mtb-20" v-for="item in cates[0]" :key="item.id" @click="onCardType(item)">
+						<image :src="$c.checkIcon(item.id == form.category)" class="i-18 mr-10"></image>
+						<view class="">{{ item.name }}</view>
+					</view>
+				</view>
+				<view v-else-if="step == 2" class="">
+					<view class="text-center fs-18">身份证件号</view>
+					<view class="border-bottom mt-40 pb-7">
+						<LineInput v-model="form.identity" type="text" placeholder="请输入持卡人身份证件号"
+							placeholderClass="text-info fs-14" />
+					</view>
+				</view>
+				<view v-else="step == 3" class="">
+					<view class="text-center fs-18">复制卡</view>
+					<view class="mt-20">您已绑定银行卡，请选择</view>
+					<view class="flex-start mt-20" v-for="item in verify_cards" :key="item.id" @click="verify_id = item.id">
+						<image :src="$c.checkIcon(item.id == verify_id)" class="i-18 mr-10"></image>
+						<view class="">{{ item.card_number }}</view>
+					</view>
+					<view v-if="verify_id" class="border-bottom mt-20 pb-7">
+						<LineInput v-model="card_number" type="number" placeholder="请输入完整卡号"
+							placeholderClass="text-info fs-14" />
+					</view>
+				</view>
+				<button class="bg-base fw-7 fs-14 text-white w-224 h-43 mt-60 flex-center rounded-x"
+					@click="onStep()">确定</button>
 				<view class="h-30"></view>
 			</view>
 		</u-popup>
@@ -204,15 +240,17 @@
 					['建设银行', '民生银行', '农业银行', '中国银行', '招商银行', '交通银行', '邮政银行', '工商银行']
 				],
 				cates: [
-					[{
-						id: 3,
-						name: '借记卡'
-					}, {
-						id: 4,
-						name: '信用卡'
-					}]
+					[
+						{ id: 3, name: '借记卡' },
+						// { id: 4, name: '信用卡' },
+					]
 				],
-				cateName: ''
+				cateName: '',
+				verify_cards: [],
+				showSelect: false,
+				verify_id: null,
+				step: 1,
+				card_number: ''
 			}
 		},
 		onLoad() {
@@ -222,6 +260,57 @@
 			this.doDelete = this.$c.onceRequest(this.onDelete)
 		},
 		methods: {
+			onStep() {
+				if (this.step == 1) {
+					if (this.form.category == 3) {
+						this.step = 2
+					} else {
+						this.showSelect = false
+					}
+				} else if (this.step == 2) {
+					this.cardVerify()
+				} else if (this.step == 3) {
+					this.cardCopy()
+				}
+			},
+			async cardVerify() {
+				if (!this.form.identity) return this.$c.toast('请输入持卡人身份证件号')
+				const res = await this.$c.fetch(this.$api.user.cardVerify, {
+					identity: this.form.identity
+				})
+				if (res) {
+					if (res.length) {
+						this.verify_cards = res
+						this.step = 3
+					} else {
+						this.showSelect = false
+					}
+				} else {
+					this.showSelect = false
+					this.page = 1
+				}
+			},
+			async cardCopy() {
+				if (!this.verify_id) return this.$c.toast('请选择银行卡')
+				if (!this.card_number) return this.$c.toast('请输入卡号')
+				const res = await this.$c.fetch(this.$api.user.cardCopy, {
+					id: this.verify_id,
+					card_number: this.card_number,
+					identity: this.form.identity
+				})
+				if (res) {
+					this.$c.toast('绑定成功')
+					this.getCardList()
+					setTimeout(() => {
+						this.showSelect = false
+						this.page = 1
+					}, 1500)
+				}
+			},
+			onCardType(item) {
+				this.form.category = item.id
+				this.cateName = item.name
+			},
 			onConfirm(e) {
 				this.form.full_name = e.value[0]
 				this.showPicker = false
@@ -248,6 +337,12 @@
 				this.showCate = false;
 				this.cateName = item.id == 3 ? '借记卡' : ''
 				this.page = 2
+				
+				this.verify_cards = [],
+				this.verify_id = null,
+				this.step = 2,
+				this.card_number = ''
+				if (item.id == 3) this.showSelect = true
 			},
 			async getCardList() {
 				const res = await this.$c.fetch(this.$api.user.cardList, {

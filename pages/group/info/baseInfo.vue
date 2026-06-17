@@ -28,7 +28,7 @@
 			</view>
 			<view class="h-120"></view>
 		</view>
-		<view v-if="memberInfo.memberRole === 1" class="fixed left-0 bottom-20 pw-100 ptb-20">
+		<view v-if="memberInfo.memberRole === 1" class="fixed left-0 bottom-20 x-100 ptb-20">
 			<button class="fw-7 lh-10 fs-14 bg-base text-white w-247 h-47 flex-center rounded-x"
 				:disabled="btnDisable" @click="show = true">保存</button>
 		</view>

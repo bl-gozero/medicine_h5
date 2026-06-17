@@ -59,7 +59,7 @@
 						<view v-else class="flex-1 ml-8 mr-20 text-info">请添加收货地址</view>
 					</view>
 				</view>
-				<view class="absolute bottom-30 left-0 pw-100">
+				<view class="absolute bottom-30 left-0 x-100">
 					<button class="fs-14 fw-7 bg-base text-white w-247 h-47 rounded-x flex-center"
 						@click="showConfirm = true">提交</button>
 				</view>

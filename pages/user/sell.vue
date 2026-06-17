@@ -12,9 +12,9 @@
 			</view>
 			<view class="minh-76">
 				<view v-if="nums.length > 0" class="relative mt-20">
-					<image src="/static/user/level/sell_top.webp" class="pw-100 maxh-100 block" mode="widthFix"></image>
+					<image src="/static/user/level/sell_top.webp" class="x-100 maxh-100 block" mode="widthFix"></image>
 					<view class="full flex-start pl-11 pb-5">
-						<view class="flex-start fgap-10 pw-100">
+						<view class="flex-start fgap-10 x-100">
 							<view class="w-60 text-center">
 								<view class="fs-16 fw-7 u-line-1">{{ all.count }}</view>
 								<view class="text_top_name">{{ all.level_name }}</view>
@@ -47,13 +47,13 @@
 					<u-icon name="play-right-fill" color="#AC7747" size="12" @click="onChangeLevel(1)"></u-icon>
 				</view>
 			</view>
-			<view class="text-center fs-12" style="color: #AC7747;">“商户层级”将展示您8层内的用户数据详情</view>
+			<!-- <view class="text-center fs-12" style="color: #AC7747;">“商户层级”将展示您8层内的用户数据详情</view> -->
 			<view class="flex-1 relative">
 				<swiper class="full" :current="level - 1" :duration="500" :touch-angle="45" @change="onChange">
 					<swiper-item v-for="i in levelMax" :key="i">
 						<scroll-view class="full ptb-10 border-box" scroll-y :enhanced="true" @scrolltolower="getList">
 							<view v-if="list.length === 0" class="h-200 flex-center text-info">{{ listStatus != 'load' ? '暂无下级' : '' }}</view>
-							<view v-else class="plr-20 inline-block pw-100 border-box member_outbox" v-for="item in list" :key="item.id">
+							<view v-else class="plr-20 inline-block x-100 border-box member_outbox" v-for="item in list" :key="item.id">
 								<view class="member_box">
 									<view class="flex-between item-stretch gap-15">
 										<view class="self-start">

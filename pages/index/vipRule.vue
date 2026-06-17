@@ -3,10 +3,10 @@
 		<Title title="详细规则" :fixed="true" />
 		<view>
 			<view class="relative">
-				<image :src="navImg[value - 2]" class="pw-100" mode="widthFix"></image>
+				<image :src="navImg[value - 2]" class="x-100" mode="widthFix"></image>
 				<view class="full flex-between">
-					<view class="pw-50 ph-100" @click="onSwitch(2)"></view>
-					<view class="pw-50 ph-100" @click="onSwitch(3)"></view>
+					<view class="x-50 y-100" @click="onSwitch(2)"></view>
+					<view class="x-50 y-100" @click="onSwitch(3)"></view>
 				</view>
 			</view>
 			<u--image v-if="rule" :src="rule" width="100%" height="auto" bgColor="transparent" mode="widthFix">

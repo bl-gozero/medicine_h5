@@ -73,7 +73,7 @@
 		</view>
 		<view class="h-100"></view>
 		<view 
-			class="fixed bottom-0 left-0 pw-100 flex-end ptb-15 plr-20 bg-white border-box"
+			class="fixed bottom-0 left-0 x-100 flex-end ptb-15 plr-20 bg-white border-box"
 			style="z-index: 100;box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.09);"
 		>
 			<view><button class="btn" @click="doSubmit('buy')">官方回购</button></view>

@@ -38,33 +38,6 @@
 						selectedIconPath: '/static/mp/tabbar/user_active.webp',
 					}
 				],
-				// #ifndef MP
-				// tabs: [{
-				// 		text: '首页',
-				// 		pagePath: '/pages/index/index',
-				// 		iconPath: '/static/tabbar/home.png',
-				// 		selectedIconPath: '/static/tabbar/home_active.png',
-				// 	},
-				// 	{
-				// 		text: '购物车',
-				// 		pagePath: '/pages/goods/cart',
-				// 		iconPath: '/static/tabbar/cart.png',
-				// 		selectedIconPath: '/static/tabbar/cart_active.png',
-				// 	},
-				// 	{
-				// 		text: '聊天',
-				// 		pagePath: '/pages/group/index',
-				// 		iconPath: '/static/tabbar/group.png',
-				// 		selectedIconPath: '/static/tabbar/group_active.png',
-				// 	},
-				// 	{
-				// 		text: '我的',
-				// 		pagePath: '/pages/user/index',
-				// 		iconPath: '/static/tabbar/user.png',
-				// 		selectedIconPath: '/static/tabbar/user_active.png',
-				// 	}
-				// ],
-				// #endif
 				current: ''
 			}
 		},

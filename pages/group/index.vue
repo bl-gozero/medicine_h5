@@ -99,34 +99,6 @@
 			return {
 				teamJoinCount,
 				friendApplictionCount,
-				// #ifndef MP
-				navList: [{
-						id: 1,
-						name: '发现群聊',
-						icon: '/static/group/find.png',
-						url: '/pages/group/find'
-					},
-					{
-						id: 2,
-						name: '创建群聊',
-						icon: '/static/group/create.png',
-						url: '/pages/group/create'
-					},
-					{
-						id: 3,
-						name: '通讯录',
-						icon: '/static/group/my_group.png',
-						url: '/pages/group/myGroup'
-					},
-					{
-						id: 4,
-						name: '申请信息',
-						icon: '/static/group/apply.png',
-						url: '/pages/group/apply'
-					},
-				],
-				// #endif
-				// #ifdef MP
 				navList: [{
 						id: 1,
 						name: '发现群聊',
@@ -152,7 +124,6 @@
 						url: '/pages/group/apply'
 					},
 				],
-				// #endif
 				showOperation: false,
 				showCreate: false,
 				showLv: false,
@@ -228,16 +199,9 @@
 </script>
 
 <style lang="scss" scoped>
-	/* #ifdef MP */
 	.title_bg {
 		background: linear-gradient(180deg, #FBE5C5 0%, #fff 99%);
 	}
-	/* #endif */
-	/* #ifndef MP */
-	.title_bg {
-		background: linear-gradient(180deg, #95C6C8 0%, #fff 99%);
-	}
-	/* #endif */
 	
 	.tabbar {
 		box-shadow: none;
@@ -309,10 +273,6 @@
 		box-shadow: -1px -1px 2px rgba(0, 0, 0, 0.08);
 		/* 轻微阴影更立体 */
 		z-index: 1;
-		// border-left: 10px solid transparent;
-		// border-right: 10px solid transparent;
-		// border-bottom: 10px solid #4C4C4C; /* 内层：跟对话框背景相同 */
-		// clip-path: path('M2,12 Q0,2 10,2 L12,2 Q22,2 20,12 Z');
 	}
 	
 	.plus_box > view:last-child {

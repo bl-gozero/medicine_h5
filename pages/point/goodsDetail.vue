@@ -34,9 +34,9 @@
 			</u--image>
 		</view>
 		<view class="h-100"></view>
-		<view class="fixed left-0 bottom-0 pw-100 flex-between p-20 bg-white border-box">
+		<view class="fixed left-0 bottom-0 x-100 flex-between p-20 bg-white border-box">
 			<view class="text-center relative" @click="$c.goto('/pages/index/web')">
-				<image src="/static/goods/cs.png" class="i-24 auto"></image>
+				<image src="/static/mp/goods/cs.webp" class="i-24 auto"></image>
 				<view class="fs-10 text-base mt-1">客服</view>
 			</view>
 			<view class="flex-start">

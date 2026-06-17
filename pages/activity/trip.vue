@@ -2,9 +2,9 @@
 	<view>
 		<view v-if="page == 1" class="page" style="background: #47969B;">
 			<Title title="椰风海韵活动" fixed bgColor="#fff" />
-			<image :src="$c.img('/static/avtivity/trip/top.webp')" class="pw-100 block" mode="widthFix"></image>
+			<image :src="$c.img('/static/avtivity/trip/top.webp')" class="x-100 block" mode="widthFix"></image>
 			<view class="relative">
-				<image :src="$c.img('/static/avtivity/trip/part_1.webp')" class="pw-100 block" mode="widthFix"></image>
+				<image :src="$c.img('/static/avtivity/trip/part_1.webp')" class="x-100 block" mode="widthFix"></image>
 				<view class="absolute top-0 flex-center auto-x">
 					<view class="fs-16 p-7 lh-10 rounded-4 "
 						style="background: linear-gradient(90deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 100%);color: #0E5A29;"
@@ -12,7 +12,7 @@
 				</view>
 			</view>
 			<view class="relative">
-				<image :src="$c.img('/static/avtivity/trip/part_2.webp')" class="pw-100 block" mode="widthFix"></image>
+				<image :src="$c.img('/static/avtivity/trip/part_2.webp')" class="x-100 block" mode="widthFix"></image>
 				<view class="full pt-50">
 					<view class="flex-center">
 						<view class="w-343 part relative pb-10">
@@ -106,12 +106,12 @@
 			<u-image :src="$c.img(`/static/avtivity/trip/detail.webp`)" width="100%" height="auto" bgColor="transparent"
 				mode="widthFix">
 				<template v-slot:loading>
-					<view class="ptb-50 pw-100" style="background: #fff;">
+					<view class="ptb-50 x-100" style="background: #fff;">
 						<u-loading-icon color="#9F9F9F" class=""></u-loading-icon>
 					</view>
 				</template>
 				<template v-slot:error>
-					<view class="ptb-10 pw-100 flex-center" style="background: #fff;">
+					<view class="ptb-10 x-100 flex-center" style="background: #fff;">
 						<u-icon name="info-circle" color="#9F9F9F"></u-icon>
 					</view>
 				</template>
@@ -185,7 +185,7 @@
 					</view>
 				</view>
 			</view>
-			<view v-if="stat.quota > stat.record_num" class="absolute bottom-30 left-0 pw-100">
+			<view v-if="stat.quota > stat.record_num" class="absolute bottom-30 left-0 x-100">
 				<button class="fs-14 fw-7 bg-base text-white w-247 h-47 rounded-x flex-center"
 					@click="doSubmit">提交</button>
 			</view>

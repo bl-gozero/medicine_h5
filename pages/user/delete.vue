@@ -8,7 +8,7 @@
 			<text v-if="status == 2" class="text-danger fs-12">（该账号处于冷静期）</text>
 		</view>
 		<view class="mt-25 fw-7">注销后，您将放弃如下服务和权益</view>
-		<image :src="$c.img('/static/user/delete.webp')" class="pw-100 mt-10" mode="widthFix"></image>
+		<image :src="$c.img('/static/user/delete.webp')" class="x-100 mt-10" mode="widthFix"></image>
 		<view class="absolute left-0 right-0 bottom-30 plr-20 flex-between fgap-10">
 			<button v-if="status == 2" class="btn" @click="onCancel()">撤回注销</button>
 			<button v-else class="btn" @click="onShowDelete(1)">申请注销</button>

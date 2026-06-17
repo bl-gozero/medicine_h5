@@ -33,5 +33,17 @@ export default {
 	},
 	eventGoods(data = {}, config = {}) {
 		return request.post('/event_goods/list', data, { ...config })
+	},
+	message(data = {}, config = {}) {
+		return request.post('/message/list', data, { ...config })
+	},
+	messageUnread(data = {}, config = {}) {
+		return request.post('/message/unread_count', data, { ...config })
+	},
+	messageDetail(data = {}, config = {}) {
+		return request.post('/message/details', data, { ...config })
+	},
+	messageReadAll(data = {}, config = {}) {
+		return request.post('/message/read_all', data, { loading: true, ...config })
 	}
 }

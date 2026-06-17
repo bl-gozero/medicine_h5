@@ -60,10 +60,6 @@
 				type: Boolean,
 				default: false
 			},
-			disabled: {
-				type: Boolean,
-				default: false
-			},
 			disabledColor: {
 				type: String,
 				default: ""

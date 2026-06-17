@@ -5,9 +5,9 @@
 	</view> -->
 	<!-- #endif -->
 	<!-- #ifdef MP -->
-	<!-- <image src="/static/mp/launch/mp.webp" class="pw-100" mode="widthFix"></image> -->
+	<!-- <image src="/static/mp/launch/mp.webp" class="x-100" mode="widthFix"></image> -->
 	<!-- #endif -->
-	<image src="/static/mp/launch/mp.webp" class="pw-100" mode="widthFix"></image>
+	<image src="/static/mp/launch/mp.webp" class="x-100" mode="widthFix"></image>
 </template>
 
 <script>

@@ -1,9 +1,9 @@
 <template>
-	<view class="pw-100 text-center" style="z-index: 9;">
+	<view class="x-100 text-center" style="z-index: 9;">
 		<image v-if="height && width" :class="'h-' + height + ' w-' + width" :src="imgSrc"></image>
 		<image v-else-if="height" :class="'h-' + height" mode="heightFix" :src="imgSrc"></image>
 		<image v-else-if="imgClass || imgStyle" :class="imgClass" :style="imgStyle" :src="imgSrc" :mode="mode"></image>
-		<image v-else class="pw-100" mode="widthFix" :src="imgSrc"></image>
+		<image v-else class="x-100" mode="widthFix" :src="imgSrc"></image>
 	</view>
 </template>
 

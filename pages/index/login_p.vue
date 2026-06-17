@@ -5,14 +5,12 @@
 			<view class="fs-40 fw-9 text-login">登录</view>
 		</view>
 		<view class="relative flex-1 bg-white roundedTop-45 fs-12 fw-5">
-			<!-- #ifdef MP -->
 			<view class="flex-between text-center relative" style="z-index: 10;">
 				<view class="fs-16 fw-7 ptb-15 flex-1 login-left" @click="$c.goto('/pages/index/login')">密码登录</view>
 				<view class="fs-16 fw-7 ptb-15 flex-1">手机号登录</view>
 			</view>
-			<!-- #endif -->
 			<view class="full sroller-y pt-60 plr-35">
-				<view class="flex-start">
+				<view class="flex-start mt-20">
 					<view class="i-18 mr-7 self-start">
 						<image src="/static/icon/user.png" class="i-18"></image>
 					</view>
@@ -57,11 +55,6 @@
 					<button class="bg-base-change fw-7 fs-14 text-white w-278 h-49 flex-center rounded-x"
 						@click="onSubmit()">登录</button>
 				</view>
-				<!-- #ifndef MP -->
-				<view class="text-center mt-23">
-					<text class="text-base fw-4" @click="$c.goto('/pages/index/login')">密码登录</text>
-				</view>
-				<!-- #endif -->
 				<view class="text-center mt-23">
 					<text class="text-base fw-4" @click="$c.goto('/pages/index/register')">没有账号？去注册</text>
 				</view>

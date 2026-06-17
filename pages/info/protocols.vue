@@ -24,6 +24,7 @@
 		<view v-if="title" class="mt-30 content text-right" style="text-indent: 0%;">
 			<view class="">开发者：沈阳北之辰电子商务有限公司</view>
 			<view class="">联系方式：beichen0888@gmail.com</view>
+			<view class="">更新日期：2026.05.07</view>
 		</view>
 	</view>
 </template>

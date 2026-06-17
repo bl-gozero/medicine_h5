@@ -4,9 +4,9 @@
 			<Title title="邀请商户列表" bgColor="transparent" isBack @back="onBack()" />
 			<view class="minh-76 plr-20">
 				<view v-if="nums.length > 0" class="relative mt-20">
-					<image src="/static/user/level/sell_top.webp" class="pw-100 maxh-100 block" mode="widthFix"></image>
+					<image src="/static/user/level/sell_top.webp" class="x-100 maxh-100 block" mode="widthFix"></image>
 					<view class="full flex-start pl-11 pb-5">
-						<view class="flex-start fgap-10 pw-100">
+						<view class="flex-start fgap-10 x-100">
 							<view class="w-60 text-center">
 								<view class="fs-16 fw-7 u-line-1">{{ all.count }}</view>
 								<view class="text_top_name">{{ all.level_name }}</view>
@@ -29,7 +29,7 @@
 			</view>
 			<view class="flex-between mt-16 pb-13 plr-20">
 				<text>我邀请的商户</text>
-				<text class="fs-12" style="color: #A26527;">*可显示8层用户</text>
+				<!-- <text class="fs-12" style="color: #A26527;">*可显示8层用户</text> -->
 			</view>
 		</view>
 		<view v-else class="">

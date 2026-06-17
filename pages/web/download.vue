@@ -9,7 +9,7 @@
 			</view>
 		</view>
 		<view class="relative bg">
-			<image :src="$c.img('/static/web/bottom.webp', 0)" class="pw-100" mode="widthFix"></image>
+			<image :src="$c.img('/static/web/bottom.webp', 0)" class="x-100" mode="widthFix"></image>
 			<view class="full flex-center">
 				<view class="">
 					<u-button class="bg-base btn fw-7 text-white w-278 h-49 border-0" shape="circle" icon="android-fill"

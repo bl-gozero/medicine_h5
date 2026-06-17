@@ -12,8 +12,8 @@
 			<view class="mt-8 text-center fs-16">{{ info.account }}</view>
 			<view class="mt-10 text-center fs-12 text-info">他的推荐人:{{ info.p_account }}</view>
 			<view class="info_box roundedTop-8 plr-10 pr-14 flex-between gap-10 ptb-15 relative mt-20 mb-30">
-				<view class="absolute top-0 right-0 ph-100 p-4 border-box">
-					<image src="/static/user/level/detail.webp" class="ph-100" mode="heightFix"></image>
+				<view class="absolute top-0 right-0 y-100 p-4 border-box">
+					<image src="/static/user/level/detail.webp" class="y-100" mode="heightFix"></image>
 				</view>
 				<image v-if="info.level" :src="$c.img(`/static/user/level/lv-${$c.calcLv(info)}.webp`, 0)" class="w-43 h-44"></image>
 				<view class="flex-1">
