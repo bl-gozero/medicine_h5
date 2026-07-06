@@ -1,5 +1,6 @@
 <template>
 	<view class="">
+		<Qrcode />
 	</view>
 </template>
 

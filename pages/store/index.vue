@@ -1,8 +1,16 @@
 <template>
 	<view class="page bg-page">
 		<view class="fixed top-0 left-0 x-100 bg-page pb-10 title_box" style="z-index: 100;">
-			<Title title="我的仓库"></Title>
-			<view class="plr-30">
+			<Title is-blank></Title>
+			<view class="flex-between plr-20">
+				<view class="flex-start">
+					<image src="/static/icon/back.png" class="i-24" @click="$c.goBack()" />
+					<text class="fs-18">我的仓库</text>
+				</view>
+				<image src="/static/store/goExchange.webp" class="w-103 h-32" @click="$c.goto('/pages/store/exchange')">
+				</image>
+			</view>
+			<view class="plr-30 mt-15">
 				<view class="flex-start fs-12 text-info nav_box pl-10" style="gap: 5%;">
 					<view class="relative" :class="nav == 1 && 'nav_active text-base fw-7'" @click="onNav(1)">已寄存</view>
 					<!-- #ifndef MP -->
@@ -22,17 +30,25 @@
 					<!-- #endif -->
 				</view>
 			</view>
+			<view v-if="nav == 1 && storeNavs.length" class="flex-start plr-20 mt-15 fgap-10 sroller-x border-box">
+				<view :class="['nation text-nowrap pt-2 pb-4', { 'nation-active': item.id == storeNav.id }]"
+					v-for="item in storeNavs" :key="item.id" @click="onStoreNav(item)">
+					<view class="nation-name">{{ item.goods_name }}</view>
+					<view class="shrink-0">({{ item.count }})</view>
+				</view>
+			</view>
 		</view>
 		<view :class="['plr-20', `pt-${top}`]">
-			<view v-if="nav == 1" class="ptb-14 plr-12 rounded-12 flex-start bg-white mt-12 relative" v-for="item in list"
-				:key="item.id">
+			<view v-if="nav == 1" class="ptb-14 plr-12 rounded-12 flex-start bg-white mt-12 relative"
+				v-for="item in list" :key="item.id">
 				<!-- #ifndef MP -->
 				<image :src="$c.checkIcon(item.selected)" class="i-18 self-start"
 					@click="item.selected = !item.selected"></image>
 				<!-- #endif -->
 				<view class="flex-1 ml-8">
 					<view class="flex-between">
-						<text v-if="item.is_gift && item.is_gift.id == 1" class="fs-12 fw-5">转赠账号：{{ item.gitf_account }}</text>
+						<text v-if="item.is_gift && item.is_gift.id == 1"
+							class="fs-12 fw-5">转赠账号：{{ item.gitf_account }}</text>
 						<text v-else class="fs-12 fw-5">订单号：{{ item.order_number }}</text>
 						<text class="fs-12 fw-5"></text>
 						<text class="fs-10">已寄存</text>
@@ -42,10 +58,11 @@
 						<view class="flex-1 fs-12 text-info">
 							<view class="fw-5 fs-14 text-black u-line-1">{{ item.goods_name }}</view>
 							<view class="mt-2">{{ item.goods_sku_name }}</view>
-							<view v-if="item.is_gift && item.is_gift.id == 1" class="mt-2">转赠时间：{{ item.gitf_at }}</view>
+							<view v-if="item.is_gift && item.is_gift.id == 1" class="mt-2">转赠时间：{{ item.gitf_at }}
+							</view>
 							<view v-else class="">
-								<view class="mt-2">下单时间：{{ item.paying_at }}</view>
-								<view class="mt-2">存入时间：{{ item.created_at }}</view>
+								<view v-if="item.paying_at" class="mt-2">下单时间：{{ item.paying_at }}</view>
+								<view v-if="item.created_at" class="mt-2">存入时间：{{ item.created_at }}</view>
 							</view>
 						</view>
 					</view>
@@ -58,6 +75,7 @@
 					</view>
 				</view>
 				<view v-if="item.is_gift && item.is_gift.id == 1" class="gift-tag">他人转赠</view>
+				<!-- <view class="exchange-tag">置换商品</view> -->
 			</view>
 			<view v-if="nav == 2" class="p-12 rounded-12 bg-white mt-12" v-for="(item, index) in list" :key="index"
 				@click="$c.goto(`/pages/store/detailForShip?id=${item.id}`)">
@@ -290,15 +308,20 @@
 				limit: 10,
 				address: {},
 				to_account: null,
-				top: 110,
 				isKeyboardShow: false,
 				baseHeight: 0,
 				showPassword: false,
-				password: ''
+				password: '',
+				storeNavs: [],
+				storeNav: { id: 0, goods_id: [] },
+				profile: this.$c.profile()
 			}
 		},
 		computed: {
-			num() {
+			top() {
+				return this.nav == 1 ? 130 : 95
+			},
+ 			num() {
 				return this.list
 					.filter(item => item.selected === true)
 					.reduce((sum, cur) => sum + 1, 0);
@@ -316,19 +339,16 @@
 		onLoad() {
 			this.$c.removeStorage('friendAccount')
 			this.$c.checkeLogin()
-			this.init()
 			this.addressList()
 			this.doSubmit = this.$c.onceRequest(this.onSubmit)
-
+			
 			// 监听键盘
 			if (window.visualViewport) {
 				this.baseHeight = window.visualViewport.height
-
 				this._onResize = () => {
 					const height = window.visualViewport.height
 					this.isKeyboardShow = height < this.baseHeight - 100
 				}
-
 				window.visualViewport.addEventListener('resize', this._onResize)
 			}
 		},
@@ -336,9 +356,8 @@
 			const address = this.$c.getStorage('address')
 			if (address) this.address = address
 			const account = this.$c.getStorage('friendAccount')
-			if (account.account) {
-				this.to_account = account.account
-			}
+			if (account.account) this.to_account = account.account
+			this.init()
 		},
 		onUnload() {
 			window.visualViewport?.removeEventListener('resize', this._onResize)
@@ -347,10 +366,46 @@
 			this.getList()
 		},
 		methods: {
-			onAll() {
-				this.all = !this.all
+			async storeCount() {
+				const res = await this.$c.fetch(this.$api.goods.storeSelfCount)
+				if(res) {		
+					const firstTwo = res.slice(0, 2)
+					const others = res.slice(2)
+					this.storeNavs = [
+					  {
+					    id: 0,
+					    goods_name: '全部',
+					    goods_id: [],
+					    count: res.reduce((sum, item) => sum + item.count, 0)
+					  },
+					  ...firstTwo.map(item => ({
+					    ...item,
+						id: item.goods_id,
+					    goods_id: [item.goods_id]
+					  })),
+					  ...(others.length
+					    ? [{
+					        id: -1,
+					        goods_name: '其他',
+					        goods_id: others.map(item => item.goods_id),
+					        count: others.reduce((sum, item) => sum + item.count, 0)
+					      }]
+					    : [])
+					]
+					const nav = this.storeNavs.some(item => item.id == this.storeNav)
+					 if (!nav) this.storeNav = this.storeNavs[0]
+				}
+			},
+			onStoreNav(item) {
+				if (this.status == 'load') return
+				this.storeNav = item
+				this.init(0)
+			},
+			onAll(v = -1) {
+				const value = v !== -1 ? v : !this.all
+				this.all = value
 				this.list.forEach(item => {
-					item.selected = this.all
+					item.selected = value
 				});
 			},
 			onShowPassword() {
@@ -404,7 +459,7 @@
 			},
 			validateList(list) {
 				const noBuy = list.find(i => i?.is_buyback?.id !== 1)
-				if (noBuy)  return '暂未开启回购，请回购期进行尝' // return `${noBuy.goods_name}(${noBuy.goods_sku_name})不可回购`
+				if (noBuy) return '暂未开启回购，请回购期进行尝' // return `${noBuy.goods_name}(${noBuy.goods_sku_name})不可回购`
 
 				const map = {};
 				list.forEach(item => {
@@ -434,11 +489,13 @@
 				if (errors.length === 0) return true;
 				return errors[0];
 			},
-			init() {
+			async init(count = 1) {
 				if (this.status == 'load') return
 				this.status = 'more'
 				this.list = []
 				this.page = 1
+				this.onAll(false)
+				if (count && this.nav == 1) await this.storeCount()
 				this.getList()
 			},
 			async getList() {
@@ -452,7 +509,8 @@
 						page: this.page,
 						limit: this.limit,
 						search: {
-							status: this.shipIndex
+							status: this.shipIndex,
+							goods_id: this.nav == 1 ? this.storeNav.goods_id : null
 						}
 					})
 					if (res) {
@@ -639,7 +697,6 @@
 						if (cur >= total) break;
 
 						try {
-							console.log(new Date())
 							results[cur] = await ctx.$c.fetch(ctx.$api.goods.storeBuy, {
 								id: orderId
 							});
@@ -729,7 +786,7 @@
 		height: 26px;
 		margin-left: 5px;
 	}
-	
+
 	.gift-tag {
 		background: linear-gradient(270deg, #00B578 0%, #41EBB2 100%);
 		border-radius: 5px 0px 0px 5px;
@@ -741,6 +798,7 @@
 		top: 78px;
 		right: -3px;
 	}
+
 	.gift-tag::after {
 		content: '';
 		width: 0;
@@ -750,5 +808,56 @@
 		position: absolute;
 		right: .5px;
 		top: 100%;
+	}
+
+	.exchange-tag {
+		background: linear-gradient(270deg, #1d409f 0%, #829eeb 100%);
+		border-radius: 5px 0px 0px 5px;
+		font-size: 13px;
+		color: #FFFFFF;
+		font-weight: bold;
+		padding: 2px 5px;
+		position: absolute;
+		top: 78px;
+		right: -3px;
+	}
+
+	.exchange-tag::after {
+		content: '';
+		width: 0;
+		height: 0;
+		border-left: 3px solid #0B1F57;
+		border-bottom: 3px solid transparent;
+		position: absolute;
+		right: .5px;
+		top: 100%;
+	}
+	
+	.nation {
+		background: #E2E2E2;
+		border-radius: 4px;
+		font-size: 12px;
+		position: relative;
+		box-sizing: border-box;
+		padding: 0 8px;
+		border: 1px solid #E2E2E2;
+		color: #575D62;
+		display:flex;
+		align-items:center;
+		// min-width: 0;
+		// flex: 0 0 calc((100% - 30px) / 4);
+		// width: calc((100% - 30px) / 4);
+	}
+	.nation-name {
+	    overflow:hidden;
+	    white-space:nowrap;
+	    text-overflow:ellipsis;
+	    min-width:0;
+	}
+	.nation-active {
+		border: 1px solid #E8380D;
+		background: #FFDCD3;
+		color: #E8380D;
+		font-weight: bold;
 	}
 </style>

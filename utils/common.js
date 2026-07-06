@@ -235,9 +235,13 @@ const common = {
 			case 'cs':
 				return this.cs()
 			case 'dl':
-				return this.getStorage('endpoint') + '/download/app-release.new.apk'
+				return this.getStorage('endpoint') + '/download/app-release.lg.new.apk'
 			case 'dl2':
-				return this.getStorage('endpoint') + '/download/app-release.m.new.apk'
+				return this.getStorage('endpoint') + '/download/app-release.sh.new.apk'
+			case 'dl3':
+				return 'https://apps.apple.com/cn/app/%E5%8C%97%E8%BE%B0%E4%B9%90%E8%B4%AD/id6773263941' // iOS 商城
+			case 'dl4':
+				return 'https://apps.apple.com/cn/app/%E5%8C%97%E8%BE%B0%E5%95%86%E6%88%B7/id6773238900' // iOS 商户
 			default:
 				return ''
 		}
@@ -591,6 +595,12 @@ const common = {
 		}, 300)
 	},
 	
+	qrcodePay(url) {
+		uni.$emit('showQrcode', {
+			url: url
+		})
+	},
+	
 	async payJump(e, url = '', msg = '支付成功') {
 		if (!e) return 
 	
@@ -601,12 +611,13 @@ const common = {
 		
 		if (e.jump_url) {
 			const payHandlers = {
-				none: (e) => this.quickPay(e.jump_url),
+				none: (e) => this.qrcodePay(e.jump_url),
 				browser: (e) => this.quickPay(e.jump_url),
 				out_browser: (e) => this.quickPay(e.jump_url),
 				alipay: (e) => {},
 				wechat: (e) => {},
-				form: (e) => this.formPay(e.jump_url)
+				form: (e) => this.formPay(e.jump_url),
+				qrcode: (e) => this.qrcodePay(e.jump_url)
 			}
 			
 			const handler = payHandlers[e.call] 
@@ -786,6 +797,10 @@ const common = {
 		
 		await logoutNIM('switch')
 		await loginNIM()
+	},
+	
+	ad() {
+		this.toast('筹建中等待开放')
 	}
 }
 

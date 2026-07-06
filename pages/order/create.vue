@@ -66,6 +66,7 @@
 
 		<!-- 密码 -->
 		<payPassword v-model="password" :show.sync="showPassword" :amount="total - (subsidy.amount || 0)" @finish="doPay"></payPassword>
+		<Qrcode />
 	</view>
 </template>
 

@@ -34,6 +34,8 @@
 				</view>
 			</view>
 		</u-popup>
+		
+		<Qrcode />
 	</view>
 </template>
 

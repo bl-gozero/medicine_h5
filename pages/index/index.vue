@@ -17,7 +17,6 @@
 			<view class="h-105">
 				<u-swiper :list="banner" keyName="src" :height="122"></u-swiper>
 			</view>	
-			
 			<!-- memu -->
 			<view class="plr-15 pt-10 pb-20 rounded-14 mt-35" style="background: linear-gradient(180deg, #FEC86A 0%, #FFFFFF 49%);">
 				<view class="flex-between">
@@ -27,11 +26,7 @@
 					</view>
 				</view>
 				<view class="flex-between mt-20">
-					<!-- <view class="text-center" v-for="item in nation" :key="'nation-' + item.id" @click="$c.goto('/pages/goods/category?goods_nation_id=' + item.id)">
-						<image :src="$c.formatImgUrl(item.flag)" class="i-45 auto-x block" mode="aspectFill"></image>
-						<view class="fs-11 mt-8 lh-10">{{ item.name }}商品</view>
-					</view> -->
-					<view class="text-center" v-for="item in menus" :key="item.id" @click="$c.goto(item.url)">
+					<view class="text-center" v-for="item in menus" :key="item.id" @click="item.fun()">
 						<image :src="item.icon" class="i-45 auto-x block"></image>
 						<view class="fs-11 mt-8 lh-10">{{ item.name }}</view>
 					</view>
@@ -42,19 +37,17 @@
 			<view v-if="pointList.length" class="relative mt-10">
 				<image src="/static/mp/index/point_box.webp" class="x-100 block" mode="widthFix"></image>
 				<view class="absolute x-22 y-18 top-10 right-0" @click="$c.goto('/pages/point/index')"></view>
-				<view class="absolute x-100 flex-between plr-17 border-box" style="top: 29%;">
-					<view class="" v-for="(item, index) in pointList" :key="item.id"
+				<view class="absolute x-100 flex-between plr-17 border-box fgap-15" style="top: 29%;">
+					<view class="flex-1" v-for="(item, index) in pointList" :key="item.id"
 						@click="$c.goto(`/pages/point/goodsDetail?id=${item.id}`)">
-						<view v-if="index < 4" class="w-70">
-							<view class="bg-white rounded-8 i-70">
-								<image :src="item.picture" class="i-70 rounded-8" mode="aspectFill"></image>
-							</view>
-							<view class="fs-10 text-center mt-7 u-line-1">{{ item.name }}</view>
-							<view class="flex-center">
-								<view class="flex-start u-line-1">
-									<image src="/static/icon/coin.webp" class="i-8 mr-2"></image>
-									<text class="text-base fs-10 fw-5">{{ item.price }}积分</text>
-								</view>
+						<view class="bg-white rounded-8 img-box flex-center">
+							<image :src="item.picture" class="x-100 y-100 rounded-8" mode="aspectFill"></image>
+						</view>
+						<view class="fs-10 text-center mt-7 u-line-1">{{ item.name }}</view>
+						<view class="flex-center">
+							<view class="flex-start u-line-1">
+								<image src="/static/icon/coin.webp" class="i-8 mr-2"></image>
+								<text class="text-base fs-10 fw-5">{{ item.price }}积分</text>
 							</view>
 						</view>
 					</view>
@@ -180,14 +173,19 @@
 				showEgg: false,
 				showClose: false,
 				showWine: false,
-				menus: [
-					{ id: 1, icon: '/static/mp/index_menu/all.webp', name: '全部商品', url: '/pages/goods/category' },
-					{ id: 3, icon: '/static/mp/index_menu/3.webp', name: '加入北城', url: '/pages/user/qrcode' },
-					{ id: 4, icon: '/static/mp/index_menu/4.webp', name: '活动·签到', url: '/pages/index/task' },
-					{ id: 5, icon: '/static/mp/index_menu/5.webp', name: '在线客服', url: '/pages/index/web' },
-				],
 				nations: [],
 			}
+		},
+		computed: {
+			menus() {
+				return	[
+					{ id: 1, icon: '/static/mp/index_menu/all.webp', name: '全部商品', fun: () => this.$c.goto('/pages/goods/category') },
+					{ id: 3, icon: '/static/mp/index_menu/3.webp', name: '加入北城', fun: () => this.$c.goto('/pages/user/qrcode') },
+					{ id: 4, icon: '/static/mp/index_menu/4.webp', name: '活动·签到', fun: () => this.$c.goto('/pages/index/task') },
+					// { id: 5, icon: '/static/mp/index_menu/5.webp', name: '在线客服', url: '/pages/index/web' },
+					{ id: 5, icon: '/static/mp/index_menu/ad.webp', name: '看广得分', fun: () => this.$c.ad()},
+				]
+			},
 		},
 		async onLoad() {
 			const obj = await this.$c.checkeLogin(1)

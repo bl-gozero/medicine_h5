@@ -90,5 +90,20 @@ export default {
 	},
 	nation(data = {}, config = {}) {
 		return request.post('/goods_nation/list', data, { ...config })
-	}
+	},
+	storeExchangeGoodsList(data = {}, config = {}) {
+		return request.post('/warehouse/replace_goods_list', data, { ...config })
+	},
+	storeExchange(data = {}, config = {}) {
+		return request.post('/warehouse/replace', data, { loading: true, ...config })
+	},
+	storeExchangeInfo(data = {}, config = {}) {
+		return request.post('/warehouse/replace_count', data, { ...config })
+	},
+	storeCount(data = {}, config = {}) {
+		return request.post('/user_team/warehouse_list_count', data, {  loading: true, ...config })
+	},
+	storeSelfCount(data = {}, config = {}) {
+		return request.post('/user_team/self_warehouse_list_count', data, { ...config })
+	},
 }

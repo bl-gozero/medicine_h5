@@ -167,12 +167,6 @@
 		background-repeat: no-repeat;
 		color: #958B8A;
 	}
-	
-	.img-box {
-		width: 100%;
-		aspect-ratio: 1 / 1;
-		overflow: hidden;
-	}
 
 	.icon_info {
 		width: 18px;
@@ -252,6 +246,15 @@
 		padding: 0 2px;
 		// box-sizing: border-box;
 		text-align: center;
+	}
+	
+	.store-count-detail {
+		background: #B5C0D4;
+		border-radius: 3px 8px 3px 3px;
+		padding: 3px;
+		position: absolute;
+		top: 0;
+		right: 0;
 	}
 
 	.u-text__value {

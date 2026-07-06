@@ -53,13 +53,33 @@
 					<view class="text-info fs-12 mt-6">存储产品总数量（件）</view>
 					<view class="fs-16 fw-7 u-line-1">{{ info.save_count || 0 }}</view>
 				</view>
-				<view class="data_bg rounded-8 p-12 border-box icon">
+				<view class="data_bg rounded-8 p-12 border-box icon text-primary relative" @click="storeCount()">
 					<image src="/static/vip/xian.webp" class="icon"></image>
-					<view class="text-info fs-12 mt-6">现存储产品数量（件）</view>
+					<view class="fs-12 mt-6 underline">现存储产品数量（件）</view>
 					<view class="fs-16 fw-7 u-line-1">{{ info.save_buy_count || 0 }}</view>
+					<view class="flex-center store-count-detail">
+						<text class="text-white fs-10 lh-10">详情</text>
+						<u-icon name="arrow-right" color="#fff" size="10"></u-icon>
+					</view>
 				</view>
 			</view>
 		</view>
+		
+		<u-popup :show="showAlert" mode="center" bgColor="transparent" @close="showAlert = false;">
+			<view class="popup-box" style="background: linear-gradient(180deg, #cfdeff 0%, #ffffff 48%);">
+				<image :src="$c.img('/static/know/store.webp', 0)" class="popup-img" mode="heightFix"></image>
+				<view class="popup-title" style="color: #3B444C;">现存产品数量(件)</view>
+				<view class="popup-text flex-1 text-left plr-30">
+					<scroll-view scroll-y class="h-120">
+						<view class="" v-for="(item, index) in stores" :key="index">{{ item.goods_name }}：{{ item.count }}</view>
+					</scroll-view>
+				</view>
+				<view class="popup-buttons">
+					<button class="bold fs-16 w-234 h-51 flex-center text-white rounded-x bg-base"
+						@click="showAlert = false">知道了</button>
+				</view>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -73,11 +93,15 @@
 			return {
 				profile: this.$c.profile(),
 				info: {},
+				showAlert: false,
+				stores: [],
+				id: null
 			}
 		},
 		async onLoad(p) {
 			const id = Number(p?.id)
 			if (Number.isInteger(id) && id > 0) {
+				this.id = id
 				this.getInfo(id)
 			}
 		},
@@ -86,6 +110,13 @@
 				const res = await this.$c.fetch(this.$api.user.sellInfo, { id: id })
 				if(res) this.info = res
 			},
+			async storeCount() {
+				const res = await this.$c.fetch(this.$api.goods.storeCount, { id: this.id })
+				if(res) {
+					this.stores = res
+					this.showAlert = true
+				}
+			}
 		}
 	}
 </script>

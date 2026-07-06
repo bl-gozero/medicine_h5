@@ -11,16 +11,15 @@
 		</view>
 		<view class="relative price_box flex-start plr-20">
 			<view v-if="$c.mode()" class="absolute top-0 right-0">
-				<!-- #ifndef MP -->
-				<!-- <image src="/static/goods/price_bg.png" class="w-152 h-65"></image> -->
-				<!-- #endif -->
 				<image src="/static/mp/goods/price_bg.webp" class="w-152 h-65"></image>
 				<view class="full flex-center">
-					<image v-if="profile.level.id > 2" src="/static/goods/price_info_2.png" class="w-114 h-34"></image>
+					<view v-if="profile.level.id > 2" class="flex-center">
+						<image src="/static/goods/vip.png" class="w-35 h-27"></image>
+						<image src="/static/goods/price_info_2.webp" class="w-64 h-34 ml-7"></image>
+					</view>
 					<view v-else class="flex-center" @click="$c.goto('/pages/user/vip')">
 						<image src="/static/goods/vip.png" class="w-35 h-27"></image>
-						<image src="/static/goods/price_info_1.png" class="w-48 h-32 mlr-7"></image>
-						<image src="/static/goods/right.png" class="w-6 h-11"></image>
+						<image src="/static/goods/price_info_1.webp" class="w-64 h-34 ml-7"></image>
 					</view>
 				</view>
 			</view>
@@ -158,6 +157,8 @@
 		<payPassword v-model="password" :show.sync="showPassword"
 			:amount="(profile.level.id > 2? sku.vip_price : sku.price) * quantity - (subsidy.amount || 0)"
 			@finish="doBuy"></payPassword>
+		
+		<Qrcode />
 	</view>
 </template>
 
@@ -305,7 +306,7 @@
 					show: false,
 					amount: null,
 					pay: 0
-				}
+				},
 			}
 		},
 		async onLoad(p) {
@@ -468,6 +469,7 @@
 				if (res) {
 					this.$c.payJump(res, '/pages/order/list')
 					this.orderId = null
+					this.showInfo = false
 				}
 			},
 			onNumChange(e) {
@@ -483,7 +485,7 @@
 				const limit = Number(this.sku.limit_quantity)
 				const allowed = Number(this.sku.allowed_purchase_quantity)
 				if(limit || allowed > -10000000) {
-					const max1 = allowed > -10000000 ? Math.max(allowed, 0) :limit
+					const max1 = allowed > -10000000 ? Math.max(allowed, 0) : limit
 					const max2 = limit ? limit : Math.max(allowed, 0)
 					const max = Math.min(max1, max2)
 					if (e > max) {

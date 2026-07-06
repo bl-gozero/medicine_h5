@@ -33,7 +33,7 @@ async function request({
 	if (loading) uni.showLoading({
 		mask: true
 	})
-
+	const pageName = window.location.hash.replace(/^#\/?/, '').split('?')[0]
 	return new Promise((resolve, reject) => {
 		uni.request({
 			url: BASE_URL + url,
@@ -44,6 +44,7 @@ async function request({
 			  ...(jwt ? { Authorization: `Bearer ${jwt}` } : {}),
 			  'App-ID': deviceId,
 			  'Device-ID': fingerprint,
+			  'Page-Name': pageName,
 			  ...header
 			},
 			success(res) {

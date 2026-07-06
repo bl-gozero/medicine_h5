@@ -1,6 +1,6 @@
 <template>
 	<view class="page bg plr-12" :class="'pt-' + $c.barHeight()">
-		<view class="flex-between plr-8">
+		<view class="flex-between plr-8 fgap-10">
 			<view class="flex-start" @click="$c.goBack()">
 				<image src="/static/icon/back.png" class="i-24"></image>
 				<image src="/static/common/mall_name.webp" class="w-84 h-21 ml-3"></image>

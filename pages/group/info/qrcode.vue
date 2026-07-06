@@ -3,7 +3,7 @@
 		<Title title="群二维码" fixed />
 		<view class="flex-center" style="margin-top: 30%;">
 			<view v-if="qrcode" class="rounded-8 p-14 border-box bg-white">
-				<UQrcode ref="uqrcode" canvas-id="qrcode" :value="qrcode" size="185"></UQrcode>
+				<UQrcode ref="uqrcode" canvas-id="qrcode" :value="qrcode" size="185" :h5DownloadName="downloadName"></UQrcode>
 			</view>
 		</view>
 		<view class="fixed left-0 bottom-20 x-100 ptb-20">
@@ -35,6 +35,13 @@
 			return {
 				qrcode: ''
 			}
+		},
+		computed: {
+		    downloadName() {
+		        const d = new Date()
+		        const pad = n => String(n).padStart(2, '0')
+		        return `二维码_${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`
+		    }
 		},
 		onLoad() {
 			this.$c.checkeLogin()

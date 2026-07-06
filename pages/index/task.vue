@@ -56,7 +56,8 @@
 					</view>
 				</u-scroll-list>
 			</view>
-			<view class="bg-white rounded-12 ptb-20 plr-16 mt-20 relative"
+			<image src="/static/task/task.webp" class="x-100 mt-15" mode="widthFix" @click="$c.ad()"></image>
+			<view class="bg-white rounded-12 ptb-20 plr-16 mt-15 relative"
 				style="z-index: 5;box-shadow: 0px 0px 15px 0px rgba(216, 216, 216, 0.13);">
 				<view class="flex-between">
 					<view class="flex-start">

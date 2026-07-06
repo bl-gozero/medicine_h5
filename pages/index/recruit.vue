@@ -9,9 +9,9 @@
 					@click="doSubmit"></image>
 			</view>
 		</view>
-		<image :src="$c.img('/static/index/recruit/2.webp')" class="x-100" mode="widthFix"></image>
-		<image :src="$c.img('/static/index/recruit/3.webp')" class="x-100" mode="widthFix"></image>
-		<image :src="$c.img('/static/index/recruit/4.webp')" class="x-100" mode="widthFix"></image>
+		<image :src="$c.img('/static/index/recruit/2.webp', 0)" class="x-100" mode="widthFix"></image>
+		<image :src="$c.img('/static/index/recruit/3.webp', 0)" class="x-100" mode="widthFix"></image>
+		<image :src="$c.img('/static/index/recruit/4.webp', 0)" class="x-100" mode="widthFix"></image>
 		<view class="flex-center ptb-20">
 			<view v-if="status" class="w-251 h-40 rounded-x flex-center fs-13 fw-5 lh-10">您已提交</view>
 			<image v-else-if="status === false" :src="$c.img('/static/index/recruit/btn-2.webp')" class="w-251 h-40"

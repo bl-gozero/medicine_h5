@@ -25,7 +25,7 @@
 												<text v-else-if="$c.calcLv(profile) == item.id">当前等级</text>
 												<text v-else-if="$c.calcLv(profile) > item.id">已超过</text>
 											</view>
-											<u-icon name="info-circle" color="rgba(255, 255, 255, 0.8)" size="14" @click="showInfo = true"></u-icon>
+											<u-icon name="info-circle" color="rgba(255, 255, 255, 0.8)" size="14" @click="onShowMessage('level')"></u-icon>
 										</view>
 										<view class="text-white fw-7 fs-12 x-100 mt-10">升级进度</view>
 										<view :class="'requirement_' + item.id">
@@ -142,7 +142,7 @@
 						<view class="flex-1">
 							<view class="fs-16 fw-5 flex-center">
 								<text>{{ switcher == 3 ? '销售数据' : '体系数据' }}</text>
-								<view class="icon_info ml-3" @click="showHint = true"></view>
+								<view class="icon_info ml-3" @click="onShowMessage('title')"></view>
 							</view>
 							<view v-if="switcher == 3" class="text-info flex-center mt-13 fs-10 lh-10">
 								<text>数据更新于{{ now }}</text>
@@ -164,7 +164,7 @@
 				<view v-else-if="$c.calcLv(profile) == 3" class="">
 					<view class="fs-16 fw-5 flex-center">
 						<text>销售数据</text>
-						<view class="icon_info ml-3" @click="showHint = true"></view>
+						<view class="icon_info ml-3" @click="onShowMessage('sell')"></view>
 					</view>
 					<view class="text-info flex-center mt-13 fs-12 lh-10">
 						<text>数据更新于{{ now }}</text>
@@ -195,14 +195,18 @@
 								<view class="fs-16 fw-7 u-line-1">{{ sell.total_sales || 0 }}</view>
 							</view>
 							<view class="data_bg rounded-8 p-12 border-box icon">
-								<image src="/static/vip/cun.webp" class="icon"></image>
+								<image src="/static/vip/cun.webp" class="icon" @click.stop="onShowMessage('store_history')"></image>
 								<view class="text-info fs-12 mt-6">存储产品总数量（件）</view>
 								<view class="fs-16 fw-7 u-line-1">{{ sell.save_count || 0 }}</view>
 							</view>
-							<view class="data_bg rounded-8 p-12 border-box icon">
-								<image src="/static/vip/xian.webp" class="icon"></image>
-								<view class="text-info fs-12 mt-6">现存储产品数量（件）</view>
+							<view class="data_bg rounded-8 p-12 border-box icon text-primary relative" @click="storeCount()">
+								<image src="/static/vip/xian.webp" class="icon" @click.stop="onShowMessage('store_current')"></image>
+								<view class="fs-12 mt-6 underline">现存储产品数量（件）</view>
 								<view class="fs-16 fw-7 u-line-1">{{ sell.save_buy_count || 0 }}</view>
+								<view class="flex-center store-count-detail">
+									<text class="text-white fs-10 lh-10">详情</text>
+									<u-icon name="arrow-right" color="#fff" size="10"></u-icon>
+								</view>
 							</view>
 						</view>
 						<button class="fw-7 btn-search flex-center rounded-x" @click="$c.goto('/pages/user/sell')">
@@ -254,28 +258,29 @@
 			<text class="text-base" @click="$c.goto('/pages/index/userService')">《商户服务介绍》</text>
 		</view>
 		<!-- 提示 -->
-		<u-popup :show="showHint" mode="center" round="20" :closeOnClickOverlay="false" @close="showHint = false">
-			<view class="w-308 plr-30 ptb-25 text-center border-box">
-				<view class="fs-18">温馨提示</view>
-				<view v-if="switcher == 3" class="mt-34 lh-17 fs-14">
-					“销售数据”将体现您整个销售团队的所有数据情况，包含同级别以下用户数据。
-				</view>
-				<view v-if="switcher == 4" class="mt-34 lh-17 fs-14">
-					“体系数据”同合伙人级别用户团队业绩将不纳入“体系数据”统计范围。每月完成“团队绩效”考核可获得对应“绩效分红”。“绩效分红”每月1日自动重置，不做累计计算。
-				</view>
-				<button class="bg-base text-white w-234 h-51 fs-16 fw-7 mt-68 flex-center rounded-x"
-					@click="showHint = false">知道了</button>
-			</view>
-		</u-popup>
 		<u-popup :show="showInfo" mode="center" bgColor="transparent" :closeOnClickOverlay="false"
 			@close="showInfo = false;">
 			<view class="popup-box bg-white p-20">
 				<view class="text-black text-center fs-18">温馨提示</view>
-				<view class="lh-20 mt-40 text-black plr-20">
-					App内“级别”仅用于业务身份与权限区分，“合伙人”等称谓仅为内部名称，不涉及法律、投资或收益关系
-				</view>
+				<view class="popup-text flex-1 mt-40 text-black plr-20 message">{{ message }}</view>
 				<button class="bg-base fs-16 flex-center text-white w-234 h-51 mt-34 flex-center rounded-x"
 					@click="showInfo = false;">知道了</button>
+			</view>
+		</u-popup>
+		
+		<u-popup :show="showAlert" mode="center" bgColor="transparent" @close="showAlert = false;">
+			<view class="popup-box" style="background: linear-gradient(180deg, #cfdeff 0%, #ffffff 48%);">
+				<image :src="$c.img('/static/know/store.webp', 0)" class="popup-img" mode="heightFix"></image>
+				<view class="popup-title" style="color: #3B444C;">现存产品数量(件)</view>
+				<view class="popup-text flex-1 text-left plr-30">
+					<scroll-view scroll-y class="h-120">
+						<view class="" v-for="(item, index) in stores" :key="index">{{ item.goods_name }}：{{ item.count }}</view>
+					</scroll-view>
+				</view>
+				<view class="popup-buttons">
+					<button class="bold fs-16 w-234 h-51 flex-center text-white rounded-x bg-base"
+						@click="showAlert = false">知道了</button>
+				</view>
 			</view>
 		</u-popup>
 	</view>
@@ -311,7 +316,6 @@
 				level4: {},
 				num1: 0,
 				num2: 0,
-				showHint: false,
 				sell: {},
 				level_list: [{
 						id: 1,
@@ -375,7 +379,10 @@
 				scrollOffset: 50,
 				swiperHeight1: 50,
 				swiperHeight2: 200,
-				showInfo: false
+				showInfo: false,
+				showAlert: false,
+				stores: [],
+				message: ''
 			}
 		},
 		async onLoad() {
@@ -461,6 +468,27 @@
 					this.total_bonus = res.total_dividends || 0
 					this.pingji = res.replenish_sales || 0
 				}
+			},
+			async storeCount() {
+				const res = await this.$c.fetch(this.$api.goods.storeCount, { id: this.profile.id })
+				if(res) {
+					this.stores = res
+					this.showAlert = true
+				}
+			},
+			onShowMessage(type) {
+			    const messageMap = {
+			        title: this.switcher == 3
+			            ? '“销售数据”将体现您整个销售团队的所有数据情况，包含同级别以下用户数据。'
+			            : '“体系数据”同合伙人级别用户团队业绩将不纳入“体系数据”统计范围。每月完成“团队绩效”考核可获得对应“绩效分红”。“绩效分红”每月1日自动重置，不做累计计算。',
+			        level: 'App内“级别”仅用于业务身份与权限区分，“合伙人”等称谓仅为内部名称，不涉及法律、投资或收益关系',
+			        sell: '“销售数据”将体现您整个销售团队的所有数据情况，包含同级别以下用户数据。',
+			        store_history: '团队累计已寄存产品总数量，\n不包含本人',
+			        store_current: '团队目前已寄存产品数量，\n不包含本人'
+			    }
+			
+			    this.message = messageMap[type] || ''
+			    this.showInfo = !!this.message
 			}
 		}
 	}
@@ -662,5 +690,9 @@
 		height: 38px;
 		margin-top: 30px;
 		font-size: 14px;
+	}
+	
+	.message {
+	    white-space: pre-line;
 	}
 </style>

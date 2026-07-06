@@ -12,9 +12,9 @@
 				<view class="relative">
 					<image :src="$c.img('/static/avtivity/egg/box-2.webp')" class="w-360 h-257 block"></image>
 					<image :src="$c.img(`/static/avtivity/egg/btn-${done? 2 : 1}.webp`)"
-						class="absolute top-130 left-0 right-0 auto-x w-279 h-68"
+						class="absolute left-0 right-0 auto-x w-279 h-68" style="top: 130px;"
 						@click="done || $c.goto('/pages/goods/searchResult?is_level_valid=1')"></image>
-					<view v-if="done" class="absolute top-160 left-0 right-0 auto-x text-center text-info fs-12">
+					<view v-if="done" class="absolute left-0 right-0 auto-x text-center text-info fs-12" style="top: 160px;">
 						时间：{{ profile.first_purchase_at }}</view>
 				</view>
 			</view>

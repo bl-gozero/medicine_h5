@@ -12,10 +12,10 @@
 			<view class="full flex-center">
 				<view class="">
 					<image :src="img('/static/web/new.webp')" class="w-200 h-20 block auto-x"></image>
-					<u-button class="btn fw-7 text-white w-278 h-49 border-0 mt-40" shape="circle" icon="android-fill"
+					<u-button v-if="isAndroid" class="btn fw-7 text-white w-278 h-49 border-0 mt-40" shape="circle" icon="android-fill"
 						iconColor="#fff" text="安卓版APP下载" @click="onDownload('android')"></u-button>
-					<!-- <u-button class="btn fw-7 text-white w-278 h-49 border-0 mt-20" shape="circle" icon="apple-fill"
-						iconColor="#fff" text="IOS版APP下载" @click="onDownload('apple')"></u-button> -->
+					<u-button v-if="isIOS" class="btn fw-7 text-white w-278 h-49 border-0 mt-20" shape="circle" icon="apple-fill"
+						iconColor="#fff" text="IOS版APP下载" @click="onDownload('apple')"></u-button>
 				</view>
 			</view>
 		</view>
@@ -31,21 +31,38 @@
 		},
 		data() {
 			return {
+				isIOS: false,
+				isAndroid: false,
+				isWx: false
 			}
 		},
 		onLoad() {
 			this.$c.removeStorage('endpoint')
+			const ua = navigator.userAgent.toLowerCase()
+			this.isIOS = /iphone|ipad|ipod/.test(ua)
+			this.isAndroid = /android/.test(ua)
+			this.isWx = /micromessenger/.test(ua)
 		},
 		methods: {
-			async onDownload(e) {
-				let link = ''
-				if (e === 'android') link = this.$c.url('dl2')
-				// 如果不是完整链接，先去拿配置
-				if (!link || link.indexOf('http') === -1) {
-					await this.getConfig(e)
+			async onDownload() {
+				if (this.isWx) {
+					uni.showModal({
+						title: '提示',
+						content: '请点击右上角，在浏览器中打开后下载',
+						showCancel: false
+					})
 					return
 				}
-				window.location.href = link
+				let link = ''
+				if (this.isAndroid) {
+					link = this.$c.url('dl2')
+					if (link && link.indexOf('http') === -1) {
+						await this.getConfig(e)
+						return
+					}
+				}
+				if (this.isIOS) link = this.$c.url('dl4')
+				if (link) window.location.href = link
 			},
 			async getConfig(e) {
 				const res = await this.$c.fetch(this.$api.group.config)

@@ -12,7 +12,7 @@
 				<view class="flex-1 flex-between ml-8 border-bottom">
 					<text class="u-line-1">{{ item.name }}</text>
 					<view v-if="memberInfo.memberRole === 1" class="">
-						<button class="w-47 h-20 fs-10 flex-center rounded-x border-plain" plain @click="onRemove(item)">解除</button>
+						<button class="w-47 h-20 fs-10 flex-center rounded-x border-plain p-0" plain @click="onRemove(item)">解除</button>
 					</view>
 				</view>
 			</view>

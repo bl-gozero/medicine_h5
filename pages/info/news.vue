@@ -55,7 +55,7 @@
 				<view class="fs-12 text-info mt-13 block pb-15 border-bottom">
 					发布时间：{{ news.publish_at }}</view>
 				<view class="mt-20">
-					<u-parse :content="news.context"></u-parse>
+					<u-parse :content="news.context" :tagStyle="{ img: 'width: 100%' }" lazyLoad></u-parse>
 				</view>
 			</view>
 		</view>
