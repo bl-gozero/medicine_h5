@@ -95,7 +95,7 @@
 				<view class="flex-end" @click.stop>
 					<view class="">
 						<button v-if="item.status && item.status.id == 2"
-							class="btn-list btn-black fs-12 p-0 border-plain" plain
+							class="btn-list btn-black fs-12 p-0 border-plain flex-center" plain
 							@click="onReceive(item)">确认收货</button>
 					</view>
 				</view>
@@ -295,6 +295,10 @@
 					{
 						id: 3,
 						value: "已收货"
+					},
+					{
+						id: 4,
+						value: "已驳回"
 					},
 				],
 				height: 0,
@@ -785,6 +789,7 @@
 		width: 65px;
 		height: 26px;
 		margin-left: 5px;
+		border-radius: 999px;
 	}
 
 	.gift-tag {

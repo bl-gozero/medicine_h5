@@ -102,7 +102,7 @@
 			</view>
 		</view>
 		<view class="h-100"></view>
-		<view class="fixed bottom-0 left-0 x-100 flex-between ptb-15 plr-20 bg-white border-box" style="z-index: 100;">
+		<view class="fixed bottom-0 left-0 x-100 flex-between ptb-5 plr-20 bg-white border-box" style="z-index: 100;">
 			<view class="relative w-40 h-20">
 				<text class="fs-12 text-info" @click="showMore = !showMore">更多</text>
 				<view v-if="showMore" class="absolute left-0 top-0 more_box flex-center"
