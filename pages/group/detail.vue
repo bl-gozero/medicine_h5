@@ -204,7 +204,6 @@
 						team_id: team_id
 					})
 					if (res) {
-						
 						this.$c.removeStorage('chatInfo')
 						this.$c.toast('退出成功')
 						setTimeout(() => {

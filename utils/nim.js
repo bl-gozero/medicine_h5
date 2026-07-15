@@ -583,7 +583,7 @@ export async function deleteConversation(id) {
 	if (!await nimReady()) return
 	try {
 		const res = await nim.V2NIMLocalConversationService.deleteConversation(id, true)
-		// console.log(id, res)
+		console.log(id, res)
 		return true
 	} catch (err) {
 		console.error('清理会话失败', err)

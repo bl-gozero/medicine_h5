@@ -242,6 +242,10 @@ const common = {
 				return 'https://apps.apple.com/cn/app/%E5%8C%97%E8%BE%B0%E4%B9%90%E8%B4%AD/id6773263941' // iOS 商城
 			case 'dl4':
 				return 'https://apps.apple.com/cn/app/%E5%8C%97%E8%BE%B0%E5%95%86%E6%88%B7/id6773238900' // iOS 商户
+			case 'scheme_android': 
+				return 'beichen://'
+			case 'scheme_apple':
+				return 'billbeichendrug://'
 			default:
 				return ''
 		}
@@ -800,7 +804,68 @@ const common = {
 	},
 	
 	ad() {
-		this.toast('筹建中等待开放')
+		const _env = this.getEnv()
+		if (_env.isWechat) {
+			uni.showModal({
+				title: '提示',
+				content: '当前功能仅支持 App 使用。请点击微信右上角“···”，选择“在浏览器中打开”，然后继续操作。',
+				showCancel: false
+			})
+			return
+		} else {
+			uni.showModal({
+				title: '提示',
+				content: '当前功能仅支持 App 使用，是否前往 App？',
+				confirmText: '打开 App',
+				cancelText: '去下载',
+				showCancel: true,
+				success: (res) => {
+					if (res.confirm) {
+						this.openApp()
+					} else {
+						this.goto('/pages/web/download')
+					}
+				}
+			})
+		}
+		// this.toast('筹建中等待开放')
+	},
+	
+	openApp() {
+		const _env = this.getEnv()
+		let scheme = ''
+		if (_env.isAndroid) {
+		    scheme = this.url('scheme_android')
+		} else if (_env.isIOS) {
+		    scheme = this.url('scheme_apple')
+		}
+		if (!scheme) return
+		
+		let hidden = false
+		const onVisibilityChange = () => {
+			if (document.visibilityState === 'hidden') {
+				hidden = true
+			}
+		}
+		document.addEventListener('visibilitychange', onVisibilityChange, { once: true })
+		// 尝试唤起 App
+		window.location.href = scheme
+		// 1.5 秒内没有成功唤起，则跳转下载页
+		setTimeout(() => {
+			document.removeEventListener('visibilitychange', onVisibilityChange)
+			if (!hidden) {
+				this.goto('/pages/web/download')
+			}
+		}, 2000)
+	}, 
+	
+	getEnv() {
+		const ua = navigator.userAgent.toLowerCase()
+		return {
+		    isWechat: /micromessenger/.test(ua),
+		    isAndroid: /android/.test(ua),
+		    isIOS: /iphone|ipad|ipod/.test(ua)
+		}
 	}
 }
 

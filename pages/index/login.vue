@@ -8,7 +8,7 @@
 		</view>
 		<view class="relative flex-1 bg-white roundedTop-45 fs-12 fw-5">
 			<view class="flex-between text-center relative" style="z-index: 10;">
-				<view class="fs-16 fw-7 ptb-15 flex-1">密码登录</view>
+				<view class="fs-16 fw-7 bg-white ptb-15 flex-1" style="border-radius: 45px 0 0 0;">密码登录</view>
 				<view class="fs-16 fw-7 ptb-15 flex-1 login-right" @click="$c.goto('/pages/index/login_p')">手机号登录</view>
 			</view>
 			<view class="full sroller-y plr-35 pt-60">

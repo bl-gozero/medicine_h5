@@ -36,7 +36,7 @@
 			</view>
 		</view>
 
-		<button class="bg-white x-100 rounded-8 text-danger flex-center mt-30 border-0 ptb-18 rounded-x"
+		<button class="bg-white x-100 rounded-8 text-danger flex-center mt-30 border-0 ptb-18 rounded-x h-47 fs-14"
 			@click="showDelete = true">删除好友</button>
 
 		<view class="h-20"></view>
@@ -91,15 +91,17 @@
 				this.showDelete = false
 				const res = await deleteFriend(friendInfo.accountId)
 				if (res) {
-					this.$c.toast('删除成功')
+					this.$c.removeStorage('chatInfo')
+					this.onDeleteConversation()
+					await this.$c.toast('删除成功')
+					this.$c.goto('/pages/group/index')
 				} else {
 					this.$c.toast('删除失败')
 				}
 			},
 			async onDeleteConversation() {
-				// const cid = this.$c.getCid(friendInfo.accoundId, 1)
-				const res = await clearHistoryMessage()
-				if (res) this.$c.toast('清除成功')
+				const cid = this.$c.getStorage('conversationId')
+				if (cid) await deleteConversation(cid)
 			},
 			async onBlack() {
 				if (friendInfo.isBlocked) {
