@@ -40,3 +40,7 @@ export default function confirm(options = {}) {
 		})
 	})
 }
+
+/*
+this.$confirm('确定该订单已收货？').then(() => { this.doSubmit() })
+*/

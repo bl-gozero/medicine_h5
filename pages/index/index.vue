@@ -140,6 +140,7 @@
 				</image>
 			</view>
 		</u-popup>
+		<Knows />
 	</view>
 </template>
 

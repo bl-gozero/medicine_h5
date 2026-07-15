@@ -52,6 +52,7 @@
 				<button class="bg-danger fw-7 fs-14 text-white w-82 h-35 rounded-x" @click="onShowDelete()">删除</button>
 			</view>
 		</view>
+		<Knows />
 		<u-modal :show="show" title="提示" content='确定要删除？' confirmColor="#3D3D3D" cancelColor="#9F9F9F" showCancelButton
 			@cancel="show = false" @confirm="onDelete()"></u-modal>
 		<TabBar />

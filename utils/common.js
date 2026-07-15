@@ -1,6 +1,7 @@
 // utils/common.js
 import env from './env'
 import api from '@/utils/api/index.js'
+import knows from './knows'
 import {
 	teamBaseInfo,
 	getMemberInfo,
@@ -262,9 +263,6 @@ const common = {
 
 	baseColor() {
 		return '#EB5433'
-		// #ifndef MP
-		return '#1A7E84'
-		// #endif
 	},
 
 	arrowColor() {
@@ -501,14 +499,6 @@ const common = {
 	},
 
 	checkIcon(res) {
-		// // #ifdef MP
-		// return res ? '/static/icon/check_1_mp.webp' :
-		// 	'/static/icon/check_0.webp'
-		// // #endif
-		// // #ifndef MP
-		// return res ? '/static/icon/check_1.webp' :
-		// 	'/static/icon/check_0.webp'
-		// // #endif
 		return res ? '/static/icon/check_1_mp.webp' :
 			'/static/icon/check_0.webp'
 	},
@@ -813,19 +803,40 @@ const common = {
 			})
 			return
 		} else {
-			uni.showModal({
-				title: '提示',
-				content: '当前功能仅支持 App 使用，是否前往 App？',
-				confirmText: '打开 App',
-				cancelText: '去下载',
-				showCancel: true,
-				success: (res) => {
-					if (res.confirm) {
-						this.openApp()
-					} else {
-						this.goto('/pages/web/download')
-					}
-				}
+			// uni.showModal({
+			// 	title: '提示',
+			// 	content: '当前功能仅支持 App 使用，是否前往 App？',
+			// 	confirmText: '打开 App',
+			// 	cancelText: '去下载',
+			// 	showCancel: true,
+			// 	success: (res) => {
+			// 		if (res.confirm) {
+			// 			this.openApp()
+			// 		} else {
+			// 			this.goto('/pages/web/download')
+			// 		}
+			// 	}
+			// })
+			knows.show({
+				bgStyle: 'min-height: ',
+				title: { text: '提示', class: 'pt-20' },
+				text:'当前功能仅支持 App 使用，是否前往 App？',
+				closeOnClickOverlay: true,
+				buttons:[
+					{
+						text:'去下载',
+						click:()=>{
+							this.goto('/pages/web/download')
+						}
+					},
+					{
+						text:'打开 App',
+						class:'bg-base text-white',
+						click:()=>{
+							this.openApp()
+						}
+					},
+				]
 			})
 		}
 		// this.toast('筹建中等待开放')
