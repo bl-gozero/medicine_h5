@@ -58,6 +58,11 @@
 				<view class="text-center mt-23">
 					<text class="text-base fw-4" @click="$c.goto('/pages/index/register')">没有账号？去注册</text>
 				</view>
+				<view class="mt-30 flex-center fgap-7">
+					<view class="line-left"></view>
+					<view class="underline text-info fs-12" @click="$c.goto('/pages/index/platform')">平台介绍</view>
+					<view class="line-left" style="transform: rotate(180deg);"></view>
+				</view>
 				<view class="h-50"></view>
 			</view>
 		</view>

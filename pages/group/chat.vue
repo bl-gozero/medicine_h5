@@ -2,14 +2,25 @@
 	<view class="page bg-white flex-col">
 		<Title :title="title" bgColor="#fff" isBack @back="$c.goto('/pages/group/index')" @right="onDetail()">
 			<template v-slot:right>
-				<u-icon name="more-dot-fill" size="18" color="#676C74"></u-icon>
+				<view v-if="isSelect" class="text-info">取消</view>
+				<u-icon v-else name="more-dot-fill" size="18" color="#676C74"></u-icon>
 			</template>
 		</Title>
 		<!-- 消息列表 -->
-		<ChatMessageList @reply="handleReply" />
+		<ChatMessageList :isSelect.sync="isSelect" @selects="selectedMessages = $event" @reply="handleReply" />
 	
-		<!-- 输入框 -->
-		<ChatInput :reply="reply" :type="mode" @unreply="reply = null" @send="handleSendMsg" />
+		<!-- 底部功能 -->
+		<view v-if="isSelect" class="pb-16 func_box plr-20">
+			<view class="mt-16">
+				<view class="text-center fs-12" @click="forwardMessage()">
+					<view class="i-40 rounded-12 flex-center auto-x" style="background: #F0F0F0;">
+						<u-icon name="share" size="30" color=""></u-icon>
+					</view>
+					<view class="mt-7 text-center">转发</view>
+				</view>
+			</view>
+		</view>
+		<ChatInput v-else :reply="reply" :type="mode" @unreply="reply = null" @send="handleSendMsg" />
 		
 		<!-- 语音通话弹窗 -->
 		<view v-if="voiceVisible" class="voice-box flex-col align-center justify-center text-center plr-20 border-box">
@@ -28,7 +39,7 @@
 		</view>
 		
 		<view class="">
-			<u-modal :show="!!memberInfo.kicked" title="提示" content='您已被移出该群聊' confirmText="确定" confirmColor="#3D3D3D" cancelColor="#9F9F9F"
+			<u-modal :show="mode != 1 && !!memberInfo.kicked" title="提示" content='您已被移出该群聊' confirmText="确定" confirmColor="#3D3D3D" cancelColor="#9F9F9F"
 				:showCancelButton="false" @confirm="$c.goto('/pages/group/index')"></u-modal>
 		</view>
 	</view>
@@ -61,11 +72,14 @@
 				voiceVisible: false,
 				voiceStatus: '正在呼叫...',
 				profile: this.$c.profile(),
-				showNick: false
+				showNick: false,
+				isSelect: false,
+				selectedMessages: []
 			}
 		},			
 		async onLoad() {
 			this.$c.checkNim()
+			this.$c.removeStorage('forwardMessages')
 			const id = this.$c.getStorage('conversationId')
 			if(!id) {
 				this.$c.goto('/pages/group/index')
@@ -94,7 +108,11 @@
 		},
 		methods: {
 			onDetail() {
-				this.mode == 1? this.$c.goto('/pages/group/friendDetail') :  this.$c.goto('/pages/group/detail')
+				if (this.isSelect) {
+					this.isSelect = false
+				} else {
+					this.mode == 1? this.$c.goto('/pages/group/friendDetail') :  this.$c.goto('/pages/group/detail')
+				}
 			},
 			onReceiveMsg(msg) {
 			  this.msgs.push(msg)
@@ -124,6 +142,12 @@
 			},
 			endVoiceCall() {
 				
+			},
+			forwardMessage() {
+				if (!this.selectedMessages.length) return this.$c.toast('请选择信息')
+				this.$c.setStorage('forwardMessages', this.selectedMessages)
+				this.$c.goto('/pages/group/myGroup?forward=1')
+				this.isSelect = false
 			}
 		}
 	}
@@ -164,5 +188,13 @@
 			font-size: 14px;
 			color: #888;
 		}
+	}
+	
+	.func_box {
+		display: grid;
+		grid-template-columns: repeat(4, 63px);
+		justify-content: space-between;
+		row-gap: 10px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 	}
 </style>

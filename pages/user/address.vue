@@ -5,7 +5,7 @@
 			<view v-if="load" class="plr-20" style="color: #343434;">
 				<view class="bg-white plr-14 rounded-8 mt-15" v-for="item in list" :key="item.id">
 					<view class="ptb-15 border-bottom flex-between">
-						<view class="mr-20" @click="onChooseAddress(item)">
+						<view class="mr-10 flex-1" @click="onChooseAddress(item)">
 							<view class="fs-16 fw-7 u-line-1">{{ item.district }}</view>
 							<view class="mtb-10 fw-7">{{ item.address }}</view>
 							<view class="text-info">

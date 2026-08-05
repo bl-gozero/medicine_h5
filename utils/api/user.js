@@ -117,5 +117,17 @@ export default {
 	},
 	deleteAccount(data = {}, config = {}) {
 		return request.post('/user/cancel_account', data, { loading: true, ...config })
+	},
+	shopRegister(data = {}, config = {}) {
+		return request.post('/user/shop_register', data, { loading: true, ...config })
+	},
+	shopRegisterGoods(data = {}, config = {}) {
+		return request.post('/user/shop_register_goods', data, { ...config })
+	},
+	shopRegisterDetail(data = {}, config = {}) {
+		return request.post('/user/shop_register_details', data, { ...config })
+	},
+	shopRegisterStatus(data = {}, config = {}) {
+		return request.post('/user/shop_register_status', data, { ...config })
 	}
 }

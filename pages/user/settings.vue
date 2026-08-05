@@ -13,6 +13,7 @@
 				</view>
 			</view>
 		</view>
+		<view class="h-200"></view>
 		<view class="fixed bottom-45 left-0 right-0 ">
 			<button class="btn border-0" style="border: 1px solid #F0F0F0 !important;"
 				@click="$c.goto('/pages/user/accounts')">切换账号</button>

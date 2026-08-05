@@ -24,6 +24,27 @@
 					</view>
 					<image :src="$c.img('/static/vip/user_index/bg_level_' + $c.calcLv(profile) +  '.webp', 0)" class="w-351 h-126"
 						mode="widthFix"></image>
+					<!-- <view class="full border-box pl-25">
+						<view class="flex-start pt-6">
+							<view class="rounded mr-10 relative" style="border: 2px solid #FFECD1;background: #EAEAEA;">
+								<u-avatar :src="profile.avatar" size="41" :default-url="$c.userAvatar()"></u-avatar>
+								<image v-if="profile.shops_id > 1" :src="'/static/user/shop/' + profile.shops_id  + '.webp'" 
+									class="i-64 absolute" style="bottom: -10px;right: -12px;"></image>
+							</view>
+							<view class="">
+								<view class="flex-start fgap-5">
+									<view class="fs-16 u-line-1" style="max-width: 180px;">{{ profile.account }}</view>
+									<view class="bg-white fs-10 border-box flex-center rounded-x w-50 h-17" 
+										style="border: 0.5px solid #E8E8E8;" @click="showAccounts = true">切换账号</view>
+								</view>
+								<view class="flex-start fgap-5 h-16">
+									<image :src="$c.img('/static/vip/name_level_' + $c.calcLv(profile) + '.webp')"
+										class="h-10 block" style="max-width: 75px;" mode="heightFix"></image>
+									<u-icon name="info-circle" color="#cacaca" size="14" @click="showInfo = true"></u-icon>
+								</view>								
+							</view>
+						</view>
+					</view> -->
 					<view class="full border-box pl-25">
 						<view class="flex-start" style="margin-top: -13px;">
 							<view class="i-60 rounded mr-5" style="border: 2px solid #fff;background: #EAEAEA;">
@@ -35,10 +56,14 @@
 									<view class="bg-white fs-10 border-box flex-center rounded-x w-50 h-17" 
 										style="border: 0.5px solid #E8E8E8;" @click="showAccounts = true">切换账号</view>
 								</view>
-								<view class="flex-start fgap-5 h-16 w-100 absolute" style="top: 120%;">
+								<view class="flex-start fgap-5 h-16 absolute" style="top: 120%;width: 240px;">
 									<image :src="$c.img('/static/vip/name_level_' + $c.calcLv(profile) + '.webp')"
 										class="h-10 block" style="max-width: 75px;" mode="heightFix"></image>
 									<u-icon name="info-circle" color="#cacaca" size="14" @click="showInfo = true"></u-icon>
+									<image v-if="profile.shops_id > 1" :src="'/static/user/shop/' + profile.shops_id  + '.webp'"
+										class="w-50 h-15"></image>
+									<image v-if="profile.pyramid_id > 1" :src="'/static/user/shop/' + profile.pyramid_id  + '.webp'"
+										class="w-50 h-15"></image>
 								</view>								
 							</view>
 						</view>
@@ -257,11 +282,17 @@
 							url: '/pages/index/maker'
 						},
 						// #endif
+						// {
+						// 	id: 3,
+						// 	name: '招募计划',
+						// 	icon: '/static/mp/icon/recruit.webp',
+						// 	url: '/pages/index/recruit'
+						// },
 						{
-							id: 3,
-							name: '招募计划',
-							icon: '/static/mp/icon/recruit.webp',
-							url: '/pages/index/recruit'
+							id: 9,
+							name: '生态共建',
+							icon: '/static/mp/icon/ecosystem.webp',
+							url: '/pages/index/ecosystem'
 						},
 						{
 							id: 6,

@@ -78,6 +78,11 @@
 			<button class="bg-base-change fw-7 text-white w-77 h-36 fs-14 flex-center rounded-x"
 				@click="$c.goto('/pages/web/download')">去下载</button>
 		</view>
+		<view class="mt-30 flex-center fgap-7">
+			<view class="line-left"></view>
+			<view class="underline text-info fs-12" @click="$c.goto('/pages/index/platform')">平台介绍</view>
+			<view class="line-left" style="transform: rotate(180deg);"></view>
+		</view>
 		<view class="h-30"></view>
 	</view>
 </template>

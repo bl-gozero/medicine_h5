@@ -12,6 +12,8 @@ export default {
 }
 
 /*
+<Knows />
+
 this.$knows.show({
 	bgStyle: '',
 	bgClass: '',

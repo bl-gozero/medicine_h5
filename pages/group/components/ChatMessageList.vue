@@ -3,7 +3,7 @@
 		<scroll-view class="absolute top-0 left-0 right-0 bottom-0 plr-20 border-box" scroll-y :scroll-top="scrollTop"
 			:scroll-with-animation="true">
 			<view :id="`msg-${index}`" v-for="(item, index) in messages" :key="item.messageClientId">
-				<!-- 通知类消息居中显示 -->
+				<view class=""></view>
 				<view v-if="item.messageType == 5" class="">
 					<view 
 						class="fs-12 text-center pb-20"
@@ -23,7 +23,7 @@
 						style="color: #A7A7A7;"
 					>{{ item.text }}</view>
 				</view>
-				<view v-else-if="item.revokeType === 2" class="fs-12 text-center pb-20" style="color: #A7A7A7;">
+				<view v-else-if="item.revokeType === 1 || item.revokeType === 2" class="fs-12 text-center pb-20" style="color: #A7A7A7;">
 					<text>{{ item.isSelf ? '你' : (item.fromNick || item.senderId) }}{{ item.postscript }}</text>
 					<!-- <text v-if="item.messageType === 0 && item.isSelf" class="text-primary ml-10" @click="onRevokeEdit(item)">重新编辑</text> -->
 				</view>
@@ -32,115 +32,115 @@
 					<view v-if="isTimeGap(index)" class="time-divider pb-20">
 						<text>{{ $c.formatTime(item.createTime) }}</text>
 					</view>
-
+				
 					<!-- 消息气泡 -->
-					<view class="" :class="['message-item pb-20', item.isSelf ? 'self' : 'other']">
-						<u-avatar v-if="!item.isSelf" :src="$c.formatImgUrl(item.conversationType == 1 ? friendInfo.avatar : (teamInfo.members? teamInfo.members[item.senderId] : '' ))" size="28"
-							:default-url="$c.userAvatar()" @click="onAvatar(item)"></u-avatar>
-						<view class="plr-5 relative" style="max-width: 70%;" @longpress="tipItem = item;showTips = true">
-							<view v-if="!item.isSelf" class="fs-12 lh-13 pb-3 text-info">{{ item.fromNick }}</view>
-							<!-- 文字类消息 -->
-							<view v-if="item.messageType === 0" class="bubble text-wrap">
-								<text>{{ item.text }}</text>
-							</view>
-							<view v-if="item.messageType === 1" class="" @click="preview(item.attachment.url)">
-								<u-image :src="item.attachment.url" width="100" height="auto" bgColor="transparent"
-									mode="widthFix">
-									<template v-slot:loading>
-										<view class="pt-100">
-											<u-loading-icon color="#9F9F9F" class="mt-200"></u-loading-icon>
+					<view class="pb-20 flex-between fgap-10">
+						<image v-if="isSelect" :src="$c.checkIcon(isChecked(item))" class="i-18" @click="toggleSelect(item)"></image>
+						<view :class="['message-item flex-1', item.isSelf ? 'self' : 'other']">
+							<u-avatar v-if="!item.isSelf" :src="$c.formatImgUrl(item.conversationType == 1 ? friendInfo.avatar : (teamInfo.members? teamInfo.members[item.senderId] : '' ))" size="28"
+								:default-url="$c.userAvatar()" @click="onAvatar(item)"></u-avatar>
+							<view class="plr-5 relative" style="max-width: 70%;" @longtap="tipItem = item;showTips = true">
+								<view v-if="!item.isSelf" class="fs-12 lh-13 pb-3 text-info">{{ item.fromNick }}</view>
+								<!-- 文字类消息 -->
+								<view v-if="item.messageType === 0" class="bubble text-wrap">
+									<text>{{ item.text }}</text>
+								</view>
+								<view v-if="item.messageType === 1" class="" @click="preview(item.attachment.url)">
+									<u-image :src="item.attachment.url" width="100" height="auto" bgColor="transparent"
+										mode="widthFix">
+										<template v-slot:loading>
+											<view class="pt-100">
+												<u-loading-icon color="#9F9F9F" class="mt-200"></u-loading-icon>
+											</view>
+										</template>
+									</u-image>
+								</view>
+								<!-- 语音信息 -->
+								<view v-if="item.messageType === 2" class="bubble" @click="playAudio(item)">
+									<view :class="'flex-between w-' + voiceWidth(item)">
+										<text v-if="item.isSelf"
+											class="">{{ item.attachment ? parseInt(item.attachment.duration / 1000) : 0 }}''</text>
+										<view class="flex-center" :class="item.messageClientId === playingId && 'playing'">
+											<image
+												:src="item.isSelf? '/static/chat/voice_white.png' : '/static/chat/voice_black.png' "
+												style="width: 10.72px;height: 13.96px;"></image>
 										</view>
-									</template>
-								</u-image>
-							</view>
-							<!-- 语音信息 -->
-							<view v-if="item.messageType === 2" class="bubble" @click="playAudio(item)">
-								<view :class="'flex-between w-' + voiceWidth(item)">
-									<text v-if="item.isSelf"
-										class="">{{ item.attachment ? parseInt(item.attachment.duration / 1000) : 0 }}''</text>
-									<view class="flex-center" :class="item.messageClientId === playingId && 'playing'">
-										<image
-											:src="item.isSelf? '/static/chat/voice_white.png' : '/static/chat/voice_black.png' "
-											style="width: 10.72px;height: 13.96px;"></image>
+										<text v-if="!item.isSelf"
+											class="">{{ item.attachment ? parseInt(item.attachment.duration / 1000) : 0 }}''</text>
 									</view>
-									<text v-if="!item.isSelf"
-										class="">{{ item.attachment ? parseInt(item.attachment.duration / 1000) : 0 }}''</text>
+								</view>
+								<view v-if="item.messageType === 3" class="w-230">
+									<video style="max-width: 70%;" :src="item.attachment.url"
+										:poster="item.attachment.cover || '/static/chat/video_placeholder.png'"
+										:controls="true" :width="item.attachment.width"
+										:height="item.attachment.height"></video>
+								</view>
+								<!-- 文件消息 -->
+								<view v-if="item.messageType === 6" class="bubble w-230 flex-between"
+									style="background-color: #F0F0F0;color: #3d3d3d;" @click="onOpenFile(item)">
+									<view class="flex-1">
+										<view class="u-line-1">{{ item.attachment? item.attachment.name : '未知文件' }}</view>
+										<view class="fs-12 text-info lh-13">{{ fileSize(item) }}</view>
+									</view>
+									<image src="/static/chat/list_file.png" class="i-23  ml-8"></image>
+								</view>
+								
+								<!-- 回复信息 -->
+								<view v-if="item.threadReply" 
+									class="flex-between mt-6 fs-10 reply" style="background: #E1E1E1;"
+								>{{ formatReplyInfo(item) }}</view>
+								
+								<!-- TOOLTIP -->
+								<view v-if="tipItem.messageClientId === item.messageClientId && showTips" class="zb_tooltip__mask" @click="tipItem = {}"></view>
+								<view 
+									v-if="tipItem.messageClientId === item.messageClientId  && showTips"
+									class="absolute flex-between p-16 border-box text-white fs-10 top-0 rounded-8 tooltip"
+									:class="!item.isSelf? 'left-0' : 'right-0'"
+									style="background: #4C4C4C;transform: translateY(-105%);z-index: 10;text-wrap: nowrap;"
+								>
+									<view v-if="item.messageType === 0" class="text-center" @click="onTips('copy', item)">
+										<image src="/static/chat/tip_copy.png" class="i-16"></image>
+										<view class="text-nowrap">复制</view>
+									</view>
+									<view class="text-center" @click="handleReply(item)">
+										<image src="/static/chat/tip_reply.png" class="i-16"></image>
+										<view class="text-nowrap">回复</view>
+									</view>
+									<view class="text-center" @click="onTips('delete', item)">
+										<image src="/static/chat/tip_delete.png" class="i-16"></image>
+										<view class="text-nowrap">删除</view>
+									</view>
+									<view v-if="canRevoke(item)" class="text-center" @click="onTips('revoke', item)">
+										<image src="/static/chat/tip_undo.png" class="i-16"></image>
+										<view class="text-nowrap">撤销</view>
+									</view>
+									<view class="text-center" @click="onTips('select', item)">
+										<view class="mb-3">
+											<u-icon name="list-dot" color="#fff" size="20"></u-icon>
+										</view>
+										<view class="mt-2">多选</view>
+									</view>
+									<!-- <view class="text-center">
+										<image src="/static/chat/tip_top.png" class="i-16"></image>
+										<view class="">置顶</view>
+									</view>
+									<view class="text-center">
+										<image src="/static/chat/tip_top.png" class="i-16"></image>
+										<view class="">取消置顶</view>
+									</view> -->
 								</view>
 							</view>
-							<view v-if="item.messageType === 3" class="w-230">
-								<video style="max-width: 70%;" :src="item.attachment.url"
-									:poster="item.attachment.cover || '/static/chat/video_placeholder.png'"
-									:controls="true" :width="item.attachment.width"
-									:height="item.attachment.height"></video>
-							</view>
-							<!-- 文件消息 -->
-							<view v-if="item.messageType === 6" class="bubble w-230 flex-between"
-								style="background-color: #F0F0F0;color: #3d3d3d;" @click="onOpenFile(item)">
-								<view class="flex-1">
-									<view class="u-line-1">{{ item.attachment? item.attachment.name : '未知文件' }}</view>
-									<view class="fs-12 text-info lh-13">{{ fileSize(item) }}</view>
-								</view>
-								<image src="/static/chat/list_file.png" class="i-23  ml-8"></image>
-							</view>
-							
-							<!-- 回复信息 -->
-							<view v-if="item.threadReply" 
-								class="flex-between mt-6 fs-10 reply" style="background: #E1E1E1;"
-							>{{ formatReplyInfo(item) }}</view>
-							
-							<!-- TOOLTIP -->
-							<view v-if="tipItem.messageClientId === item.messageClientId && showTips" class="zb_tooltip__mask" @click="tipItem = {}"></view>
-							<view 
-								v-if="tipItem.messageClientId === item.messageClientId  && showTips"
-								class="absolute flex-between p-16 border-box text-white fs-10 top-0 rounded-8 tooltip"
-								:class="!item.isSelf? 'left-0' : 'right-0'"
-								style="background: #4C4C4C;transform: translateY(-105%);z-index: 10;text-wrap: nowrap;"
-							>
-								<view v-if="item.messageType === 0" class="text-center" @click="showTips = false;$c.copy(item.text)">
-									<image src="/static/chat/tip_copy.png" class="i-16"></image>
-									<view class="">复制</view>
-								</view>
-								<view class="text-center" @click="handleReply(item)">
-									<image src="/static/chat/tip_reply.png" class="i-16"></image>
-									<view class="">回复</view>
-								</view>
-								<view class="text-center" @click="showTips = false;showDelete = true;">
-									<image src="/static/chat/tip_delete.png" class="i-16"></image>
-									<view class="">删除</view>
-								</view>
-								<view v-if="item.isSelf && item.sendingState === 1" class="text-center" @click="showTips = false;showRevoke = true;">
-									<image src="/static/chat/tip_undo.png" class="i-16"></image>
-									<view class="">撤销</view>
-								</view>
-								<!-- <view class="text-center">
-									<image src="/static/chat/tip_top.png" class="i-16"></image>
-									<view class="">置顶</view>
-								</view>
-								<view class="text-center">
-									<image src="/static/chat/tip_top.png" class="i-16"></image>
-									<view class="">取消置顶</view>
-								</view> -->
-							</view>
+							<u-avatar v-if="item.isSelf" :src="$c.formatImgUrl(profile.avatar)" size="28"
+								:default-url="$c.userAvatar()"></u-avatar>
 						</view>
-						<u-avatar v-if="item.isSelf" :src="$c.formatImgUrl(profile.avatar)" size="28"
-							:default-url="$c.userAvatar()"></u-avatar>
 					</view>
 				</view>
 			</view>
 		</scroll-view>
-		
 		<u-modal :show="showDelete" title="删除" content='删除此消息' confirmColor="#3D3D3D" cancelColor="#9F9F9F" showCancelButton
 			@cancel="showDelete = false" @confirm="onDeleteMessage()"></u-modal>
-			
 		<u-modal :show="showRevoke" title="撤回" content='撤回此消息' confirmColor="#3D3D3D" cancelColor="#9F9F9F" showCancelButton
-					@cancel="showRevoke = false" @confirm="onRevokeMessage()"></u-modal>	
-			
-		<!-- 预览 -->
-		<u-popup :show="showPicture" mode="center" bgColor="#000" closeable="" @close="showPicture = false">
-			<view class="pt-25 plr-30 pb-35">
-
-			</view>
-		</u-popup>
+			@cancel="showRevoke = false" @confirm="onRevokeMessage()"></u-modal>	
 	</view>
 </template>
 
@@ -158,7 +158,10 @@
 	export default {
 		name: "ChatMessageList",
 		props: {
-
+			isSelect: {
+				type: Boolean,
+				default: false
+			}
 		},
 		data() {
 			return {
@@ -174,8 +177,9 @@
 				showTips: false,
 				showDelete: false,
 				showRevoke: false,
+				selectedMessages: [],
 				profile: this.$c.profile(),
-				mode: parseInt(this.$c.getCidInfo(this.$c.getStorage('conversationId'), 1)),
+				mode: parseInt(this.$c.getCidInfo(this.$c.getStorage('conversationId'), 1)), // 1 私聊 
 				teamMemberList
 			}
 		},
@@ -210,6 +214,38 @@
 			}
 		},
 		methods: {
+			onTips(type, item) {
+				this.showTips = false
+				this.tipItem = item
+				type == 'copy' && this.$c.copy(this.tipItem.text)
+				type == 'delete' && (this.showDelete = true)
+				type == 'revoke' && (this.showRevoke = true)
+				type == 'select' && this.toggleSelect(item)
+			},
+			isChecked(item) {
+				return this.selectedMessages.some(
+					msg => msg.messageClientId === item.messageClientId
+				)
+			},
+			toggleSelect(item) {
+			    const index = this.selectedMessages.findIndex(
+			        i => i.messageClientId === item.messageClientId
+			    )
+			    if (index > -1) {
+			        this.selectedMessages.splice(index, 1)
+			    } else {
+			        this.selectedMessages.push(item)
+			    }
+				this.$emit('update:isSelect', true)
+			    this.$emit('selects', this.selectedMessages)
+			},
+			canRevoke(item) {
+			    if (item.sendingState !== 1) return false
+				const REVOKE_TIME = 2 * 60 * 1000
+			    if (Date.now() - item.createTime > REVOKE_TIME) return false
+			    if (this.mode !== 1 && this.memberInfo.memberRole > 0) return true
+				return item.isSelf
+			},
 			onAvatar(item) {
 				if(item.conversationType == 1) this.$c.goto('/pages/group/friendDetail')
 			},
@@ -234,12 +270,21 @@
 			async onDeleteMessage() {
 				this.showDelete = false
 				const res = await deleteMessage(this.tipItem)
-				if(!res) this.$c.toast('删除失败')
+				if(!res) {
+					this.$c.toast('删除失败')
+					return
+				}
+				this.messageList.list = this.messageList.list.filter(
+				    item => item.messageServerId !== this.tipItem.messageServerId
+				)
 			},
 			async onRevokeMessage() {
 				this.showRevoke = false
 				const res = await revokeMessage(this.tipItem)
-				if(!res) this.$c.toast('撤回失败')
+				if(!res) {
+					this.$c.toast('撤回失败')
+					return
+				}
 			},
 			voiceWidth(item) {
 				const max = 230

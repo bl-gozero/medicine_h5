@@ -926,8 +926,9 @@ export async function sendMessage(options, cid) {
 			messageBeforeSend,
 			conversationId
 		)
+		const currentCid = uni.getStorageSync('conversationId')
 		if (res) {
-			messageList.list.push(res.message)
+			if (currentCid == conversationId) messageList.list.push(res.message)
 			return true
 		}
 	} catch (err) {
@@ -969,6 +970,44 @@ export async function replyMessage(options, repliedMessage) {
 		console.error('回复失败', err)
 		return false
 	}
+}
+
+export async function forwardMessage(message, cid){
+    switch(message.messageType){
+        case 0:
+            return sendMessage({
+                type:'text',
+                value:message.text
+            }, cid)
+        case 1:
+            return sendMessage({
+                type:'image',
+                value:message.attachment.url
+            }, cid)
+        case 2:
+            return sendMessage({
+                type:'audio',
+                value:message.attachment.url,
+				duration:message.attachment.duration
+            }, cid)
+        case 6:
+            return sendMessage({
+                type:'file',
+                value:message.attachment.url,
+                name:message.attachment.name
+            }, cid)
+    }
+}
+
+// 转发
+export async function forwardMessages(messages, conversationId) {
+	uni.showLoading({
+		mask: true
+	})
+    for (const item of messages) {
+        await forwardMessage(item, conversationId)
+    }
+	uni.hideLoading()
 }
 
 // 搜索用户

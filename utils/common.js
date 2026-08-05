@@ -411,6 +411,8 @@ const common = {
 				id: 1,
 				value: "无奖牌"
 			},
+			shops_id: 1,
+			pyramid_id: 1,
 			upgrade_at: "",
 			balance: 0,
 			referral_code: "",
@@ -794,6 +796,7 @@ const common = {
 	},
 	
 	ad() {
+		return this.toast('筹建中等待开放')
 		const _env = this.getEnv()
 		if (_env.isWechat) {
 			uni.showModal({
@@ -803,21 +806,7 @@ const common = {
 			})
 			return
 		} else {
-			// uni.showModal({
-			// 	title: '提示',
-			// 	content: '当前功能仅支持 App 使用，是否前往 App？',
-			// 	confirmText: '打开 App',
-			// 	cancelText: '去下载',
-			// 	showCancel: true,
-			// 	success: (res) => {
-			// 		if (res.confirm) {
-			// 			this.openApp()
-			// 		} else {
-			// 			this.goto('/pages/web/download')
-			// 		}
-			// 	}
-			// })
-			knows.show({
+			this.know({
 				bgStyle: 'min-height: ',
 				title: { text: '提示', class: 'pt-20' },
 				text:'当前功能仅支持 App 使用，是否前往 App？',
@@ -839,7 +828,11 @@ const common = {
 				]
 			})
 		}
-		// this.toast('筹建中等待开放')
+	},
+	
+		
+	know(option) {
+		knows.show(option)
 	},
 	
 	openApp() {
@@ -877,6 +870,17 @@ const common = {
 		    isAndroid: /android/.test(ua),
 		    isIOS: /iphone|ipad|ipod/.test(ua)
 		}
+	},
+	
+	goGoodsDetail(goods, jump = true) {
+		// console.log(goods)
+		const isActivityGoods = goods?.is_pyramid?.id === 1
+		if (isActivityGoods) {
+			this.toast('此为活动商品，请到活动页面下单')
+			return false 
+		}
+		if (jump) this.goto(`/pages/goods/detail?id=${goods.id}`)
+		return true
 	}
 }
 

@@ -371,4 +371,8 @@
 		font-size: 16px !important;
 		/* 内容字体 */
 	}
+	
+	.u-image__loading, .u-image__error {
+	    background-color: transparent !important;
+	}
 </style>

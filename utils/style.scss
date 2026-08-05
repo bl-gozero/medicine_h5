@@ -107,6 +107,11 @@ $color-base:	#EB5433;
 .list_box>*:not(:last-child) { border-bottom: 1px solid #F5F5F5; }
 .underline { text-decoration: underline; text-underline-offset: 3px; }
 .line { width: 0;height: 30px;border-left: 1px solid #D8D8D8; }
+.line-left {
+	width: 107px;
+	height: 1px;
+	background: linear-gradient(90deg, #e4e4e400 0%, #e4e4e4 100%) ;
+}
 .nav_active { position: relative; }
 .nav_active::after {
 	content: '';
@@ -133,7 +138,6 @@ $color-base:	#EB5433;
 	100% {
 		transform: scale(1);
 	}
-
 	50% {
 		transform: scale(1.1);
 	}

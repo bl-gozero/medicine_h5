@@ -66,7 +66,7 @@
 			</view>
 			<view v-if="list.length" class="flex-between flex-wrap" style="gap: 10px;">
 				<view class="mt-10 bg-white rounded-12" style="width: calc((100% - 10px) / 2);"
-					v-for="(item,index) in list" :key="item.id" @click="$c.goto('/pages/goods/detail?id=' + item.id)">
+					v-for="(item,index) in list" :key="item.id" @click="$c.goGoodsDetail(item)">
 					<view class="img-box flex-center">
 						<image :src="item.picture" class="x-100 y-100 roundedTop-12 block" lazy-load
 							mode="aspectFill"></image>
@@ -92,7 +92,7 @@
 				</view>
 			</view>
 			<view v-else-if="search.load == 'loading'" class="h-150 flex-center">
-				<u-loadmore status="loading" />
+				<u-loadmore status="loading" color="#E8380D" iconColor="#FFDCD3" />
 			</view>
 			<view v-else class="h-150 flex-center text-info">暂无商品</view>
 		</view>

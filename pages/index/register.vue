@@ -1,10 +1,12 @@
 <template>
 	<view class="page flex-col login-bg">
 		<view class="border-box pt-48 pl-38 pb-20" :class="'pt-' + $c.barHeight()">
-			<view class="fw-3 text-welcome">Welcome</view>
-			<view class="fs-40 fw-9 text-login">注册</view>
+			<view style="min-width: 100px;min-height: 80px;">
+				<view class="fw-3 text-welcome">Welcome</view>
+				<view class="fs-40 fw-9 text-login">注册</view>
+			</view>
 		</view>
-		<view class="relative flex-1 bg-white roundedTop-40 fs-12 fw-5">
+		<view class="relative flex-1 bg-white roundedTop-45 fs-12 fw-5">
 			<view class="full sroller-y pt-40 plr-35">
 				<view class="flex-start">
 					<view class="i-18 mr-7 self-start">
@@ -98,6 +100,11 @@
 				</view>
 				<view class="text-center mt-23">
 					<text class="text-base fw-4" @click="$c.goto('/pages/index/login')">已有账号？去登录</text>
+				</view>
+				<view class="mt-30 flex-center fgap-7">
+					<view class="line-left"></view>
+					<view class="underline text-info fs-12" @click="$c.goto('/pages/index/platform')">平台介绍</view>
+					<view class="line-left" style="transform: rotate(180deg);"></view>
 				</view>
 				<view class="h-50"></view>
 			</view>

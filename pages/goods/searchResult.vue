@@ -10,7 +10,7 @@
 		</view>
 		<view :class="'pt-' + height">
 			<view class="rounded-12 bg-white ptb-13 plr-16 border-box flex-between mb-12" v-for="item in list"
-				:key="item.id" @click="$c.goto('/pages/goods/detail?id=' + item.id)">
+				:key="item.id" @click="$c.goGoodsDetail(item)">
 				<image :src="item.picture" class="i-76 rounded-12" mode="aspectFill"></image>
 				<view class="flex-1 ml-8">
 					<view class="flex-between">

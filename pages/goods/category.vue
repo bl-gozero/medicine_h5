@@ -22,10 +22,10 @@
 			</view>
 		</view>
 		<view v-if="list.length" class="">
-			<view class="mt-10 bg-white rounded-8 flex-between" v-for="(item,index) in list" :key="item.id" @click="$c.goto('/pages/goods/detail?id=' + item.id)">
+			<view class="mt-10 bg-white rounded-8 flex-between" v-for="(item,index) in list" :key="item.id"
+				@click="$c.goGoodsDetail(item)">
 				<view class="i-103 flex-center">
-					<image :src="item.picture" class="x-100 y-100 rounded-8 block" lazy-load
-						mode="aspectFill"></image>
+					<image :src="item.picture" class="x-100 y-100 rounded-8 block" lazy-load mode="aspectFill"></image>
 				</view>
 				<view class="plr-10 ptb-15 border-box flex-1">
 					<text class="u-line-1 fs-14 fw-5">{{ item.name }}</text>
@@ -75,15 +75,16 @@
 				list: [],
 				searchHistory: [],
 				showItem: false,
-				nations: [
-					{ id: 0, name: '不限' }
-				],
+				nations: [{
+					id: 0,
+					name: '不限'
+				}],
 				nav: 2
 			}
 		},
 		computed: {
 			nation() {
-				return (this.nations.find(i => i.id == this.search.goods_nation_id) || {} )?.name
+				return (this.nations.find(i => i.id == this.search.goods_nation_id) || {})?.name
 			}
 		},
 		async onLoad(p) {
@@ -152,7 +153,7 @@
 		background-size: 100% auto;
 		background-repeat: no-repeat;
 	}
-	
+
 	.ship_box {
 		position: absolute;
 		z-index: 100;
@@ -172,9 +173,9 @@
 			2px 0px 6px rgba(0, 0, 0, 0.1),
 			/* 右侧阴影 */
 			-2px 0px 6px rgba(0, 0, 0, 0.1);
-			/* 左侧阴影 */
+		/* 左侧阴影 */
 	}
-	
+
 	.ship_box>view {
 		padding-top: 7px;
 	}

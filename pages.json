@@ -20,7 +20,9 @@
         { "path": "recruit" },
         { "path": "express" },
         { "path": "maker" },
-		{ "path": "password" }
+		{ "path": "password" },
+		{ "path": "ecosystem" },
+		{ "path": "platform" }
       ]
     },
     {

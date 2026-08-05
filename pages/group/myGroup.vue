@@ -98,7 +98,8 @@
 		friendList,
 		getFriendList,
 		deleteFriend,
-		addUserToBlockList
+		addUserToBlockList,
+		forwardMessages
 	} from '../../utils/nim'
 
 	export default {
@@ -117,7 +118,9 @@
 				type: 1,
 				showOperation2: false,
 				friend: {},
-				mode: ''
+				mode: '',
+				forward: false,
+				sendMessages: []
 			}
 		},
 		onLoad(p) {
@@ -125,6 +128,8 @@
 				this.mode = p.mode
 				this.type = 2
 			}
+			this.sendMessages = this.$c.getStorage('forwardMessages') || []
+			this.forward = !!p.forward && this.sendMessages.length
 			this.$c.checkeLogin()
 			this.doDelete = this.$c.onceRequest(this.onDelete)
 		},
@@ -162,7 +167,7 @@
 			onGroup(item) {
 				if (item.is_payment.id == 1 && item.is_verify.id == 2) {
 					item.conversationId = this.$c.getCid(item.team_id, 2)
-					this.$c.goChat(item)
+					this.forward ? this.onForwardMessages(item.conversationId) : this.$c.goChat(item)
 				}
 			},
 			onClose() {
@@ -171,6 +176,10 @@
 				this.showDeleteConfirm = false
 			},
 			async onFriend(item) {
+				if (this.forward) {
+					this.onForwardMessages(this.$c.getCid(item.accountId, 1))
+					return
+				}
 				if (this.mode == 'select') {
 					const res = await this.$c.fetch(this.$api.group.account_id_profile, {
 						account_id: item.accountId
@@ -205,6 +214,11 @@
 				} else {
 					this.$c.toast('删除失败')
 				}
+			},
+			async onForwardMessages(cid) {
+				await forwardMessages(this.sendMessages, cid)
+				this.$c.removeStorage('forwardMessages')
+				this.$c.goBack()
 			}
 		}
 	}

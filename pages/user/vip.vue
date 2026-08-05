@@ -248,7 +248,7 @@
 								</view>
 							</view>
 						</view>
-						<image :src="$c.img('/static/vip/reward_3.webp')" class="x-100 block mt-40" mode="widthFix"></image>
+						<image :src="$c.img('/static/vip/reward.webp', 0)" class="x-100 block mt-40" mode="widthFix"></image>
 					</view>
 				</view>
 			</view>

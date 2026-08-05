@@ -1,14 +1,14 @@
 <template>
 	<view class="chat-input-wrapper">
-		<view class="flex-between ptb-8 ptb-8 plr-6 border-box rounded-8" style="background: #F0F0F0;">
+		<view class="flex-between ptb-8 plr-6 border-box rounded-8" style="background: #F0F0F0;">
 			<!-- 语音相关 -->
 			<!-- <image :src="showRecord? '/static/chat/text.png' : '/static/chat/sound.png'" class="i-27" @click="showRecord = !showRecord"></image> -->
 			<image src="/static/chat/more.png" class="i-27" @click="showFunc = !showFunc"></image>
 			<!-- 输入框 -->
 			<view class="flex-1 ml-10">
-				<view v-if="memberInfo.kicked" class="" style="color: #C0C4CC">您当前不是群成员...</view>
-				<view v-else-if="teamInfo.chatBannedMode === 1" class="" style="color: #C0C4CC">群禁言中...</view>
-				<view v-else-if="memberInfo.chatBanned" class="" style="color: #C0C4CC">您已被禁言...</view>
+				<view v-if="mode != 1 && memberInfo.kicked" class="" style="color: #C0C4CC">您当前不是群成员...</view>
+				<view v-else-if="mode != 1 && teamInfo.chatBannedMode === 1" class="" style="color: #C0C4CC">群禁言中...</view>
+				<view v-else-if="mode != 1 && memberInfo.chatBanned" class="" style="color: #C0C4CC">您已被禁言...</view>
 				<u-input v-else-if="!chatBanned" v-model="inputValue" placeholder="请输入您想说的..." border="none"
 					@confirm="sendMessage"></u-input>
 				<!-- <view v-else class="text-center flex-1 ml-10" @touchstart="startRecord" @touchend="stopRecord">按住说话</view> -->
@@ -107,6 +107,10 @@
 		computed: {
 			chatBanned() {
 				return this.showRecord || this.teamInfo.chatBannedMode === 1 || this.memberInfo.chatBanned ? true : false
+			},
+			mode() {
+				const id = this.$c.getStorage('conversationId')
+				return parseInt(this.$c.getCidInfo(id, 1))
 			}
 		},
 		methods: {

@@ -424,6 +424,10 @@
 			onChooseMode(n) {
 				this.mode = n
 				if (!this.goods_sku_id) this.goods_sku_id = this.sku.id
+				if (this.goods.is_pyramid == 1) {
+					return this.$c.toast('此为活动商品，请到活动页面下单')
+				}
+				if (!this.$c.goGoodsDetail(this.goods, false)) return
 				this.showInfo = true
 			},
 			async onCartAdd() {
