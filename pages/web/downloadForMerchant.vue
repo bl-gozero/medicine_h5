@@ -57,18 +57,18 @@
 				if (this.isAndroid) {
 					link = this.$c.url('dl2')
 					if (link && link.indexOf('http') === -1) {
-						await this.getConfig(e)
+						await this.getConfig()
 						return
 					}
 				}
 				if (this.isIOS) link = this.$c.url('dl4')
 				if (link) window.location.href = link
 			},
-			async getConfig(e) {
+			async getConfig() {
 				const res = await this.$c.fetch(this.$api.group.config)
 				if (res?.endpoint) {
 					this.$c.setStorage('endpoint', res.endpoint)
-					this.onDownload(e)
+					this.onDownload()
 				}
 			},
 			img(path, root = '') {

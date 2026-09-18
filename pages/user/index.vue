@@ -316,11 +316,17 @@
 							icon: '/static/mp/icon/news.webp',
 							url: '/pages/info/news?classify=2'
 						},
+						// {
+						// 	id: 8,
+						// 	name: '企业展示',
+						// 	icon: '/static/mp/icon/show.webp',
+						// 	url: '/pages/index/protocols?type=13'
+						// },
 						{
-							id: 8,
-							name: '企业展示',
-							icon: '/static/mp/icon/show.webp',
-							url: '/pages/index/protocols?type=13'
+							id: 10,
+							name: '退款服务',
+							icon: '/static/mp/icon/refund.webp',
+							url: '/pages/info/refund'
 						},
 						{
 							id: 4,

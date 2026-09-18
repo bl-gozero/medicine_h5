@@ -117,7 +117,13 @@
 		{ "path": "video/index" },
 		{ "path": "video/video" },
 		{ "path": "video/goodsDetail" },
-		{ "path": "video/assets" }
+		{ "path": "video/assets" },
+		{ "path": "white" },
+		{ "path": "promote/index" },
+		{ "path": "promote/buy" },
+		{ "path": "promote/goods" },
+		{ "path": "promote/qrcode" },
+		{ "path": "promote/log" }
       ]
     },
     {
@@ -148,8 +154,21 @@
 	  "root": "pages/info",
 	  "pages": [
 		{ "path": "news" },
-		// { "path": "notice" },
-		{ "path": "protocols" }
+		{ "path": "protocols" },
+		{ "path": "refund" }
+	  ]
+	},
+	{
+	  "root": "pages/suiyuantang",
+	  "pages": [
+		{ "path": "index" },
+		{ "path": "junyang" },
+		{ "path": "agreementUpload" },
+		{ "path": "scanInput" },
+		{ "path": "sellList" },
+		{ "path": "grow" },
+		{ "path": "sellDetail" },
+		{ "path": "guide" }
 	  ]
 	}
 	// #ifndef MP 

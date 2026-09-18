@@ -9,6 +9,7 @@ import './uni.promisify.adaptor'
 import env from '@/utils/env'
 import UConfirm from '@/utils/confirm'
 import $know from '@/utils/know.js'
+import $knows from '@/utils/knows.js'
 
 Vue.config.productionTip = false
 
@@ -16,6 +17,7 @@ Vue.prototype.$c = common
 Vue.prototype.$api = api
 Vue.prototype.$baseUrl = env.BASE_URL
 Vue.prototype.$know = $know
+Vue.prototype.$knows = $knows
 Vue.prototype.$confirm = function(options) {
 	// 兼容简写：this.$confirm('内容')
 	if (typeof options === 'string') {

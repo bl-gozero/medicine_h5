@@ -4,7 +4,7 @@
 		<view v-if="load" class="plr-20 mt-10">
 			<view class="bg-white rounded-14 pt-40 pb-25 text-center">
 				<view class="">
-					<image v-if="info.goods" :src="$c.img(info.goods.img)" :class="info.goods.class"></image>
+					<image v-if="info.goods" :src="$c.img(info.goods.img, 0)" :class="info.goods.class"></image>
 				</view>
 				<view class="mt-20 fs-16">领取成功</view>
 			</view>
@@ -90,6 +90,13 @@
 						name: '人参鹿鞭酒',
 						img: '/static/avtivity/wine/wine.webp',
 						class: 'w-86 h-83'
+					},
+					{
+						id: 6,
+						event_id: 4,
+						name: '完白态益生菌',
+						img: '/static/avtivity/goods/white.webp',
+						class: 'i-84'
 					},
 				],
 			}

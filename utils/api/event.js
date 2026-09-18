@@ -57,5 +57,26 @@ export default {
 	},
 	assetList(data = {}, config = {}) {
 		return request.post('/material/details', data, { ...config })
-	}
+	},
+	recruitCode(data = {}, config = {}) {
+		return request.post('/recruits/verify_trade', data, { loading: true, ...config })
+	},
+	recruitCount(data = {}, config = {}) {
+		return request.post('/recruits/count', data, { ...config })
+	},
+	recruitBalance(data = {}, config = {}) {
+		return request.post('/recruits/list_balance', data, { ...config })
+	},
+	recruitUsers(data = {}, config = {}) {
+		return request.post('/recruits/list_people', data, { ...config })
+	},
+	recruitJoin(data = {}, config = {}) {
+		return request.post('/recruits/list_join', data, { ...config })
+	},
+	recruitCommission(data = {}, config = {}) {
+		return request.post('/recruits/unlock_commission', data, { ...config })
+	},
+	recruitUnsettlement(data = {}, config = {}) {
+		return request.post('/recruits/pending_settlement', data, { ...config })
+	},
 }

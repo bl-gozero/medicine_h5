@@ -39,6 +39,7 @@ $color-base:	#EB5433;
 .bg-black 	{ background: #262D2A !important; }
 .bg-owner 	{ background: #B3E5E8 ; }
 .bg-admin 	{ background: #FFF3D3 ; }
+.bg-syt		{ background: #120E0A ; }
 .bg-test 	{ background: rgba(0, 0, 0, .3) ; }
 /* #ifndef MP */
 // .bg-base-change  { background: linear-gradient(270deg, #1A7E84 0%, #72ADB0 100%) !important; }
@@ -78,7 +79,7 @@ $color-base:	#EB5433;
 .sticky		  { position: sticky; }
 .shrink-0	  { flex-shrink: 0; } //防止flex下被压缩
 
-@for $i from 5 through 30 {
+@for $i from 3 through 30 {
 	$val: $i * 1px;
 	.gap-#{$i}>*:not(:last-child) {
 		margin-right: $val; // 模拟 gap
@@ -156,6 +157,7 @@ $color-base:	#EB5433;
 @for $i from 1 through 10 {
   $val: $i * 100;
   .fw-#{$i} { font-weight: $val; } 
+  .opacity-#{$i} { opacity: $i * 0.1; }
 }
 @for $i from 5 through 20 {
   $val: $i * 0.1;

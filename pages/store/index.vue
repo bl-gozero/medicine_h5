@@ -234,10 +234,9 @@
 				<view class="fs-12 p-12 border-box rounded-8 mtb-15 lh-15" style="background: #F0ECE1;color: #99935C;">
 					<view class="fw-7 flex-start">
 						<u-icon name="bell-fill" color="#9D9762" size="14"></u-icon>
-						<text class="ml-3">温馨提示</text>
+						<text class="ml-3">重要提示</text>
 					</view>
-					<view class="">平台提供官方回购服务，用户可按规定将仓库内产品出售给平台以补充库存。回购期结束后，产品价格将上调
-						5%–20%；回购期开放时间将根据货物储备量及市场情况灵活调整。到账方式为账户奖励</view>
+					<view class="">本品为正常商品，不具有金融属性，不承诺保本、保值、增值或固定收益。商品采购及流通根据实际市场供需、库存及经营需求自主调整，不构成固定、定期或无条件回购承诺。具体规则以公司实际公布的交易规则为准。</view>
 				</view>
 				<view class="h-10 bg-page"></view>
 				<view class="mt-20 fw-5">共计{{ num }}件</view>
@@ -653,7 +652,8 @@
 						img: "/static/know/ring.webp",
 						title: "回购提醒",
 						text: {
-							text: "1、平台数据显示，未来几天产品价格预计将上涨约5%-20%！<br />2、在同一个回购周期内，每位用户只能发起一次回购交易，请谨慎操作！",
+							// text: "1、平台数据显示，未来几天产品价格预计将上涨约5%-20%！<br />2、在同一个回购周期内，每位用户只能发起一次回购交易，请谨慎操作！",
+							text: "1、在同一个回购周期内，每位用户只能发起一次回购交易，请谨慎操作！",
 							class: "text-left"
 						},
 						buttons: [{

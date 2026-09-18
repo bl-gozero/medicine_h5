@@ -95,6 +95,18 @@
 	.bg-address {
 		background: linear-gradient(180deg, #FBE2C0 2%, #FFFFFF 32px);
 	}
+	.sell-box {
+		position: relative;
+		border: 1px solid #BC8710;
+		padding: 3px;
+		&::after {
+			content: '';
+			position: absolute;
+			inset: 3px;
+			border: 0.5px solid #BC8710;
+			pointer-events: none;
+		}
+	}
 	.sku_name_1 {
 		border: 1px solid #EB5433;
 		color: #EB5433;

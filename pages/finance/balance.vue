@@ -8,11 +8,16 @@
 					<view class="y-30 flex-start pl-16">
 						<image src="/static/finance/my_wallet.webp" class="w-73 h-22 block"></image>
 					</view>
-					<view class="plr-23 flex-1 flex-start">
-						<view class="">
+					<view class="plr-23 flex-1 flex-between fgap-10">
+						<view class="flex-1">
 							<view class="text-title">账户结余(元）</view>
-							<view class="text-danger fs-28 fw-7">{{ profile.balance }}</view>
+							<view class="text-title">可用余额(元）</view>
+							<view class="text-danger fs-28 fw-7 u-line-1">{{ profile.balance }}</view>
 						</view>
+						<!-- <view class="flex-1">
+							<view class="text-title" style="color: #D1965B;">待结算(元）</view>
+							<view class="fs-28 fw-7 u-line-1" style="color: #FF8F1F;">{{ profile.balance }}</view>
+						</view> -->
 					</view>
 					<view class="mlr-10 rounded-12 flex-between pt-8 pb-10" style="background: #EEE5E2;">
 						<view class="text-center flex-1 plr-5">

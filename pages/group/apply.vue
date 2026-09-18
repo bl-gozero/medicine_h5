@@ -99,6 +99,7 @@
 		onLoad() {
 			this.$c.checkeLogin()
 			this.$c.checkNim()
+			getFrienApplicaionList()
 			this.doPass = this.$c.onceRequest(this.onPass)
 			this.doReject = this.$c.onceRequest(this.onReject)
 		},

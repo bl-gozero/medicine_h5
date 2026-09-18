@@ -1,6 +1,8 @@
 <template>
 	<view class="page bg-white">
 		<Title title="群成员" bgColor="#fff" fixed />
+		<!-- <view class="">{{ friendList }}</view>
+		<view class="">{{ list }}</view> -->
 		<view class="plr-20 pt-10">
 			<u-search v-model="form.search.name" placeholder="搜索" bgColor="#f8f8f8" :showAction="false" class="flex-1"
 				@change="onSearch"></u-search>
@@ -18,15 +20,15 @@
 						<view v-if="item.role && (item.role.id == 1 || item.role.id == 2)"
 							:class="item.role.id == 1? 'group-owner' : 'group-admin'">{{ item.role.value }}</view>
 					</view>
-					<view class="flex-1 flex-between border-bottom ml-8">
-						<view class="">{{ item.name }}</view>
+					<view class="flex-1 flex-between border-bottom ml-8 fgap-10">
+						<view class="u-line-1">{{ item.name }}</view>
 						<view v-if="memberInfo.memberRole > 0" class="flex-end">
+							<button v-if="item.is_friend === false" class="w-47 h-20 fs-10 plr-0 text-danger border-danger ml-8 flex-center rounded-x"
+								@click="onAddFriend(item)">加好友</button>
 							<button class="w-47 h-20 fs-10 plr-0 text-danger border-danger ml-8 flex-center rounded-x"
 								@click="onShowRemove(item)">移除</button>
-
 							<button v-if="item.chat_banned.id == 1" class="w-47 h-20 fs-10 plr-0 ml-8  flex-center rounded-x border-plain" plain
 								@click="doBanned(item)">解除禁言</button>
-
 							<button v-if="item.chat_banned.id == 2"
 								class="w-47 h-20 fs-10 plr-0 border-1 text-base ml-8 flex-center rounded-x"
 								@click="doBanned(item)">禁言</button>
@@ -46,7 +48,9 @@
 		teamInfo,
 		setMemberBanned,
 		memberInfo,
-		kickMember
+		kickMember,
+		friendList,
+		addFriend
 	} from '../../../utils/nim'
 
 	export default {
@@ -57,6 +61,7 @@
 			return {
 				teamInfo,
 				memberInfo,
+				friendList,
 				list: [],
 				show: false,
 				doRemove: null,
@@ -72,7 +77,8 @@
 					}
 				},
 				account: {},
-				nav: 1
+				nav: 1,
+				account: ''
 			}
 		},
 		computed: {
@@ -102,7 +108,8 @@
 			}
 			this.team_id = info.team_id
 			this.form.team_id = info.team_id
-			// this.onRoleInfo(info.team_id, this.$c.getStorage('profile').account)
+			const nimInfo = this.$c.getStorage('nimInfo')
+			if (nimInfo) this.account = nimInfo.account
 			this.doRemove = this.$c.onceRequest(this.onRemove)
 			this.doBanned = this.$c.onceRequest(this.onBanned)
 			this.getList()
@@ -114,12 +121,33 @@
 			this.getList()
 		},
 		methods: {
+			async onAddFriend(item) {
+				try {
+					await this.$confirm(`确定要添加${item.name}为好友吗？`)
+					const res = await addFriend(item.account_id, {
+						addMode: 1
+					})
+					if (res) {
+						this.$c.toast('操作成功')
+						this.$set(item, 'is_friend', true)
+					} else {
+						this.$c.toast('操作失败')
+					}
+				} catch (e) {
+					// 点击取消，或者 showModal / addFriend 出错
+				}
+			},
 			async getList() {
 				if (this.form.status != 'more') return
 				this.form.status = 'loading'
 				const res = await this.$c.fetch(this.$api.group.memberList, this.form)
 				if (res) {
-					res.list.map(item => item.isSele = false)
+					// console.log(res.list)
+					// console.log(this.friendList)
+					res.list.map(item => {
+						item.isSele = false
+						item.is_friend = this.account == item.account_id || this.friendList.list.some(i => i.accountId == item.account_id)
+					})
 					this.list = [...this.list, ...(res.list || [])]
 					this.form.status = res.list.length >= this.form.limit ? 'more' : 'end'
 					this.form.page++

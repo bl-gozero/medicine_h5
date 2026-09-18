@@ -1,3 +1,4 @@
+import syt from './syt'
 import user from './user'
 import event from './event'
 import group from './group'
@@ -7,6 +8,7 @@ import config from './config'
 import finance from './finance'
 
 export default {
+  syt,
   user,
   event,
   group,

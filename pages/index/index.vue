@@ -15,7 +15,7 @@
 		<view class="plr-20">
 			<!-- Banner -->
 			<view class="h-105">
-				<u-swiper :list="banner" keyName="src" :height="122"></u-swiper>
+				<u-swiper :list="banner" keyName="src" :height="122" @click="onBanner"></u-swiper>
 			</view>	
 			<!-- memu -->
 			<view class="plr-15 pt-10 pb-20 rounded-14 mt-35" style="background: linear-gradient(180deg, #FEC86A 0%, #FFFFFF 49%);">
@@ -26,31 +26,44 @@
 					</view>
 				</view>
 				<view class="flex-between mt-20">
-					<view class="text-center" v-for="item in menus" :key="item.id" @click="item.fun()">
+					<view class="text-center relative" v-for="item in menus" :key="item.id" @click="item.fun()">
 						<image :src="item.icon" class="i-45 auto-x block"></image>
 						<view class="fs-11 mt-8 lh-10">{{ item.name }}</view>
+						<image v-if="item.id == 4" src="/static/index/tag-white.webp" class="w-45 h-24 absolute" style="bottom: 90%;left: 50%;transform: translateX(-50%);"></image>
 					</view>
 				</view>
 			</view>
 			
+			<view class="relative mt-15">
+				<image src="/static/index/syt-1.webp" class="x-100" mode="widthFix"></image>
+				<view class="x-47 absolute y-33" style="top: 2%;right: 2%;" @click="$c.goto('/pages/suiyuantang/index')"></view>
+				<view class="x-47 absolute y-33" style="top: 37%;right: 2%;" @click="$c.goto('/pages/index/ecosystem')"></view>
+				<view class="absolute x-18 y-14" style="bottom: 9%;left: 11%" @click="$c.goto('/pages/goods/category?goods_nation_id=20')"></view>
+				<view class="absolute x-18 y-14" style="bottom: 9%;left: 41%" @click="$c.goto('/pages/activity/promote/index')"></view>
+				<view class="absolute x-18 y-14" style="bottom: 9%;left: 71%" @click="$c.goto('/pages/suiyuantang/junyang')"></view>
+			</view>
+			
 			<!-- point -->
-			<view v-if="pointList.length" class="relative mt-10">
-				<image src="/static/mp/index/point_box.webp" class="x-100 block" mode="widthFix"></image>
-				<view class="absolute x-22 y-18 top-10 right-0" @click="$c.goto('/pages/point/index')"></view>
-				<view class="absolute x-100 flex-between plr-17 border-box fgap-15" style="top: 29%;">
-					<view class="flex-1" v-for="(item, index) in pointList" :key="item.id"
-						@click="$c.goto(`/pages/point/goodsDetail?id=${item.id}`)">
-						<view class="bg-white rounded-8 img-box flex-center">
-							<image :src="item.picture" class="x-100 y-100 rounded-8" mode="aspectFill"></image>
-						</view>
-						<view class="fs-10 text-center mt-7 u-line-1">{{ item.name }}</view>
-						<view class="flex-center">
-							<view class="flex-start u-line-1">
-								<image src="/static/icon/coin.webp" class="i-8 mr-2"></image>
-								<text class="text-base fs-10 fw-5">{{ item.price }}积分</text>
+			<view class="flex-between fgap-7 mt-10">
+				<view class="relative x-50 border-box" @click="$c.goto('/pages/point/index')">
+					<image src="/static/index/point.webp" class="x-100 block" mode="widthFix"></image>
+					<view class="absolute x-100 flex-between plr-17 border-box fgap-15" style="top: 32%;">
+						<view class="flex-1" v-for="(item, index) in pointList" :key="item.id">
+							<view class="bg-white rounded-8 img-box flex-center">
+								<image :src="item.picture" class="x-100 y-100 rounded-8" mode="aspectFill"></image>
+							</view>
+							<view class="fs-10 text-center mt-7 u-line-1">{{ item.name }}</view>
+							<view class="flex-center">
+								<view class="flex-start u-line-1">
+									<image src="/static/icon/coin.webp" class="i-8 mr-2"></image>
+									<text class="text-base fs-10 fw-5">{{ item.price }}积分</text>
+								</view>
 							</view>
 						</view>
 					</view>
+				</view>
+				<view class="x-50 border-box" @click="$c.goto('/pages/activity/promote/index')">
+					<image src="/static/index/ex_goods.webp" class="x-100 block" mode="widthFix"></image>
 				</view>
 			</view>
 		</view>
@@ -115,8 +128,18 @@
 			</view>
 		</u-popup>
 		
+		<u-popup :show="!showWine && showPromote" mode="center" bgColor="transparent"
+			overlayStyle="background: 'rgba(0, 0, 0, 0.6)'" @close="showWhite == false">
+			<view class="text-center vw-100 relative">
+				<view class="" @click="$c.goto('/pages/activity/promote/index')">
+					<image src="/static/avtivity/promote/index.webp" class="w-277 h-349"></image>
+				</view>
+				<image src="/static/icon/close.webp" class="i-52 mt-20" @click="onClose('promote')"></image>
+			</view>
+		</u-popup>
+		
 		<!-- new -->
-		<u-popup :show="!showWine && showNew" mode="center" bgColor="transparent" overlayStyle="background: 'rgba(0, 0, 0, 0.6)'"
+		<u-popup :show="!showWine && !showPromote && showNew" mode="center" bgColor="transparent" overlayStyle="background: 'rgba(0, 0, 0, 0.6)'"
 			:closeOnClickOverlay="false" @close="showNew == false">
 			<view class="text-center vw-100 relative">
 				<PlayImg path="index_new/1/1" :interval="40" :length="25" :loop="false" path2="index_new/2/1"
@@ -129,7 +152,7 @@
 		</u-popup>
 
 		<!-- egg -->
-		<u-popup :show="!showWine && !showNew && showEgg" mode="center" bgColor="transparent"
+		<u-popup :show="!showWine && !showPromote && !showNew && showEgg" mode="center" bgColor="transparent"
 			overlayStyle="background: 'rgba(0, 0, 0, 0.6)'" @close="showEgg == false">
 			<view class="text-center vw-100 relative">
 				<PlayImg path="index_ld_rice/1/1" :interval="40" :length="25" :loop="false" path2="index_ld_rice/2/2"
@@ -138,6 +161,29 @@
 					@click="showEgg = false;$c.goto('/pages/activity/egg')"></view>
 				<image src="/static/icon/close.webp" class="i-52" style="margin-top: -10%;" @click="onClose('egg')">
 				</image>
+			</view>
+		</u-popup>
+		
+		<u-popup :show="!showWine && !showPromote && !showNew && !showEgg && showWhite" mode="center" bgColor="transparent"
+			overlayStyle="background: 'rgba(0, 0, 0, 0.6)'" @close="showWhite == false">
+			<view class="text-center vw-100 relative">
+				<view class="" @click="$c.goto('/pages/activity/white')">
+					<PlayImg path="index_white/1/1" :interval="40" :length="25" :loop="false" path2="index_white/2/2"
+						:interval2="40" :length2="50" type="png" />
+				</view>
+				<image src="/static/icon/close.webp" class="i-52 mt-0" @click="onClose('white')"></image>
+			</view>
+		</u-popup>
+		
+		<u-popup :show="!showWine && !showNew && !showEgg && !showWhite && !showPromote && showShop" mode="center" bgColor="transparent"
+			overlayStyle="background: 'rgba(0, 0, 0, 0.6)'" @close="showShop == false">
+			<view class="text-center vw-100 relative">
+				<view class="relative">
+					<PlayImg path="index_shops/1/1" :interval="40" :length="25" :loop="false" path2="index_shops/2/2"
+						:interval2="40" :length2="50" type="webp" />
+					<view class="absolute left-0 right-0 auto-x x-40 y-11" style="top: 88%;" @click="$c.goto('/pages/index/ecosystem')"></view>
+				</view>
+				<image src="/static/icon/close.webp" class="i-52 mt-20" @click="onClose('shop')"></image>
 			</view>
 		</u-popup>
 		<Knows />
@@ -175,6 +221,9 @@
 				showClose: false,
 				showWine: false,
 				nations: [],
+				showShop: false,
+				showWhite: false,
+				showPromote: false
 			}
 		},
 		computed: {
@@ -219,6 +268,10 @@
 			this.getGoods()
 		},
 		methods: {
+			onBanner(i) {
+				const banner = this.banner?.[i]
+				if (banner?.url) window.location.href = banner?.url
+			},
 			onClose(event) {
 				if(event == 'new') {
 					this.showNew = false
@@ -232,23 +285,26 @@
 					setTimeout(() => {
 						this.showClose = true
 					}, 1200)
+				} else if (event == 'shop') {
+					this.showShop = false
+					this.$c.setStorage('index_pop', true)
+				} else if (event == 'white') {
+					this.showWhite = false
+				} else if (event == 'promote') {
+					this.showPromote = false
 				}
 			},
 			async getActivity() {
-				// const res1 = await this.$c.fetch(this.$api.event.tripPopup, { id: 1 })
-				// if (res1) {
-				// 	this.showWine = res1?.ok || true
-				// }
+				// return this.showShop = true
 				const res = await this.$c.fetch(this.$api.user.activityStatus)
 				if (res) {
 					// this.showWine = res.is_lucky_star
-					this.showNew = res.is_ginseng
-					this.showEgg = res.is_egg
-					
+					this.showNew = !!res.is_ginseng
+					this.showEgg = !!res.is_egg
+					this.showShop = !!res.is_shops
+					this.showWhite = !!res.is_probiotics
+					this.showPromote = !!res.is_strain
 					this.showClose = true
-					// setTimeout(() => {
-					// 	this.showClose = true
-					// }, 1500)
 				}
 			},
 			async getNation() {
@@ -302,7 +358,7 @@
 					is_level_valid: 0,
 					is_integral: 1
 				})
-				if (res) this.pointList = res.slice(0, 4)
+				if (res) this.pointList = res.slice(0, 2)
 			}
 		}
 	}

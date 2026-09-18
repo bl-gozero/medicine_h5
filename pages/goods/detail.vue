@@ -64,7 +64,7 @@
 			</u--image>
 		</view>
 		<view class="h-100"></view>
-		<view class="fixed left-0 bottom-0 x-100 flex-between p-20 bg-white border-box">
+		<view v-if="![2,3].includes(goods.goods_category_id)" class="fixed left-0 bottom-0 x-100 flex-between p-20 bg-white border-box">
 			<view class="text-center relative" @click="$c.goto('/pages/index/web')">
 				<image src="/static/mp/goods/cs.webp" class="i-24 auto"></image>
 				<!-- #ifndef MP -->
@@ -426,6 +426,9 @@
 				if (!this.goods_sku_id) this.goods_sku_id = this.sku.id
 				if (this.goods.is_pyramid == 1) {
 					return this.$c.toast('此为活动商品，请到活动页面下单')
+				}
+				if (this.goods.goods_category_id && [2,3].includes(this.goods.goods_category_id)) {
+					return this.$c.toast('此商品不可购买')
 				}
 				if (!this.$c.goGoodsDetail(this.goods, false)) return
 				this.showInfo = true

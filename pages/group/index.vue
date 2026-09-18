@@ -31,7 +31,7 @@
 				<swiper class="h-90 mt-20" :interval="5000" :duration="500" circular indicator-dots autoplay>
 					<swiper-item v-if="item.show" v-for="item in events" :key="item.id">
 						<view @click="$c.goto(item.url)">
-							<PlayImg :path="item.path" :interval="50" :length="20" type="webp" />
+							<PlayImg :path="item.path" :interval="50" :length="20" :type="item.type" />
 						</view>
 					</swiper-item>
 				</swiper>
@@ -145,11 +145,12 @@
 				showEgg: false,
 				showNick: false,
 				events: [
-					// { id: 5, name: '视频', path: 'group_activity/video/1', url: '/pages/activity/video/index', show: true },
-					{ id: 1, name: '人参', path: 'group_activity/new/1', url: '/pages/activity/newExclusive', show: true },
-					// { id: 2, name: '酒',   path: 'group_activity/wine/1', url: '/pages/activity/wine', show: true },
-					{ id: 3, name: '鸡蛋', path: 'group_activity/rice/1', url: '/pages/activity/egg', show: true },
-					{ id: 4, name: '任务', path: 'group_activity/daily/3', url: '/pages/index/task', show: true },
+					// { id: 5, name: '视频', path: 'group_activity/video/1', url: '/pages/activity/video/index', show: true, type: 'webp' },
+					{ id: 6, name: '完白', path: 'group_activity/white/1', url: '/pages/activity/white', show: true, type: 'png' },
+					{ id: 1, name: '人参', path: 'group_activity/new/1', url: '/pages/activity/newExclusive', show: true, type: 'webp' },
+					// { id: 2, name: '酒',   path: 'group_activity/wine/1', url: '/pages/activity/wine', show: true, type: 'webp' },
+					{ id: 3, name: '鸡蛋', path: 'group_activity/rice/1', url: '/pages/activity/egg', show: true, type: 'webp' },
+					{ id: 4, name: '任务', path: 'group_activity/daily/3', url: '/pages/index/task', show: true, type: 'webp' },
 				],
 				team_id: null
 			}

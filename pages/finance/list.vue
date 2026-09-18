@@ -34,7 +34,9 @@
 								<text>{{ item.type }}</text>
 								<text class="fw-7">{{ item.amount }}</text>
 							</view>
-							<view class="text-info mt-6 fs-10">{{ item.created_at }}</view>
+							<view class="text-info mt-6 fs-10">
+								<view class="">{{ item.created_at }}</view>
+							</view>
 							<view class="text-info mt-6 fs-10">{{ item.remark }}</view>
 						</view>
 					</view>
@@ -56,12 +58,7 @@
 </template>
 
 <script>
-	import Title from '../../components/Title.vue'
-
 	export default {
-		components: {
-			Title
-		},
 		data() {
 			return {
 				navBar: [{ id: 0, name: '全部' }, { id: 1, name: '收入' }, { id: 2, name: '支出' }],

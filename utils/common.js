@@ -29,6 +29,16 @@ const common = {
 		const ss = String(d.getSeconds()).padStart(2, '0')
 		return `${yyyy}-${mm}-${dd} ${hh}:${MM}:${ss}`
 	},
+	
+	formatDate(date, separator = '-') {
+		if (!date) return ''
+		const d = new Date(date.replace(/-/g, '/'))
+		if (isNaN(d.getTime())) return ''
+		const year = d.getFullYear()
+		const month = String(d.getMonth() + 1).padStart(2, '0')
+		const day = String(d.getDate()).padStart(2, '0')
+		return `${year}${separator}${month}${separator}${day}`
+	},
 
 	/**
 	 * 手机号校验
@@ -874,11 +884,11 @@ const common = {
 	
 	goGoodsDetail(goods, jump = true) {
 		// console.log(goods)
-		const isActivityGoods = goods?.is_pyramid?.id === 1
-		if (isActivityGoods) {
-			this.toast('此为活动商品，请到活动页面下单')
-			return false 
-		}
+		// const isActivityGoods = goods?.is_pyramid?.id === 1
+		// if (isActivityGoods) {
+		// 	this.toast('此为活动商品，请到活动页面下单')
+		// 	return false 
+		// }
 		if (jump) this.goto(`/pages/goods/detail?id=${goods.id}`)
 		return true
 	}

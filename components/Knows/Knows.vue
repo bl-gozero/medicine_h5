@@ -82,21 +82,24 @@
 				}
 
 				// 按钮
-				this.buttons = (options.buttons || []).map(btn => {
-					if (typeof btn === "string") {
-
+				const buttons = options.buttons === undefined || !options?.buttons?.length
+					? ['知道了']
+					: options.buttons
+			
+				this.buttons = buttons.map(btn => {
+					if (typeof btn === 'string') {
 						return {
 							text: btn,
-							class: "bg-black bold fs-16 text-white w-234 h-51",
-							style: "",
+							class: 'bg-black bold fs-16 text-white w-234 h-51',
+							style: '',
 							click: null
 						}
-
 					}
+			
 					return {
-						text: btn.text || "",
-						class: btn.class || "",
-						style: btn.style || "",
+						text: btn.text || '',
+						class: btn.class || '',
+						style: btn.style || '',
 						click: btn.click || null
 					}
 				})

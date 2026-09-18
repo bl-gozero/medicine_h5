@@ -1043,6 +1043,7 @@ export async function addFriend(accountId, params = {}) {
 			const cid = getCid(accountId, 1)
 			sendMessage({ type: 'text', value: text }, cid)
 		}
+		// getFriendList()
 		return true
 	} catch (err) {
 		console.error('加好友成功 Error:', err)

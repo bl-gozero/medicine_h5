@@ -42,7 +42,7 @@
 					</view>
 				</view>
 				<u-scroll-list v-else indicatorActiveColor="#F3AF67">
-					<view v-if="item.show" class="mt-25 text-center inline-block" v-for="(item, index) in list" :key="item.id">
+					<view v-if="item.show" class="mt-25 text-center inline-block pb-8" v-for="(item, index) in list" :key="item.id">
 						<view class="flex-center">
 							<view class="relative">
 								<image :src="item.img" class="i-70 block"></image>
@@ -170,6 +170,15 @@
 					// 	is_new: false,
 					// 	show: true
 					// },
+					{
+						id: 6,
+						name: '限时免费领好礼',
+						img: '/static/task/white.webp',
+						text: '去参与',
+						url: '/pages/activity/white',
+						is_new: false,
+						show: true
+					},
 					{
 						id: 2,
 						name: '每月领一箱礼品',

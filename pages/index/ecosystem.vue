@@ -140,8 +140,7 @@
 </template>
 
 <script>
-	import Title from '../../components/Title.vue';
-import toast from '../../uni_modules/uview-ui/libs/config/props/toast';
+	import Title from '../../components/Title.vue'
 	import RegionPicker from './components/RegionPicker.vue'
 	export default {
 		components: {
